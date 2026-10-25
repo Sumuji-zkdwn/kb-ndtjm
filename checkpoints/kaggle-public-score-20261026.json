@@ -1,0 +1,44 @@
+{
+  "reported_date_jst": "2026-10-26",
+  "source": {
+    "kind": "user_report",
+    "message": "スコアは1.06759でした",
+    "independently_read_from_kaggle": false,
+    "submission_id": null
+  },
+  "reported_public_score": 1.06759,
+  "reference_candidate": {
+    "kind": "inverse66 Forney all-sites candidate from the current conversation",
+    "zip_sha256": "a40089eebeef3aee605694e8443972839741c31f8e2a25ff6cb429d1f27c1457",
+    "dqi_sha256": "ea0d6717e7b37fb386a0d99730eebf150c0e78de1cc8547f0727c2f6845a99bc",
+    "actions_run": "https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40200104339",
+    "submission_asset_identity_independently_verified": false
+  },
+  "comparison": {
+    "offline_DQI_improvement_ratio": 1.216632059752389,
+    "predicted_overall_score": 1.0675455604918371,
+    "reported_overall_score": 1.06759,
+    "absolute_difference": 0.00004443950816290787,
+    "relative_difference_percent": 0.004162773918747753,
+    "overall_score_increase_percent": 6.759000000000004,
+    "implied_DQI_improvement_ratio_if_other_tasks_equal_baseline": 1.216784003003479,
+    "implied_DQI_cost_reduction_percent_if_other_tasks_equal_baseline": 17.816145056836298,
+    "candidate_zip_sha256": "a40089eebeef3aee605694e8443972839741c31f8e2a25ff6cb429d1f27c1457",
+    "score_formula": "geometric mean of the three reference-cost / submitted-cost ratios",
+    "assumptions": [
+      "Other two task cost ratios equal 1 relative to the scoring baseline.",
+      "Reported score refers to the candidate discussed in this conversation."
+    ],
+    "interpretation": "Reported public score closely agrees with the offline prediction; the reason for the small difference has not been determined."
+  },
+  "scope": {
+    "public_score": "USER_REPORTED",
+    "private_final_score": "UNKNOWN",
+    "per_task_official_costs": "UNAVAILABLE",
+    "new_EEA_quotient_candidate_included": false
+  },
+  "actions": {
+    "kaggle_submission_by_assistant": "NOT_RUN",
+    "release_v1_0": "UNCHANGED"
+  }
+}
