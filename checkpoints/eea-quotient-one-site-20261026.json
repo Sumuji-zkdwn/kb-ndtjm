@@ -1,0 +1,219 @@
+{
+  "scope": "EEA quotient integration; local one-site gates",
+  "reference_forney_dqi_sha256": "ea0d6717e7b37fb386a0d99730eebf150c0e78de1cc8547f0727c2f6845a99bc",
+  "integration": {
+    "status": "PASS",
+    "scope": "complete DQI; Forney inverse66 plus EEA quotient replacements",
+    "reference_dqi_sha256": "ea0d6717e7b37fb386a0d99730eebf150c0e78de1cc8547f0727c2f6845a99bc",
+    "sites_replaced": 1,
+    "candidate_sha256": "90e27bf5ecc872dddf6ba8bf244226b33bd009ec334eeb9e0ca1ee298ef3e238",
+    "candidate_bytes": 867738785,
+    "qubits": 1893,
+    "bits": 49155,
+    "registers": 4165,
+    "ops": 86689985,
+    "reference_static_Toffoli_like": 4705806,
+    "candidate_static_Toffoli_like": 4705557,
+    "static_Toffoli_saved": 249,
+    "named_registers_unchanged": true,
+    "outer_classical_conditions_preserved": true,
+    "all_old_instructions_matched_under_injective_renaming": true,
+    "matched_reference_variants": {
+      "fresh_parity": 1
+    },
+    "old_measurement_record_liveness": "PASS",
+    "unchanged_packet_span_bytes_verified": 798860774,
+    "retained_metadata_byte_equal": true,
+    "nested_tags_removed": 214,
+    "local_formal_proof": {
+      "status": "PASS",
+      "method": "exact Boolean ANF, not trajectory sampling",
+      "independent_input_variables": 37,
+      "independent_measurement_variables": 108,
+      "measurement_branches_represented": "2^108",
+      "coherent_control": true,
+      "arbitrary_xor_target": true,
+      "zero_divisor_convention": "inv(0) = 0",
+      "quantum_workspace_clean": true,
+      "temporary_classical_bits_clean": true,
+      "residual_phase_monomials": 0
+    },
+    "old_local_formal_proof": {
+      "status": "PASS",
+      "method": "exact Boolean ANF, not trajectory sampling",
+      "independent_input_variables": 37,
+      "independent_measurement_variables": 84,
+      "measurement_branches_represented": "2^84",
+      "coherent_control": true,
+      "arbitrary_xor_target": true,
+      "zero_divisor_convention": "inv(0) = 0",
+      "quantum_workspace_clean": true,
+      "temporary_classical_bits_clean": true,
+      "residual_phase_monomials": 0
+    },
+    "old_reused_parity_formal_proof": {
+      "status": "PASS",
+      "method": "exact Boolean ANF, not trajectory sampling",
+      "independent_input_variables": 37,
+      "independent_measurement_variables": 84,
+      "measurement_branches_represented": "2^84",
+      "coherent_control": true,
+      "arbitrary_xor_target": true,
+      "zero_divisor_convention": "inv(0) = 0",
+      "quantum_workspace_clean": true,
+      "temporary_classical_bits_clean": true,
+      "residual_phase_monomials": 0
+    },
+    "generator_sha256": "aed0fa494960f0dbfd89358ef61dabae221ddca79833887954aa335ce9bd09c6",
+    "kickmix_full_parse": "NOT_RUN",
+    "official_DQI_verifier": "NOT_RUN",
+    "score_improvement": "UNCONFIRMED",
+    "submits_to_kaggle": false
+  },
+  "local_gates": {
+    "submits_to_kaggle": false,
+    "requested_stage": "smoke",
+    "gates": {
+      "candidate": {
+        "stage": "candidate",
+        "submits_to_kaggle": false,
+        "platform_secret_salt": "unavailable",
+        "baseline": {
+          "archive_sha256": "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43",
+          "members": 13,
+          "angle_count": 10,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49154,
+            "registers": 4165,
+            "ops": 86051014,
+            "3q_ops": 5725461,
+            "2q_ops": 66446727,
+            "register_contract": "PASS"
+          },
+          "status": "PASS"
+        },
+        "candidate": {
+          "candidate_sha256": "90e27bf5ecc872dddf6ba8bf244226b33bd009ec334eeb9e0ca1ee298ef3e238",
+          "candidate_bytes": 867738785,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49155,
+            "registers": 4165,
+            "ops": 86689985,
+            "3q_ops": 4705557,
+            "2q_ops": 70919559,
+            "register_contract": "PASS"
+          },
+          "quantum_correctness": "NOT_YET_VERIFIED",
+          "status": "PASS"
+        },
+        "comparison": {
+          "candidate_sha256": "ea0d6717e7b37fb386a0d99730eebf150c0e78de1cc8547f0727c2f6845a99bc",
+          "candidate_bytes": 867743915,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49155,
+            "registers": 4165,
+            "ops": 86689834,
+            "3q_ops": 4705806,
+            "2q_ops": 70918467,
+            "register_contract": "PASS"
+          },
+          "quantum_correctness": "NOT_YET_VERIFIED",
+          "status": "PASS"
+        },
+        "status": "PASS"
+      },
+      "smoke": {
+        "stage": "smoke",
+        "submits_to_kaggle": false,
+        "platform_secret_salt": "unavailable",
+        "baseline": {
+          "archive_sha256": "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43",
+          "members": 13,
+          "angle_count": 10,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49154,
+            "registers": 4165,
+            "ops": 86051014,
+            "3q_ops": 5725461,
+            "2q_ops": 66446727,
+            "register_contract": "PASS"
+          },
+          "status": "PASS"
+        },
+        "candidate": {
+          "candidate_sha256": "90e27bf5ecc872dddf6ba8bf244226b33bd009ec334eeb9e0ca1ee298ef3e238",
+          "candidate_bytes": 867738785,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49155,
+            "registers": 4165,
+            "ops": 86689985,
+            "3q_ops": 4705557,
+            "2q_ops": 70919559,
+            "register_contract": "PASS"
+          },
+          "quantum_correctness": "NOT_YET_VERIFIED",
+          "status": "PASS"
+        },
+        "comparison": {
+          "candidate_sha256": "ea0d6717e7b37fb386a0d99730eebf150c0e78de1cc8547f0727c2f6845a99bc",
+          "candidate_bytes": 867743915,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49155,
+            "registers": 4165,
+            "ops": 86689834,
+            "3q_ops": 4705806,
+            "2q_ops": 70918467,
+            "register_contract": "PASS"
+          },
+          "quantum_correctness": "NOT_YET_VERIFIED",
+          "status": "PASS"
+        },
+        "smoke_plan": {
+          "num_shots": 1536,
+          "zero_error_upper_bound": 0.0561256873183065,
+          "log2_delta": -128.0,
+          "error_limit": 0.0625,
+          "confidence_unmodified": true
+        },
+        "smoke": {
+          "status": "PASS",
+          "cost": 440518358836872.94,
+          "num_shots": 1536,
+          "value_errors": 0,
+          "phase_errors": 0,
+          "effective_error_rate": 0.0561256873183065,
+          "log2_delta": -128.0,
+          "seed": 20261025,
+          "max_workers": 1,
+          "toffoli_count": 4705456.59375,
+          "elapsed_seconds": 17.48,
+          "verifier_sha256": "f14274bc0943fb9769ddb01131be6063191a15009fe1caf1d4bdd9fd25194e65",
+          "candidate_sha256": "90e27bf5ecc872dddf6ba8bf244226b33bd009ec334eeb9e0ca1ee298ef3e238",
+          "source": "published verifier; non-secret local salt"
+        },
+        "status": "PASS"
+      }
+    },
+    "all_requested_gates_passed": true
+  },
+  "read_only_all_site_audit": {
+    "sites": 888,
+    "template_variants": {
+      "fresh_parity": 1,
+      "reused_parity": 887
+    },
+    "injective_operand_matches": "PASS",
+    "old_measurement_records_dead_on_exit": "PASS"
+  },
+  "unit_tests": {
+    "passed": 14
+  },
+  "github_actions": "NOT_RUN",
+  "kaggle_submission": "NOT_RUN"
+}

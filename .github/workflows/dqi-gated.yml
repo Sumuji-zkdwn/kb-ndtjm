@@ -7,6 +7,9 @@ on:
       - 'quantum/dqi_gate.py'
       - 'quantum/wfs_dqi_single_site.py'
       - 'quantum/inverse66_dqi.py'
+      - 'quantum/eea_quotient_dqi.py'
+      - 'quantum/test_eea_quotient_dqi.py'
+      - 'research/eea_boolean/quotient_probe.py'
       - 'research/inverse66/formal_probe.py'
       - 'research/inverse66/tower_inverse66_probe.zip'
       - 'quantum/run_wfs_gates.py'
@@ -23,7 +26,7 @@ on:
         default: baseline
         options: [baseline, candidate, smoke, full-package]
       candidate_release:
-        description: 'Optional Release with dqi.kmb; empty builds the inverse66 DQI candidate'
+        description: 'Optional Release with dqi.kmb; empty builds Forney inverse66 plus EEA quotients'
         required: false
         type: string
 
@@ -68,37 +71,66 @@ jobs:
           python quantum/patch_kickmix_memory.py qualtran-src/kickmix
           python -m pip install ./qualtran-src/kickmix
 
-      - name: Verify one inverse66 replacement before widening
+      - name: Rebuild verified Forney inverse66 comparison circuit
+        if: env.RUN_STAGE != 'baseline' && env.CANDIDATE_RELEASE == ''
+        run: |
+          python quantum/inverse66_dqi.py --baseline build/input/submission.zip --sites all --output build/forney-reference
+          python quantum/inverse66_dqi.py --output build/forney-reference --parse
+
+      - name: Verify one EEA quotient replacement before widening
+        id: one
         if: env.RUN_STAGE != 'baseline' && env.CANDIDATE_RELEASE == ''
         env:
           KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
         run: |
-          python quantum/inverse66_dqi.py --baseline build/input/submission.zip --sites 1 --output build/one-site
-          python quantum/inverse66_dqi.py --output build/one-site --parse
-          ONE_STAGE=smoke
-          if [ "$RUN_STAGE" = candidate ]; then ONE_STAGE=candidate; fi
-          python quantum/run_wfs_gates.py --stage "$ONE_STAGE" --baseline build/input/submission.zip --candidate build/one-site/dqi.kmb --out build/report/one-site --fetch-official
+          python quantum/eea_quotient_dqi.py --reference build/forney-reference/dqi.kmb --sites 1 --output build/one-site
+          python quantum/eea_quotient_dqi.py --output build/one-site --parse
+          python quantum/run_wfs_gates.py --stage "$RUN_STAGE" --baseline build/input/submission.zip --candidate build/one-site/dqi.kmb --comparison build/forney-reference/dqi.kmb --out build/report/one-site --fetch-official
+          passed=$(python -c 'import json; print(str(json.load(open("build/report/one-site/stages.json"))["all_requested_gates_passed"]).lower())')
+          echo "passed=$passed" >> "$GITHUB_OUTPUT"
+
+      - name: Record expansion not run when one-site dependencies are missing
+        if: env.RUN_STAGE != 'baseline' && env.CANDIDATE_RELEASE == '' && steps.one.outputs.passed == 'false'
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          stages = ['candidate']
+          stages += ['smoke'] if '${{ env.RUN_STAGE }}' in ('smoke', 'full-package') else []
+          stages += ['full-package'] if '${{ env.RUN_STAGE }}' == 'full-package' else []
+          out = {'submits_to_kaggle': False, 'requested_stage': '${{ env.RUN_STAGE }}',
+                 'all_requested_gates_passed': False,
+                 'gates': {s: {'stage': s, 'status': 'NOT_RUN',
+                           'reason': 'One-site requested gates not all passed; expansion not attempted'} for s in stages}}
+          Path('build/report/stages.json').write_text(json.dumps(out, indent=2) + '\n')
+          PY
 
       - name: Build or fetch complete DQI candidate
-        if: env.RUN_STAGE != 'baseline'
+        id: generated
+        if: env.RUN_STAGE != 'baseline' && (env.CANDIDATE_RELEASE != '' || steps.one.outputs.passed == 'true')
         run: |
           if [ -n "$CANDIDATE_RELEASE" ]; then
             gh release download "$CANDIDATE_RELEASE" --repo "$GITHUB_REPOSITORY" --pattern dqi.kmb --dir build/integration
           else
-            python quantum/inverse66_dqi.py --baseline build/input/submission.zip --sites all --output build/integration
+            python quantum/eea_quotient_dqi.py --reference build/forney-reference/dqi.kmb --sites all --output build/integration
           fi
           test -s build/integration/dqi.kmb
+          echo 'ready=true' >> "$GITHUB_OUTPUT"
 
       - name: Parse entire generated candidate with Kickmix
-        if: env.RUN_STAGE != 'baseline' && env.CANDIDATE_RELEASE == ''
-        run: python quantum/inverse66_dqi.py --output build/integration --parse
+        if: steps.generated.outputs.ready == 'true' && env.CANDIDATE_RELEASE == ''
+        run: python quantum/eea_quotient_dqi.py --output build/integration --parse
 
       - name: Candidate then smoke then full-package (or explicit NOT_RUN)
-        if: env.RUN_STAGE != 'baseline'
+        if: steps.generated.outputs.ready == 'true'
         env:
           KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
         run: |
-          python quantum/run_wfs_gates.py --stage "$RUN_STAGE" --baseline build/input/submission.zip --candidate build/integration/dqi.kmb --out build/report --fetch-official
+          comparison=()
+          if [ -z "$CANDIDATE_RELEASE" ]; then
+            comparison=(--comparison build/forney-reference/dqi.kmb)
+          fi
+          python quantum/run_wfs_gates.py --stage "$RUN_STAGE" --baseline build/input/submission.zip --candidate build/integration/dqi.kmb "${comparison[@]}" --out build/report --fetch-official
 
       - name: Save reports even when a gate fails
         if: always()
@@ -112,14 +144,16 @@ jobs:
             build/integration/formal/*
             build/one-site/integration-report.json
             build/one-site/site-map.json
+            build/one-site/formal/*
+            build/forney-reference/integration-report.json
           if-no-files-found: warn
           retention-days: 30
 
       - name: Save complete integration candidate (unscored)
-        if: always() && env.RUN_STAGE != 'baseline'
+        if: always() && steps.generated.outputs.ready == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: dqi-inverse66-unscored
+          name: dqi-eea-inverse66-unscored
           path: build/integration/dqi.kmb
           if-no-files-found: error
           compression-level: 6

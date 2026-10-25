@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Local DQI gates. NEVER sends a Kaggle submission."""
-import argparse, hashlib, json, re, shutil, struct, sys, time, zipfile
+import argparse, hashlib, json, math, re, shutil, struct, sys, time, zipfile
 from pathlib import Path
 
 BASE_SHA = "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43"
@@ -102,7 +102,7 @@ def verify(path,data,shots,salt):
     # Salt alone does not: the official default also mixes in each circuit's SHA.
     result=vdqi.verify(circuit,spec,salt=salt,seed=20261025,max_workers=1)
     score=float(result["score"])
-    if not score>0: raise RuntimeError("nonpositive verifier cost")
+    if not math.isfinite(score) or not score>0: raise RuntimeError("nonfinite or nonpositive verifier cost")
     return {"status":"PASS","cost":score,"num_shots":shots,
             "value_errors":result["value_errors"],"phase_errors":result["phase_errors"],
             "effective_error_rate":result["effective_error_rate"],
@@ -130,6 +130,7 @@ def main():
     p.add_argument("--stage",required=True,choices=["baseline","candidate","smoke","full-package"])
     p.add_argument("--baseline",required=True)
     p.add_argument("--candidate")
+    p.add_argument("--comparison", help="Optional complete previously validated DQI for incremental full comparison")
     p.add_argument("--data-root")
     p.add_argument("--out",default="build/gated")
     a=p.parse_args()
@@ -141,6 +142,8 @@ def main():
             if not a.candidate or not Path(a.candidate).is_file():
                 raise ValueError("explicit full DQI candidate is mandatory")
             result["candidate"]=candidate(a.candidate)
+            if a.comparison:
+                result["comparison"]=candidate(a.comparison)
         if a.stage in ("smoke","full-package"):
             if not a.data_root: raise ValueError("published official verifier data missing")
             sys.path.insert(0,str(Path(a.data_root)/"verifiers"))
@@ -153,16 +156,23 @@ def main():
             result["smoke"]=verify(a.candidate,a.data_root,smoke_shots,salt)
             if a.stage=="full-package":
                 result["full"]=verify(a.candidate,a.data_root,v.DEFAULT_NUM_SHOTS,salt)
-                base_dqi=out/"baseline-dqi.kmb"
-                with zipfile.ZipFile(a.baseline) as z, base_dqi.open("wb") as f:
-                    with z.open("dqi.kmb") as src:
-                        shutil.copyfileobj(src,f,length=1<<22)
-                result["baseline_full"]=verify(base_dqi,a.data_root,v.DEFAULT_NUM_SHOTS,salt)
-                old=result["baseline_full"]["cost"]
+                if a.comparison:
+                    reference_dqi=Path(a.comparison)
+                    reference_key="comparison_full"
+                    result["comparison_kind"]="incremental versus explicitly supplied DQI; ZIP baseline remains v1.0"
+                else:
+                    reference_dqi=out/"baseline-dqi.kmb"
+                    with zipfile.ZipFile(a.baseline) as z, reference_dqi.open("wb") as f:
+                        with z.open("dqi.kmb") as src:
+                            shutil.copyfileobj(src,f,length=1<<22)
+                    reference_key="baseline_full"
+                    result["comparison_kind"]="versus v1.0 DQI"
+                result[reference_key]=verify(reference_dqi,a.data_root,v.DEFAULT_NUM_SHOTS,salt)
+                old=result[reference_key]["cost"]
                 new=result["full"]["cost"]
                 result["local_improvement"]=new<old
                 if not result["local_improvement"]:
-                    raise RuntimeError(f"No cost reduction versus baseline: {new} >= {old}")
+                    raise RuntimeError(f"No cost reduction versus comparison circuit: {new} >= {old}")
                 result["packaging"]=pack(a.baseline,a.candidate,out/"submission-candidate.zip")
                 result["candidate_status"]="ready for USER-APPROVED Kaggle submission"
         result["status"]="PASS"

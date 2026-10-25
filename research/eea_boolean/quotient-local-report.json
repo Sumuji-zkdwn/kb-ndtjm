@@ -15,6 +15,32 @@
     "temporary_classical_bits_clean": true,
     "residual_phase_monomials": 0
   },
+  "baseline_certificate": {
+    "status": "PASS",
+    "method": "exact Boolean ANF, not trajectory sampling",
+    "independent_input_variables": 37,
+    "independent_measurement_variables": 84,
+    "measurement_branches_represented": "2^84",
+    "coherent_control": true,
+    "arbitrary_xor_target": true,
+    "zero_divisor_convention": "inv(0) = 0",
+    "quantum_workspace_clean": true,
+    "temporary_classical_bits_clean": true,
+    "residual_phase_monomials": 0
+  },
+  "baseline_reused_parity_certificate": {
+    "status": "PASS",
+    "method": "exact Boolean ANF, not trajectory sampling",
+    "independent_input_variables": 37,
+    "independent_measurement_variables": 84,
+    "measurement_branches_represented": "2^84",
+    "coherent_control": true,
+    "arbitrary_xor_target": true,
+    "zero_divisor_convention": "inv(0) = 0",
+    "quantum_workspace_clean": true,
+    "temporary_classical_bits_clean": true,
+    "residual_phase_monomials": 0
+  },
   "negative_control_missing_fixup": "REJECTED",
   "kickmix_parse": "PASS",
   "baseline_local_qubits": 109,
@@ -34,7 +60,7 @@
     "Z": 47
   },
   "local_kmx_sha256": "85132c3cdc060f876befe232ddc7dabb6adbcc30e0718d71baabbd4d3920f5dd",
-  "probe_source_sha256": "28253f4cf5920c4b9c32234fe8d0ec21f4e587e730b61b0754dacb3867b8a74f",
+  "probe_source_sha256": "96641fe61230f700503b62a30215538dc445910eeb0180e8df791be5bd5731d1",
   "inverse_component_sha256": {
     "forward": "1f7ba6cecf009d68b2f17af540af432d8acfa14760c07429c3bb7a23d7554e9d",
     "erase": "9a9f87288af4fe5972bf234c8b5ca9bf57e3c55fc3639e579abe905860d46515"
@@ -43,26 +69,5 @@
   "trusted_boundary": "Python ANF checker, finite-field reference, gate/HMR semantics; not Lean checked",
   "full_DQI_integration": "NOT_RUN",
   "official_verifier": "NOT_RUN",
-  "kaggle_submission": "NOT_RUN",
-  "actual_quotient_regions": {
-    "baseline_dqi_sha256": "959471d05a26373b4f14ca0cae2d8639ea25f18170d9f6532139aa51ccc04995",
-    "by_stage": {
-      "forward_eea": 444,
-      "reverse_eea": 444
-    },
-    "static_toffoli_histogram": {
-      "390": 888
-    },
-    "first_intervals": {
-      "forward_eea": {
-        "start_zero_based": 47422,
-        "stop_exclusive": 53676
-      },
-      "reverse_eea": {
-        "start_zero_based": 66843533,
-        "stop_exclusive": 66849788
-      }
-    },
-    "actual_operand_mapping": "NOT_RUN"
-  }
+  "kaggle_submission": "NOT_RUN"
 }

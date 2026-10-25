@@ -32,20 +32,23 @@ def parse(text):
     return operations
 
 
-def verify(operations, ideal):
+def verify(operations, ideal, *, layout=None):
     # den[12], num[12], arbitrary XOR target[12], coherent control[1].
-    q = [frozenset() for _ in range(82)]
-    for variable, wire in enumerate([*range(12), *range(45, 57), *range(69, 82)]):
+    if layout is None:
+        layout = {'qubits': 82, 'den': list(range(12)), 'num': list(range(45, 57)),
+                  'target': list(range(69, 81)), 'control': 81}
+    q = [frozenset() for _ in range(layout['qubits'])]
+    for variable, wire in enumerate(layout['den'] + layout['num'] + layout['target'] + [layout['control']]):
         q[wire] = frozenset({1 << variable})
     initial = q[:]
     expected = q[:]
     for i in range(12):
         for j in range(12):
             coefficient = mul(1 << i, 1 << j)
-            term = product(initial[81], product(initial[45 + i], ideal[j]))
+            term = product(initial[layout['control']], product(initial[layout['num'][i]], ideal[j]))
             for bit in range(12):
                 if (coefficient >> bit) & 1:
-                    expected[69 + bit] ^= term
+                    expected[layout['target'][bit]] ^= term
 
     bits = {}
     phase = frozenset()
@@ -193,15 +196,31 @@ def main():
     ratio, scaffold = builder.init_gf2_div_with_scaffold(a, b, field=field)
     builder.gf2_iadd(ratio, target=target, field=field, control=control)
     builder.del_gf2_div_with_scaffold(a, b, target=ratio, scaffold=scaffold, field=field)
+    builder.free(scaffold + ratio)
     baseline = builder.finish_circuit()
     old_t = int(baseline.operation_statistics().num_toffoli_like)
     assert old_t == 390
+    baseline_clear = '\n'.join(f'BIT_STORE0 b{i}' for i in range(baseline.num_bits))
+    old_layout = {'qubits': baseline.num_qubits, 'den': list(range(12, 24)),
+                  'num': list(range(12)), 'target': list(range(24, 36)), 'control': 36}
+    old_operations = parse(str(baseline))
+    baseline_certificate = verify(parse(baseline_clear) + old_operations + parse(baseline_clear),
+                                  ideal, layout=old_layout)
+    # A reused parity accumulator is explicitly cleared on its first access;
+    # a freshly allocated one starts zero and omits that redundant instruction.
+    first_parity_use = next(i for i, (gate, operands, condition) in enumerate(old_operations)
+                            if (gate.startswith('BIT_') and operands[0] == 12) or condition == 12)
+    assert old_operations[first_parity_use][0] == 'BIT_INVERT'
+    reused = old_operations[:first_parity_use] + [('BIT_STORE0', [12], None)] + old_operations[first_parity_use:]
+    reused_certificate = verify(parse(baseline_clear) + reused + parse(baseline_clear), ideal, layout=old_layout)
     (args.out / 'quotient-local.kmx').write_text(text)
     report = {
         'scope': 'local coherent quotient contract; NOT a full DQI candidate',
         'contract': '|a,b,t,c,0> -> |a,b,t XOR c*(a*inv(b)),c,0>',
         'polynomial': '0x1053',
         'certificate': certificate,
+        'baseline_certificate': baseline_certificate,
+        'baseline_reused_parity_certificate': reused_certificate,
         'negative_control_missing_fixup': 'REJECTED',
         'kickmix_parse': 'PASS',
         'baseline_local_qubits': baseline.num_qubits,
