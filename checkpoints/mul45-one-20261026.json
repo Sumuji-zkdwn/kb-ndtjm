@@ -1,0 +1,116 @@
+{
+  "scope": "one 45-Toffoli multiplier inside complete DQI",
+  "integration": {
+    "status": "PASS",
+    "scope": "complete DQI; existing inverse66 plus 45-Toffoli multiplier",
+    "reference_dqi_sha256": "655e83ab2ee40d65688e01c883a3804765080c1e47ee4e53f9d7b01bb6621177",
+    "sites_replaced": 1,
+    "sites_by_stage": {
+      "forward_eea": 1
+    },
+    "candidate_sha256": "6c167b365cddd21a2a73bfea967c5f35f8114c2be5e9a092248d617fbc1fc7ae",
+    "candidate_bytes": 863190280,
+    "qubits": 1893,
+    "bits": 49155,
+    "registers": 4165,
+    "ops": 86823761,
+    "reference_static_Toffoli_like": 4484694,
+    "candidate_static_Toffoli_like": 4484676,
+    "static_Toffoli_saved": 18,
+    "extra_qubits": 0,
+    "extra_classical_bits": 0,
+    "all_old_instructions_matched_under_injective_renaming": true,
+    "named_registers_unchanged": true,
+    "existing_product_cleanup_unchanged": true,
+    "classical_records_unchanged": true,
+    "outer_conditions_unchanged": true,
+    "unchanged_packet_span_bytes_verified": 799342422,
+    "retained_metadata_byte_equal": true,
+    "local_certificate": {
+      "status": "PASS",
+      "method": "exact Boolean ANF on 36 independent variables",
+      "arbitrary_xor_target": true,
+      "inputs_restored": true,
+      "unitary_phase": "exactly zero: CX/CCX/SWAP positive permutation gates only",
+      "measurement_outcomes": 0,
+      "extra_quantum_workspace": 0,
+      "entangled_reference_allowed": true
+    },
+    "local_old_certificate": {
+      "status": "PASS",
+      "method": "exact Boolean ANF on 36 independent variables",
+      "arbitrary_xor_target": true,
+      "inputs_restored": true,
+      "unitary_phase": "exactly zero: CX/CCX/SWAP positive permutation gates only",
+      "measurement_outcomes": 0,
+      "extra_quantum_workspace": 0,
+      "entangled_reference_allowed": true
+    },
+    "generator_sha256": "ce8e489ce8e5a597e24615d3eee1eca9837033bc48e2a2410d22b30892b8af08",
+    "probe_sha256": "5c10d34ebd3b73638482f1ddb6bc1f7febf92a25d9366277a66149a30c8fabc1",
+    "kickmix_full_parse": "PASS",
+    "full_DQI_verifier": "NOT_RUN",
+    "kaggle_submission": "NOT_RUN"
+  },
+  "smoke": {
+    "stage": "smoke",
+    "submits_to_kaggle": false,
+    "platform_secret_salt": "unavailable",
+    "baseline": {
+      "archive_sha256": "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43",
+      "members": 13,
+      "angle_count": 10,
+      "dqi": {
+        "qubits": 1893,
+        "bits": 49154,
+        "registers": 4165,
+        "ops": 86051014,
+        "3q_ops": 5725461,
+        "2q_ops": 66446727,
+        "register_contract": "PASS"
+      },
+      "status": "PASS"
+    },
+    "candidate": {
+      "candidate_sha256": "6c167b365cddd21a2a73bfea967c5f35f8114c2be5e9a092248d617fbc1fc7ae",
+      "candidate_bytes": 863190280,
+      "dqi": {
+        "qubits": 1893,
+        "bits": 49155,
+        "registers": 4165,
+        "ops": 86823761,
+        "3q_ops": 4484676,
+        "2q_ops": 71888919,
+        "register_contract": "PASS"
+      },
+      "quantum_correctness": "NOT_YET_VERIFIED",
+      "status": "PASS"
+    },
+    "smoke_plan": {
+      "num_shots": 1536,
+      "zero_error_upper_bound": 0.0561256873183065,
+      "log2_delta": -128.0,
+      "error_limit": 0.0625,
+      "confidence_unmodified": true
+    },
+    "smoke": {
+      "status": "PASS",
+      "cost": 419839784148183.1,
+      "num_shots": 1536,
+      "value_errors": 0,
+      "phase_errors": 0,
+      "effective_error_rate": 0.0561256873183065,
+      "log2_delta": -128.0,
+      "seed": 20261025,
+      "max_workers": 1,
+      "toffoli_count": 4484575.59375,
+      "elapsed_seconds": 17.8,
+      "verifier_sha256": "f14274bc0943fb9769ddb01131be6063191a15009fe1caf1d4bdd9fd25194e65",
+      "candidate_sha256": "6c167b365cddd21a2a73bfea967c5f35f8114c2be5e9a092248d617fbc1fc7ae",
+      "source": "published verifier; non-secret local salt"
+    },
+    "status": "PASS"
+  },
+  "kaggle_submission": "NOT_RUN",
+  "status": "PASS"
+}
