@@ -1,0 +1,97 @@
+name: DQI staged validation (no Kaggle submissions)
+
+on:
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: 'Select a local gate; Kaggle submissions are NEVER made'
+        type: choice
+        required: true
+        default: baseline
+        options:
+          - baseline
+          - candidate
+          - smoke
+          - full-package
+      candidate_release:
+        description: 'Release tag with a complete dqi.kmb asset; required except for baseline'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  gated:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    env:
+      RUN_STAGE: ${{ inputs.stage }}
+      CANDIDATE_RELEASE: ${{ inputs.candidate_release }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Download immutable v1.0 reference ZIP
+        run: |
+          mkdir -p build/input build/candidate build/report
+          gh release download v1.0 --repo "$GITHUB_REPOSITORY" --pattern submission.zip --dir build/input
+
+      - name: Fetch explicit full DQI candidate
+        if: env.RUN_STAGE != 'baseline'
+        run: |
+          if [ -z "$CANDIDATE_RELEASE" ]; then
+            echo "::error::Set candidate_release to a Release tag containing dqi.kmb."
+            exit 2
+          fi
+          gh release download "$CANDIDATE_RELEASE" --repo "$GITHUB_REPOSITORY" --pattern dqi.kmb --dir build/candidate
+          test -s build/candidate/dqi.kmb
+
+      - name: Retrieve published competition verifier files (NOT submit)
+        if: env.RUN_STAGE == 'smoke' || env.RUN_STAGE == 'full-package'
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          if [ -z "$KAGGLE_API_TOKEN" ]; then
+            echo "::error::KAGGLE_API_TOKEN repository secret required to fetch official public verifier assets."
+            exit 2
+          fi
+          python -m pip install --disable-pip-version-check kaggle
+          mkdir -p build/kaggle
+          kaggle competitions download google-verifiable-quantum-circuit-compilation -p build/kaggle --unzip
+          test -f build/kaggle/verifiers/dqi/verify_submission_dqi.py || {
+            echo "::error::No published DQI verifier found after download."
+            find build/kaggle -maxdepth 3 -type f | head -35
+            exit 2
+          }
+
+      - name: Run requested local validation gate
+        run: |
+          opts=(--stage "$RUN_STAGE" --baseline build/input/submission.zip --out build/report)
+          if [ "$RUN_STAGE" != baseline ]; then
+            opts+=(--candidate build/candidate/dqi.kmb)
+          fi
+          if [ "$RUN_STAGE" = smoke ] || [ "$RUN_STAGE" = full-package ]; then
+            opts+=(--data-root build/kaggle)
+          fi
+          python quantum/dqi_gate.py "${opts[@]}"
+
+      - name: Upload checkpoint and report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dqi-checkpoint-${{ inputs.stage }}
+          path: build/report/report.json
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Upload staged candidate ZIP (never submit)
+        if: success() && env.RUN_STAGE == 'full-package'
+        uses: actions/upload-artifact@v4
+        with:
+          name: dqi-candidate-for-human-review
+          path: build/report/submission-candidate.zip
+          if-no-files-found: error
+          retention-days: 30
