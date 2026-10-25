@@ -8,6 +8,8 @@ on:
       - 'quantum/wfs_dqi_single_site.py'
       - 'quantum/run_wfs_gates.py'
       - 'quantum/test_wfs_dqi_single_site.py'
+      - 'quantum/test_dqi_gate.py'
+      - 'quantum/patch_kickmix_memory.py'
       - 'quantum/wfs_mobile_ci.py'
   workflow_dispatch:
     inputs:
@@ -51,7 +53,7 @@ jobs:
         if: env.RUN_STAGE != 'baseline'
         run: |
           python -m pip install --disable-pip-version-check numpy
-          python -m unittest discover -s quantum -p test_wfs_dqi_single_site.py -v
+          python -m unittest discover -s quantum -p 'test_*.py' -v
           if [ -n "$CANDIDATE_RELEASE" ]; then
             gh release download "$CANDIDATE_RELEASE" --repo "$GITHUB_REPOSITORY" --pattern dqi.kmb --dir build/integration
           else
@@ -66,6 +68,7 @@ jobs:
         run: |
           git clone --filter=blob:none https://github.com/quantumlib/Qualtran.git qualtran-src
           git -C qualtran-src checkout 638777fac4379bc62e2a1e4a52cf1a1753895d48
+          python quantum/patch_kickmix_memory.py qualtran-src/kickmix
           python -m pip install ./qualtran-src/kickmix
 
       - name: Parse entire generated candidate with Kickmix

@@ -23,7 +23,7 @@
 |---|---|---|
 | baseline | 0 | Validate v1.0 SHA, ZIP CRC, 13 files, DQI registers (70 S and 4095 E groups) |
 | candidate | 0 | Generate the pinned one-site WFS COMPLETE dqi.kmb (or use candidate_release), then check its register contract |
-| smoke | 0 | Use published standalone DQI verifier on two small batches |
+| smoke | 0 | Use published standalone DQI verifier with a batch-aligned budget satisfying its unchanged confidence requirement (currently 1,536 shots) |
 | full-package | 0 | Smoke, full default-shot verifier, compare against baseline with local salt, then package complete candidate ZIP |
 
 Integration pushes run candidate → smoke → full-package in order. If official verifier assets cannot be downloaded, smoke/full-package are recorded as NOT_RUN. Manual stage selection remains available. The workflow has NO Kaggle submission command.

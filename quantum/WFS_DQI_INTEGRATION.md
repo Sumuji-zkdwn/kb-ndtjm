@@ -77,7 +77,24 @@ python quantum/run_wfs_gates.py --baseline submission.zip --candidate build/inte
 
 `--parse` requires upstream Kickmix pinned at Qualtran commit
 `638777fac4379bc62e2a1e4a52cf1a1753895d48`, also installed by Actions.
-Four regression tests include wrong mask endianness, absent adapter and omitted uncomputation.
+Four integration regression tests include wrong mask endianness, absent adapter and omitted uncomputation.
+Two further tests in test_dqi_gate.py prevent statistically impossible smoke budgets.
+
+After Kaggle authentication was connected, the first 512-shot smoke observed zero value/phase errors,
+but could not pass the official confidence bound: at log2_delta=-128 its zero-error upper bound is 0.1591,
+above the required 1/16. The planner now uses the official clopper_pearson_upper_bound without changing
+confidence or tolerance, choosing the first admissible batch-aligned budget: 1,536 shots (bound 0.0561256873).
+The preceding 1,280-shot budget still fails (bound 0.0669670085). Official verifier SHA-256:
+f14274bc0943fb9769ddb01131be6063191a15009fe1caf1d4bdd9fd25194e65.
+Local comparisons now use the same explicit seed (20261025) for baseline/candidate inputs and measurement
+outcomes; a shared salt alone is insufficient because the verifier also mixes in each circuit hash by default.
+Verification uses one worker to fit the GitHub runner's memory. The full stage still uses the unchanged
+official default 102,400 shots and still requires cost improvement before packaging.
+
+The upstream reaction_depth method materializes all operations in a vector; geometric growth
+exceeded the local 8-GiB memory limit after simulation. patch_kickmix_memory.py adds only
+ops.reserve(num_ops) before the existing loop. Its recurrence, official verifier and circuit
+operations are unchanged. Source hashes and the one-line allocation patch are saved in reports.
 
 The existing dqi-gated.yml workflow now builds this full candidate when candidate_release is empty.
 It runs candidate → smoke → full-package with the existing dqi_gate.py, in order.

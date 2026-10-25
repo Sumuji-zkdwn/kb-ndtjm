@@ -76,6 +76,20 @@ def candidate(path):
     return {"candidate_sha256":sha(path),"candidate_bytes":Path(path).stat().st_size,
             "dqi":info,"quantum_correctness":"NOT_YET_VERIFIED","status":"PASS"}
 
+def smoke_shot_count(verifier):
+    """Smallest batch-aligned budget able to pass the UNMODIFIED confidence gate.
+
+    Even zero observed errors cannot pass with only 512 shots at delta=2^-128.
+    Ask the official bound instead of weakening its confidence or error limit.
+    """
+    batch=verifier.DEFAULT_BATCH_SIZE
+    shots=2*batch
+    while verifier.clopper_pearson_upper_bound(0,shots,verifier.DEFAULT_LOG2_DELTA)>=1/16:
+        shots+=batch
+        if shots>verifier.DEFAULT_NUM_SHOTS:
+            raise ValueError("official default shot budget cannot satisfy smoke confidence")
+    return shots
+
 def verify(path,data,shots,salt):
     sys.path.insert(0,str(Path(data)/"kickmix"))
     sys.path.insert(0,str(Path(data)/"verifiers"))
@@ -84,10 +98,16 @@ def verify(path,data,shots,salt):
     spec=vdqi.ProblemSpecDQI.benchmark_instance(num_shots=shots)
     circuit=kickmix.Circuit.from_file(path,format="kmb")
     t=time.monotonic()
-    result=vdqi.verify(circuit,spec,salt=salt)
+    # Shared explicit seed couples candidate/baseline inputs and measurement draws.
+    # Salt alone does not: the official default also mixes in each circuit's SHA.
+    result=vdqi.verify(circuit,spec,salt=salt,seed=20261025,max_workers=1)
     score=float(result["score"])
     if not score>0: raise RuntimeError("nonpositive verifier cost")
     return {"status":"PASS","cost":score,"num_shots":shots,
+            "value_errors":result["value_errors"],"phase_errors":result["phase_errors"],
+            "effective_error_rate":result["effective_error_rate"],
+            "log2_delta":result["log2_delta"],"seed":20261025,"max_workers":1,
+            "toffoli_count":result["toffoli_count"],
             "elapsed_seconds":round(time.monotonic()-t,2),
             "verifier_sha256":sha(Path(data)/"verifiers/dqi/verify_submission_dqi.py"),
             "candidate_sha256":sha(path),"source":"published verifier; non-secret local salt"}
@@ -126,7 +146,11 @@ def main():
             sys.path.insert(0,str(Path(a.data_root)/"verifiers"))
             from dqi import verify_submission_dqi as v
             salt="wfs-dqi-public-local-seed-20261025"
-            result["smoke"]=verify(a.candidate,a.data_root,2*v.DEFAULT_BATCH_SIZE,salt)
+            smoke_shots=smoke_shot_count(v)
+            result["smoke_plan"]={"num_shots":smoke_shots,
+                "zero_error_upper_bound":v.clopper_pearson_upper_bound(0,smoke_shots,v.DEFAULT_LOG2_DELTA),
+                "log2_delta":v.DEFAULT_LOG2_DELTA,"error_limit":1/16,"confidence_unmodified":True}
+            result["smoke"]=verify(a.candidate,a.data_root,smoke_shots,salt)
             if a.stage=="full-package":
                 result["full"]=verify(a.candidate,a.data_root,v.DEFAULT_NUM_SHOTS,salt)
                 base_dqi=out/"baseline-dqi.kmb"
@@ -151,3 +175,4 @@ def main():
         print(json.dumps(result,indent=2,ensure_ascii=False))
 
 if __name__=="__main__":main()
+
