@@ -1,6 +1,10 @@
 name: DQI staged validation (no Kaggle submissions)
 
 on:
+  push:
+    paths:
+      - '.github/workflows/dqi-gated.yml'
+      - 'quantum/dqi_gate.py'
   workflow_dispatch:
     inputs:
       stage:
@@ -26,7 +30,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 100
     env:
-      RUN_STAGE: ${{ inputs.stage }}
+      RUN_STAGE: ${{ inputs.stage || 'baseline' }}
       CANDIDATE_RELEASE: ${{ inputs.candidate_release }}
       GH_TOKEN: ${{ github.token }}
     steps:
@@ -82,7 +86,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: dqi-checkpoint-${{ inputs.stage }}
+          name: dqi-checkpoint-${{ inputs.stage || 'baseline' }}
           path: build/report/report.json
           if-no-files-found: warn
           retention-days: 30
