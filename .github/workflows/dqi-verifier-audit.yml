@@ -1,0 +1,46 @@
+name: Inspect published DQI verifier (no submissions)
+on:
+  push:
+    paths: ['.github/workflows/dqi-verifier-audit.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Download official verifier assets
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          python -m pip install --disable-pip-version-check kaggle
+          mkdir -p official
+          kaggle competitions download google-verifiable-quantum-circuit-compilation -p official --unzip
+      - name: Inspect confidence calculation and default shot counts
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          root = Path('official/verifiers')
+          for p in root.rglob('*.py'):
+              lines = p.read_text().splitlines()
+              matches = [i for i,s in enumerate(lines) if any(k in s.lower() for k in ('effective_error', 'log2_delta', 'default_num_shots', 'default_batch_size', 'confidence', 'clopper', 'chernoff'))]
+              if not matches:
+                  continue
+              print('FILE',p,'SHA256',hashlib.sha256(p.read_bytes()).hexdigest())
+              seen=set()
+              for i in matches:
+                  for j in range(max(0,i-5),min(len(lines),i+8)):
+                      if j not in seen:
+                          print(f'{j+1}: {lines[j]}')
+                          seen.add(j)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: official-dqi-verifier-source-${{ github.run_attempt }}
+          path: official/verifiers
+          retention-days: 30
