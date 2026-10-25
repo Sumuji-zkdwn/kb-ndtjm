@@ -6,6 +6,9 @@ on:
       - '.github/workflows/dqi-gated.yml'
       - 'quantum/dqi_gate.py'
       - 'quantum/wfs_dqi_single_site.py'
+      - 'quantum/inverse66_dqi.py'
+      - 'research/inverse66/formal_probe.py'
+      - 'research/inverse66/tower_inverse66_probe.zip'
       - 'quantum/run_wfs_gates.py'
       - 'quantum/test_wfs_dqi_single_site.py'
       - 'quantum/test_dqi_gate.py'
@@ -20,7 +23,7 @@ on:
         default: baseline
         options: [baseline, candidate, smoke, full-package]
       candidate_release:
-        description: 'Optional Release with dqi.kmb; empty builds the pinned one-site WFS candidate'
+        description: 'Optional Release with dqi.kmb; empty builds the inverse66 DQI candidate'
         required: false
         type: string
 
@@ -49,17 +52,11 @@ jobs:
         if: env.RUN_STAGE == 'baseline'
         run: python quantum/dqi_gate.py --stage baseline --baseline build/input/submission.zip --out build/report/baseline
 
-      - name: Build or fetch complete DQI candidate
+      - name: Check generators
         if: env.RUN_STAGE != 'baseline'
         run: |
           python -m pip install --disable-pip-version-check numpy
           python -m unittest discover -s quantum -p 'test_*.py' -v
-          if [ -n "$CANDIDATE_RELEASE" ]; then
-            gh release download "$CANDIDATE_RELEASE" --repo "$GITHUB_REPOSITORY" --pattern dqi.kmb --dir build/integration
-          else
-            python quantum/wfs_dqi_single_site.py --baseline build/input/submission.zip --output build/integration
-          fi
-          test -s build/integration/dqi.kmb
 
       - name: Install pinned upstream Kickmix
         if: env.RUN_STAGE != 'baseline'
@@ -71,9 +68,30 @@ jobs:
           python quantum/patch_kickmix_memory.py qualtran-src/kickmix
           python -m pip install ./qualtran-src/kickmix
 
+      - name: Verify one inverse66 replacement before widening
+        if: env.RUN_STAGE != 'baseline' && env.CANDIDATE_RELEASE == ''
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          python quantum/inverse66_dqi.py --baseline build/input/submission.zip --sites 1 --output build/one-site
+          python quantum/inverse66_dqi.py --output build/one-site --parse
+          ONE_STAGE=smoke
+          if [ "$RUN_STAGE" = candidate ]; then ONE_STAGE=candidate; fi
+          python quantum/run_wfs_gates.py --stage "$ONE_STAGE" --baseline build/input/submission.zip --candidate build/one-site/dqi.kmb --out build/report/one-site --fetch-official
+
+      - name: Build or fetch complete DQI candidate
+        if: env.RUN_STAGE != 'baseline'
+        run: |
+          if [ -n "$CANDIDATE_RELEASE" ]; then
+            gh release download "$CANDIDATE_RELEASE" --repo "$GITHUB_REPOSITORY" --pattern dqi.kmb --dir build/integration
+          else
+            python quantum/inverse66_dqi.py --baseline build/input/submission.zip --sites all --output build/integration
+          fi
+          test -s build/integration/dqi.kmb
+
       - name: Parse entire generated candidate with Kickmix
         if: env.RUN_STAGE != 'baseline' && env.CANDIDATE_RELEASE == ''
-        run: python quantum/wfs_dqi_single_site.py --output build/integration --parse
+        run: python quantum/inverse66_dqi.py --output build/integration --parse
 
       - name: Candidate then smoke then full-package (or explicit NOT_RUN)
         if: env.RUN_STAGE != 'baseline'
@@ -90,7 +108,10 @@ jobs:
           path: |
             build/report/**/*.json
             build/integration/integration-report.json
-            build/integration/*-phase.kmx
+            build/integration/site-map.json
+            build/integration/formal/*
+            build/one-site/integration-report.json
+            build/one-site/site-map.json
           if-no-files-found: warn
           retention-days: 30
 
@@ -98,7 +119,7 @@ jobs:
         if: always() && env.RUN_STAGE != 'baseline'
         uses: actions/upload-artifact@v4
         with:
-          name: dqi-wfs-one-site-unscored
+          name: dqi-inverse66-unscored
           path: build/integration/dqi.kmb
           if-no-files-found: error
           compression-level: 6

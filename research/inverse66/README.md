@@ -2,7 +2,7 @@
 
 2026-10-25 JST. This research checkpoint revisits the prior decision to stop after a
 Clifford-only phase replacement failed to improve DQI cost. That result concerns one site,
-not the cost of all alternative DQI circuits. No new full DQI candidate or submission is claimed here.
+not the cost of all alternative DQI circuits. The integration checkpoint below records the new complete candidate separately from this local proof.
 
 ## Existing material reused and actual circuit measured
 
@@ -144,6 +144,52 @@ Kickmix parsing succeeded for the archived inverse (66 Toffoli-like) and the new
 forward/erase components (66/0). See `formal-report.json` and `resource-profile.json`.
 The archive retains all generator source and license information.
 
-**Not yet done:** full DQI register/bit allocation for this inverse replacement, a new complete
-dqi.kmb, measured whole-circuit Q/T, published-verifier smoke/full checks for this new replacement,
-or Kaggle submission. The previous Clifford-phase candidate's full verification remains a separate result.
+## Integration checkpoint: complete DQI (2026-10-25 UTC)
+
+`quantum/inverse66_dqi.py` now patches the SHA-pinned v1.0 complete circuit. It discovers
+Forney inverse/cleanup regions from nested INFO_TAGs and records every actual operand in
+`site-map.json`; it does not assume that all sites use the first site's wires. The output
+reset and all 48 original scaffold resets are preserved, and only 21 of those scaffold
+qubits are reused. The caller must leave scaffold/input untouched and use the inverse
+output only in diagonal phases. Every site is checked for these conditions before rewriting.
+
+| Actual generated complete candidate | Sites | Q | Classical bits | Static Toffoli-like | SHA-256 |
+|---|---:|---:|---:|---:|---|
+| Minimal | 1 | 1,893 | 49,155 | 5,725,212 | `5db467398895cec947292ae67cab42a6aab67e702d8b0dbabc6fd63f4ebe0f47` |
+| All Forney positions | 4,095 | 1,893 | 49,155 | 4,705,806 | `ea0d6717e7b37fb386a0d99730eebf150c0e78de1cc8547f0727c2f6845a99bc` |
+
+The fresh bit b49154 is a reused private HMR outcome. Original E0..E4094 occupy
+b0..b49139. The original b49153 mask-nonzero guard and its PUSH/POP conditions are
+preserved; old private inverse temporary bits are cleared at the new block exits.
+The first site's input is q888..899, inverse output q1803..1814, original scaffold
+q1828..1875, of which q1828..1848 is reused. These concrete numbers are a single-site
+example; the manifest contains all mappings and old instruction intervals.
+
+For each rewritten KMB packet, unchanged spans are compared byte for byte. Named registers
+are byte-identical. Only nested inverse INFO_TAGs are removed/reindexed. Both complete
+circuits passed native Kickmix parsing. The one-site circuit passed the **unmodified published
+DQI verifier** with 1,536 shots, value_errors=0, phase_errors=0, seed=20261025,
+log2_delta=-128, and effective error upper bound 0.0561256873183065 < 1/16.
+The all-site circuit also passed candidate and 1,536-shot smoke checks with zero value/phase errors.
+Full-package verification is pending at this checkpoint.
+
+```bash
+python quantum/inverse66_dqi.py --baseline /path/to/submission.zip --sites 1 --output build/one-site
+python quantum/inverse66_dqi.py --output build/one-site --parse
+python quantum/run_wfs_gates.py --stage smoke --baseline /path/to/submission.zip \
+  --candidate build/one-site/dqi.kmb --data-root /path/to/official-data --out build/report/one-site
+python quantum/inverse66_dqi.py --baseline /path/to/submission.zip --sites all --output build/integration
+python quantum/inverse66_dqi.py --output build/integration --parse
+python quantum/run_wfs_gates.py --stage full-package --baseline /path/to/submission.zip \
+  --candidate build/integration/dqi.kmb --data-root /path/to/official-data --out build/report
+```
+
+The existing `dqi-gated.yml` now repeats one-site candidate/smoke, builds the all-site
+candidate, and then runs candidate → smoke → full-package. Missing official data is
+reported as NOT_RUN. Candidate hashes, mapping, formal proof and gate JSON are uploaded.
+Full-package produces the 13-member ZIP only if published-verifier correctness and cost
+improvement over the unchanged baseline pass. Release v1.0 is preserved. Nothing submits
+to Kaggle. Public-verifier cost is not the secret-salt official Kaggle score.
+
+The older Clifford-phase candidate's full verification remains a separate result.
+
