@@ -1,0 +1,28 @@
+{
+  "file": "submission.zip",
+  "bytes": 73818680,
+  "sha256": "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43",
+  "part_size_bytes": 20971520,
+  "parts": [
+    {
+      "name": "submission.zip.part01",
+      "bytes": 20971520,
+      "sha256": "5825df5d501d7d5f92ae6e8a18528806293ba2fd86c86ef69880b861e21013c7"
+    },
+    {
+      "name": "submission.zip.part02",
+      "bytes": 20971520,
+      "sha256": "21ebdbd6f7b26a5b65293444e039d9753bf192e4d594409767ca510c685c0bb2"
+    },
+    {
+      "name": "submission.zip.part03",
+      "bytes": 20971520,
+      "sha256": "2bd1423c1f9b032aaa9b52cbf3d16c0e23ed4520242666624c01577b923c6044"
+    },
+    {
+      "name": "submission.zip.part04",
+      "bytes": 10904120,
+      "sha256": "aa93899064f1d4636da02fa7830c4992c4cc5c5bb4d4359ab31d2a413b13b8f1"
+    }
+  ]
+}
