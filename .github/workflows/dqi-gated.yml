@@ -9,7 +9,13 @@ on:
       - 'quantum/inverse66_dqi.py'
       - 'quantum/eea_quotient_dqi.py'
       - 'quantum/test_eea_quotient_dqi.py'
+      - 'quantum/multiply42_dqi.py'
+      - 'quantum/test_multiply42_dqi.py'
+      - 'quantum/audit_dqi_package.py'
       - 'research/eea_boolean/quotient_probe.py'
+      - 'research/eea_boolean/multiply_probe.py'
+      - 'research/eea_boolean/public42-constants.json'
+      - 'checkpoints/eea-quotient-full-package-20261026.json'
       - 'research/inverse66/formal_probe.py'
       - 'research/inverse66/tower_inverse66_probe.zip'
       - 'quantum/run_wfs_gates.py'
@@ -26,7 +32,7 @@ on:
         default: baseline
         options: [baseline, candidate, smoke, full-package]
       candidate_release:
-        description: 'Optional Release with dqi.kmb; empty builds Forney inverse66 plus EEA quotients'
+        description: 'Optional Release with dqi.kmb; empty also integrates 42-Toffoli EEA multiplication'
         required: false
         type: string
 
@@ -77,15 +83,21 @@ jobs:
           python quantum/inverse66_dqi.py --baseline build/input/submission.zip --sites all --output build/forney-reference
           python quantum/inverse66_dqi.py --output build/forney-reference --parse
 
-      - name: Verify one EEA quotient replacement before widening
+      - name: Rebuild verified EEA quotient comparison circuit
+        if: env.RUN_STAGE != 'baseline' && env.CANDIDATE_RELEASE == ''
+        run: |
+          python quantum/eea_quotient_dqi.py --reference build/forney-reference/dqi.kmb --sites all --output build/eea-reference
+          python quantum/eea_quotient_dqi.py --output build/eea-reference --parse
+
+      - name: Verify one 42-Toffoli multiplication before widening
         id: one
         if: env.RUN_STAGE != 'baseline' && env.CANDIDATE_RELEASE == ''
         env:
           KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
         run: |
-          python quantum/eea_quotient_dqi.py --reference build/forney-reference/dqi.kmb --sites 1 --output build/one-site
-          python quantum/eea_quotient_dqi.py --output build/one-site --parse
-          python quantum/run_wfs_gates.py --stage "$RUN_STAGE" --baseline build/input/submission.zip --candidate build/one-site/dqi.kmb --comparison build/forney-reference/dqi.kmb --out build/report/one-site --fetch-official
+          python quantum/multiply42_dqi.py --reference build/eea-reference/dqi.kmb --sites 1 --output build/one-site
+          python quantum/multiply42_dqi.py --output build/one-site --parse
+          python quantum/run_wfs_gates.py --stage "$RUN_STAGE" --baseline build/input/submission.zip --candidate build/one-site/dqi.kmb --comparison build/eea-reference/dqi.kmb --comparison-checkpoint checkpoints/eea-quotient-full-package-20261026.json --out build/report/one-site --fetch-official
           passed=$(python -c 'import json; print(str(json.load(open("build/report/one-site/stages.json"))["all_requested_gates_passed"]).lower())')
           echo "passed=$passed" >> "$GITHUB_OUTPUT"
 
@@ -112,14 +124,14 @@ jobs:
           if [ -n "$CANDIDATE_RELEASE" ]; then
             gh release download "$CANDIDATE_RELEASE" --repo "$GITHUB_REPOSITORY" --pattern dqi.kmb --dir build/integration
           else
-            python quantum/eea_quotient_dqi.py --reference build/forney-reference/dqi.kmb --sites all --output build/integration
+            python quantum/multiply42_dqi.py --reference build/eea-reference/dqi.kmb --sites all --output build/integration
           fi
           test -s build/integration/dqi.kmb
           echo 'ready=true' >> "$GITHUB_OUTPUT"
 
       - name: Parse entire generated candidate with Kickmix
         if: steps.generated.outputs.ready == 'true' && env.CANDIDATE_RELEASE == ''
-        run: python quantum/eea_quotient_dqi.py --output build/integration --parse
+        run: python quantum/multiply42_dqi.py --output build/integration --parse
 
       - name: Candidate then smoke then full-package (or explicit NOT_RUN)
         if: steps.generated.outputs.ready == 'true'
@@ -128,9 +140,17 @@ jobs:
         run: |
           comparison=()
           if [ -z "$CANDIDATE_RELEASE" ]; then
-            comparison=(--comparison build/forney-reference/dqi.kmb)
+            comparison=(--comparison build/eea-reference/dqi.kmb --comparison-checkpoint checkpoints/eea-quotient-full-package-20261026.json)
           fi
           python quantum/run_wfs_gates.py --stage "$RUN_STAGE" --baseline build/input/submission.zip --candidate build/integration/dqi.kmb "${comparison[@]}" --out build/report --fetch-official
+
+      - name: Audit the produced ZIP and preserve all other v1.0 members
+        if: success() && env.RUN_STAGE == 'full-package' && steps.generated.outputs.ready == 'true'
+        run: |
+          if [ -f build/report/full-package/submission-candidate.zip ]; then
+            candidate_sha=$(python -c 'import json; print(json.load(open("build/report/full-package/report.json"))["full"]["candidate_sha256"])')
+            python quantum/audit_dqi_package.py --baseline build/input/submission.zip --package build/report/full-package/submission-candidate.zip --expected-dqi-sha256 "$candidate_sha" --out build/report/package-audit.json
+          fi
 
       - name: Save reports even when a gate fails
         if: always()
@@ -146,6 +166,7 @@ jobs:
             build/one-site/site-map.json
             build/one-site/formal/*
             build/forney-reference/integration-report.json
+            build/eea-reference/integration-report.json
           if-no-files-found: warn
           retention-days: 30
 
@@ -153,7 +174,7 @@ jobs:
         if: always() && steps.generated.outputs.ready == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: dqi-eea-inverse66-unscored
+          name: dqi-multiply42-unscored
           path: build/integration/dqi.kmb
           if-no-files-found: error
           compression-level: 6

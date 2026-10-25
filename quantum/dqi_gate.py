@@ -6,6 +6,7 @@ from pathlib import Path
 BASE_SHA = "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43"
 MAGIC = bytes.fromhex("d750c7d5c329d326e3cc9f6834f2b8bf")
 NAMES = {*(f"S{i}" for i in range(70)), *(f"E{i}" for i in range(4095))}
+EEA_CHECKPOINT_SHA = "416c70ef2097a07d166b8f9276872a911177694e12fe44cbf4ac23277fa94cb1"
 
 def sha(path):
     h=hashlib.sha256()
@@ -112,6 +113,59 @@ def verify(path,data,shots,salt):
             "verifier_sha256":sha(Path(data)/"verifiers/dqi/verify_submission_dqi.py"),
             "candidate_sha256":sha(path),"source":"published verifier; non-secret local salt"}
 
+def validate_comparison_measurement(report,reference,verifier,verifier_sha):
+    """Check a saved full measurement against actual reference bytes and verifier.
+
+    This is only for an unchanged comparison circuit. Every new candidate still
+    receives a fresh full run. The caller additionally pins the archived evidence.
+    """
+    if report.get("status")!="PASS" or report.get("stage")!="full-package":
+        raise ValueError("comparison measurement is not a passed full-package report")
+    measured=report.get("candidate",{})
+    for key in ("candidate_sha256","candidate_bytes","dqi"):
+        if measured.get(key)!=reference.get(key):
+            raise ValueError(f"comparison reference {key} mismatch")
+    full=report.get("full",{})
+    expected={"status":"PASS","candidate_sha256":reference["candidate_sha256"],
+              "verifier_sha256":verifier_sha,"num_shots":verifier.DEFAULT_NUM_SHOTS,
+              "log2_delta":verifier.DEFAULT_LOG2_DELTA,"seed":20261025,"max_workers":1}
+    if any(full.get(k)!=v for k,v in expected.items()):
+        raise ValueError("comparison measurement hash or verifier configuration mismatch")
+    errors=[full.get(k) for k in ("value_errors","phase_errors")]
+    if any(type(e) is not int or not 0<=e<=full["num_shots"] for e in errors):
+        raise ValueError("invalid comparison error counts")
+    # Match the published verifier's union bound: value plus phase errors.
+    if sum(errors)>full["num_shots"]:
+        raise ValueError("comparison total error count exceeds shot count")
+    bound=verifier.clopper_pearson_upper_bound(sum(errors),full["num_shots"],full["log2_delta"])
+    if not math.isfinite(bound) or not 0<=bound<1/16:
+        raise ValueError("comparison fails official error bound")
+    if not math.isclose(full.get("effective_error_rate",math.nan),bound,rel_tol=1e-12):
+        raise ValueError("comparison error bound mismatch")
+    toffoli=full.get("toffoli_count",math.nan)
+    if not math.isfinite(toffoli) or not 0<toffoli<=reference["dqi"]["3q_ops"]:
+        raise ValueError("invalid comparison Toffoli count")
+    cost=verifier.repetition_overhead(bound)*reference["dqi"]["qubits"]**2*toffoli
+    saved=full.get("cost",math.nan)
+    if not math.isfinite(saved) or saved<=0 or not math.isclose(saved,cost,rel_tol=1e-12):
+        raise ValueError("comparison cost mismatch")
+    return dict(full)
+
+def reuse_comparison_checkpoint(path,reference,data,verifier):
+    if sha(path)!=EEA_CHECKPOINT_SHA:
+        raise ValueError("comparison checkpoint is not the pinned successful EEA evidence")
+    checkpoint=json.loads(Path(path).read_text())
+    if checkpoint["status"]!="PASS" or checkpoint["actions_run_conclusion"]!="success":
+        raise ValueError("comparison checkpoint did not pass")
+    report=checkpoint["all_site_gates"]["gates"]["full-package"]
+    full=validate_comparison_measurement(report,reference,verifier,
+        sha(Path(data)/"verifiers/dqi/verify_submission_dqi.py"))
+    full["source"]="REUSED_VERIFIED_REPORT; unchanged reference was not rerun in this job"
+    full["measurement_actions_run"]=checkpoint["actions_run"]
+    full["measurement_source_commit"]=checkpoint["source_commit"]
+    full["checkpoint_sha256"]=EEA_CHECKPOINT_SHA
+    return full
+
 def pack(baseline_path,candidate_path,dest):
     with zipfile.ZipFile(baseline_path) as src, zipfile.ZipFile(dest,"w",zipfile.ZIP_DEFLATED,compresslevel=6) as dst:
         for info in src.infolist():
@@ -131,12 +185,15 @@ def main():
     p.add_argument("--baseline",required=True)
     p.add_argument("--candidate")
     p.add_argument("--comparison", help="Optional complete previously validated DQI for incremental full comparison")
+    p.add_argument("--comparison-checkpoint", help="Reuse only the pinned EEA comparison measurement; new candidates are always rerun")
     p.add_argument("--data-root")
     p.add_argument("--out",default="build/gated")
     a=p.parse_args()
     out=Path(a.out);out.mkdir(parents=True,exist_ok=True)
     result={"stage":a.stage,"submits_to_kaggle":False,"platform_secret_salt":"unavailable"}
     try:
+        if a.comparison_checkpoint and not a.comparison:
+            raise ValueError("comparison checkpoint requires an explicit complete comparison circuit")
         result["baseline"]=baseline(a.baseline)
         if a.stage!="baseline":
             if not a.candidate or not Path(a.candidate).is_file():
@@ -167,7 +224,10 @@ def main():
                             shutil.copyfileobj(src,f,length=1<<22)
                     reference_key="baseline_full"
                     result["comparison_kind"]="versus v1.0 DQI"
-                result[reference_key]=verify(reference_dqi,a.data_root,v.DEFAULT_NUM_SHOTS,salt)
+                if a.comparison_checkpoint:
+                    result[reference_key]=reuse_comparison_checkpoint(a.comparison_checkpoint,result["comparison"],a.data_root,v)
+                else:
+                    result[reference_key]=verify(reference_dqi,a.data_root,v.DEFAULT_NUM_SHOTS,salt)
                 old=result[reference_key]["cost"]
                 new=result["full"]["cost"]
                 result["local_improvement"]=new<old
