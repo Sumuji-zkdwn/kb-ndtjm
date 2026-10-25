@@ -10,6 +10,7 @@ import hashlib
 import json
 from pathlib import Path
 import struct
+import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -160,7 +161,15 @@ def main():
     middle = builder.finish_circuit()
     middle_text = '\n'.join(line for line in str(middle).splitlines()
                             if not line.startswith(('REGISTER ', 'APPEND_TO_REGISTER ')))
-    components = ROOT / 'research/inverse66'
+    # Generated KMx files are not required to exist in a fresh checkout.
+    # Rebuild them from the tracked, attributed source archive and certify them.
+    components = args.out / 'inverse-components'
+    components.mkdir(parents=True, exist_ok=True)
+    subprocess.run([sys.executable, str(ROOT/'research/inverse66/formal_probe.py'),
+                    '--out', str(components/'formal-report.json')],
+                   check=True, stdout=subprocess.DEVNULL)
+    inverse_report = json.loads((components/'formal-report.json').read_text())
+    assert inverse_report['retained_scaffold']['status'] == 'PASS'
     forward = (components / 'inverse66-forward.kmx').read_text()
     erase = (components / 'inverse66-erase.kmx').read_text()
     clear_bits = '\n'.join(f'BIT_STORE0 b{i}' for i in range(middle.num_bits))
