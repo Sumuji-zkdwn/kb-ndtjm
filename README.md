@@ -7,7 +7,7 @@
 
 元の submission.zip は **GitHub Release v1.0** に保存済みです。
 
-- [Release v1.0 / submission.zip](../../releases/tag/v1.0)
+- [Release v1.0 / submission.zip](https://github.com/Sumuji-zkdwn/kb-ndtjm/releases/tag/v1.0)
 - ZIPサイズ: 73,818,680 bytes
 - SHA-256: 04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43
 - 収録: dqi.kmb / invsqrt.kmb / dfthcsos/...
@@ -17,18 +17,18 @@
 
 ## DQI staged validation (no Kaggle submissions)
 
-[Run DQI staged validation](../../actions/workflows/dqi-gated.yml)
+[Run DQI staged validation](https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/workflows/dqi-gated.yml)
 
 | Stage | Kaggle daily quota? | Action |
 |---|---|---|
 | baseline | 0 | Validate v1.0 SHA, ZIP CRC, 13 files, DQI registers (70 S and 4095 E groups) |
-| candidate | 0 | Generate the complete inverse66 DQI after one-site checks (or use candidate_release), then check its register contract |
+| candidate | 0 | Generate the complete Forney inverse66 + EEA quotient DQI after one-site checks (or use candidate_release), then check its register contract |
 | smoke | 0 | Use published standalone DQI verifier with a batch-aligned budget satisfying its unchanged confidence requirement (currently 1,536 shots) |
-| full-package | 0 | Smoke, full default-shot verifier, compare against baseline with local salt, then package complete candidate ZIP |
+| full-package | 0 | Smoke, full default-shot verifier, compare against the prior validated DQI (or v1.0) with local salt, then package complete candidate ZIP |
 
 Integration pushes run candidate → smoke → full-package in order. If official verifier assets cannot be downloaded, smoke/full-package are recorded as NOT_RUN. Manual stage selection remains available. The workflow has NO Kaggle submission command.
 
-現在の候補は [inverse66統合](research/inverse66/INTEGRATION_JA.md) です。`quantum/inverse66_dqi.py` が元の完全DQIのForney逆元計算と後始末を置換します。1箇所版と4,095箇所版を生成し、どちらもローカルのcandidate・smoke検査を通過しました。Q=1,893を維持し、全箇所版の静的Toffoli数は5,725,461 → 4,705,806です。[Actionsのcandidate → smoke → full-packageが成功しました](../../actions/runs/40200104339)。公開公式verifierのfull検証は候補・基準とも102,400ショット、値・位相の誤り0。実測コストは24,439,472,802,075.414 → 20,087,809,297,947.793（17.805881%低減）です。Kaggle公式採点は未実施です。
+現在の候補はForney inverse66の4,095箇所置換に、EEA商加算の888箇所置換を加えた完全DQIです。Q=1,893と名前付きレジスタ4,165を維持し、静的Toffoli数はv1.0の5,725,461 → Forney版4,705,806 → 今回4,484,694です。[Actions](https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40211102322)で1箇所版、全箇所版の順にcandidate → smoke → full-packageを通過しました。候補・比較回路は各102,400ショット、値・位相の誤り0。公開検証器のコストはForney版20,087,809,297,947.793 → 今回19,143,921,722,159.74（追加4.698808%減、v1.0比の累積21.668025%減）です。前回Forney版の公開スコア1.06759はユーザーからの報告で、今回の公式採点は未実施です。前回スコアからの換算目安は1.08486であり、公式測定値ではありません。
 
 以前の局所WFS位相核1箇所置換は [別の検証記録](quantum/WFS_DQI_INTEGRATION.md) として保持しています。その候補はfull検証の正当性検査を通過しましたが、コスト低減はありませんでした。局所.kmx単体は完全提出物ではありません。
 
@@ -38,7 +38,7 @@ The official leaderboard uses secret salts, while this workflow uses a fixed loc
 
 ## スマホからWFSを検証
 
-1. [Actions: Quantum WFS phase kernel (phone/cloud)](../../actions/workflows/wfs-local.yml) を開く
+1. [Actions: Quantum WFS phase kernel (phone/cloud)](https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/workflows/wfs-local.yml) を開く
 2. Run workflow をタップする（GitHub Mobileアプリまたはブラウザー）
 3. Build and prove local kernel と Parse KMx with Kickmix の実行結果を見る
 4. 成果物 wfs-local-kmx-and-report / wfs-kickmix-parser-report を取得する
@@ -72,13 +72,17 @@ WorkflowはGitHub ActionsクラウドCPU上で動きます。
 - 公開基底 0x10eb: 12 CCZ, 288 conditional CX, 220 CX, 合計520命令
 - 固定非零スケール 0x52: 12 CCZ, 288 conditional CX, 210 CX, 12 SWAP, 合計522命令
 
-**実装済み:** WFS位相核の1箇所置換と、inverse66の1箇所・4,095箇所組み込み。レジスタ・測定マスク対応、局所の厳密ANF証明、範囲外バイナリ保存、完全KMB生成、公開公式verifierのsmoke検証。
-**確認済み:** inverse66全体版の公開公式verifierによるfull検証・実測コスト低減、13ファイルの候補ZIP生成と残り12ファイルの同一性。
-**未確認:** Kaggle公式採点。提出は自動実行しません。
+**実装済み:** WFS位相核の1箇所置換と、inverse66の1箇所・4,095箇所組み込み、EEA商加算の1箇所・888箇所組み込み。レジスタ・測定マスク対応、局所の厳密ANF証明、範囲外バイナリ保存、完全KMB生成、公開公式verifierのsmoke検証。
+**確認済み:** inverse66全体版とEEA商加算全体版の公開公式verifierによるfull検証・実測コスト低減、13ファイルの候補ZIP生成と残り12ファイルの同一性。
+**未確認:** 新しいEEA商加算候補のKaggle公式採点。提出は自動実行しません。
 局所ANF一致やKickmix構文解析を「全体の公式検証合格」とみなさないこと。
 
-Actionsの dqi-inverse66-unscored に完全候補、dqi-checkpoint-full-package に各段階の結果を保存します。
+Actionsの dqi-eea-inverse66-unscored に完全候補、dqi-checkpoint-full-package に各段階の結果を保存します。
 緑のworkflowでも stages.json の all_requested_gates_passed=false、smoke/full-package=NOT_RUN なら公式検証合格ではありません。
 
 
-最終の[統合・full検証・ZIP照合記録](checkpoints/inverse66-full-package-20261025.json)に、検証対象コミット、回路・ZIPのSHA-256、全段階の結果と各ファイルのハッシュを保存しています。
+前回の[統合・full検証・ZIP照合記録](checkpoints/inverse66-full-package-20261025.json)に、検証対象コミット、回路・ZIPのSHA-256、全段階の結果と各ファイルのハッシュを保存しています。
+
+最新の[EEA商加算・full検証・ZIP照合記録](checkpoints/eea-quotient-full-package-20261026.json)に、今回の回路とZIPのハッシュ、1箇所版・全箇所版の結果を保存しています。[次の42-Toffoli乗算候補](research/eea_boolean/README.md)は局所証明と32,408箇所の呼出し監査まで完了し、この提出ZIPには含まれていません。
+
+Actionsの`dqi-candidate-for-human-review`から取得するZIPは外側の成果物アーカイブです。手動提出に使うのは、その中の`submission-candidate.zip`（13ファイル入り）です。今回の配布用の別名`submission-eea-inverse66.zip`も同一バイトのZIPです。
