@@ -1,0 +1,81 @@
+name: Quantum WFS phase kernel (phone/cloud)
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'quantum/**'
+      - '.github/workflows/wfs-local.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  local-proof:
+    name: Build and prove local kernel
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Generate KMx and verify exact phase + restoration
+        run: python quantum/wfs_mobile_ci.py --output build/wfs
+      - name: Compare baseline archive against original manifest
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/baseline
+          gh release download v1.0 --repo "$GITHUB_REPOSITORY" --pattern 'submission.zip' --dir build/baseline
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib, zipfile
+          p = Path("build/baseline/submission.zip")
+          digest = hashlib.sha256(p.read_bytes()).hexdigest()
+          assert digest == "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43"
+          with zipfile.ZipFile(p) as z:
+              names = z.namelist()
+              assert len(names) == 13
+              assert {"dqi.kmb", "invsqrt.kmb", "dfthcsos/submission.npz"} <= set(names)
+          print("Original DQI baseline archive verified. This step does NOT alter it.")
+          PY
+      - name: Save local kernels and report
+        uses: actions/upload-artifact@v4
+        with:
+          name: wfs-local-kmx-and-report
+          path: build/wfs/
+          if-no-files-found: error
+          retention-days: 14
+
+  kickmix-parse:
+    name: Parse KMx with Kickmix
+    needs: local-proof
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          name: wfs-local-kmx-and-report
+          path: build/wfs
+      - name: Install upstream Kickmix C++/Python library
+        run: |
+          git clone --filter=blob:none https://github.com/quantumlib/Qualtran.git qualtran-src
+          cd qualtran-src
+          git checkout 638777fac4379bc62e2a1e4a52cf1a1753895d48
+          cd ..
+          python -m pip install ./qualtran-src/kickmix
+      - name: Parse all local KMx files
+        run: |
+          python quantum/wfs_mobile_ci.py --output build/wfs --parse
+      - name: Save parsed report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: wfs-kickmix-parser-report
+          path: build/wfs/report.json
+          retention-days: 14
