@@ -15,6 +15,25 @@
 以前のZIP分割・復元用の manifest.json と restore.py は互換性のため残していますが、
 **ZIP自体はReleaseにアップロード済みなので分割する必要はありません**。
 
+## DQI staged validation (no Kaggle submissions)
+
+[Run DQI staged validation](../../actions/workflows/dqi-gated.yml)
+
+| Stage | Kaggle daily quota? | Action |
+|---|---|---|
+| baseline | 0 | Validate v1.0 SHA, ZIP CRC, 13 files, DQI registers (70 S and 4095 E groups) |
+| candidate | 0 | Require future candidate_release containing a COMPLETE dqi.kmb and check its register contract |
+| smoke | 0 | Use published standalone DQI verifier on two small batches |
+| full-package | 0 | Smoke, full default-shot verifier, compare against baseline with local salt, then package complete candidate ZIP |
+
+Only baseline runs automatically when the pipeline changes. All other stages are manual. The workflow has NO Kaggle submission command.
+
+The local WFS phase kernel is not a complete DQI submission! WFS-to-DQI register integration must be done before candidate stage can pass.
+
+For smoke/full-package, download the official competition data with a Kaggle token. Create a repository secret named KAGGLE_API_TOKEN in Settings > Secrets and variables > Actions. Never put credentials in source code or logs. Your account must accept competition rules first. GitHub-hosted Linux might not exactly match the official Kaggle container; the official packaged Kickmix binary should be checked for compatibility.
+
+The official leaderboard uses secret salts, while this workflow uses a fixed local salt. Therefore offline PASS is strong evidence but not a guarantee of passing Kaggle scoring. Generated ZIPs are saved as Actions artifacts for explicit user review; a final Kaggle submission must be performed separately by the user.
+
 ## スマホからWFSを検証
 
 1. [Actions: Quantum WFS phase kernel (phone/cloud)](../../actions/workflows/wfs-local.yml) を開く
