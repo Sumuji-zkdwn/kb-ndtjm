@@ -1,0 +1,238 @@
+{
+  "scope": "local multiplier only; complete DQI integration NOT_RUN",
+  "field_polynomial": "0x1053",
+  "tensor": "public42",
+  "bilinear_tensor_terms": 42,
+  "tensor_basis_pairs_checked": 144,
+  "attribution": "Bilinear tensors and tower basis: andigu/uncompute (Apache-2.0)",
+  "archive_sha256": "25c74454ef8c00b44bb42177f491c196743f3dedd24e3ec5f096fbb60e6c19c3",
+  "source_sha256": "69bc4b24364a7ed33af6df0564994eed317297a8b4eeb7603185a9e666f72d7e",
+  "trusted_boundary": "Python finite-field and ANF checker; not Lean checked",
+  "variants": {
+    "xor": {
+      "certificate": {
+        "status": "PASS",
+        "method": "exact Boolean ANF",
+        "input_variables": 36,
+        "independent_measurement_variables": 0,
+        "measurement_branches_represented": "2^0",
+        "arbitrary_xor_target": true,
+        "coherent_control": false,
+        "inputs_restored": true,
+        "quantum_workspace_clean": true,
+        "temporary_classical_bits_clean": true,
+        "residual_phase_monomials": 0
+      },
+      "kickmix_parse": "PASS",
+      "qubits": 36,
+      "static_toffoli": 42,
+      "upstream_qubits": 36,
+      "upstream_static_toffoli": 63,
+      "upstream_certificate": {
+        "status": "PASS",
+        "method": "exact Boolean ANF",
+        "input_variables": 36,
+        "independent_measurement_variables": 0,
+        "measurement_branches_represented": "2^0",
+        "arbitrary_xor_target": true,
+        "coherent_control": false,
+        "inputs_restored": true,
+        "quantum_workspace_clean": true,
+        "temporary_classical_bits_clean": true,
+        "residual_phase_monomials": 0
+      },
+      "op_counts": {
+        "CX": 482,
+        "CCX": 42
+      },
+      "kmx_sha256": "32b9341a5d2096efb2cf6deb69eb44c9828e19699ad2278a10afe93222105557",
+      "negative_control": "REJECTED"
+    },
+    "controlled": {
+      "certificate": {
+        "status": "PASS",
+        "method": "exact Boolean ANF",
+        "input_variables": 37,
+        "independent_measurement_variables": 12,
+        "measurement_branches_represented": "2^12",
+        "arbitrary_xor_target": true,
+        "coherent_control": true,
+        "inputs_restored": true,
+        "quantum_workspace_clean": true,
+        "temporary_classical_bits_clean": true,
+        "residual_phase_monomials": 0
+      },
+      "kickmix_parse": "PASS",
+      "qubits": 49,
+      "static_toffoli": 54,
+      "upstream_qubits": 49,
+      "upstream_static_toffoli": 75,
+      "upstream_certificate": {
+        "status": "PASS",
+        "method": "exact Boolean ANF",
+        "input_variables": 37,
+        "independent_measurement_variables": 12,
+        "measurement_branches_represented": "2^12",
+        "arbitrary_xor_target": true,
+        "coherent_control": true,
+        "inputs_restored": true,
+        "quantum_workspace_clean": true,
+        "temporary_classical_bits_clean": true,
+        "residual_phase_monomials": 0
+      },
+      "op_counts": {
+        "BIT_STORE0": 36,
+        "CX": 482,
+        "CCX": 54,
+        "HMR": 12,
+        "CZ": 144,
+        "BIT_INVERT": 104
+      },
+      "kmx_sha256": "6d14cd0a5c8c436e574c28f9fef2af0967c9825d56031def91e16df76032e383",
+      "negative_control": "REJECTED"
+    }
+  },
+  "complete_DQI": "NOT_RUN",
+  "official_verifier": "NOT_RUN",
+  "kaggle_submission": "NOT_RUN",
+  "linear_schedule": {
+    "method": "greedy invertible input/output frames; exact restoration",
+    "unoptimized_xor_op_counts": {
+      "CX": 1224,
+      "CCX": 42
+    },
+    "unoptimized_xor_certificate": {
+      "status": "PASS",
+      "method": "exact Boolean ANF",
+      "input_variables": 36,
+      "independent_measurement_variables": 0,
+      "measurement_branches_represented": "2^0",
+      "arbitrary_xor_target": true,
+      "coherent_control": false,
+      "inputs_restored": true,
+      "quantum_workspace_clean": true,
+      "temporary_classical_bits_clean": true,
+      "residual_phase_monomials": 0
+    }
+  },
+  "constants_source": {
+    "attribution": "andigu/uncompute; Gu, Kemeny, Yelin and Lukin (2026)",
+    "license": "Apache-2.0",
+    "source_commit": "64b5a13aa249f1360846657392e6c66817b26d0f",
+    "source_url": "https://github.com/andigu/uncompute/blob/64b5a13aa249f1360846657392e6c66817b26d0f/tasks/dqi-reed-solomon/circuits/discovered/constants.json",
+    "source_polynomial": "0x10eb"
+  },
+  "constants_sha256": "21996d995b862619ecc6995b92da4e18aa43fa936d52ac90590f0ffcae9c1ca9",
+  "read_only_DQI_caller_audit": {
+    "status": "PASS",
+    "mode": "read-only; input circuit unchanged",
+    "reference_dqi_sha256": "ea0d6717e7b37fb386a0d99730eebf150c0e78de1cc8547f0727c2f6845a99bc",
+    "matched_sites": 32408,
+    "per_stage": {
+      "forward_eea": 16204,
+      "reverse_eea": 16204
+    },
+    "first_mapping_per_stage": {
+      "forward_eea": {
+        "stage": "forward_eea",
+        "start": 53762,
+        "stop": 54339,
+        "a": [
+          1809,
+          1810,
+          1811,
+          1812,
+          1813,
+          1814,
+          1815,
+          1816,
+          1817,
+          1818,
+          1819,
+          1820
+        ],
+        "b": [
+          828,
+          829,
+          830,
+          831,
+          832,
+          833,
+          834,
+          835,
+          836,
+          837,
+          838,
+          839
+        ],
+        "product": [
+          1871,
+          1870,
+          1869,
+          1868,
+          1867,
+          1866,
+          1865,
+          1864,
+          1863,
+          1862,
+          1861,
+          1860
+        ]
+      },
+      "reverse_eea": {
+        "stage": "reverse_eea",
+        "start": 67488760,
+        "stop": 67489337,
+        "a": [
+          1809,
+          1808,
+          1807,
+          1806,
+          1805,
+          1804,
+          1803,
+          1826,
+          1825,
+          1824,
+          1823,
+          1822
+        ],
+        "b": [
+          840,
+          841,
+          842,
+          843,
+          844,
+          845,
+          846,
+          847,
+          848,
+          849,
+          850,
+          851
+        ],
+        "product": [
+          1832,
+          1833,
+          1834,
+          1835,
+          1836,
+          1837,
+          1838,
+          1839,
+          1840,
+          1841,
+          1842,
+          1843
+        ]
+      }
+    },
+    "all_old_instructions_matched_under_injective_renaming": true,
+    "classical_bits_or_conditions_in_replaced_span": 0,
+    "canonical_mapping_manifest_sha256": "43455766767aa259f41b26074de6ea42d16f15b19ca91ae5b74460dc35fb6371",
+    "static_toffoli_saved_if_integrated": 680568,
+    "full_DQI_generation": "NOT_RUN",
+    "full_DQI_verifier": "NOT_RUN"
+  }
+}
