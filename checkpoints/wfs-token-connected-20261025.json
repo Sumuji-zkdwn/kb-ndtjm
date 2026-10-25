@@ -1,0 +1,110 @@
+{
+  "date_jst": "2026-10-25",
+  "source_commit": "b51e0ea314347dfa03dadcc23f7413d83880eedc",
+  "kaggle_authentication": "PASS",
+  "official_asset_download": "PASS",
+  "official_verifier_source_audit": {
+    "run_id": 40190850203,
+    "url": "https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40190850203",
+    "conclusion": "success"
+  },
+  "previous_smoke": {
+    "run_id": 40188396910,
+    "run_attempt": 2,
+    "num_shots": 512,
+    "value_errors": 0,
+    "phase_errors": 0,
+    "status": "FAIL",
+    "reason": "statistically insufficient shot count at unchanged log2_delta=-128; zero-error upper bound exceeds 1/16"
+  },
+  "confidence_fix": "use official bound to select the minimum admissible batch-aligned budget; 1536 shots",
+  "regression_tests": {
+    "passed": 6,
+    "failed": 0
+  },
+  "local_official_smoke": {
+    "stage": "smoke",
+    "submits_to_kaggle": false,
+    "platform_secret_salt": "unavailable",
+    "baseline": {
+      "archive_sha256": "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43",
+      "members": 13,
+      "angle_count": 10,
+      "dqi": {
+        "qubits": 1893,
+        "bits": 49154,
+        "registers": 4165,
+        "ops": 86051014,
+        "3q_ops": 5725461,
+        "2q_ops": 66446727,
+        "register_contract": "PASS"
+      },
+      "status": "PASS"
+    },
+    "candidate": {
+      "candidate_sha256": "6079f1aeca6cf87a4ffbfa22110104c6fd5e588198c5d0e86f62409d757162ca",
+      "candidate_bytes": 886121285,
+      "dqi": {
+        "qubits": 1893,
+        "bits": 49154,
+        "registers": 4165,
+        "ops": 86051291,
+        "3q_ops": 5725461,
+        "2q_ops": 66447117,
+        "register_contract": "PASS"
+      },
+      "quantum_correctness": "NOT_YET_VERIFIED",
+      "status": "PASS"
+    },
+    "smoke_plan": {
+      "num_shots": 1536,
+      "zero_error_upper_bound": 0.0561256873183065,
+      "log2_delta": -128.0,
+      "error_limit": 0.0625,
+      "confidence_unmodified": true
+    },
+    "smoke": {
+      "status": "PASS",
+      "cost": 535977418361122.0,
+      "num_shots": 1536,
+      "value_errors": 0,
+      "phase_errors": 0,
+      "effective_error_rate": 0.0561256873183065,
+      "log2_delta": -128.0,
+      "seed": 20261025,
+      "max_workers": 1,
+      "toffoli_count": 5725115.484375,
+      "elapsed_seconds": 11.69,
+      "verifier_sha256": "f14274bc0943fb9769ddb01131be6063191a15009fe1caf1d4bdd9fd25194e65",
+      "candidate_sha256": "6079f1aeca6cf87a4ffbfa22110104c6fd5e588198c5d0e86f62409d757162ca",
+      "source": "published verifier; non-secret local salt"
+    },
+    "status": "PASS"
+  },
+  "local_memory_usage": {
+    "exit_code": 0,
+    "max_rss_kib": 6309468
+  },
+  "kickmix_runtime_allocation_patch": {
+    "upstream_commit": "638777fac4379bc62e2a1e4a52cf1a1753895d48",
+    "path": "src/kickmix/circuit/circuit.cc",
+    "change": "ops.reserve(num_ops) before the unchanged reaction_depth loop",
+    "original_sha256": "9bbd58129d8646c5d684c2c6f55bbe73181b0826061ffd41e36a782f55a2d3e4",
+    "patched_sha256": "7ab8743b175ba4460f42709a818b7025607982252f75f9b5ae1610f5d8a7d822",
+    "official_verifier_modified": false,
+    "arithmetic_or_gate_semantics_changed": false
+  },
+  "latest_actions": {
+    "run_id": 40191539618,
+    "url": "https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40191539618",
+    "status_at_checkpoint": "in_progress",
+    "requested_stage": "full-package",
+    "full_package_result": "PENDING"
+  },
+  "full_shots_per_circuit": 102400,
+  "baseline_and_candidate_use_same_explicit_seed": 20261025,
+  "kaggle_submissions": 0,
+  "release_v1_0_modified": false,
+  "score_improvement": "UNCONFIRMED"
+}
+
