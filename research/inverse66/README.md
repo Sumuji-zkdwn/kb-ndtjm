@@ -171,7 +171,27 @@ circuits passed native Kickmix parsing. The one-site circuit passed the **unmodi
 DQI verifier** with 1,536 shots, value_errors=0, phase_errors=0, seed=20261025,
 log2_delta=-128, and effective error upper bound 0.0561256873183065 < 1/16.
 The all-site circuit also passed candidate and 1,536-shot smoke checks with zero value/phase errors.
-Full-package verification is pending at this checkpoint.
+[Actions run 40200104339](https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40200104339)
+completed successfully on source commit `0b69de1a9a44090d8ed1389c7cdaa83dd598a201`.
+Candidate → smoke → full-package all passed. Candidate and baseline both used 102,400
+full shots, seed 20261025, log2_delta=-128, max_workers=1, and the same published verifier
+SHA-256 `f14274bc0943fb9769ddb01131be6063191a15009fe1caf1d4bdd9fd25194e65`.
+Both had value_errors=phase_errors=0 and error upper bound 0.0008660587301657926.
+
+| Full measured quantity | Baseline | All-site inverse66 |
+|---|---:|---:|
+| Q | 1,893 | 1,893 |
+| Mean Toffoli-like per shot | 5,725,110.541582031 | 4,705,704.157382812 |
+| Published-verifier cost | 24,439,472,802,075.414 | 20,087,809,297,947.793 |
+
+Measured cost reduction: **17.805881245351884%**. This is the published-verifier comparison,
+not the unperformed official Kaggle evaluation. The candidate ZIP is 68,388,339 bytes,
+SHA-256 `a40089eebeef3aee605694e8443972839741c31f8e2a25ff6cb429d1f27c1457`.
+An independent audit of the downloaded Actions ZIP checked all 13 member hashes;
+the 12 non-DQI files are byte-identical to v1.0 and dqi.kmb matches the tested candidate hash.
+See [the final checkpoint](../../checkpoints/inverse66-full-package-20261025.json).
+The integration/formal JSON files are pre-gate generation records; the final checkpoint's
+`all_site_gates` contains the subsequent verifier outcomes.
 
 ```bash
 python quantum/inverse66_dqi.py --baseline /path/to/submission.zip --sites 1 --output build/one-site
@@ -191,5 +211,18 @@ Full-package produces the 13-member ZIP only if published-verifier correctness a
 improvement over the unchanged baseline pass. Release v1.0 is preserved. Nothing submits
 to Kaggle. Public-verifier cost is not the secret-salt official Kaggle score.
 
+An additional [caller audit](caller-audit.json) checks all 4,095 actual caller regions:
+589,680 phase operations touch exactly one inverse-output wire each, so the phase is
+linear in that output as required by the certificate. No old inverse temporary measurement
+record is read by the caller before being overwritten. The caller writes neither E mask
+bits nor the outer guard. Reproduce with:
+
+```bash
+python research/inverse66/audit_callers.py /path/to/baseline-dqi.kmb --out caller-audit.json \
+  --candidate /path/to/all-site-dqi.kmb
+```
+
 The older Clifford-phase candidate's full verification remains a separate result.
 
+
+[日本語のレジスタ・マスク・命令形式の記録](INTEGRATION_JA.md)も参照。追加の[メタデータ監査](metadata-audit.json)では、残した2,495,456個のINFO_TAGのバイト一致と、4,095対の外側タグの整合を確認しています。
