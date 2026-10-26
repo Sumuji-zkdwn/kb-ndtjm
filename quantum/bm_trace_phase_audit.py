@@ -7,6 +7,7 @@ from bm_scratch_audit import layout,arr
 from dqi_gate import sha
 
 REFERENCE_SHA='fd645ea4e7e5a2f6b7b2336ef510692f29a4fc6312910f82f975e1106c6d87c9'
+TRACE6_REFERENCE_SHA='b8a3c27335182a8142a271291621f8234b5f3c01d3c46e14ef71f9ac2a9042f8'
 
 
 def intervals(path):
@@ -26,8 +27,8 @@ def intervals(path):
     return h,end,packets,bounds
 
 
-def audit(reference,candidate):
-    assert sha(reference)==REFERENCE_SHA,'wrong verified BM reference'
+def audit(reference,candidate,nested=False):
+    assert sha(reference)==(TRACE6_REFERENCE_SHA if nested else REFERENCE_SHA),'wrong verified BM reference'
     a,ae,ap,ab=intervals(reference);b,be,bp,bb=intervals(candidate)
     assert a[:32]==b[:32],'register/Q/bit contract changed'
     assert ae==be
@@ -47,8 +48,8 @@ def audit(reference,candidate):
                     j=min(i+(1<<20),hi)
                     assert np.array_equal(x[i:j],y[other+i-lo:other+j-lo]),f'outside Forney packet {p} changed'
     old_t=struct.unpack_from('<Q',a,40)[0];new_t=struct.unpack_from('<Q',b,40)[0]
-    assert old_t==756736 and new_t==732166
-    assert ab[2][1]-ab[2][0]==364455 and bb[2][1]-bb[2][0]==339885
+    assert old_t==(732166 if nested else 756736) and new_t==(719881 if nested else 732166)
+    assert ab[2][1]-ab[2][0]==(339885 if nested else 364455) and bb[2][1]-bb[2][0]==(327600 if nested else 339885)
     return {'status':'PASS','reference_sha256':sha(reference),'candidate_sha256':sha(candidate),
         'qubits':struct.unpack_from('<I',b,20)[0],'old_static_Toffoli':old_t,'new_static_Toffoli':new_t,
         'saved_Toffoli':old_t-new_t,'all_BM_and_non_Forney_packets_byte_identical':True,
@@ -57,6 +58,7 @@ def audit(reference,candidate):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--reference',type=Path,required=True)
-    p.add_argument('--candidate',type=Path,required=True);p.add_argument('--out',type=Path,required=True);a=p.parse_args()
-    r=audit(a.reference,a.candidate);a.out.parent.mkdir(parents=True,exist_ok=True)
+    p.add_argument('--candidate',type=Path,required=True);p.add_argument('--out',type=Path,required=True)
+    p.add_argument('--nested',action='store_true',help='Compare the 3-coordinate phase to the verified 6-coordinate phase');a=p.parse_args()
+    r=audit(a.reference,a.candidate,a.nested);a.out.parent.mkdir(parents=True,exist_ok=True)
     a.out.write_text(json.dumps(r,indent=2)+'\n');print(json.dumps(r,indent=2))
