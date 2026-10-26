@@ -1,0 +1,2899 @@
+{
+  "status": "PASS",
+  "source_commit": "332ba2f13ca7ec35e09d9703a7ce4fc5da148436",
+  "base_commit": "cb71b77b207da9201a930083a331985e7fd07719",
+  "actions_run": "https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40254656389",
+  "actions_run_conclusion": "success",
+  "pull_request": "https://github.com/Sumuji-zkdwn/kb-ndtjm/pull/4",
+  "artifacts": [
+    {
+      "id": 12623205318,
+      "name": "dqi-bm-checkpoint-full-package",
+      "size_in_bytes": 17537,
+      "url": "https://api.github.com/repos/Sumuji-zkdwn/kb-ndtjm/actions/artifacts/12623205318",
+      "archive_download_url": "https://api.github.com/repos/Sumuji-zkdwn/kb-ndtjm/actions/artifacts/12623205318/zip",
+      "expired": false,
+      "created_at": "2026-10-26T01:52:51Z",
+      "expires_at": "2026-11-25T01:52:49Z",
+      "updated_at": "2026-10-26T01:52:51Z",
+      "digest": "sha256:885e50c96fd618889b88512ab49ecefcd193ed16b84002fc1cc7e29516477aca",
+      "workflow_run": {
+        "id": 40254656389,
+        "repository_id": 1432765360,
+        "head_repository_id": 1432765360,
+        "head_branch": "wfs/dqi-bm-conservative-20261026",
+        "head_sha": "332ba2f13ca7ec35e09d9703a7ce4fc5da148436"
+      }
+    },
+    {
+      "id": 12623160427,
+      "name": "dqi-bm-candidate-for-human-review",
+      "size_in_bytes": 68935028,
+      "url": "https://api.github.com/repos/Sumuji-zkdwn/kb-ndtjm/actions/artifacts/12623160427",
+      "archive_download_url": "https://api.github.com/repos/Sumuji-zkdwn/kb-ndtjm/actions/artifacts/12623160427/zip",
+      "expired": false,
+      "created_at": "2026-10-26T01:53:06Z",
+      "expires_at": "2026-11-25T01:53:02Z",
+      "updated_at": "2026-10-26T01:53:06Z",
+      "digest": "sha256:e56556b94c133e44f461a7c0ed9044fcb039e0c8e6e56b4100082f380ee04c0d",
+      "workflow_run": {
+        "id": 40254656389,
+        "repository_id": 1432765360,
+        "head_repository_id": 1432765360,
+        "head_branch": "wfs/dqi-bm-conservative-20261026",
+        "head_sha": "332ba2f13ca7ec35e09d9703a7ce4fc5da148436"
+      }
+    },
+    {
+      "id": 12623110607,
+      "name": "dqi-bm-conservative-unscored",
+      "size_in_bytes": 83918334,
+      "url": "https://api.github.com/repos/Sumuji-zkdwn/kb-ndtjm/actions/artifacts/12623110607",
+      "archive_download_url": "https://api.github.com/repos/Sumuji-zkdwn/kb-ndtjm/actions/artifacts/12623110607/zip",
+      "expired": false,
+      "created_at": "2026-10-26T01:53:02Z",
+      "expires_at": "2026-11-25T01:52:51Z",
+      "updated_at": "2026-10-26T01:53:02Z",
+      "digest": "sha256:2ef3b2b4f95454790b44814a08945fd4128ac537684daad2429dd0e38f32079f",
+      "workflow_run": {
+        "id": 40254656389,
+        "repository_id": 1432765360,
+        "head_repository_id": 1432765360,
+        "head_branch": "wfs/dqi-bm-conservative-20261026",
+        "head_sha": "332ba2f13ca7ec35e09d9703a7ce4fc5da148436"
+      }
+    }
+  ],
+  "artifact_download_digests_verified": [
+    "sha256:885e50c96fd618889b88512ab49ecefcd193ed16b84002fc1cc7e29516477aca",
+    "sha256:e56556b94c133e44f461a7c0ed9044fcb039e0c8e6e56b4100082f380ee04c0d"
+  ],
+  "unit_tests_passed": 30,
+  "gates": {
+    "submits_to_kaggle": false,
+    "requested_stage": "full-package",
+    "gates": {
+      "candidate": {
+        "stage": "candidate",
+        "submits_to_kaggle": false,
+        "platform_secret_salt": "unavailable",
+        "baseline": {
+          "archive_sha256": "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43",
+          "members": 13,
+          "angle_count": 10,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49154,
+            "registers": 4165,
+            "ops": 86051014,
+            "3q_ops": 5725461,
+            "2q_ops": 66446727,
+            "register_contract": "PASS"
+          },
+          "status": "PASS"
+        },
+        "candidate": {
+          "candidate_sha256": "107496dc7309eb15f227c80e7ed45b19dddb878b761ec5dc204db5ee812b7857",
+          "candidate_bytes": 817362277,
+          "dqi": {
+            "qubits": 2485,
+            "bits": 49142,
+            "registers": 4165,
+            "ops": 89004135,
+            "3q_ops": 756736,
+            "2q_ops": 87174284,
+            "register_contract": "PASS"
+          },
+          "quantum_correctness": "NOT_YET_VERIFIED",
+          "status": "PASS"
+        },
+        "status": "PASS"
+      },
+      "smoke": {
+        "stage": "smoke",
+        "submits_to_kaggle": false,
+        "platform_secret_salt": "unavailable",
+        "baseline": {
+          "archive_sha256": "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43",
+          "members": 13,
+          "angle_count": 10,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49154,
+            "registers": 4165,
+            "ops": 86051014,
+            "3q_ops": 5725461,
+            "2q_ops": 66446727,
+            "register_contract": "PASS"
+          },
+          "status": "PASS"
+        },
+        "candidate": {
+          "candidate_sha256": "107496dc7309eb15f227c80e7ed45b19dddb878b761ec5dc204db5ee812b7857",
+          "candidate_bytes": 817362277,
+          "dqi": {
+            "qubits": 2485,
+            "bits": 49142,
+            "registers": 4165,
+            "ops": 89004135,
+            "3q_ops": 756736,
+            "2q_ops": 87174284,
+            "register_contract": "PASS"
+          },
+          "quantum_correctness": "NOT_YET_VERIFIED",
+          "status": "PASS"
+        },
+        "smoke_plan": {
+          "num_shots": 1536,
+          "zero_error_upper_bound": 0.0561256873183065,
+          "log2_delta": -128.0,
+          "error_limit": 0.0625,
+          "confidence_unmodified": true
+        },
+        "smoke": {
+          "status": "PASS",
+          "cost": 122083843721229.95,
+          "num_shots": 1536,
+          "batch_size": 256,
+          "value_errors": 0,
+          "phase_errors": 0,
+          "effective_error_rate": 0.0561256873183065,
+          "log2_delta": -128.0,
+          "seed": 20261025,
+          "max_workers": 1,
+          "toffoli_count": 756736.0,
+          "elapsed_seconds": 15.5,
+          "verifier_sha256": "f14274bc0943fb9769ddb01131be6063191a15009fe1caf1d4bdd9fd25194e65",
+          "candidate_sha256": "107496dc7309eb15f227c80e7ed45b19dddb878b761ec5dc204db5ee812b7857",
+          "source": "published verifier; non-secret local salt"
+        },
+        "status": "PASS"
+      },
+      "full-package": {
+        "stage": "full-package",
+        "submits_to_kaggle": false,
+        "platform_secret_salt": "unavailable",
+        "baseline": {
+          "archive_sha256": "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43",
+          "members": 13,
+          "angle_count": 10,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49154,
+            "registers": 4165,
+            "ops": 86051014,
+            "3q_ops": 5725461,
+            "2q_ops": 66446727,
+            "register_contract": "PASS"
+          },
+          "status": "PASS"
+        },
+        "candidate": {
+          "candidate_sha256": "107496dc7309eb15f227c80e7ed45b19dddb878b761ec5dc204db5ee812b7857",
+          "candidate_bytes": 817362277,
+          "dqi": {
+            "qubits": 2485,
+            "bits": 49142,
+            "registers": 4165,
+            "ops": 89004135,
+            "3q_ops": 756736,
+            "2q_ops": 87174284,
+            "register_contract": "PASS"
+          },
+          "quantum_correctness": "NOT_YET_VERIFIED",
+          "status": "PASS"
+        },
+        "smoke_plan": {
+          "num_shots": 1536,
+          "zero_error_upper_bound": 0.0561256873183065,
+          "log2_delta": -128.0,
+          "error_limit": 0.0625,
+          "confidence_unmodified": true
+        },
+        "smoke": {
+          "status": "PASS",
+          "cost": 122083843721229.95,
+          "num_shots": 1536,
+          "batch_size": 256,
+          "value_errors": 0,
+          "phase_errors": 0,
+          "effective_error_rate": 0.0561256873183065,
+          "log2_delta": -128.0,
+          "seed": 20261025,
+          "max_workers": 1,
+          "toffoli_count": 756736.0,
+          "elapsed_seconds": 14.65,
+          "verifier_sha256": "f14274bc0943fb9769ddb01131be6063191a15009fe1caf1d4bdd9fd25194e65",
+          "candidate_sha256": "107496dc7309eb15f227c80e7ed45b19dddb878b761ec5dc204db5ee812b7857",
+          "source": "published verifier; non-secret local salt"
+        },
+        "full": {
+          "status": "PASS",
+          "cost": 5566778099118.187,
+          "num_shots": 102400,
+          "batch_size": 1024,
+          "value_errors": 0,
+          "phase_errors": 0,
+          "effective_error_rate": 0.0008660587301657926,
+          "log2_delta": -128.0,
+          "seed": 20261025,
+          "max_workers": 1,
+          "toffoli_count": 756736.0,
+          "elapsed_seconds": 369.86,
+          "verifier_sha256": "f14274bc0943fb9769ddb01131be6063191a15009fe1caf1d4bdd9fd25194e65",
+          "candidate_sha256": "107496dc7309eb15f227c80e7ed45b19dddb878b761ec5dc204db5ee812b7857",
+          "source": "published verifier; non-secret local salt"
+        },
+        "comparison_kind": "versus v1.0 DQI",
+        "baseline_full": {
+          "status": "PASS",
+          "cost": 24439472260677.176,
+          "num_shots": 102400,
+          "batch_size": 1024,
+          "value_errors": 0,
+          "phase_errors": 0,
+          "effective_error_rate": 0.0008660587301657926,
+          "log2_delta": -128.0,
+          "seed": 20261025,
+          "max_workers": 1,
+          "toffoli_count": 5725110.414755859,
+          "elapsed_seconds": 463.99,
+          "verifier_sha256": "f14274bc0943fb9769ddb01131be6063191a15009fe1caf1d4bdd9fd25194e65",
+          "candidate_sha256": "959471d05a26373b4f14ca0cae2d8639ea25f18170d9f6532139aa51ccc04995",
+          "source": "published verifier; non-secret local salt"
+        },
+        "local_improvement": true,
+        "packaging": {
+          "zip_sha256": "bbe117bc4fc1f62e82caefb4e798b8c025a8b8ad3ab5a8081822c27cbe17e1ee",
+          "zip_bytes": 90026845
+        },
+        "candidate_status": "ready for USER-APPROVED Kaggle submission",
+        "status": "PASS"
+      }
+    },
+    "all_requested_gates_passed": true
+  },
+  "targeted_edges": {
+    "status": "PASS",
+    "scope": "targeted regression, not distributional confidence evidence",
+    "candidate_sha256": "107496dc7309eb15f227c80e7ed45b19dddb878b761ec5dc204db5ee812b7857",
+    "verifier_sha256": "f14274bc0943fb9769ddb01131be6063191a15009fe1caf1d4bdd9fd25194e65",
+    "distinct_error_patterns": 55,
+    "num_shots": 1536,
+    "mask_modes": [
+      "zero",
+      "all bits",
+      "single bit",
+      "random"
+    ],
+    "includes_weight35_subgroup_with_34_zero_syndromes": true,
+    "value_errors": 0,
+    "phase_errors": 0,
+    "seed": 20261026,
+    "elapsed_seconds": 9.370298065000043,
+    "error_patterns": [
+      {},
+      {
+        "0": 1
+      },
+      {
+        "0": 2
+      },
+      {
+        "0": 2048
+      },
+      {
+        "0": 4095
+      },
+      {
+        "1": 1
+      },
+      {
+        "1": 2
+      },
+      {
+        "1": 2048
+      },
+      {
+        "1": 4095
+      },
+      {
+        "2047": 1
+      },
+      {
+        "2047": 2
+      },
+      {
+        "2047": 2048
+      },
+      {
+        "2047": 4095
+      },
+      {
+        "4094": 1
+      },
+      {
+        "4094": 2
+      },
+      {
+        "4094": 2048
+      },
+      {
+        "4094": 4095
+      },
+      {
+        "0": 1,
+        "1365": 1,
+        "2730": 1
+      },
+      {
+        "0": 2048,
+        "1365": 2048,
+        "2730": 2048
+      },
+      {
+        "17": 1,
+        "1382": 1,
+        "2747": 1
+      },
+      {
+        "17": 2048,
+        "1382": 2048,
+        "2747": 2048
+      },
+      {
+        "0": 1,
+        "819": 1,
+        "1638": 1,
+        "2457": 1,
+        "3276": 1
+      },
+      {
+        "0": 2048,
+        "819": 2048,
+        "1638": 2048,
+        "2457": 2048,
+        "3276": 2048
+      },
+      {
+        "17": 1,
+        "836": 1,
+        "1655": 1,
+        "2474": 1,
+        "3293": 1
+      },
+      {
+        "17": 2048,
+        "836": 2048,
+        "1655": 2048,
+        "2474": 2048,
+        "3293": 2048
+      },
+      {
+        "0": 1,
+        "585": 1,
+        "1170": 1,
+        "1755": 1,
+        "2340": 1,
+        "2925": 1,
+        "3510": 1
+      },
+      {
+        "0": 2048,
+        "585": 2048,
+        "1170": 2048,
+        "1755": 2048,
+        "2340": 2048,
+        "2925": 2048,
+        "3510": 2048
+      },
+      {
+        "17": 1,
+        "602": 1,
+        "1187": 1,
+        "1772": 1,
+        "2357": 1,
+        "2942": 1,
+        "3527": 1
+      },
+      {
+        "17": 2048,
+        "602": 2048,
+        "1187": 2048,
+        "1772": 2048,
+        "2357": 2048,
+        "2942": 2048,
+        "3527": 2048
+      },
+      {
+        "0": 1,
+        "455": 1,
+        "910": 1,
+        "1365": 1,
+        "1820": 1,
+        "2275": 1,
+        "2730": 1,
+        "3185": 1,
+        "3640": 1
+      },
+      {
+        "0": 2048,
+        "455": 2048,
+        "910": 2048,
+        "1365": 2048,
+        "1820": 2048,
+        "2275": 2048,
+        "2730": 2048,
+        "3185": 2048,
+        "3640": 2048
+      },
+      {
+        "17": 1,
+        "472": 1,
+        "927": 1,
+        "1382": 1,
+        "1837": 1,
+        "2292": 1,
+        "2747": 1,
+        "3202": 1,
+        "3657": 1
+      },
+      {
+        "17": 2048,
+        "472": 2048,
+        "927": 2048,
+        "1382": 2048,
+        "1837": 2048,
+        "2292": 2048,
+        "2747": 2048,
+        "3202": 2048,
+        "3657": 2048
+      },
+      {
+        "0": 1,
+        "315": 1,
+        "630": 1,
+        "945": 1,
+        "1260": 1,
+        "1575": 1,
+        "1890": 1,
+        "2205": 1,
+        "2520": 1,
+        "2835": 1,
+        "3150": 1,
+        "3465": 1,
+        "3780": 1
+      },
+      {
+        "0": 2048,
+        "315": 2048,
+        "630": 2048,
+        "945": 2048,
+        "1260": 2048,
+        "1575": 2048,
+        "1890": 2048,
+        "2205": 2048,
+        "2520": 2048,
+        "2835": 2048,
+        "3150": 2048,
+        "3465": 2048,
+        "3780": 2048
+      },
+      {
+        "17": 1,
+        "332": 1,
+        "647": 1,
+        "962": 1,
+        "1277": 1,
+        "1592": 1,
+        "1907": 1,
+        "2222": 1,
+        "2537": 1,
+        "2852": 1,
+        "3167": 1,
+        "3482": 1,
+        "3797": 1
+      },
+      {
+        "17": 2048,
+        "332": 2048,
+        "647": 2048,
+        "962": 2048,
+        "1277": 2048,
+        "1592": 2048,
+        "1907": 2048,
+        "2222": 2048,
+        "2537": 2048,
+        "2852": 2048,
+        "3167": 2048,
+        "3482": 2048,
+        "3797": 2048
+      },
+      {
+        "0": 1,
+        "273": 1,
+        "546": 1,
+        "819": 1,
+        "1092": 1,
+        "1365": 1,
+        "1638": 1,
+        "1911": 1,
+        "2184": 1,
+        "2457": 1,
+        "2730": 1,
+        "3003": 1,
+        "3276": 1,
+        "3549": 1,
+        "3822": 1
+      },
+      {
+        "0": 2048,
+        "273": 2048,
+        "546": 2048,
+        "819": 2048,
+        "1092": 2048,
+        "1365": 2048,
+        "1638": 2048,
+        "1911": 2048,
+        "2184": 2048,
+        "2457": 2048,
+        "2730": 2048,
+        "3003": 2048,
+        "3276": 2048,
+        "3549": 2048,
+        "3822": 2048
+      },
+      {
+        "17": 1,
+        "290": 1,
+        "563": 1,
+        "836": 1,
+        "1109": 1,
+        "1382": 1,
+        "1655": 1,
+        "1928": 1,
+        "2201": 1,
+        "2474": 1,
+        "2747": 1,
+        "3020": 1,
+        "3293": 1,
+        "3566": 1,
+        "3839": 1
+      },
+      {
+        "17": 2048,
+        "290": 2048,
+        "563": 2048,
+        "836": 2048,
+        "1109": 2048,
+        "1382": 2048,
+        "1655": 2048,
+        "1928": 2048,
+        "2201": 2048,
+        "2474": 2048,
+        "2747": 2048,
+        "3020": 2048,
+        "3293": 2048,
+        "3566": 2048,
+        "3839": 2048
+      },
+      {
+        "0": 1,
+        "195": 1,
+        "390": 1,
+        "585": 1,
+        "780": 1,
+        "975": 1,
+        "1170": 1,
+        "1365": 1,
+        "1560": 1,
+        "1755": 1,
+        "1950": 1,
+        "2145": 1,
+        "2340": 1,
+        "2535": 1,
+        "2730": 1,
+        "2925": 1,
+        "3120": 1,
+        "3315": 1,
+        "3510": 1,
+        "3705": 1,
+        "3900": 1
+      },
+      {
+        "0": 2048,
+        "195": 2048,
+        "390": 2048,
+        "585": 2048,
+        "780": 2048,
+        "975": 2048,
+        "1170": 2048,
+        "1365": 2048,
+        "1560": 2048,
+        "1755": 2048,
+        "1950": 2048,
+        "2145": 2048,
+        "2340": 2048,
+        "2535": 2048,
+        "2730": 2048,
+        "2925": 2048,
+        "3120": 2048,
+        "3315": 2048,
+        "3510": 2048,
+        "3705": 2048,
+        "3900": 2048
+      },
+      {
+        "17": 1,
+        "212": 1,
+        "407": 1,
+        "602": 1,
+        "797": 1,
+        "992": 1,
+        "1187": 1,
+        "1382": 1,
+        "1577": 1,
+        "1772": 1,
+        "1967": 1,
+        "2162": 1,
+        "2357": 1,
+        "2552": 1,
+        "2747": 1,
+        "2942": 1,
+        "3137": 1,
+        "3332": 1,
+        "3527": 1,
+        "3722": 1,
+        "3917": 1
+      },
+      {
+        "17": 2048,
+        "212": 2048,
+        "407": 2048,
+        "602": 2048,
+        "797": 2048,
+        "992": 2048,
+        "1187": 2048,
+        "1382": 2048,
+        "1577": 2048,
+        "1772": 2048,
+        "1967": 2048,
+        "2162": 2048,
+        "2357": 2048,
+        "2552": 2048,
+        "2747": 2048,
+        "2942": 2048,
+        "3137": 2048,
+        "3332": 2048,
+        "3527": 2048,
+        "3722": 2048,
+        "3917": 2048
+      },
+      {
+        "0": 1,
+        "117": 1,
+        "234": 1,
+        "351": 1,
+        "468": 1,
+        "585": 1,
+        "702": 1,
+        "819": 1,
+        "936": 1,
+        "1053": 1,
+        "1170": 1,
+        "1287": 1,
+        "1404": 1,
+        "1521": 1,
+        "1638": 1,
+        "1755": 1,
+        "1872": 1,
+        "1989": 1,
+        "2106": 1,
+        "2223": 1,
+        "2340": 1,
+        "2457": 1,
+        "2574": 1,
+        "2691": 1,
+        "2808": 1,
+        "2925": 1,
+        "3042": 1,
+        "3159": 1,
+        "3276": 1,
+        "3393": 1,
+        "3510": 1,
+        "3627": 1,
+        "3744": 1,
+        "3861": 1,
+        "3978": 1
+      },
+      {
+        "0": 2048,
+        "117": 2048,
+        "234": 2048,
+        "351": 2048,
+        "468": 2048,
+        "585": 2048,
+        "702": 2048,
+        "819": 2048,
+        "936": 2048,
+        "1053": 2048,
+        "1170": 2048,
+        "1287": 2048,
+        "1404": 2048,
+        "1521": 2048,
+        "1638": 2048,
+        "1755": 2048,
+        "1872": 2048,
+        "1989": 2048,
+        "2106": 2048,
+        "2223": 2048,
+        "2340": 2048,
+        "2457": 2048,
+        "2574": 2048,
+        "2691": 2048,
+        "2808": 2048,
+        "2925": 2048,
+        "3042": 2048,
+        "3159": 2048,
+        "3276": 2048,
+        "3393": 2048,
+        "3510": 2048,
+        "3627": 2048,
+        "3744": 2048,
+        "3861": 2048,
+        "3978": 2048
+      },
+      {
+        "17": 1,
+        "134": 1,
+        "251": 1,
+        "368": 1,
+        "485": 1,
+        "602": 1,
+        "719": 1,
+        "836": 1,
+        "953": 1,
+        "1070": 1,
+        "1187": 1,
+        "1304": 1,
+        "1421": 1,
+        "1538": 1,
+        "1655": 1,
+        "1772": 1,
+        "1889": 1,
+        "2006": 1,
+        "2123": 1,
+        "2240": 1,
+        "2357": 1,
+        "2474": 1,
+        "2591": 1,
+        "2708": 1,
+        "2825": 1,
+        "2942": 1,
+        "3059": 1,
+        "3176": 1,
+        "3293": 1,
+        "3410": 1,
+        "3527": 1,
+        "3644": 1,
+        "3761": 1,
+        "3878": 1,
+        "3995": 1
+      },
+      {
+        "17": 2048,
+        "134": 2048,
+        "251": 2048,
+        "368": 2048,
+        "485": 2048,
+        "602": 2048,
+        "719": 2048,
+        "836": 2048,
+        "953": 2048,
+        "1070": 2048,
+        "1187": 2048,
+        "1304": 2048,
+        "1421": 2048,
+        "1538": 2048,
+        "1655": 2048,
+        "1772": 2048,
+        "1889": 2048,
+        "2006": 2048,
+        "2123": 2048,
+        "2240": 2048,
+        "2357": 2048,
+        "2474": 2048,
+        "2591": 2048,
+        "2708": 2048,
+        "2825": 2048,
+        "2942": 2048,
+        "3059": 2048,
+        "3176": 2048,
+        "3293": 2048,
+        "3410": 2048,
+        "3527": 2048,
+        "3644": 2048,
+        "3761": 2048,
+        "3878": 2048,
+        "3995": 2048
+      },
+      {
+        "0": 1,
+        "1": 2089
+      },
+      {
+        "0": 2048,
+        "1": 1024
+      },
+      {
+        "4": 1,
+        "4094": 32
+      },
+      {
+        "4": 2048,
+        "4094": 1328
+      },
+      {
+        "27": 1,
+        "2091": 1667
+      },
+      {
+        "27": 2048,
+        "2091": 2785
+      }
+    ],
+    "submits_to_kaggle": false
+  },
+  "native_parse": {
+    "status": "PASS",
+    "candidate_sha256": "107496dc7309eb15f227c80e7ed45b19dddb878b761ec5dc204db5ee812b7857",
+    "qubits": 2485,
+    "bits": 49142,
+    "registers": 4165,
+    "scope": "native Kickmix parse of complete KMB; not a correctness proof"
+  },
+  "generation_snapshot": {
+    "scope": "complete DQI conservative BM and variable-mask WFS Forney",
+    "candidate_sha256": "107496dc7309eb15f227c80e7ed45b19dddb878b761ec5dc204db5ee812b7857",
+    "candidate_bytes": 817362277,
+    "qubits": 2485,
+    "peak_live": 2485,
+    "bits": 49142,
+    "static_Toffoli": 756736,
+    "ops": 89004135,
+    "basis_root": 52,
+    "basis_checked_values": 4096,
+    "basis_product_pairs": 144,
+    "BM_coefficient_clipping": false,
+    "stack_cap": 35,
+    "stack_is_complete_DP_bound": true,
+    "fixed_public_mask_used": false,
+    "approximate_Psi_route_used": false,
+    "source_commit": "64b5a13aa249f1360846657392e6c66817b26d0f",
+    "attribution": "andigu/uncompute BM, inverse66 and field tensors (Apache-2.0); adapted to Kaggle variable E masks",
+    "stages": [
+      {
+        "stage": "google_to_public",
+        "ops": 4692,
+        "static_Toffoli": 0
+      },
+      {
+        "stage": "bm/seed",
+        "ops": 4,
+        "static_Toffoli": 0
+      },
+      {
+        "stage": "bm/r00",
+        "ops": 2755,
+        "static_Toffoli": 83
+      },
+      {
+        "stage": "bm/r01",
+        "ops": 30053,
+        "static_Toffoli": 438
+      },
+      {
+        "stage": "bm/r02",
+        "ops": 33016,
+        "static_Toffoli": 564
+      },
+      {
+        "stage": "bm/r03",
+        "ops": 35871,
+        "static_Toffoli": 660
+      },
+      {
+        "stage": "bm/r04",
+        "ops": 38785,
+        "static_Toffoli": 775
+      },
+      {
+        "stage": "bm/r05",
+        "ops": 41640,
+        "static_Toffoli": 871
+      },
+      {
+        "stage": "bm/r06",
+        "ops": 44553,
+        "static_Toffoli": 986
+      },
+      {
+        "stage": "bm/r07",
+        "ops": 47408,
+        "static_Toffoli": 1082
+      },
+      {
+        "stage": "bm/r08",
+        "ops": 50323,
+        "static_Toffoli": 1197
+      },
+      {
+        "stage": "bm/r09",
+        "ops": 53178,
+        "static_Toffoli": 1293
+      },
+      {
+        "stage": "bm/r10",
+        "ops": 56091,
+        "static_Toffoli": 1408
+      },
+      {
+        "stage": "bm/r11",
+        "ops": 58946,
+        "static_Toffoli": 1504
+      },
+      {
+        "stage": "bm/r12",
+        "ops": 61860,
+        "static_Toffoli": 1619
+      },
+      {
+        "stage": "bm/r13",
+        "ops": 64715,
+        "static_Toffoli": 1715
+      },
+      {
+        "stage": "bm/r14",
+        "ops": 67628,
+        "static_Toffoli": 1830
+      },
+      {
+        "stage": "bm/r15",
+        "ops": 70483,
+        "static_Toffoli": 1926
+      },
+      {
+        "stage": "bm/r16",
+        "ops": 73399,
+        "static_Toffoli": 2041
+      },
+      {
+        "stage": "bm/r17",
+        "ops": 76254,
+        "static_Toffoli": 2137
+      },
+      {
+        "stage": "bm/r18",
+        "ops": 79167,
+        "static_Toffoli": 2252
+      },
+      {
+        "stage": "bm/r19",
+        "ops": 82022,
+        "static_Toffoli": 2348
+      },
+      {
+        "stage": "bm/r20",
+        "ops": 84936,
+        "static_Toffoli": 2463
+      },
+      {
+        "stage": "bm/r21",
+        "ops": 87791,
+        "static_Toffoli": 2559
+      },
+      {
+        "stage": "bm/r22",
+        "ops": 90704,
+        "static_Toffoli": 2674
+      },
+      {
+        "stage": "bm/r23",
+        "ops": 93559,
+        "static_Toffoli": 2770
+      },
+      {
+        "stage": "bm/r24",
+        "ops": 96474,
+        "static_Toffoli": 2885
+      },
+      {
+        "stage": "bm/r25",
+        "ops": 99329,
+        "static_Toffoli": 2981
+      },
+      {
+        "stage": "bm/r26",
+        "ops": 102242,
+        "static_Toffoli": 3096
+      },
+      {
+        "stage": "bm/r27",
+        "ops": 105097,
+        "static_Toffoli": 3192
+      },
+      {
+        "stage": "bm/r28",
+        "ops": 108011,
+        "static_Toffoli": 3307
+      },
+      {
+        "stage": "bm/r29",
+        "ops": 110866,
+        "static_Toffoli": 3403
+      },
+      {
+        "stage": "bm/r30",
+        "ops": 113779,
+        "static_Toffoli": 3518
+      },
+      {
+        "stage": "bm/r31",
+        "ops": 116634,
+        "static_Toffoli": 3614
+      },
+      {
+        "stage": "bm/r32",
+        "ops": 119551,
+        "static_Toffoli": 3729
+      },
+      {
+        "stage": "bm/r33",
+        "ops": 122406,
+        "static_Toffoli": 3825
+      },
+      {
+        "stage": "bm/r34",
+        "ops": 125319,
+        "static_Toffoli": 3940
+      },
+      {
+        "stage": "bm/r35",
+        "ops": 126728,
+        "static_Toffoli": 3982
+      },
+      {
+        "stage": "bm/r36",
+        "ops": 126786,
+        "static_Toffoli": 4001
+      },
+      {
+        "stage": "bm/r37",
+        "ops": 126785,
+        "static_Toffoli": 4001
+      },
+      {
+        "stage": "bm/r38",
+        "ops": 126842,
+        "static_Toffoli": 4020
+      },
+      {
+        "stage": "bm/r39",
+        "ops": 126841,
+        "static_Toffoli": 4020
+      },
+      {
+        "stage": "bm/r40",
+        "ops": 126900,
+        "static_Toffoli": 4039
+      },
+      {
+        "stage": "bm/r41",
+        "ops": 126899,
+        "static_Toffoli": 4039
+      },
+      {
+        "stage": "bm/r42",
+        "ops": 126956,
+        "static_Toffoli": 4058
+      },
+      {
+        "stage": "bm/r43",
+        "ops": 126955,
+        "static_Toffoli": 4058
+      },
+      {
+        "stage": "bm/r44",
+        "ops": 127013,
+        "static_Toffoli": 4077
+      },
+      {
+        "stage": "bm/r45",
+        "ops": 127012,
+        "static_Toffoli": 4077
+      },
+      {
+        "stage": "bm/r46",
+        "ops": 127069,
+        "static_Toffoli": 4096
+      },
+      {
+        "stage": "bm/r47",
+        "ops": 127068,
+        "static_Toffoli": 4096
+      },
+      {
+        "stage": "bm/r48",
+        "ops": 127128,
+        "static_Toffoli": 4115
+      },
+      {
+        "stage": "bm/r49",
+        "ops": 127127,
+        "static_Toffoli": 4115
+      },
+      {
+        "stage": "bm/r50",
+        "ops": 127184,
+        "static_Toffoli": 4134
+      },
+      {
+        "stage": "bm/r51",
+        "ops": 127183,
+        "static_Toffoli": 4134
+      },
+      {
+        "stage": "bm/r52",
+        "ops": 127241,
+        "static_Toffoli": 4153
+      },
+      {
+        "stage": "bm/r53",
+        "ops": 127240,
+        "static_Toffoli": 4153
+      },
+      {
+        "stage": "bm/r54",
+        "ops": 127297,
+        "static_Toffoli": 4172
+      },
+      {
+        "stage": "bm/r55",
+        "ops": 127296,
+        "static_Toffoli": 4172
+      },
+      {
+        "stage": "bm/r56",
+        "ops": 127355,
+        "static_Toffoli": 4191
+      },
+      {
+        "stage": "bm/r57",
+        "ops": 127354,
+        "static_Toffoli": 4191
+      },
+      {
+        "stage": "bm/r58",
+        "ops": 127411,
+        "static_Toffoli": 4210
+      },
+      {
+        "stage": "bm/r59",
+        "ops": 127410,
+        "static_Toffoli": 4210
+      },
+      {
+        "stage": "bm/r60",
+        "ops": 127468,
+        "static_Toffoli": 4229
+      },
+      {
+        "stage": "bm/r61",
+        "ops": 127467,
+        "static_Toffoli": 4229
+      },
+      {
+        "stage": "bm/r62",
+        "ops": 127524,
+        "static_Toffoli": 4248
+      },
+      {
+        "stage": "bm/r63",
+        "ops": 127523,
+        "static_Toffoli": 4248
+      },
+      {
+        "stage": "bm/r64",
+        "ops": 127585,
+        "static_Toffoli": 4267
+      },
+      {
+        "stage": "bm/r65",
+        "ops": 127584,
+        "static_Toffoli": 4267
+      },
+      {
+        "stage": "bm/r66",
+        "ops": 127641,
+        "static_Toffoli": 4286
+      },
+      {
+        "stage": "bm/r67",
+        "ops": 127640,
+        "static_Toffoli": 4286
+      },
+      {
+        "stage": "bm/r68",
+        "ops": 127672,
+        "static_Toffoli": 4299
+      },
+      {
+        "stage": "bm/r69",
+        "ops": 108804,
+        "static_Toffoli": 3024
+      },
+      {
+        "stage": "monicize/w0+",
+        "ops": 2548,
+        "static_Toffoli": 66
+      },
+      {
+        "stage": "monicize/zflag+",
+        "ops": 63,
+        "static_Toffoli": 11
+      },
+      {
+        "stage": "monicize/s01",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s02",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s03",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s04",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s05",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s06",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s07",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s08",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s09",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s10",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s11",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s12",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s13",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s14",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s15",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s16",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s17",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s18",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s19",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s20",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s21",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s22",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s23",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s24",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s25",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s26",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s27",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s28",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s29",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s30",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s31",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s32",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s33",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s34",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s35",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/zflag-",
+        "ops": 74,
+        "static_Toffoli": 0
+      },
+      {
+        "stage": "monicize/w0-",
+        "ops": 4904,
+        "static_Toffoli": 36
+      },
+      {
+        "stage": "omega/m00",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m01",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m02",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m03",
+        "ops": 34202,
+        "static_Toffoli": 252
+      },
+      {
+        "stage": "omega/m04",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m05",
+        "ops": 4518,
+        "static_Toffoli": 84
+      },
+      {
+        "stage": "omega/m06",
+        "ops": 89462,
+        "static_Toffoli": 420
+      },
+      {
+        "stage": "omega/m07",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m08",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m09",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m10",
+        "ops": 285478,
+        "static_Toffoli": 756
+      },
+      {
+        "stage": "omega/m11",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m12",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m13",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m14",
+        "ops": 47174,
+        "static_Toffoli": 294
+      },
+      {
+        "stage": "omega/m15",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m16",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m17",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m18",
+        "ops": 1020098,
+        "static_Toffoli": 1428
+      },
+      {
+        "stage": "omega/m19",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m20",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m21",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m22",
+        "ops": 47174,
+        "static_Toffoli": 294
+      },
+      {
+        "stage": "omega/m23",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m24",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m25",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m26",
+        "ops": 206434,
+        "static_Toffoli": 630
+      },
+      {
+        "stage": "omega/m27",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m28",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m29",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m30",
+        "ops": 47174,
+        "static_Toffoli": 294
+      },
+      {
+        "stage": "omega/m31",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m32",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m33",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m34",
+        "ops": 3049812,
+        "static_Toffoli": 2898
+      },
+      {
+        "stage": "omega/m35",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m36",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m37",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m38",
+        "ops": 34202,
+        "static_Toffoli": 252
+      },
+      {
+        "stage": "omega/m39",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m40",
+        "ops": 4518,
+        "static_Toffoli": 84
+      },
+      {
+        "stage": "omega/m41",
+        "ops": 89462,
+        "static_Toffoli": 420
+      },
+      {
+        "stage": "omega/m42",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m43",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m44",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m45",
+        "ops": 285478,
+        "static_Toffoli": 756
+      },
+      {
+        "stage": "omega/m46",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m47",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m48",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m49",
+        "ops": 47174,
+        "static_Toffoli": 294
+      },
+      {
+        "stage": "omega/m50",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m51",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m52",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m53",
+        "ops": 1020098,
+        "static_Toffoli": 1428
+      },
+      {
+        "stage": "omega/m54",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m55",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m56",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m57",
+        "ops": 47174,
+        "static_Toffoli": 294
+      },
+      {
+        "stage": "omega/m58",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m59",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m60",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m61",
+        "ops": 206434,
+        "static_Toffoli": 630
+      },
+      {
+        "stage": "omega/m62",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m63",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m64",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m65",
+        "ops": 47174,
+        "static_Toffoli": 294
+      },
+      {
+        "stage": "omega/m66",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m67",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m68",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "coefficients_to_google",
+        "ops": 3852,
+        "static_Toffoli": 0
+      },
+      {
+        "stage": "variable_mask_forney",
+        "ops": 51412727,
+        "static_Toffoli": 364455
+      },
+      {
+        "stage": "coefficients_to_public",
+        "ops": 4692,
+        "static_Toffoli": 0
+      },
+      {
+        "stage": "omega_restore/m68",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m67",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m66",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m65",
+        "ops": 47174,
+        "static_Toffoli": 294
+      },
+      {
+        "stage": "omega_restore/m64",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m63",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m62",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m61",
+        "ops": 206434,
+        "static_Toffoli": 630
+      },
+      {
+        "stage": "omega_restore/m60",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m59",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m58",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m57",
+        "ops": 47174,
+        "static_Toffoli": 294
+      },
+      {
+        "stage": "omega_restore/m56",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m55",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m54",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m53",
+        "ops": 1020098,
+        "static_Toffoli": 1428
+      },
+      {
+        "stage": "omega_restore/m52",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m51",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m50",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m49",
+        "ops": 47174,
+        "static_Toffoli": 294
+      },
+      {
+        "stage": "omega_restore/m48",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m47",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m46",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m45",
+        "ops": 285478,
+        "static_Toffoli": 756
+      },
+      {
+        "stage": "omega_restore/m44",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m43",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m42",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m41",
+        "ops": 89462,
+        "static_Toffoli": 420
+      },
+      {
+        "stage": "omega_restore/m40",
+        "ops": 4518,
+        "static_Toffoli": 84
+      },
+      {
+        "stage": "omega_restore/m39",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m38",
+        "ops": 34202,
+        "static_Toffoli": 252
+      },
+      {
+        "stage": "omega_restore/m37",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m36",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m35",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m34",
+        "ops": 3049812,
+        "static_Toffoli": 2898
+      },
+      {
+        "stage": "omega_restore/m33",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m32",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m31",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m30",
+        "ops": 47174,
+        "static_Toffoli": 294
+      },
+      {
+        "stage": "omega_restore/m29",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m28",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m27",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m26",
+        "ops": 206434,
+        "static_Toffoli": 630
+      },
+      {
+        "stage": "omega_restore/m25",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m24",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m23",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m22",
+        "ops": 47174,
+        "static_Toffoli": 294
+      },
+      {
+        "stage": "omega_restore/m21",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m20",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m19",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m18",
+        "ops": 1020098,
+        "static_Toffoli": 1428
+      },
+      {
+        "stage": "omega_restore/m17",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m16",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m15",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m14",
+        "ops": 47174,
+        "static_Toffoli": 294
+      },
+      {
+        "stage": "omega_restore/m13",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m12",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m11",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m10",
+        "ops": 285478,
+        "static_Toffoli": 756
+      },
+      {
+        "stage": "omega_restore/m09",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m08",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m07",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m06",
+        "ops": 89462,
+        "static_Toffoli": 420
+      },
+      {
+        "stage": "omega_restore/m05",
+        "ops": 4518,
+        "static_Toffoli": 84
+      },
+      {
+        "stage": "omega_restore/m04",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m03",
+        "ops": 34202,
+        "static_Toffoli": 252
+      },
+      {
+        "stage": "omega_restore/m02",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m01",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m00",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/w0+",
+        "ops": 2548,
+        "static_Toffoli": 66
+      },
+      {
+        "stage": "unmonicize/zflag+",
+        "ops": 63,
+        "static_Toffoli": 11
+      },
+      {
+        "stage": "unmonicize/s35",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s34",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s33",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s32",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s31",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s30",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s29",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s28",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s27",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s26",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s25",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s24",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s23",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s22",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s21",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s20",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s19",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s18",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s17",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s16",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s15",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s14",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s13",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s12",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s11",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s10",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s09",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s08",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s07",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s06",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s05",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s04",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s03",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s02",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s01",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/zflag-",
+        "ops": 74,
+        "static_Toffoli": 0
+      },
+      {
+        "stage": "unmonicize/w0-",
+        "ops": 4904,
+        "static_Toffoli": 36
+      },
+      {
+        "stage": "reverse/r69",
+        "ops": 296088,
+        "static_Toffoli": 1512
+      },
+      {
+        "stage": "reverse/r68",
+        "ops": 312280,
+        "static_Toffoli": 2799
+      },
+      {
+        "stage": "reverse/r67",
+        "ops": 312248,
+        "static_Toffoli": 2786
+      },
+      {
+        "stage": "reverse/r66",
+        "ops": 312249,
+        "static_Toffoli": 2786
+      },
+      {
+        "stage": "reverse/r65",
+        "ops": 312192,
+        "static_Toffoli": 2767
+      },
+      {
+        "stage": "reverse/r64",
+        "ops": 312193,
+        "static_Toffoli": 2767
+      },
+      {
+        "stage": "reverse/r63",
+        "ops": 312131,
+        "static_Toffoli": 2748
+      },
+      {
+        "stage": "reverse/r62",
+        "ops": 312132,
+        "static_Toffoli": 2748
+      },
+      {
+        "stage": "reverse/r61",
+        "ops": 312075,
+        "static_Toffoli": 2729
+      },
+      {
+        "stage": "reverse/r60",
+        "ops": 312076,
+        "static_Toffoli": 2729
+      },
+      {
+        "stage": "reverse/r59",
+        "ops": 312018,
+        "static_Toffoli": 2710
+      },
+      {
+        "stage": "reverse/r58",
+        "ops": 312019,
+        "static_Toffoli": 2710
+      },
+      {
+        "stage": "reverse/r57",
+        "ops": 311962,
+        "static_Toffoli": 2691
+      },
+      {
+        "stage": "reverse/r56",
+        "ops": 311963,
+        "static_Toffoli": 2691
+      },
+      {
+        "stage": "reverse/r55",
+        "ops": 311904,
+        "static_Toffoli": 2672
+      },
+      {
+        "stage": "reverse/r54",
+        "ops": 311905,
+        "static_Toffoli": 2672
+      },
+      {
+        "stage": "reverse/r53",
+        "ops": 311848,
+        "static_Toffoli": 2653
+      },
+      {
+        "stage": "reverse/r52",
+        "ops": 311849,
+        "static_Toffoli": 2653
+      },
+      {
+        "stage": "reverse/r51",
+        "ops": 311791,
+        "static_Toffoli": 2634
+      },
+      {
+        "stage": "reverse/r50",
+        "ops": 311792,
+        "static_Toffoli": 2634
+      },
+      {
+        "stage": "reverse/r49",
+        "ops": 311735,
+        "static_Toffoli": 2615
+      },
+      {
+        "stage": "reverse/r48",
+        "ops": 311736,
+        "static_Toffoli": 2615
+      },
+      {
+        "stage": "reverse/r47",
+        "ops": 311676,
+        "static_Toffoli": 2596
+      },
+      {
+        "stage": "reverse/r46",
+        "ops": 311677,
+        "static_Toffoli": 2596
+      },
+      {
+        "stage": "reverse/r45",
+        "ops": 311620,
+        "static_Toffoli": 2577
+      },
+      {
+        "stage": "reverse/r44",
+        "ops": 311621,
+        "static_Toffoli": 2577
+      },
+      {
+        "stage": "reverse/r43",
+        "ops": 311563,
+        "static_Toffoli": 2558
+      },
+      {
+        "stage": "reverse/r42",
+        "ops": 311564,
+        "static_Toffoli": 2558
+      },
+      {
+        "stage": "reverse/r41",
+        "ops": 311507,
+        "static_Toffoli": 2539
+      },
+      {
+        "stage": "reverse/r40",
+        "ops": 311508,
+        "static_Toffoli": 2539
+      },
+      {
+        "stage": "reverse/r39",
+        "ops": 311449,
+        "static_Toffoli": 2520
+      },
+      {
+        "stage": "reverse/r38",
+        "ops": 311450,
+        "static_Toffoli": 2520
+      },
+      {
+        "stage": "reverse/r37",
+        "ops": 311393,
+        "static_Toffoli": 2501
+      },
+      {
+        "stage": "reverse/r36",
+        "ops": 311394,
+        "static_Toffoli": 2501
+      },
+      {
+        "stage": "reverse/r35",
+        "ops": 311336,
+        "static_Toffoli": 2482
+      },
+      {
+        "stage": "reverse/r34",
+        "ops": 304725,
+        "static_Toffoli": 2482
+      },
+      {
+        "stage": "reverse/r33",
+        "ops": 296610,
+        "static_Toffoli": 2409
+      },
+      {
+        "stage": "reverse/r32",
+        "ops": 288553,
+        "static_Toffoli": 2355
+      },
+      {
+        "stage": "reverse/r31",
+        "ops": 280434,
+        "static_Toffoli": 2282
+      },
+      {
+        "stage": "reverse/r30",
+        "ops": 272377,
+        "static_Toffoli": 2228
+      },
+      {
+        "stage": "reverse/r29",
+        "ops": 264262,
+        "static_Toffoli": 2155
+      },
+      {
+        "stage": "reverse/r28",
+        "ops": 256205,
+        "static_Toffoli": 2101
+      },
+      {
+        "stage": "reverse/r27",
+        "ops": 248089,
+        "static_Toffoli": 2028
+      },
+      {
+        "stage": "reverse/r26",
+        "ops": 240032,
+        "static_Toffoli": 1974
+      },
+      {
+        "stage": "reverse/r25",
+        "ops": 231917,
+        "static_Toffoli": 1901
+      },
+      {
+        "stage": "reverse/r24",
+        "ops": 223860,
+        "static_Toffoli": 1847
+      },
+      {
+        "stage": "reverse/r23",
+        "ops": 215743,
+        "static_Toffoli": 1774
+      },
+      {
+        "stage": "reverse/r22",
+        "ops": 207686,
+        "static_Toffoli": 1720
+      },
+      {
+        "stage": "reverse/r21",
+        "ops": 199571,
+        "static_Toffoli": 1647
+      },
+      {
+        "stage": "reverse/r20",
+        "ops": 191514,
+        "static_Toffoli": 1593
+      },
+      {
+        "stage": "reverse/r19",
+        "ops": 183398,
+        "static_Toffoli": 1520
+      },
+      {
+        "stage": "reverse/r18",
+        "ops": 175341,
+        "static_Toffoli": 1466
+      },
+      {
+        "stage": "reverse/r17",
+        "ops": 167226,
+        "static_Toffoli": 1393
+      },
+      {
+        "stage": "reverse/r16",
+        "ops": 159169,
+        "static_Toffoli": 1339
+      },
+      {
+        "stage": "reverse/r15",
+        "ops": 151051,
+        "static_Toffoli": 1266
+      },
+      {
+        "stage": "reverse/r14",
+        "ops": 142994,
+        "static_Toffoli": 1212
+      },
+      {
+        "stage": "reverse/r13",
+        "ops": 134879,
+        "static_Toffoli": 1139
+      },
+      {
+        "stage": "reverse/r12",
+        "ops": 126822,
+        "static_Toffoli": 1085
+      },
+      {
+        "stage": "reverse/r11",
+        "ops": 118706,
+        "static_Toffoli": 1012
+      },
+      {
+        "stage": "reverse/r10",
+        "ops": 110649,
+        "static_Toffoli": 958
+      },
+      {
+        "stage": "reverse/r09",
+        "ops": 102534,
+        "static_Toffoli": 885
+      },
+      {
+        "stage": "reverse/r08",
+        "ops": 94477,
+        "static_Toffoli": 831
+      },
+      {
+        "stage": "reverse/r07",
+        "ops": 86360,
+        "static_Toffoli": 758
+      },
+      {
+        "stage": "reverse/r06",
+        "ops": 78303,
+        "static_Toffoli": 704
+      },
+      {
+        "stage": "reverse/r05",
+        "ops": 70188,
+        "static_Toffoli": 631
+      },
+      {
+        "stage": "reverse/r04",
+        "ops": 62131,
+        "static_Toffoli": 577
+      },
+      {
+        "stage": "reverse/r03",
+        "ops": 54015,
+        "static_Toffoli": 504
+      },
+      {
+        "stage": "reverse/r02",
+        "ops": 45958,
+        "static_Toffoli": 450
+      },
+      {
+        "stage": "reverse/r01",
+        "ops": 37793,
+        "static_Toffoli": 365
+      },
+      {
+        "stage": "reverse/r00",
+        "ops": 5099,
+        "static_Toffoli": 65
+      },
+      {
+        "stage": "reverse/seed",
+        "ops": 4,
+        "static_Toffoli": 0
+      },
+      {
+        "stage": "public_to_google",
+        "ops": 3852,
+        "static_Toffoli": 0
+      }
+    ],
+    "full_verifier": "NOT_RUN",
+    "kaggle_submission": "NOT_RUN"
+  },
+  "generation_snapshot_note": "full_verifier NOT_RUN is generation-time state; the full-package gate above is the later complete measurement.",
+  "local_and_CI_candidate_sha256_identical": true,
+  "upstream_provenance": {
+    "repository": "andigu/uncompute",
+    "commit": "64b5a13aa249f1360846657392e6c66817b26d0f",
+    "license": "Apache-2.0",
+    "files": [
+      {
+        "local_path": "vendor/circuit.py",
+        "upstream_path": "tasks/dqi-reed-solomon/circuits/discovered/circuit.py",
+        "upstream_git_blob_sha": "56f5f5acf08b71aa2ae14e75259fe12fb18f7bb4",
+        "sha256": "d5f7dd55915e3426ab87ec75da5b76a37123cb996cd750f46ecd74be17a5ec30"
+      },
+      {
+        "local_path": "vendor/README.md",
+        "upstream_path": "tasks/dqi-reed-solomon/circuits/discovered/README.md",
+        "upstream_git_blob_sha": "76f74143068a063dc908b53d58a3e9b636bb89e2",
+        "sha256": "3ac2a30edad07bb01cfd21e5ff474b47e262031fa871e30b31be4e01e1118aa7"
+      },
+      {
+        "local_path": "vendor/constants.json",
+        "upstream_path": "tasks/dqi-reed-solomon/circuits/discovered/constants.json",
+        "upstream_git_blob_sha": "31512e1eaa4f897ca9a69765dc43088487de2337",
+        "sha256": "b5e93915f5636cf084456e2ede7cad3f195ddc869c4a4c9942aa98b8a58cc12e"
+      },
+      {
+        "local_path": "vendor/contract.json",
+        "upstream_path": "tasks/dqi-reed-solomon/contract.json",
+        "upstream_git_blob_sha": "14cc99e324245b12219d8622e04379b915c60717",
+        "sha256": "c2a257b333527bf8dabde3a3d2ec0464f0a3439efac9f1e8d2811659bc3bcf42"
+      },
+      {
+        "local_path": "vendor/LICENSE",
+        "upstream_path": "LICENSE",
+        "upstream_git_blob_sha": "d645695673349e3947e8e5ae42332d0ac3164cd7",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      {
+        "local_path": "LICENSE-APACHE-2.0.txt",
+        "upstream_path": "LICENSE",
+        "upstream_git_blob_sha": "d645695673349e3947e8e5ae42332d0ac3164cd7",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      {
+        "local_path": "uncompute/bennett.py",
+        "upstream_path": "uncompute/bennett.py",
+        "upstream_git_blob_sha": "4349ad6b2848c1ba2af238d1c5583a0541978f79",
+        "sha256": "d82a243a2c183cd7ace211d13804445fcde0ff5213b6908247053035201c8570"
+      },
+      {
+        "local_path": "uncompute/classical.py",
+        "upstream_path": "uncompute/classical.py",
+        "upstream_git_blob_sha": "de8ff81f0de00d4cb89a8dc8dce613a11ce5838c",
+        "sha256": "c05c9e7a84a69e3ad0590b972642dcb30c2c29ca2613a821c82d09d53556ba62"
+      },
+      {
+        "local_path": "uncompute/gadgets/linear.py",
+        "upstream_path": "uncompute/gadgets/linear.py",
+        "upstream_git_blob_sha": "aabd76dfea24a4b707f0aed8c85da7b8a15a8a01",
+        "sha256": "d0b89d494ae63ec28e8bac6f33b344c11aaaab378d0cec81683b1a5743ed25d3"
+      },
+      {
+        "local_path": "uncompute/gadgets/wires.py",
+        "upstream_path": "uncompute/gadgets/wires.py",
+        "upstream_git_blob_sha": "57dba67bbf5ce2ec6876ee61842fb3dc22ef3148",
+        "sha256": "4c0e7a979e884ee1d5c3ef2e74100868348b0dd212212df3ad72c3d60d0f9aa3"
+      }
+    ]
+  },
+  "package_audit": {
+    "status": "PASS",
+    "baseline_zip_sha256": "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43",
+    "zip_sha256": "bbe117bc4fc1f62e82caefb4e798b8c025a8b8ad3ab5a8081822c27cbe17e1ee",
+    "zip_bytes": 90026845,
+    "members": 13,
+    "non_DQI_members_byte_identical": 12,
+    "all_member_CRC_checked_by_complete_stream_reads": true,
+    "member_hashes": {
+      "dfthcsos/angle_k_0.kmb": {
+        "sha256": "7bfb3983accc6ff97d6ab41a88deae924f1d1c97cf30e60879d0bff5688a8e25",
+        "bytes": 1671932,
+        "unchanged_from_v1.0": true
+      },
+      "dfthcsos/angle_k_1.kmb": {
+        "sha256": "a04b6d0d57ce851b123af265066aaab2ab33353ea049d26acd534727466d72b6",
+        "bytes": 1662896,
+        "unchanged_from_v1.0": true
+      },
+      "dfthcsos/angle_k_2.kmb": {
+        "sha256": "5c1b8987bc3fa1a4b8607e470f8c8f1392c22e7a7dbcb228f0ce9ec986e18058",
+        "bytes": 1665821,
+        "unchanged_from_v1.0": true
+      },
+      "dfthcsos/angle_k_3.kmb": {
+        "sha256": "16ac67cdcaf3e2c6abdd98c4138ff1ae8a56cfc4ae15622bcdb3d3a3ba1e22cf",
+        "bytes": 1666802,
+        "unchanged_from_v1.0": true
+      },
+      "dfthcsos/angle_k_4.kmb": {
+        "sha256": "d21cdd4c7e94196654aab15ebcabfe10ce8d343151a5e8dc3672e76684b6628d",
+        "bytes": 1954082,
+        "unchanged_from_v1.0": true
+      },
+      "dfthcsos/angle_k_5.kmb": {
+        "sha256": "63b8d4cba36955e6098321f3b2ef3e34401dd276fa629b2e490d043b1743880b",
+        "bytes": 1948583,
+        "unchanged_from_v1.0": true
+      },
+      "dfthcsos/angle_k_6.kmb": {
+        "sha256": "5bf740428e661d035fda860142578f421969e35e0df2e4e024fbf01a7340b378",
+        "bytes": 1947980,
+        "unchanged_from_v1.0": true
+      },
+      "dfthcsos/angle_k_7.kmb": {
+        "sha256": "606009582111a22bd549b795c8d115ac8bbeb124bc8da24a80380eca6d34163d",
+        "bytes": 1968527,
+        "unchanged_from_v1.0": true
+      },
+      "dfthcsos/angle_k_8.kmb": {
+        "sha256": "57c7cc51f5922fff6e95d76e1f723d4c2d029a241da643b95684d6322157a8fe",
+        "bytes": 1957124,
+        "unchanged_from_v1.0": true
+      },
+      "dfthcsos/angle_k_9.kmb": {
+        "sha256": "22cbe2828988ff954fc07fd971a25e6bc04a02c302bf2cc642e4c3535daaad65",
+        "bytes": 1953830,
+        "unchanged_from_v1.0": true
+      },
+      "dfthcsos/submission.npz": {
+        "sha256": "88722115206ffebe5f79eda60781572e6a6cc182576084c9e1609f2f2587055a",
+        "bytes": 4553036,
+        "unchanged_from_v1.0": true
+      },
+      "invsqrt.kmb": {
+        "sha256": "e2bf8eb64350a4460a271fc7f1d591ef125b1e276377e9a0f64b96ab3ca321e1",
+        "bytes": 579721,
+        "unchanged_from_v1.0": true
+      },
+      "dqi.kmb": {
+        "sha256": "107496dc7309eb15f227c80e7ed45b19dddb878b761ec5dc204db5ee812b7857",
+        "bytes": 817362277,
+        "matches_verified_candidate": true,
+        "register_contract": {
+          "qubits": 2485,
+          "bits": 49142,
+          "registers": 4165,
+          "ops": 89004135,
+          "3q_ops": 756736,
+          "2q_ops": 87174284,
+          "register_contract": "PASS"
+        }
+      }
+    },
+    "submits_to_kaggle": false
+  },
+  "downloaded_package_reaudited": true,
+  "incremental_comparison": {
+    "source_commit": "ae70132dd4ab05d7429220add0f90ba1f1eaafb2",
+    "actions_run": "https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40218581338",
+    "measurement": {
+      "status": "PASS",
+      "cost": 16238698669232.152,
+      "num_shots": 102400,
+      "value_errors": 0,
+      "phase_errors": 0,
+      "effective_error_rate": 0.0008660587301657926,
+      "log2_delta": -128.0,
+      "seed": 20261025,
+      "max_workers": 1,
+      "toffoli_count": 3804024.1573828124,
+      "elapsed_seconds": 571.56,
+      "verifier_sha256": "f14274bc0943fb9769ddb01131be6063191a15009fe1caf1d4bdd9fd25194e65",
+      "candidate_sha256": "252b41714f6147723e44082e4a4f75d84b34b5aa4b23e8c47ce096667caa75e9",
+      "source": "published verifier; non-secret local salt"
+    },
+    "note": "Archived successful 42-multiplier measurement, not rerun here. Same verifier, shot count, confidence and seed; previous batch size was 256, current batch size 1024. v1.0 was freshly rerun at 1024."
+  },
+  "cost_reduction_fraction_vs_best_prior_multiply42": 0.6571906276168735,
+  "cost_reduction_fraction_vs_fresh_v1_0": 0.7722218368816798,
+  "proof_boundary": "Exact local WFS/inverse identities and field isomorphism checks; full BM correctness is not formally proved. Full published-verifier and targeted regression checks are empirical, using non-secret seeds.",
+  "resource_tradeoff": "Q rises 1893 to 2485; static Toffoli-like drops 3804126 to 756736. Clifford operation count and ZIP size can increase. Improvement is to the specified R(eps)*Q^2*T objective.",
+  "kaggle_submission": "NOT_RUN",
+  "kaggle_official_score": "UNMEASURED",
+  "release_v1_0": "UNCHANGED",
+  "previous_candidates_and_PRs": "UNCHANGED"
+}
