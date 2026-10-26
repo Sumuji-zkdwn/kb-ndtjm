@@ -10,6 +10,9 @@ on:
       - 'quantum/eea_quotient_dqi.py'
       - 'quantum/test_eea_quotient_dqi.py'
       - 'quantum/multiply42_dqi.py'
+      - 'quantum/quotient120_dqi.py'
+      - 'quantum/test_quotient120_dqi.py'
+      - 'research/eea_boolean/quotient120_probe.py'
       - 'quantum/test_multiply42_dqi.py'
       - 'quantum/audit_dqi_package.py'
       - 'research/eea_boolean/quotient_probe.py'
@@ -32,7 +35,7 @@ on:
         default: baseline
         options: [baseline, candidate, smoke, full-package]
       candidate_release:
-        description: 'Optional Release with dqi.kmb; empty also integrates 42-Toffoli EEA multiplication'
+        description: 'Optional Release with dqi.kmb; empty upgrades the validated multiply42 DQI with quotient120'
         required: false
         type: string
 
@@ -77,27 +80,31 @@ jobs:
           python quantum/patch_kickmix_memory.py qualtran-src/kickmix
           python -m pip install ./qualtran-src/kickmix
 
-      - name: Rebuild verified Forney inverse66 comparison circuit
+      - name: Fetch and pin the preserved multiply42 comparison artifact
         if: env.RUN_STAGE != 'baseline' && env.CANDIDATE_RELEASE == ''
         run: |
-          python quantum/inverse66_dqi.py --baseline build/input/submission.zip --sites all --output build/forney-reference
-          python quantum/inverse66_dqi.py --output build/forney-reference --parse
+          mkdir -p build/multiply42-reference
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/12608919762/zip" > build/input/multiply42-artifact.zip
+          python - <<'PY'
+          import hashlib, zipfile
+          from pathlib import Path
+          artifact = Path('build/input/multiply42-artifact.zip')
+          assert hashlib.sha256(artifact.read_bytes()).hexdigest() == '3541aab673a106ee45c456108bd249e712679ba8454784fb2d25924302db123b'
+          with zipfile.ZipFile(artifact) as z:
+              assert z.namelist() == ['dqi.kmb']
+              z.extract('dqi.kmb', 'build/multiply42-reference')
+          PY
+          python -c 'import sys; sys.path.insert(0,"quantum"); from dqi_gate import sha; from quotient120_dqi import REFERENCE_SHA; assert sha("build/multiply42-reference/dqi.kmb")==REFERENCE_SHA'
 
-      - name: Rebuild verified EEA quotient comparison circuit
-        if: env.RUN_STAGE != 'baseline' && env.CANDIDATE_RELEASE == ''
-        run: |
-          python quantum/eea_quotient_dqi.py --reference build/forney-reference/dqi.kmb --sites all --output build/eea-reference
-          python quantum/eea_quotient_dqi.py --output build/eea-reference --parse
-
-      - name: Verify one 42-Toffoli multiplication before widening
+      - name: Verify one quotient120 with ALL full-package gates before widening
         id: one
         if: env.RUN_STAGE != 'baseline' && env.CANDIDATE_RELEASE == ''
         env:
           KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
         run: |
-          python quantum/multiply42_dqi.py --reference build/eea-reference/dqi.kmb --sites 1 --output build/one-site
-          python quantum/multiply42_dqi.py --output build/one-site --parse
-          python quantum/run_wfs_gates.py --stage "$RUN_STAGE" --baseline build/input/submission.zip --candidate build/one-site/dqi.kmb --comparison build/eea-reference/dqi.kmb --comparison-checkpoint checkpoints/eea-quotient-full-package-20261026.json --out build/report/one-site --fetch-official
+          python quantum/quotient120_dqi.py --reference build/multiply42-reference/dqi.kmb --sites 1 --output build/one-site
+          python quantum/quotient120_dqi.py --output build/one-site --parse
+          python quantum/run_wfs_gates.py --stage full-package --baseline build/input/submission.zip --candidate build/one-site/dqi.kmb --comparison build/multiply42-reference/dqi.kmb --comparison-checkpoint checkpoints/multiply42-full-package-20261026.json --out build/report/one-site --fetch-official
           passed=$(python -c 'import json; print(str(json.load(open("build/report/one-site/stages.json"))["all_requested_gates_passed"]).lower())')
           echo "passed=$passed" >> "$GITHUB_OUTPUT"
 
@@ -124,14 +131,14 @@ jobs:
           if [ -n "$CANDIDATE_RELEASE" ]; then
             gh release download "$CANDIDATE_RELEASE" --repo "$GITHUB_REPOSITORY" --pattern dqi.kmb --dir build/integration
           else
-            python quantum/multiply42_dqi.py --reference build/eea-reference/dqi.kmb --sites all --output build/integration
+            python quantum/quotient120_dqi.py --reference build/multiply42-reference/dqi.kmb --sites all --output build/integration
           fi
           test -s build/integration/dqi.kmb
           echo 'ready=true' >> "$GITHUB_OUTPUT"
 
       - name: Parse entire generated candidate with Kickmix
         if: steps.generated.outputs.ready == 'true' && env.CANDIDATE_RELEASE == ''
-        run: python quantum/multiply42_dqi.py --output build/integration --parse
+        run: python quantum/quotient120_dqi.py --output build/integration --parse
 
       - name: Candidate then smoke then full-package (or explicit NOT_RUN)
         if: steps.generated.outputs.ready == 'true'
@@ -140,7 +147,7 @@ jobs:
         run: |
           comparison=()
           if [ -z "$CANDIDATE_RELEASE" ]; then
-            comparison=(--comparison build/eea-reference/dqi.kmb --comparison-checkpoint checkpoints/eea-quotient-full-package-20261026.json)
+            comparison=(--comparison build/multiply42-reference/dqi.kmb --comparison-checkpoint checkpoints/multiply42-full-package-20261026.json)
           fi
           python quantum/run_wfs_gates.py --stage "$RUN_STAGE" --baseline build/input/submission.zip --candidate build/integration/dqi.kmb "${comparison[@]}" --out build/report --fetch-official
 
@@ -166,7 +173,7 @@ jobs:
             build/one-site/site-map.json
             build/one-site/formal/*
             build/forney-reference/integration-report.json
-            build/eea-reference/integration-report.json
+            build/multiply42-reference/integration-report.json
           if-no-files-found: warn
           retention-days: 30
 
@@ -174,7 +181,7 @@ jobs:
         if: always() && steps.generated.outputs.ready == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: dqi-multiply42-unscored
+          name: dqi-quotient120-unscored
           path: build/integration/dqi.kmb
           if-no-files-found: error
           compression-level: 6

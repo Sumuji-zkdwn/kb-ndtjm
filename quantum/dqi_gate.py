@@ -7,6 +7,7 @@ BASE_SHA = "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43"
 MAGIC = bytes.fromhex("d750c7d5c329d326e3cc9f6834f2b8bf")
 NAMES = {*(f"S{i}" for i in range(70)), *(f"E{i}" for i in range(4095))}
 EEA_CHECKPOINT_SHA = "416c70ef2097a07d166b8f9276872a911177694e12fe44cbf4ac23277fa94cb1"
+MULTIPLY42_CHECKPOINT_SHA = "7312fd51394bc186eb189f89647c3c8a1198c023513f0cae105b005b9b1eeab6"
 
 def sha(path):
     h=hashlib.sha256()
@@ -152,8 +153,9 @@ def validate_comparison_measurement(report,reference,verifier,verifier_sha):
     return dict(full)
 
 def reuse_comparison_checkpoint(path,reference,data,verifier):
-    if sha(path)!=EEA_CHECKPOINT_SHA:
-        raise ValueError("comparison checkpoint is not the pinned successful EEA evidence")
+    checkpoint_sha=sha(path)
+    if checkpoint_sha not in (EEA_CHECKPOINT_SHA, MULTIPLY42_CHECKPOINT_SHA):
+        raise ValueError("comparison checkpoint is not the pinned successful comparison evidence")
     checkpoint=json.loads(Path(path).read_text())
     if checkpoint["status"]!="PASS" or checkpoint["actions_run_conclusion"]!="success":
         raise ValueError("comparison checkpoint did not pass")
@@ -163,7 +165,7 @@ def reuse_comparison_checkpoint(path,reference,data,verifier):
     full["source"]="REUSED_VERIFIED_REPORT; unchanged reference was not rerun in this job"
     full["measurement_actions_run"]=checkpoint["actions_run"]
     full["measurement_source_commit"]=checkpoint["source_commit"]
-    full["checkpoint_sha256"]=EEA_CHECKPOINT_SHA
+    full["checkpoint_sha256"]=checkpoint_sha
     return full
 
 def pack(baseline_path,candidate_path,dest):
@@ -185,7 +187,7 @@ def main():
     p.add_argument("--baseline",required=True)
     p.add_argument("--candidate")
     p.add_argument("--comparison", help="Optional complete previously validated DQI for incremental full comparison")
-    p.add_argument("--comparison-checkpoint", help="Reuse only the pinned EEA comparison measurement; new candidates are always rerun")
+    p.add_argument("--comparison-checkpoint", help="Reuse only a pinned successful comparison measurement; new candidates are always rerun")
     p.add_argument("--data-root")
     p.add_argument("--out",default="build/gated")
     a=p.parse_args()
