@@ -6,7 +6,7 @@ from pathlib import Path
 from types import SimpleNamespace
 import unittest
 
-from dqi_gate import smoke_shot_count, validate_comparison_measurement, reuse_comparison_checkpoint
+from dqi_gate import smoke_shot_count, validate_comparison_measurement, reuse_comparison_checkpoint, validate_full_batch
 
 
 class SmokeConfidenceTest(unittest.TestCase):
@@ -28,6 +28,12 @@ class SmokeConfidenceTest(unittest.TestCase):
     def test_insufficient_official_budget_is_rejected(self):
         with self.assertRaisesRegex(ValueError,"confidence"):
             smoke_shot_count(self.verifier(maximum=1280))
+
+    def test_full_batch_preserves_exact_official_sample_count(self):
+        validate_full_batch(self.verifier(),1024)
+        for invalid in (0,-1,1536,True):
+            with self.subTest(invalid=invalid),self.assertRaises(ValueError):
+                validate_full_batch(self.verifier(),invalid)
 
 
 class ComparisonEvidenceTest(unittest.TestCase):

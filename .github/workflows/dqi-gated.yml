@@ -2,6 +2,7 @@ name: DQI staged validation (no Kaggle submissions)
 
 on:
   push:
+    branches-ignore: ['wfs/dqi-bm-*']
     paths:
       - '.github/workflows/dqi-gated.yml'
       - 'quantum/dqi_gate.py'

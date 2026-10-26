@@ -30,6 +30,7 @@ def run(args):
             command += ["--comparison", args.comparison]
         if args.comparison_checkpoint:
             command += ["--comparison-checkpoint", args.comparison_checkpoint]
+        command += ["--full-batch-size", str(args.full_batch_size)]
         code = subprocess.run(command).returncode
         report = out/stage/"report.json"
         if report.is_file():
@@ -94,4 +95,5 @@ if __name__ == "__main__":
     p.add_argument("--data-root", default="build/kaggle")
     p.add_argument("--out", default="build/report")
     p.add_argument("--fetch-official", action="store_true")
+    p.add_argument("--full-batch-size",type=int,default=256)
     sys.exit(run(p.parse_args()))
