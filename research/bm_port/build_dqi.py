@@ -5,6 +5,7 @@ Keep all coefficients and the complete DP-bounded reversal stack. Do not use
 the public decoder's measured clipping, fixed masks, or approximate Psi route.
 """
 import argparse
+from contextlib import contextmanager
 import hashlib
 import importlib.util
 import json
@@ -75,7 +76,27 @@ def emit_local(b,ops,mapping,mask=None):
         cond=None if condition is None else (mask[condition] if mask is not None else 49141)
         b.raw(opcodes[gate],qs,bit=bit,cond=cond)
 
-def forney(b,v,sigma,omega,google,formal):
+@contextmanager
+def forney_workspace(b,clean_scratch=()):
+    """Borrow only Em's three clean pivots; keep their held ownership.
+
+    Em.pivot_pair unbuilds sA/sB and Em.fan_pair HMR-erases sT with
+    phase repayment. No Em operation runs inside Forney. Its matched
+    inverse erase, root-tree erase and WFS cleanup return all 81 wires
+    to zero before the held pivots are used again. Never reset a wire.
+    """
+    borrowed=list(clean_scratch)
+    if len(borrowed) not in (0,3) or len(set(borrowed))!=len(borrowed):
+        raise ValueError('expected zero or three distinct clean Em pivots')
+    if any(q not in b.live or b.owners.get(q)!='held' for q in borrowed):
+        raise ValueError('borrowed Em pivots must remain live and held')
+    owned=b.qubits(81-len(borrowed));b.claim('forney',owned)
+    try:
+        yield owned+borrowed
+    finally:
+        b.release_recycle('forney',owned)
+
+def forney(b,v,sigma,omega,google,formal,clean_scratch=()):
     forward=parse((formal/'inverse66-forward.kmx').read_text())
     erase=parse((formal/'inverse66-erase.kmx').read_text())
     kernel=parse('\n'.join(compile_ops(0x1053,1)))
@@ -84,7 +105,10 @@ def forney(b,v,sigma,omega,google,formal):
     square_rows=rows_of(lambda x:google.mul(x,x))
     sqrt_ops,square_ops=linear_schedule(sqrt_rows),linear_schedule(square_rows)
     for x in range(4096):assert google.mul(google.pow(x,2048),google.pow(x,2048))==x
-    work=b.qubits(81);b.claim('forney',work)
+    with forney_workspace(b,clean_scratch) as work:
+        _forney_sweep(b,sigma,omega,google,work,forward,erase,kernel,sqrt_ops,square_ops)
+
+def _forney_sweep(b,sigma,omega,google,work,forward,erase,kernel,sqrt_ops,square_ops):
     sig,den,num=work[:12],work[12:24],work[24:36]
     inv,tree,scratch=work[36:69],work[69:80],work[80]
     mapping=den+inv
@@ -116,16 +140,15 @@ def forney(b,v,sigma,omega,google,formal):
             b.x(sig[0])
             for reg,ops in steps:
                 for op,qs in ops:b.raw(op,[reg[q] for q in qs])
-    b.release_recycle('forney',work)
 
-def build(out,decode_only=False):
+def build(out,decode_only=False,reuse_forney_scratch=True,trace_allocations=False):
     check_provenance()
     out.mkdir(parents=True,exist_ok=True)
     formal=out/'formal';formal.mkdir(exist_ok=True)
     subprocess.run([sys.executable,str(ROOT/'research/inverse66/formal_probe.py'),
                     '--out',str(formal/'inverse-report.json')],check=True,stdout=subprocess.DEVNULL)
     v=load_vendor();google,to_google,to_public,root=basis_maps()
-    b=Builder();syn=[b.qubits(12) for _ in range(70)]
+    b=Builder(trace_allocations=trace_allocations);syn=[b.qubits(12) for _ in range(70)]
     b.claim('syn',[q for r in syn for q in r])
     with b.phase('google_to_public'):
         for reg in syn:linear_in_place(b,reg,to_public)
@@ -141,7 +164,7 @@ def build(out,decode_only=False):
     if not decode_only:
         with b.phase('coefficients_to_google'):
             for reg in sigma[1:]+syn[:35]:linear_in_place(b,reg,to_google)
-        forney(b,v,sigma,syn[:35],google,formal)
+        forney(b,v,sigma,syn[:35],google,formal,held[20:23] if reuse_forney_scratch else ())
         with b.phase('coefficients_to_public'):
             for reg in sigma[1:]+syn[:35]:linear_in_place(b,reg,to_public)
     v.omega_pass(E,mac,'omega_restore',reversed(range(len(mac))))
@@ -157,10 +180,13 @@ def build(out,decode_only=False):
         'ops':len(b.p[1]),'basis_root':root,'basis_checked_values':4096,'basis_product_pairs':144,
         'BM_coefficient_clipping':False,'stack_cap':35,'stack_is_complete_DP_bound':True,
         'fixed_public_mask_used':False,'approximate_Psi_route_used':False,
+        'forney_borrowed_clean_Em_pivots':3 if reuse_forney_scratch and not decode_only else 0,
         'source_commit':'64b5a13aa249f1360846657392e6c66817b26d0f',
         'attribution':'andigu/uncompute BM, inverse66 and field tensors (Apache-2.0); adapted to Kaggle variable E masks',
         'stages':b.stages,'full_verifier':'NOT_RUN','kaggle_submission':'NOT_RUN'}
     (out/'generation.json').write_text(json.dumps(report,indent=2)+'\n')
+    if trace_allocations:
+        (out/'allocations.json').write_text(json.dumps(b.allocation_events,indent=2)+'\n')
     print(json.dumps({k:v for k,v in report.items() if k!='stages'},indent=2))
 
 def parse_complete(out):
@@ -179,7 +205,9 @@ if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--out',type=Path,default=ROOT/'build/bm-conservative')
     p.add_argument('--decode-only',action='store_true')
+    p.add_argument('--no-reuse-forney-scratch',action='store_true',help='Reproduce the verified 2485-qubit allocation')
+    p.add_argument('--trace-allocations',action='store_true',help='Record allocation, ownership and phase boundaries')
     p.add_argument('--parse',action='store_true',help='Parse an existing complete candidate without rebuilding')
     args=p.parse_args()
     if args.parse:parse_complete(args.out)
-    else:build(args.out,args.decode_only)
+    else:build(args.out,args.decode_only,not args.no_reuse_forney_scratch,args.trace_allocations)

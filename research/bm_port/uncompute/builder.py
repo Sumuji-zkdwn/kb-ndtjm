@@ -18,7 +18,7 @@ class Outcome:
     generation: int
 
 class Builder:
-    def __init__(self):
+    def __init__(self,trace_allocations=False):
         self.p = {i: array('B' if i == 1 else 'I') for i in range(1,11)}
         self.tags = []
         self.nq = 0
@@ -29,6 +29,15 @@ class Builder:
         self.generation = 0
         self.peak_live = 0
         self.stages = []
+        self.allocation_events = [] if trace_allocations else None
+        self.phase_stack = []
+
+    def _allocation_event(self,action,qs=(),owner=None):
+        if self.allocation_events is not None:
+            self.allocation_events.append({'action':action,'wires':list(qs),'owner':owner,
+                'phase':list(self.phase_stack),'op_index':len(self.p[1]),
+                'qubits':self.nq,'live':len(self.live),'free':len(self.free),
+                'peak_live':self.peak_live})
 
     def raw(self, op, qs=(), bit=None, cond=None):
         if len(qs) != (op >> 4) & 3 or len(set(qs)) != len(qs):
@@ -74,33 +83,43 @@ class Builder:
             assert q not in self.live
             self.live.add(q);out.append(q)
         self.peak_live=max(self.peak_live,len(self.live))
+        self._allocation_event('allocate',out)
         return out
     def reclaim(self,qs):
         for q in qs:
             if q in self.live or q not in self.free: raise ValueError('reclaim of occupied/nonexistent wire')
             self.free.remove(q);self.live.add(q)
         self.peak_live=max(self.peak_live,len(self.live))
+        self._allocation_event('reclaim',qs)
     def claim(self,name,qs):
         for q in qs:
             if q not in self.live or q in self.owners: raise ValueError('ownership conflict')
             self.owners[q]=name
+        self._allocation_event('claim',qs,name)
     def release(self,name,qs):
         for q in qs:
             if self.owners.pop(q,None)!=name: raise ValueError('ownership release mismatch')
+        self._allocation_event('release',qs,name)
     def recycle_all(self,qs):
+        qs=list(qs)
         for q in qs:
             if q not in self.live or q in self.owners: raise ValueError('recycle of owned/free wire')
             self.live.remove(q);self.free.append(q)
+        self._allocation_event('recycle',qs)
     def release_recycle(self,name,qs):
         self.release(name,qs);self.recycle_all(reversed(qs))
     @contextmanager
     def phase(self,name):
         start=(len(self.p[1]),len(self.p[2]))
+        self.phase_stack.append(name)
+        self._allocation_event('phase_enter')
         self.tag('@enter:'+name)
         yield
         self.tag('@exit:'+name)
         self.stages.append({'stage':name,'ops':len(self.p[1])-start[0],
                             'static_Toffoli':len(self.p[2])-start[1]})
+        self._allocation_event('phase_exit')
+        self.phase_stack.pop()
     def tag(self,text):
         self.p[1].append(6);self.tags.append(text.encode())
     def write(self,path):
