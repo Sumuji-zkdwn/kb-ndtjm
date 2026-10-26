@@ -7,6 +7,7 @@ BASE_SHA = "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43"
 MAGIC = bytes.fromhex("d750c7d5c329d326e3cc9f6834f2b8bf")
 NAMES = {*(f"S{i}" for i in range(70)), *(f"E{i}" for i in range(4095))}
 EEA_CHECKPOINT_SHA = "416c70ef2097a07d166b8f9276872a911177694e12fe44cbf4ac23277fa94cb1"
+BM_SCRATCH3_CHECKPOINT_SHA = "9a7036ef69e46788ab20542e0a22dc21f54ba9ee4c99d2e7b03f4bd28f65bda5"
 
 def sha(path):
     h=hashlib.sha256()
@@ -153,18 +154,20 @@ def validate_comparison_measurement(report,reference,verifier,verifier_sha):
     return dict(full)
 
 def reuse_comparison_checkpoint(path,reference,data,verifier):
-    if sha(path)!=EEA_CHECKPOINT_SHA:
-        raise ValueError("comparison checkpoint is not the pinned successful EEA evidence")
+    digest=sha(path)
+    if digest not in (EEA_CHECKPOINT_SHA,BM_SCRATCH3_CHECKPOINT_SHA):
+        raise ValueError("comparison checkpoint is not pinned successful evidence")
     checkpoint=json.loads(Path(path).read_text())
     if checkpoint["status"]!="PASS" or checkpoint["actions_run_conclusion"]!="success":
         raise ValueError("comparison checkpoint did not pass")
-    report=checkpoint["all_site_gates"]["gates"]["full-package"]
+    report=(checkpoint["all_site_gates"]["gates"]["full-package"] if digest==EEA_CHECKPOINT_SHA
+            else checkpoint["gates"]["full-package"])
     full=validate_comparison_measurement(report,reference,verifier,
         sha(Path(data)/"verifiers/dqi/verify_submission_dqi.py"))
     full["source"]="REUSED_VERIFIED_REPORT; unchanged reference was not rerun in this job"
     full["measurement_actions_run"]=checkpoint["actions_run"]
     full["measurement_source_commit"]=checkpoint["source_commit"]
-    full["checkpoint_sha256"]=EEA_CHECKPOINT_SHA
+    full["checkpoint_sha256"]=digest
     return full
 
 def pack(baseline_path,candidate_path,dest):
@@ -201,8 +204,11 @@ def main():
     try:
         if a.comparison_checkpoint and not a.comparison:
             raise ValueError("comparison checkpoint requires an explicit complete comparison circuit")
-        if a.comparison_checkpoint and a.full_batch_size!=256:
-            raise ValueError("pinned comparison evidence uses batch size 256")
+        if a.comparison_checkpoint:
+            digest=sha(a.comparison_checkpoint)
+            expected_batch={EEA_CHECKPOINT_SHA:256,BM_SCRATCH3_CHECKPOINT_SHA:1024}.get(digest)
+            if expected_batch is None or a.full_batch_size!=expected_batch:
+                raise ValueError("comparison evidence is unpinned or its batch size differs")
         result["baseline"]=baseline(a.baseline)
         if a.stage!="baseline":
             if not a.candidate or not Path(a.candidate).is_file():
