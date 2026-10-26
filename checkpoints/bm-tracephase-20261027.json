@@ -1,0 +1,2342 @@
+{
+  "status": "LOCAL_PASS_PUBLIC_VERIFIER_PENDING",
+  "source_commit": "0b747a9eb18f351c2b88e7126e665611ad0786f6",
+  "base_commit": "80fc6e5b2e6e7ec3f95fe54a0bcac7fe470c7f59",
+  "pull_request": "https://github.com/Sumuji-zkdwn/kb-ndtjm/pull/6",
+  "actions_run": "https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40396549680",
+  "unit_tests_passed": 36,
+  "generation_snapshot": {
+    "scope": "complete DQI conservative BM and variable-mask WFS Forney",
+    "candidate_sha256": "b8a3c27335182a8142a271291621f8234b5f3c01d3c46e14ef71f9ac2a9042f8",
+    "candidate_bytes": 857042827,
+    "qubits": 2482,
+    "peak_live": 2482,
+    "bits": 49142,
+    "static_Toffoli": 732166,
+    "ops": 91240005,
+    "basis_root": 52,
+    "basis_checked_values": 4096,
+    "basis_product_pairs": 144,
+    "BM_coefficient_clipping": false,
+    "stack_cap": 35,
+    "stack_is_complete_DP_bound": true,
+    "fixed_public_mask_used": false,
+    "approximate_Psi_route_used": false,
+    "forney_borrowed_clean_Em_pivots": 3,
+    "forney_phase_method": "relative_trace_6",
+    "source_commit": "64b5a13aa249f1360846657392e6c66817b26d0f",
+    "attribution": "andigu/uncompute BM, inverse66 and field tensors (Apache-2.0); adapted to Kaggle variable E masks",
+    "stages": [
+      {
+        "stage": "google_to_public",
+        "ops": 4692,
+        "static_Toffoli": 0
+      },
+      {
+        "stage": "bm/seed",
+        "ops": 4,
+        "static_Toffoli": 0
+      },
+      {
+        "stage": "bm/r00",
+        "ops": 2755,
+        "static_Toffoli": 83
+      },
+      {
+        "stage": "bm/r01",
+        "ops": 30053,
+        "static_Toffoli": 438
+      },
+      {
+        "stage": "bm/r02",
+        "ops": 33016,
+        "static_Toffoli": 564
+      },
+      {
+        "stage": "bm/r03",
+        "ops": 35871,
+        "static_Toffoli": 660
+      },
+      {
+        "stage": "bm/r04",
+        "ops": 38785,
+        "static_Toffoli": 775
+      },
+      {
+        "stage": "bm/r05",
+        "ops": 41640,
+        "static_Toffoli": 871
+      },
+      {
+        "stage": "bm/r06",
+        "ops": 44553,
+        "static_Toffoli": 986
+      },
+      {
+        "stage": "bm/r07",
+        "ops": 47408,
+        "static_Toffoli": 1082
+      },
+      {
+        "stage": "bm/r08",
+        "ops": 50323,
+        "static_Toffoli": 1197
+      },
+      {
+        "stage": "bm/r09",
+        "ops": 53178,
+        "static_Toffoli": 1293
+      },
+      {
+        "stage": "bm/r10",
+        "ops": 56091,
+        "static_Toffoli": 1408
+      },
+      {
+        "stage": "bm/r11",
+        "ops": 58946,
+        "static_Toffoli": 1504
+      },
+      {
+        "stage": "bm/r12",
+        "ops": 61860,
+        "static_Toffoli": 1619
+      },
+      {
+        "stage": "bm/r13",
+        "ops": 64715,
+        "static_Toffoli": 1715
+      },
+      {
+        "stage": "bm/r14",
+        "ops": 67628,
+        "static_Toffoli": 1830
+      },
+      {
+        "stage": "bm/r15",
+        "ops": 70483,
+        "static_Toffoli": 1926
+      },
+      {
+        "stage": "bm/r16",
+        "ops": 73399,
+        "static_Toffoli": 2041
+      },
+      {
+        "stage": "bm/r17",
+        "ops": 76254,
+        "static_Toffoli": 2137
+      },
+      {
+        "stage": "bm/r18",
+        "ops": 79167,
+        "static_Toffoli": 2252
+      },
+      {
+        "stage": "bm/r19",
+        "ops": 82022,
+        "static_Toffoli": 2348
+      },
+      {
+        "stage": "bm/r20",
+        "ops": 84936,
+        "static_Toffoli": 2463
+      },
+      {
+        "stage": "bm/r21",
+        "ops": 87791,
+        "static_Toffoli": 2559
+      },
+      {
+        "stage": "bm/r22",
+        "ops": 90704,
+        "static_Toffoli": 2674
+      },
+      {
+        "stage": "bm/r23",
+        "ops": 93559,
+        "static_Toffoli": 2770
+      },
+      {
+        "stage": "bm/r24",
+        "ops": 96474,
+        "static_Toffoli": 2885
+      },
+      {
+        "stage": "bm/r25",
+        "ops": 99329,
+        "static_Toffoli": 2981
+      },
+      {
+        "stage": "bm/r26",
+        "ops": 102242,
+        "static_Toffoli": 3096
+      },
+      {
+        "stage": "bm/r27",
+        "ops": 105097,
+        "static_Toffoli": 3192
+      },
+      {
+        "stage": "bm/r28",
+        "ops": 108011,
+        "static_Toffoli": 3307
+      },
+      {
+        "stage": "bm/r29",
+        "ops": 110866,
+        "static_Toffoli": 3403
+      },
+      {
+        "stage": "bm/r30",
+        "ops": 113779,
+        "static_Toffoli": 3518
+      },
+      {
+        "stage": "bm/r31",
+        "ops": 116634,
+        "static_Toffoli": 3614
+      },
+      {
+        "stage": "bm/r32",
+        "ops": 119551,
+        "static_Toffoli": 3729
+      },
+      {
+        "stage": "bm/r33",
+        "ops": 122406,
+        "static_Toffoli": 3825
+      },
+      {
+        "stage": "bm/r34",
+        "ops": 125319,
+        "static_Toffoli": 3940
+      },
+      {
+        "stage": "bm/r35",
+        "ops": 126728,
+        "static_Toffoli": 3982
+      },
+      {
+        "stage": "bm/r36",
+        "ops": 126786,
+        "static_Toffoli": 4001
+      },
+      {
+        "stage": "bm/r37",
+        "ops": 126785,
+        "static_Toffoli": 4001
+      },
+      {
+        "stage": "bm/r38",
+        "ops": 126842,
+        "static_Toffoli": 4020
+      },
+      {
+        "stage": "bm/r39",
+        "ops": 126841,
+        "static_Toffoli": 4020
+      },
+      {
+        "stage": "bm/r40",
+        "ops": 126900,
+        "static_Toffoli": 4039
+      },
+      {
+        "stage": "bm/r41",
+        "ops": 126899,
+        "static_Toffoli": 4039
+      },
+      {
+        "stage": "bm/r42",
+        "ops": 126956,
+        "static_Toffoli": 4058
+      },
+      {
+        "stage": "bm/r43",
+        "ops": 126955,
+        "static_Toffoli": 4058
+      },
+      {
+        "stage": "bm/r44",
+        "ops": 127013,
+        "static_Toffoli": 4077
+      },
+      {
+        "stage": "bm/r45",
+        "ops": 127012,
+        "static_Toffoli": 4077
+      },
+      {
+        "stage": "bm/r46",
+        "ops": 127069,
+        "static_Toffoli": 4096
+      },
+      {
+        "stage": "bm/r47",
+        "ops": 127068,
+        "static_Toffoli": 4096
+      },
+      {
+        "stage": "bm/r48",
+        "ops": 127128,
+        "static_Toffoli": 4115
+      },
+      {
+        "stage": "bm/r49",
+        "ops": 127127,
+        "static_Toffoli": 4115
+      },
+      {
+        "stage": "bm/r50",
+        "ops": 127184,
+        "static_Toffoli": 4134
+      },
+      {
+        "stage": "bm/r51",
+        "ops": 127183,
+        "static_Toffoli": 4134
+      },
+      {
+        "stage": "bm/r52",
+        "ops": 127241,
+        "static_Toffoli": 4153
+      },
+      {
+        "stage": "bm/r53",
+        "ops": 127240,
+        "static_Toffoli": 4153
+      },
+      {
+        "stage": "bm/r54",
+        "ops": 127297,
+        "static_Toffoli": 4172
+      },
+      {
+        "stage": "bm/r55",
+        "ops": 127296,
+        "static_Toffoli": 4172
+      },
+      {
+        "stage": "bm/r56",
+        "ops": 127355,
+        "static_Toffoli": 4191
+      },
+      {
+        "stage": "bm/r57",
+        "ops": 127354,
+        "static_Toffoli": 4191
+      },
+      {
+        "stage": "bm/r58",
+        "ops": 127411,
+        "static_Toffoli": 4210
+      },
+      {
+        "stage": "bm/r59",
+        "ops": 127410,
+        "static_Toffoli": 4210
+      },
+      {
+        "stage": "bm/r60",
+        "ops": 127468,
+        "static_Toffoli": 4229
+      },
+      {
+        "stage": "bm/r61",
+        "ops": 127467,
+        "static_Toffoli": 4229
+      },
+      {
+        "stage": "bm/r62",
+        "ops": 127524,
+        "static_Toffoli": 4248
+      },
+      {
+        "stage": "bm/r63",
+        "ops": 127523,
+        "static_Toffoli": 4248
+      },
+      {
+        "stage": "bm/r64",
+        "ops": 127585,
+        "static_Toffoli": 4267
+      },
+      {
+        "stage": "bm/r65",
+        "ops": 127584,
+        "static_Toffoli": 4267
+      },
+      {
+        "stage": "bm/r66",
+        "ops": 127641,
+        "static_Toffoli": 4286
+      },
+      {
+        "stage": "bm/r67",
+        "ops": 127640,
+        "static_Toffoli": 4286
+      },
+      {
+        "stage": "bm/r68",
+        "ops": 127672,
+        "static_Toffoli": 4299
+      },
+      {
+        "stage": "bm/r69",
+        "ops": 108804,
+        "static_Toffoli": 3024
+      },
+      {
+        "stage": "monicize/w0+",
+        "ops": 2548,
+        "static_Toffoli": 66
+      },
+      {
+        "stage": "monicize/zflag+",
+        "ops": 63,
+        "static_Toffoli": 11
+      },
+      {
+        "stage": "monicize/s01",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s02",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s03",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s04",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s05",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s06",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s07",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s08",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s09",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s10",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s11",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s12",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s13",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s14",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s15",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s16",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s17",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s18",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s19",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s20",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s21",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s22",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s23",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s24",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s25",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s26",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s27",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s28",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s29",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s30",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s31",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s32",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s33",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s34",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/s35",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "monicize/zflag-",
+        "ops": 74,
+        "static_Toffoli": 0
+      },
+      {
+        "stage": "monicize/w0-",
+        "ops": 4904,
+        "static_Toffoli": 36
+      },
+      {
+        "stage": "omega/m00",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m01",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m02",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m03",
+        "ops": 34202,
+        "static_Toffoli": 252
+      },
+      {
+        "stage": "omega/m04",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m05",
+        "ops": 4518,
+        "static_Toffoli": 84
+      },
+      {
+        "stage": "omega/m06",
+        "ops": 89462,
+        "static_Toffoli": 420
+      },
+      {
+        "stage": "omega/m07",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m08",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m09",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m10",
+        "ops": 285478,
+        "static_Toffoli": 756
+      },
+      {
+        "stage": "omega/m11",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m12",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m13",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m14",
+        "ops": 47174,
+        "static_Toffoli": 294
+      },
+      {
+        "stage": "omega/m15",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m16",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m17",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m18",
+        "ops": 1020098,
+        "static_Toffoli": 1428
+      },
+      {
+        "stage": "omega/m19",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m20",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m21",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m22",
+        "ops": 47174,
+        "static_Toffoli": 294
+      },
+      {
+        "stage": "omega/m23",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m24",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m25",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m26",
+        "ops": 206434,
+        "static_Toffoli": 630
+      },
+      {
+        "stage": "omega/m27",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m28",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m29",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m30",
+        "ops": 47174,
+        "static_Toffoli": 294
+      },
+      {
+        "stage": "omega/m31",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m32",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m33",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m34",
+        "ops": 3049812,
+        "static_Toffoli": 2898
+      },
+      {
+        "stage": "omega/m35",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m36",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m37",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m38",
+        "ops": 34202,
+        "static_Toffoli": 252
+      },
+      {
+        "stage": "omega/m39",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m40",
+        "ops": 4518,
+        "static_Toffoli": 84
+      },
+      {
+        "stage": "omega/m41",
+        "ops": 89462,
+        "static_Toffoli": 420
+      },
+      {
+        "stage": "omega/m42",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m43",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m44",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m45",
+        "ops": 285478,
+        "static_Toffoli": 756
+      },
+      {
+        "stage": "omega/m46",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m47",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m48",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m49",
+        "ops": 47174,
+        "static_Toffoli": 294
+      },
+      {
+        "stage": "omega/m50",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m51",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m52",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m53",
+        "ops": 1020098,
+        "static_Toffoli": 1428
+      },
+      {
+        "stage": "omega/m54",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m55",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m56",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m57",
+        "ops": 47174,
+        "static_Toffoli": 294
+      },
+      {
+        "stage": "omega/m58",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m59",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m60",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m61",
+        "ops": 206434,
+        "static_Toffoli": 630
+      },
+      {
+        "stage": "omega/m62",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m63",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m64",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m65",
+        "ops": 47174,
+        "static_Toffoli": 294
+      },
+      {
+        "stage": "omega/m66",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega/m67",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega/m68",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "coefficients_to_google",
+        "ops": 3852,
+        "static_Toffoli": 0
+      },
+      {
+        "stage": "variable_mask_forney",
+        "ops": 53648597,
+        "static_Toffoli": 339885
+      },
+      {
+        "stage": "coefficients_to_public",
+        "ops": 4692,
+        "static_Toffoli": 0
+      },
+      {
+        "stage": "omega_restore/m68",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m67",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m66",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m65",
+        "ops": 47174,
+        "static_Toffoli": 294
+      },
+      {
+        "stage": "omega_restore/m64",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m63",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m62",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m61",
+        "ops": 206434,
+        "static_Toffoli": 630
+      },
+      {
+        "stage": "omega_restore/m60",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m59",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m58",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m57",
+        "ops": 47174,
+        "static_Toffoli": 294
+      },
+      {
+        "stage": "omega_restore/m56",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m55",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m54",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m53",
+        "ops": 1020098,
+        "static_Toffoli": 1428
+      },
+      {
+        "stage": "omega_restore/m52",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m51",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m50",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m49",
+        "ops": 47174,
+        "static_Toffoli": 294
+      },
+      {
+        "stage": "omega_restore/m48",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m47",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m46",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m45",
+        "ops": 285478,
+        "static_Toffoli": 756
+      },
+      {
+        "stage": "omega_restore/m44",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m43",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m42",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m41",
+        "ops": 89462,
+        "static_Toffoli": 420
+      },
+      {
+        "stage": "omega_restore/m40",
+        "ops": 4518,
+        "static_Toffoli": 84
+      },
+      {
+        "stage": "omega_restore/m39",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m38",
+        "ops": 34202,
+        "static_Toffoli": 252
+      },
+      {
+        "stage": "omega_restore/m37",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m36",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m35",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m34",
+        "ops": 3049812,
+        "static_Toffoli": 2898
+      },
+      {
+        "stage": "omega_restore/m33",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m32",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m31",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m30",
+        "ops": 47174,
+        "static_Toffoli": 294
+      },
+      {
+        "stage": "omega_restore/m29",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m28",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m27",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m26",
+        "ops": 206434,
+        "static_Toffoli": 630
+      },
+      {
+        "stage": "omega_restore/m25",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m24",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m23",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m22",
+        "ops": 47174,
+        "static_Toffoli": 294
+      },
+      {
+        "stage": "omega_restore/m21",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m20",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m19",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m18",
+        "ops": 1020098,
+        "static_Toffoli": 1428
+      },
+      {
+        "stage": "omega_restore/m17",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m16",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m15",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m14",
+        "ops": 47174,
+        "static_Toffoli": 294
+      },
+      {
+        "stage": "omega_restore/m13",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m12",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m11",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m10",
+        "ops": 285478,
+        "static_Toffoli": 756
+      },
+      {
+        "stage": "omega_restore/m09",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m08",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m07",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m06",
+        "ops": 89462,
+        "static_Toffoli": 420
+      },
+      {
+        "stage": "omega_restore/m05",
+        "ops": 4518,
+        "static_Toffoli": 84
+      },
+      {
+        "stage": "omega_restore/m04",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m03",
+        "ops": 34202,
+        "static_Toffoli": 252
+      },
+      {
+        "stage": "omega_restore/m02",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "omega_restore/m01",
+        "ops": 9244,
+        "static_Toffoli": 126
+      },
+      {
+        "stage": "omega_restore/m00",
+        "ops": 1412,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/w0+",
+        "ops": 2548,
+        "static_Toffoli": 66
+      },
+      {
+        "stage": "unmonicize/zflag+",
+        "ops": 63,
+        "static_Toffoli": 11
+      },
+      {
+        "stage": "unmonicize/s35",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s34",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s33",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s32",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s31",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s30",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s29",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s28",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s27",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s26",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s25",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s24",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s23",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s22",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s21",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s20",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s19",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s18",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s17",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s16",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s15",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s14",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s13",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s12",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s11",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s10",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s09",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s08",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s07",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s06",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s05",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s04",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s03",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s02",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/s01",
+        "ops": 1934,
+        "static_Toffoli": 42
+      },
+      {
+        "stage": "unmonicize/zflag-",
+        "ops": 74,
+        "static_Toffoli": 0
+      },
+      {
+        "stage": "unmonicize/w0-",
+        "ops": 4904,
+        "static_Toffoli": 36
+      },
+      {
+        "stage": "reverse/r69",
+        "ops": 296088,
+        "static_Toffoli": 1512
+      },
+      {
+        "stage": "reverse/r68",
+        "ops": 312280,
+        "static_Toffoli": 2799
+      },
+      {
+        "stage": "reverse/r67",
+        "ops": 312248,
+        "static_Toffoli": 2786
+      },
+      {
+        "stage": "reverse/r66",
+        "ops": 312249,
+        "static_Toffoli": 2786
+      },
+      {
+        "stage": "reverse/r65",
+        "ops": 312192,
+        "static_Toffoli": 2767
+      },
+      {
+        "stage": "reverse/r64",
+        "ops": 312193,
+        "static_Toffoli": 2767
+      },
+      {
+        "stage": "reverse/r63",
+        "ops": 312131,
+        "static_Toffoli": 2748
+      },
+      {
+        "stage": "reverse/r62",
+        "ops": 312132,
+        "static_Toffoli": 2748
+      },
+      {
+        "stage": "reverse/r61",
+        "ops": 312075,
+        "static_Toffoli": 2729
+      },
+      {
+        "stage": "reverse/r60",
+        "ops": 312076,
+        "static_Toffoli": 2729
+      },
+      {
+        "stage": "reverse/r59",
+        "ops": 312018,
+        "static_Toffoli": 2710
+      },
+      {
+        "stage": "reverse/r58",
+        "ops": 312019,
+        "static_Toffoli": 2710
+      },
+      {
+        "stage": "reverse/r57",
+        "ops": 311962,
+        "static_Toffoli": 2691
+      },
+      {
+        "stage": "reverse/r56",
+        "ops": 311963,
+        "static_Toffoli": 2691
+      },
+      {
+        "stage": "reverse/r55",
+        "ops": 311904,
+        "static_Toffoli": 2672
+      },
+      {
+        "stage": "reverse/r54",
+        "ops": 311905,
+        "static_Toffoli": 2672
+      },
+      {
+        "stage": "reverse/r53",
+        "ops": 311848,
+        "static_Toffoli": 2653
+      },
+      {
+        "stage": "reverse/r52",
+        "ops": 311849,
+        "static_Toffoli": 2653
+      },
+      {
+        "stage": "reverse/r51",
+        "ops": 311791,
+        "static_Toffoli": 2634
+      },
+      {
+        "stage": "reverse/r50",
+        "ops": 311792,
+        "static_Toffoli": 2634
+      },
+      {
+        "stage": "reverse/r49",
+        "ops": 311735,
+        "static_Toffoli": 2615
+      },
+      {
+        "stage": "reverse/r48",
+        "ops": 311736,
+        "static_Toffoli": 2615
+      },
+      {
+        "stage": "reverse/r47",
+        "ops": 311676,
+        "static_Toffoli": 2596
+      },
+      {
+        "stage": "reverse/r46",
+        "ops": 311677,
+        "static_Toffoli": 2596
+      },
+      {
+        "stage": "reverse/r45",
+        "ops": 311620,
+        "static_Toffoli": 2577
+      },
+      {
+        "stage": "reverse/r44",
+        "ops": 311621,
+        "static_Toffoli": 2577
+      },
+      {
+        "stage": "reverse/r43",
+        "ops": 311563,
+        "static_Toffoli": 2558
+      },
+      {
+        "stage": "reverse/r42",
+        "ops": 311564,
+        "static_Toffoli": 2558
+      },
+      {
+        "stage": "reverse/r41",
+        "ops": 311507,
+        "static_Toffoli": 2539
+      },
+      {
+        "stage": "reverse/r40",
+        "ops": 311508,
+        "static_Toffoli": 2539
+      },
+      {
+        "stage": "reverse/r39",
+        "ops": 311449,
+        "static_Toffoli": 2520
+      },
+      {
+        "stage": "reverse/r38",
+        "ops": 311450,
+        "static_Toffoli": 2520
+      },
+      {
+        "stage": "reverse/r37",
+        "ops": 311393,
+        "static_Toffoli": 2501
+      },
+      {
+        "stage": "reverse/r36",
+        "ops": 311394,
+        "static_Toffoli": 2501
+      },
+      {
+        "stage": "reverse/r35",
+        "ops": 311336,
+        "static_Toffoli": 2482
+      },
+      {
+        "stage": "reverse/r34",
+        "ops": 304725,
+        "static_Toffoli": 2482
+      },
+      {
+        "stage": "reverse/r33",
+        "ops": 296610,
+        "static_Toffoli": 2409
+      },
+      {
+        "stage": "reverse/r32",
+        "ops": 288553,
+        "static_Toffoli": 2355
+      },
+      {
+        "stage": "reverse/r31",
+        "ops": 280434,
+        "static_Toffoli": 2282
+      },
+      {
+        "stage": "reverse/r30",
+        "ops": 272377,
+        "static_Toffoli": 2228
+      },
+      {
+        "stage": "reverse/r29",
+        "ops": 264262,
+        "static_Toffoli": 2155
+      },
+      {
+        "stage": "reverse/r28",
+        "ops": 256205,
+        "static_Toffoli": 2101
+      },
+      {
+        "stage": "reverse/r27",
+        "ops": 248089,
+        "static_Toffoli": 2028
+      },
+      {
+        "stage": "reverse/r26",
+        "ops": 240032,
+        "static_Toffoli": 1974
+      },
+      {
+        "stage": "reverse/r25",
+        "ops": 231917,
+        "static_Toffoli": 1901
+      },
+      {
+        "stage": "reverse/r24",
+        "ops": 223860,
+        "static_Toffoli": 1847
+      },
+      {
+        "stage": "reverse/r23",
+        "ops": 215743,
+        "static_Toffoli": 1774
+      },
+      {
+        "stage": "reverse/r22",
+        "ops": 207686,
+        "static_Toffoli": 1720
+      },
+      {
+        "stage": "reverse/r21",
+        "ops": 199571,
+        "static_Toffoli": 1647
+      },
+      {
+        "stage": "reverse/r20",
+        "ops": 191514,
+        "static_Toffoli": 1593
+      },
+      {
+        "stage": "reverse/r19",
+        "ops": 183398,
+        "static_Toffoli": 1520
+      },
+      {
+        "stage": "reverse/r18",
+        "ops": 175341,
+        "static_Toffoli": 1466
+      },
+      {
+        "stage": "reverse/r17",
+        "ops": 167226,
+        "static_Toffoli": 1393
+      },
+      {
+        "stage": "reverse/r16",
+        "ops": 159169,
+        "static_Toffoli": 1339
+      },
+      {
+        "stage": "reverse/r15",
+        "ops": 151051,
+        "static_Toffoli": 1266
+      },
+      {
+        "stage": "reverse/r14",
+        "ops": 142994,
+        "static_Toffoli": 1212
+      },
+      {
+        "stage": "reverse/r13",
+        "ops": 134879,
+        "static_Toffoli": 1139
+      },
+      {
+        "stage": "reverse/r12",
+        "ops": 126822,
+        "static_Toffoli": 1085
+      },
+      {
+        "stage": "reverse/r11",
+        "ops": 118706,
+        "static_Toffoli": 1012
+      },
+      {
+        "stage": "reverse/r10",
+        "ops": 110649,
+        "static_Toffoli": 958
+      },
+      {
+        "stage": "reverse/r09",
+        "ops": 102534,
+        "static_Toffoli": 885
+      },
+      {
+        "stage": "reverse/r08",
+        "ops": 94477,
+        "static_Toffoli": 831
+      },
+      {
+        "stage": "reverse/r07",
+        "ops": 86360,
+        "static_Toffoli": 758
+      },
+      {
+        "stage": "reverse/r06",
+        "ops": 78303,
+        "static_Toffoli": 704
+      },
+      {
+        "stage": "reverse/r05",
+        "ops": 70188,
+        "static_Toffoli": 631
+      },
+      {
+        "stage": "reverse/r04",
+        "ops": 62131,
+        "static_Toffoli": 577
+      },
+      {
+        "stage": "reverse/r03",
+        "ops": 54015,
+        "static_Toffoli": 504
+      },
+      {
+        "stage": "reverse/r02",
+        "ops": 45958,
+        "static_Toffoli": 450
+      },
+      {
+        "stage": "reverse/r01",
+        "ops": 37793,
+        "static_Toffoli": 365
+      },
+      {
+        "stage": "reverse/r00",
+        "ops": 5099,
+        "static_Toffoli": 65
+      },
+      {
+        "stage": "reverse/seed",
+        "ops": 4,
+        "static_Toffoli": 0
+      },
+      {
+        "stage": "public_to_google",
+        "ops": 3852,
+        "static_Toffoli": 0
+      }
+    ],
+    "full_verifier": "NOT_RUN",
+    "kaggle_submission": "NOT_RUN"
+  },
+  "native_parse": {
+    "status": "PASS",
+    "candidate_sha256": "b8a3c27335182a8142a271291621f8234b5f3c01d3c46e14ef71f9ac2a9042f8",
+    "qubits": 2482,
+    "bits": 49142,
+    "registers": 4165,
+    "scope": "native Kickmix parse of complete KMB; not a correctness proof"
+  },
+  "outside_Forney_correspondence": {
+    "status": "PASS",
+    "reference_sha256": "fd645ea4e7e5a2f6b7b2336ef510692f29a4fc6312910f82f975e1106c6d87c9",
+    "candidate_sha256": "b8a3c27335182a8142a271291621f8234b5f3c01d3c46e14ef71f9ac2a9042f8",
+    "qubits": 2482,
+    "old_static_Toffoli": 756736,
+    "new_static_Toffoli": 732166,
+    "saved_Toffoli": 24570,
+    "all_BM_and_non_Forney_packets_byte_identical": true,
+    "named_registers_E_masks_and_classical_private_bit_contract_unchanged": true,
+    "proof_boundary": "Forney replacement checked separately by compositional exact ANF; whole-DQI public verification still required"
+  },
+  "local_exact_proof": {
+    "status": "PASS",
+    "scope": "local Forney inverse phase; NOT a verified complete DQI",
+    "prefix": {
+      "status": "PASS",
+      "method": "exact Boolean ANF and 4096-value independent field reference",
+      "field_inputs": 4096,
+      "input_variables": 12,
+      "independent_coherent_phase_coefficients": 6,
+      "independent_measurement_variables": 54,
+      "forward_CCX": 36,
+      "erase_CCX": 0,
+      "largest_polynomial_monomials": 14460,
+      "inverse_zero_convention": "inv(0)=0",
+      "workspace_clean": true,
+      "phase_preserved": true
+    },
+    "middle": {
+      "status": "PASS",
+      "method": "exact Boolean ANF including classical masks and every HMR outcome",
+      "independent_variables": 43,
+      "independent_measurement_variables": 36,
+      "tensor_basis_cases": 10368,
+      "phase_monomials": 4781,
+      "largest_polynomial_monomials": 5729,
+      "all_masks_and_root_branches": true,
+      "all_quantum_inputs_restored": true,
+      "scratch_clean": true,
+      "CCX": 30,
+      "CCZ": 6
+    },
+    "negative_missing_phase_and_correction": "REJECTED",
+    "composition": "prefix produces inv(Norm(D)); middle phase is root*parity(mask & N*conjugate(D)*embed(Y)); prefix erase preserves any coherent linear phase on Y",
+    "old_inverse_plus_phase_Toffoli": 78,
+    "new_inverse_plus_phase_Toffoli": 72,
+    "root_tree_Toffoli_unchanged": 11,
+    "old_Forney_per_point": 89,
+    "new_Forney_per_point": 83,
+    "evaluation_points": 4095,
+    "expected_total_Toffoli_saving": 24570,
+    "expected_full_DQI_Toffoli": 732166,
+    "expected_full_DQI_Q": 2482,
+    "op_counts": {
+      "CX": 5275,
+      "CCX": 66,
+      "HMR": 90,
+      "CZ": 220,
+      "SWAP": 6,
+      "CCZ": 6,
+      "Z": 47
+    },
+    "full_DQI_verifier": "NOT_RUN",
+    "kaggle_submission": "NOT_RUN",
+    "trusted_boundary": "Python Boolean-polynomial checker and composition argument, not Lean checked",
+    "attribution": "Unchanged andigu/uncompute tower basis and KT6 tables via existing Apache-2.0 inverse66 archive"
+  },
+  "allocation_lifetimes": {
+    "status": "PASS",
+    "scope": "complete allocation/ownership trace; not quantum zero-state proof",
+    "candidate_sha256": "b8a3c27335182a8142a271291621f8234b5f3c01d3c46e14ef71f9ac2a9042f8",
+    "qubits": 2482,
+    "peak_live": 2482,
+    "events": 6257,
+    "peak_ownership": {
+      "op_index": 13971812,
+      "phase": [],
+      "owners": {
+        "syn": 840,
+        "held": 23,
+        "sig": 432,
+        "bb": 444,
+        "stk": 665,
+        "forney": 78
+      },
+      "live": 2482
+    },
+    "roles": {
+      "syn": {
+        "first_claim_op": 0,
+        "first_claim_phase": [],
+        "last_release_op": null,
+        "claims": 1,
+        "max_owned": 840
+      },
+      "held": {
+        "first_claim_op": 4692,
+        "first_claim_phase": [],
+        "last_release_op": 91236151,
+        "claims": 1,
+        "max_owned": 23,
+        "last_release_phase": []
+      },
+      "sig": {
+        "first_claim_op": 4693,
+        "first_claim_phase": [
+          "bm/seed"
+        ],
+        "last_release_op": 91236150,
+        "claims": 36,
+        "max_owned": 432,
+        "last_release_phase": [
+          "reverse/seed"
+        ]
+      },
+      "bb": {
+        "first_claim_op": 4694,
+        "first_claim_phase": [
+          "bm/seed"
+        ],
+        "last_release_op": 91236150,
+        "claims": 37,
+        "max_owned": 444,
+        "last_release_phase": [
+          "reverse/seed"
+        ]
+      },
+      "ctl": {
+        "first_claim_op": 4697,
+        "first_claim_phase": [
+          "bm/r00"
+        ],
+        "last_release_op": 6974724,
+        "claims": 69,
+        "max_owned": 1,
+        "last_release_phase": [
+          "bm/r68"
+        ]
+      },
+      "tree": {
+        "first_claim_op": 4697,
+        "first_claim_phase": [
+          "bm/r00"
+        ],
+        "last_release_op": 74504627,
+        "claims": 71,
+        "max_owned": 11,
+        "last_release_phase": [
+          "unmonicize/zflag-"
+        ]
+      },
+      "m": {
+        "first_claim_op": 4828,
+        "first_claim_phase": [
+          "bm/r00"
+        ],
+        "last_release_op": 7082870,
+        "claims": 70,
+        "max_owned": 12,
+        "last_release_phase": [
+          "bm/r69"
+        ]
+      },
+      "nqd": {
+        "first_claim_op": 4828,
+        "first_claim_phase": [
+          "bm/r00"
+        ],
+        "last_release_op": 74509531,
+        "claims": 141,
+        "max_owned": 6,
+        "last_release_phase": [
+          "unmonicize/w0-"
+        ]
+      },
+      "m3d": {
+        "first_claim_op": 4828,
+        "first_claim_phase": [
+          "bm/r00"
+        ],
+        "last_release_op": 74509531,
+        "claims": 141,
+        "max_owned": 3,
+        "last_release_phase": [
+          "unmonicize/w0-"
+        ]
+      },
+      "s3d": {
+        "first_claim_op": 4828,
+        "first_claim_phase": [
+          "bm/r00"
+        ],
+        "last_release_op": 74509531,
+        "claims": 141,
+        "max_owned": 3,
+        "last_release_phase": [
+          "unmonicize/w0-"
+        ]
+      },
+      "yd": {
+        "first_claim_op": 4828,
+        "first_claim_phase": [
+          "bm/r00"
+        ],
+        "last_release_op": 74509531,
+        "claims": 141,
+        "max_owned": 6,
+        "last_release_phase": [
+          "unmonicize/w0-"
+        ]
+      },
+      "inc": {
+        "first_claim_op": 7424,
+        "first_claim_phase": [
+          "bm/r00"
+        ],
+        "last_release_op": 6847052,
+        "claims": 68,
+        "max_owned": 6,
+        "last_release_phase": [
+          "bm/r67"
+        ]
+      },
+      "pq": {
+        "first_claim_op": 10410,
+        "first_claim_phase": [
+          "bm/r01"
+        ],
+        "last_release_op": 6967057,
+        "claims": 68,
+        "max_owned": 12,
+        "last_release_phase": [
+          "bm/r68"
+        ]
+      },
+      "dinv": {
+        "first_claim_op": 11820,
+        "first_claim_phase": [
+          "bm/r01"
+        ],
+        "last_release_op": 6957256,
+        "claims": 68,
+        "max_owned": 12,
+        "last_release_phase": [
+          "bm/r68"
+        ]
+      },
+      "wreg": {
+        "first_claim_op": 31761,
+        "first_claim_phase": [
+          "bm/r01"
+        ],
+        "last_release_op": 6974682,
+        "claims": 68,
+        "max_owned": 12,
+        "last_release_phase": [
+          "bm/r68"
+        ]
+      },
+      "stk": {
+        "first_claim_op": 37505,
+        "first_claim_phase": [
+          "bm/r02"
+        ],
+        "last_release_op": 91193254,
+        "claims": 35,
+        "max_owned": 665,
+        "last_release_phase": [
+          "reverse/r02"
+        ]
+      },
+      "eqt": {
+        "first_claim_op": 70457,
+        "first_claim_phase": [
+          "bm/r02"
+        ],
+        "last_release_op": 6974724,
+        "claims": 67,
+        "max_owned": 6,
+        "last_release_phase": [
+          "bm/r68"
+        ]
+      },
+      "w0": {
+        "first_claim_op": 7083530,
+        "first_claim_phase": [
+          "monicize/w0+"
+        ],
+        "last_release_op": 74509531,
+        "claims": 2,
+        "max_owned": 12,
+        "last_release_phase": [
+          "unmonicize/w0-"
+        ]
+      },
+      "ymon": {
+        "first_claim_op": 7086141,
+        "first_claim_phase": [
+          "monicize/s01"
+        ],
+        "last_release_op": 74504553,
+        "claims": 70,
+        "max_owned": 12,
+        "last_release_phase": [
+          "unmonicize/s01"
+        ]
+      },
+      "forney": {
+        "first_claim_op": 13971812,
+        "first_claim_phase": [],
+        "last_release_op": 67620409,
+        "claims": 1,
+        "max_owned": 78,
+        "last_release_phase": []
+      },
+      "jscratch": {
+        "first_claim_op": 74509533,
+        "first_claim_phase": [
+          "reverse/r69"
+        ],
+        "last_release_op": 91236146,
+        "claims": 70,
+        "max_owned": 55,
+        "last_release_phase": [
+          "reverse/r00"
+        ]
+      }
+    },
+    "boundaries": [
+      {
+        "action": "phase_enter",
+        "phase": [
+          "bm/seed"
+        ],
+        "op_index": 4692,
+        "qubits": 863,
+        "live": 863,
+        "free": 0,
+        "peak_live": 863
+      },
+      {
+        "action": "phase_exit",
+        "phase": [
+          "bm/seed"
+        ],
+        "op_index": 4696,
+        "qubits": 887,
+        "live": 887,
+        "free": 0,
+        "peak_live": 887
+      },
+      {
+        "action": "phase_enter",
+        "phase": [
+          "bm/r69"
+        ],
+        "op_index": 6974725,
+        "qubits": 2440,
+        "live": 2385,
+        "free": 55,
+        "peak_live": 2440
+      },
+      {
+        "action": "phase_exit",
+        "phase": [
+          "bm/r69"
+        ],
+        "op_index": 7083529,
+        "qubits": 2440,
+        "live": 2404,
+        "free": 36,
+        "peak_live": 2440
+      },
+      {
+        "action": "phase_enter",
+        "phase": [
+          "monicize/w0-"
+        ],
+        "op_index": 7153904,
+        "qubits": 2440,
+        "live": 2416,
+        "free": 24,
+        "peak_live": 2440
+      },
+      {
+        "action": "phase_exit",
+        "phase": [
+          "monicize/w0-"
+        ],
+        "op_index": 7158808,
+        "qubits": 2440,
+        "live": 2404,
+        "free": 36,
+        "peak_live": 2440
+      },
+      {
+        "action": "phase_enter",
+        "phase": [
+          "variable_mask_forney"
+        ],
+        "op_index": 13971812,
+        "qubits": 2482,
+        "live": 2482,
+        "free": 0,
+        "peak_live": 2482
+      },
+      {
+        "action": "phase_exit",
+        "phase": [
+          "variable_mask_forney"
+        ],
+        "op_index": 67620409,
+        "qubits": 2482,
+        "live": 2482,
+        "free": 0,
+        "peak_live": 2482
+      },
+      {
+        "action": "phase_enter",
+        "phase": [
+          "unmonicize/w0-"
+        ],
+        "op_index": 74504628,
+        "qubits": 2482,
+        "live": 2416,
+        "free": 66,
+        "peak_live": 2482
+      },
+      {
+        "action": "phase_exit",
+        "phase": [
+          "unmonicize/w0-"
+        ],
+        "op_index": 74509532,
+        "qubits": 2482,
+        "live": 2404,
+        "free": 78,
+        "peak_live": 2482
+      },
+      {
+        "action": "phase_enter",
+        "phase": [
+          "reverse/seed"
+        ],
+        "op_index": 91236147,
+        "qubits": 2482,
+        "live": 887,
+        "free": 1595,
+        "peak_live": 2482
+      },
+      {
+        "action": "phase_exit",
+        "phase": [
+          "reverse/seed"
+        ],
+        "op_index": 91236151,
+        "qubits": 2482,
+        "live": 863,
+        "free": 1619,
+        "peak_live": 2482
+      }
+    ],
+    "final_live": 840,
+    "final_owners": {
+      "syn": 840
+    }
+  },
+  "allocation_trace": {
+    "path": "checkpoints/bm-tracephase-allocations-20261027.json.gz",
+    "sha256": "b7dd3b29b8d6c70da79648f3c656920692e05abb3133001c0d0fd8604a33526d",
+    "events": 6257
+  },
+  "expected_cost_at_same_error_bound": 5373037115324.774,
+  "expected_cost_reduction_fraction": 0.032468390561569686,
+  "BM_exchange_static_source_count": {
+    "history_push_forward": 21495,
+    "bank_swap_forward": 22632,
+    "forward_plus_reverse": 88254,
+    "note": "Source-derived operation count; no BM exchange rewrite included."
+  },
+  "kaggle_submission": "NOT_RUN",
+  "InvSqrt_and_DFTHC": "UNCHANGED",
+  "prior_candidates_and_Release_v1_0": "UNCHANGED",
+  "proof_boundary": "Local compositional exact ANF under gate/HMR semantics; not Lean checked; whole-DQI verifier pending."
+}
