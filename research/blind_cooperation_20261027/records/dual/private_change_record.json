@@ -1,0 +1,7 @@
+{
+  "target": "b_prompt_01.txt",
+  "original": "a4→a3→a2→a1→a0の順",
+  "altered": "a0→a1→a2→a3→a4の順",
+  "scope": "discussion copy only; no candidate source modified",
+  "disclosed_to_gemini": false
+}

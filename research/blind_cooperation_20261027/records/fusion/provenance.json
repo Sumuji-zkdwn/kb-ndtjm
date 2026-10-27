@@ -1,0 +1,70 @@
+{
+  "recorded_at_utc": "2026-10-27T02:53:21.360158+00:00",
+  "python": "3.14.5",
+  "verification_dependencies": "Python standard library only",
+  "optional_search_dependency": "z3-solver==5.3.2.0",
+  "DQI_head": "13f74c4f1574ca234e91e3e08941494cf5af5386",
+  "DQI_sources": [
+    {
+      "url": "https://github.com/Sumuji-zkdwn/kb-ndtjm/blob/13f74c4f1574ca234e91e3e08941494cf5af5386/research/bm_port/trace_phase3.py",
+      "git_blob_sha": "c99274187309fcad9cb1ac0611120f2568cf8b23",
+      "local": "upstream\\research\\bm_port\\trace_phase3.py",
+      "sha256": "271ae4b23f02bff8b34d72060bb49753a5a9022145ad70ffe077193cdff1dccf"
+    },
+    {
+      "url": "https://github.com/Sumuji-zkdwn/kb-ndtjm/blob/13f74c4f1574ca234e91e3e08941494cf5af5386/research/bm_port/trace_phase.py",
+      "git_blob_sha": "7fc71782ed345703d340f3a15482a9e2a452b5ac",
+      "local": "upstream\\research\\bm_port\\trace_phase.py",
+      "sha256": "829c2e94defee77775ef2516f633cd31a1075319241d300b0aa8042d345269f8"
+    },
+    {
+      "url": "https://github.com/Sumuji-zkdwn/kb-ndtjm/blob/13f74c4f1574ca234e91e3e08941494cf5af5386/research/bm_port/trace_phase3_probe.py",
+      "git_blob_sha": "3d516c0a49f544c8217167d01d8c8e021cbdd449",
+      "local": "upstream\\research\\bm_port\\trace_phase3_probe.py",
+      "sha256": "10c136b5d8d2130380ef6dcb6167a5a18b9a5575f759ceca4b6f9c017ef6517b"
+    }
+  ],
+  "inverse66_archive_sha256": "25c74454ef8c00b44bb42177f491c196743f3dedd24e3ec5f096fbb60e6c19c3",
+  "formal_probe_git_blob": "5e9d1df286ef5348b620841857b0b1d6927cd154",
+  "NIST": {
+    "repository": "https://github.com/usnistgov/Circuits",
+    "commit": "8366158a4324ef902ce740f29ddc9f7ebb1018b2",
+    "path": "data/slp/n6/n6_slp_mc5.txt.gz",
+    "git_blob": "2ad19daf367888d0286814cf8d9a6f31481549d4",
+    "sha256": "2267ee82695023fc56a7a85b2cefc876304ae7e1780b3b4e65a4640823c93d24",
+    "record": "f121049",
+    "exact_target_truth_table_match": true,
+    "paper": "https://doi.org/10.1007/s12095-018-0297-2"
+  },
+  "conversation": {
+    "url": "https://gemini.google.com/app/779e52f9b50a8d07",
+    "model_label": "Gemini 自動モード",
+    "current_experiment_exchanges": 3,
+    "current_prompt_numbers": [
+      4,
+      5,
+      6
+    ]
+  },
+  "previous_sealed_record_unchanged": true,
+  "source_text_normalization": [
+    {
+      "file": "trace_phase3.py",
+      "old_sha256": "cf4f5685be67afffdd7786e1b6825d7cbce5f88e305fec5ca8b11c506c3afbea",
+      "reason": "initial text export added one terminal blank line; original sealed record preserved"
+    },
+    {
+      "file": "trace_phase.py",
+      "old_sha256": "a0a38d63dd86a2ba70528cdf3e338564ecb0cc4542485357189ed818511921d8",
+      "reason": "initial text export added one terminal blank line; original sealed record preserved"
+    }
+  ],
+  "flat_ANF_attempt": {
+    "status": "terminated before a verdict",
+    "reason": "expensive correlated expansion replaced by verified compositional substitution",
+    "saved_script": "verify_fusion_flat.py",
+    "script_sha256": "1b3c6a6bf34cb02333847e1dc5ea0c5814f3674c0ef40863d72bc99eadbbc628"
+  },
+  "full_DQI_build_and_official_evaluation": "NOT_RUN",
+  "archive_scope": "small local candidate, exact dependencies and records; excludes optional Z3 vendor and bulk NIST classification data"
+}

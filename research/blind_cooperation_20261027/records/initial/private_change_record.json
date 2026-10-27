@@ -1,0 +1,18 @@
+{
+  "purpose": "Blind cooperation to improve the artifact; no evaluator scoring",
+  "shared_with_gemini": false,
+  "change": {
+    "from": "H = g0*a1 + g1*a0",
+    "to": "H = g0*a1 + g1*a0 + g1*a1"
+  },
+  "reason_wrong": "The extra g1*a1 is present in Tr(G*A), but cancels in Tr(G*A^8) when alpha^8=alpha+1.",
+  "symbolic_witness": {
+    "a0": 0,
+    "a1": 1,
+    "g0": 0,
+    "g1": 1,
+    "true_relative_trace": 0,
+    "modified_expression": 1
+  },
+  "original_project_modified": false
+}

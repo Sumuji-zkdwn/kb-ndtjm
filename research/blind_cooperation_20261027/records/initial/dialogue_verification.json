@@ -1,0 +1,42 @@
+{
+  "status": "PASS",
+  "scope": "Exact finite algebra; no circuit synthesis or full DQI execution",
+  "GF8_basis_polynomial_encodings": [
+    1,
+    936,
+    1198
+  ],
+  "GF64_basis_polynomial_encodings": [
+    1,
+    70,
+    130,
+    270,
+    548,
+    1068
+  ],
+  "GF8_trace_gram_rows_binary_encodings": [
+    3,
+    7,
+    2
+  ],
+  "GF64_trace_gram_rows_binary_encodings": [
+    54,
+    63,
+    31,
+    38,
+    23,
+    43
+  ],
+  "trace_pairing_ranks": {
+    "GF8": 3,
+    "GF64": 6
+  },
+  "phi_equals_inverse_dual_coordinate_cases": 384,
+  "direct_phase_truth_table_cases": 128,
+  "direct_phase_ANF_degree": 4,
+  "lower_bound_scope": "r fixed as separate control; each phase term is r*l(H)*m(Z); independent invertible linear changes within H and within Z. Rank 3 requires at least 3 such terms.",
+  "excluded_claims": [
+    "arbitrary Clifford+T or adaptive circuit lower bound",
+    "impossibility of improved nonlinear fusion or S-box synthesis"
+  ]
+}

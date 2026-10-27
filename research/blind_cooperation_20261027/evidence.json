@@ -1,0 +1,364 @@
+{
+  "compiled_for": "2026-10-27 blind-cooperation procedure and PR7-to-PR8 report",
+  "case_scope": "One sequential artifact improvement with official public scoring",
+  "procedure_basis": {
+    "workspace_source": "AGENTS.md",
+    "sha256": "8a6dcf6f2968d9730665436882706783bd04329684b998d8f96e95c2022ed797"
+  },
+  "conversation_A": "https://gemini.google.com/app/779e52f9b50a8d07",
+  "conversation_B": "https://gemini.google.com/app/3fedcaad74021583",
+  "stages_and_exchanges": {
+    "initial_A": 3,
+    "fusion_A": 3,
+    "dual_A": 3,
+    "dual_B": 4
+  },
+  "local_phase_Toffoli": {
+    "PR7": 69,
+    "PR8": 68
+  },
+  "local_total_operations": {
+    "PR7": 5648,
+    "first_fusion": 5737,
+    "PR8": 5629
+  },
+  "full_DQI": {
+    "PR7_Toffoli": 719881,
+    "PR8_Toffoli": 715786,
+    "saved_Toffoli": 4095,
+    "PR7_operations": 90986115,
+    "PR8_operations": 90908310,
+    "saved_operations": 77805,
+    "Q_each": 2482
+  },
+  "official_public_score": {
+    "PR7": "1.66633",
+    "PR8": "1.66950",
+    "absolute_change": "0.00317",
+    "relative_change_percent": "0.190238428162488822742193900"
+  },
+  "official_score_record": "records/official/comparison.json",
+  "initial_private_change": "records/initial/private_change_record.json",
+  "later_private_change": "records/dual/private_change_record.json",
+  "published_metric_reference": {
+    "saved_source": "C:/Users/Dalcia/Research/02_Projects/quantum_circuit_compilation_2026-10-25/data/public_metric/v10/google-quantum-ai-metric.ipynb",
+    "sha256_checked_for_report": "d9b8717ff09e52232c55047d504662369e9525207c769d3759ea25d4e9ae538f",
+    "formula": "geometric_mean(baseline_cost_i / cost_i) over the three benchmarks"
+  },
+  "private_changes_were_disclosed_to_Gemini": false,
+  "original_record_hashes_and_copies_match": true,
+  "source_files": [
+    {
+      "workspace_source": "dqi_pr7_blind_coop_20261027/session.json",
+      "report_copy": "research/blind_cooperation_20261027/records/initial/session.json",
+      "sha256": "12c417b3db29ba40e40316109d4bf032c734f53077d0da8b498a84e213531667",
+      "bytes": 924
+    },
+    {
+      "workspace_source": "dqi_pr7_blind_coop_20261027/private_change_record.json",
+      "report_copy": "research/blind_cooperation_20261027/records/initial/private_change_record.json",
+      "sha256": "51057d5eabb6c6110e0f8514a24c9f4a8c3b9415d13778473a37fd9c19fd1861",
+      "bytes": 489
+    },
+    {
+      "workspace_source": "dqi_pr7_blind_coop_20261027/theory_baseline.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/initial/theory_baseline.txt",
+      "sha256": "abeb79b1e8c2e9209fd923d296220c57e34ae27724b77167acef3824876f8f90",
+      "bytes": 3623
+    },
+    {
+      "workspace_source": "dqi_pr7_blind_coop_20261027/theory_after_dialogue.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/initial/theory_after_dialogue.txt",
+      "sha256": "fe3148a832a4403b207b7d8bc11fac7250fb860078a8c6594a87070a6003c366",
+      "bytes": 3588
+    },
+    {
+      "workspace_source": "dqi_pr7_blind_coop_20261027/algebra_verification.json",
+      "report_copy": "research/blind_cooperation_20261027/records/initial/algebra_verification.json",
+      "sha256": "a930af8702fe1a7fc736edb89f91ef2e6e9b5b187dba5a5489d1067ff53d7f45",
+      "bytes": 1529
+    },
+    {
+      "workspace_source": "dqi_pr7_blind_coop_20261027/dialogue_verification.json",
+      "report_copy": "research/blind_cooperation_20261027/records/initial/dialogue_verification.json",
+      "sha256": "ee2a3fcf4da2405658ff84865aa670fea259ee6f642059bbaa9c7d60abe82c82",
+      "bytes": 1000
+    },
+    {
+      "workspace_source": "dqi_pr7_blind_coop_20261027/prompt_01.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/initial/prompt_01.txt",
+      "sha256": "8d2e51e3e8db86c3682e08575dc045d17240cf4f0e97d0e0957e15a7f6f3df50",
+      "bytes": 3631
+    },
+    {
+      "workspace_source": "dqi_pr7_blind_coop_20261027/reply_01.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/initial/reply_01.txt",
+      "sha256": "fd3949db648b9831e41b82d723f43e1b989b8cc908216c52f85792dca44ceef8",
+      "bytes": 11111
+    },
+    {
+      "workspace_source": "dqi_pr7_blind_coop_20261027/prompt_02.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/initial/prompt_02.txt",
+      "sha256": "4f27cb21b616a8a9c6bd5e33040011714dc936906c452e3dd78101f71d7625b4",
+      "bytes": 2338
+    },
+    {
+      "workspace_source": "dqi_pr7_blind_coop_20261027/reply_02.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/initial/reply_02.txt",
+      "sha256": "90e66906f13b4844e1b0adaaddb1365c98379cd53dc2a637c2def12b03c76e9c",
+      "bytes": 8005
+    },
+    {
+      "workspace_source": "dqi_pr7_blind_coop_20261027/prompt_03.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/initial/prompt_03.txt",
+      "sha256": "49cc84596d0f1777c6adf5e17d329168e087d79487a55f3adf19b2e7a16d34bd",
+      "bytes": 1871
+    },
+    {
+      "workspace_source": "dqi_pr7_blind_coop_20261027/reply_03.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/initial/reply_03.txt",
+      "sha256": "a6a2ebdc3085749a80bf47b888c4e2233790c1e1cf9d84224587e24a989ff311",
+      "bytes": 3269
+    },
+    {
+      "workspace_source": "fusion_experiment_20261027/provenance.json",
+      "report_copy": "research/blind_cooperation_20261027/records/fusion/provenance.json",
+      "sha256": "421084d0a2db1b3cbaad992ca6c6241d93ef45aeb86ff99af68d299cb5e2bc5c",
+      "bytes": 3342
+    },
+    {
+      "workspace_source": "fusion_experiment_20261027/fusion_verification.json",
+      "report_copy": "research/blind_cooperation_20261027/records/fusion/fusion_verification.json",
+      "sha256": "e645d314f8f493c30e7887aae296d6fd2ca871be0eb113d1785a33bcb0ee2cd8",
+      "bytes": 3539
+    },
+    {
+      "workspace_source": "fusion_experiment_20261027/scalar_verification.json",
+      "report_copy": "research/blind_cooperation_20261027/records/fusion/scalar_verification.json",
+      "sha256": "58cc2e23299ee9ae5e2ec1dd56fef0807bcc7492f9a697fa47656f55dc0eb71f",
+      "bytes": 706
+    },
+    {
+      "workspace_source": "fusion_experiment_20261027/prompt_04.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/fusion/prompt_04.txt",
+      "sha256": "230596fc081c0e5be2ba1d16bf979c0d1b9bf94f22742109b7ae2fa009ba478b",
+      "bytes": 1437
+    },
+    {
+      "workspace_source": "fusion_experiment_20261027/reply_04.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/fusion/reply_04.txt",
+      "sha256": "ba2007a521aa4d2f0ee9bff8d29939f765a3c908dcd2d3d5012fb63c6281f5dd",
+      "bytes": 7710
+    },
+    {
+      "workspace_source": "fusion_experiment_20261027/prompt_05.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/fusion/prompt_05.txt",
+      "sha256": "88b3696386d50831073b02760b76d30d04ade93dff3bcfb5c5838b0c4ddbb2eb",
+      "bytes": 1565
+    },
+    {
+      "workspace_source": "fusion_experiment_20261027/reply_05.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/fusion/reply_05.txt",
+      "sha256": "a7e790fbd065798e0e42686b6459b7db612d4091325484d5158e82796755afcd",
+      "bytes": 6160
+    },
+    {
+      "workspace_source": "fusion_experiment_20261027/prompt_06.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/fusion/prompt_06.txt",
+      "sha256": "4ea59edff0d20519b3dca26b75a4b321e74b453efe018bee6c00efe394193ea8",
+      "bytes": 1557
+    },
+    {
+      "workspace_source": "fusion_experiment_20261027/reply_06.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/fusion/reply_06.txt",
+      "sha256": "451e0de45fa637546a4b4c70c2f869bb2dbc21b73faa4f3eea238e38d3756b21",
+      "bytes": 2253
+    },
+    {
+      "workspace_source": "dual_gemini_20261027/provenance.json",
+      "report_copy": "research/blind_cooperation_20261027/records/dual/provenance.json",
+      "sha256": "e3f8417724fae596256bf90fa92f17b3395bb96a5a27ca559c9900fd8909a36a",
+      "bytes": 1741
+    },
+    {
+      "workspace_source": "dual_gemini_20261027/private_change_record.json",
+      "report_copy": "research/blind_cooperation_20261027/records/dual/private_change_record.json",
+      "sha256": "64b65b9b913679251703c9080a49c00645ad7475faae452a95ce9d86819fc7aa",
+      "bytes": 221
+    },
+    {
+      "workspace_source": "dual_gemini_20261027/cleanup_counterexample.json",
+      "report_copy": "research/blind_cooperation_20261027/records/dual/cleanup_counterexample.json",
+      "sha256": "d6a911ebb71257f0e8141f9f614ca1388e5eee27bdad26d5681627e1ca93a963",
+      "bytes": 785
+    },
+    {
+      "workspace_source": "dual_gemini_20261027/optimized_verification.json",
+      "report_copy": "research/blind_cooperation_20261027/records/dual/optimized_verification.json",
+      "sha256": "f133189641dd39f4be8be253e24b530a4ce3bddfe159b9692beefc96e0af73be",
+      "bytes": 3682
+    },
+    {
+      "workspace_source": "dual_gemini_20261027/intermediate56_optimized_verification.json",
+      "report_copy": "research/blind_cooperation_20261027/records/dual/intermediate56_optimized_verification.json",
+      "sha256": "a29673860c4f5b196095081457ef25d1f619c563600ca0c196cc6f7b80620b78",
+      "bytes": 3675
+    },
+    {
+      "workspace_source": "dual_gemini_20261027/a_prompt_01.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/dual/a_prompt_01.txt",
+      "sha256": "ebcbb78324ab3790ed123287750c1ebda033c2556915b2702f4b454ff5c77117",
+      "bytes": 1233
+    },
+    {
+      "workspace_source": "dual_gemini_20261027/a_reply_01.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/dual/a_reply_01.txt",
+      "sha256": "ecba1288cef2ae680cb60b1bcc7991d7ac908d289602541507fd55201a3f7b66",
+      "bytes": 5438
+    },
+    {
+      "workspace_source": "dual_gemini_20261027/a_prompt_02.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/dual/a_prompt_02.txt",
+      "sha256": "ca9074b448a88ef0dabb621ad77a45a430d0df522268bd7750869ff02934e997",
+      "bytes": 1750
+    },
+    {
+      "workspace_source": "dual_gemini_20261027/a_reply_02.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/dual/a_reply_02.txt",
+      "sha256": "47e42fffa29c0ed01b1faad2a486e6407ab7698221b5c62e6f986ee71b3f87a3",
+      "bytes": 4230
+    },
+    {
+      "workspace_source": "dual_gemini_20261027/a_prompt_03.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/dual/a_prompt_03.txt",
+      "sha256": "30e84d02ae3639cf69d8f63f8eba04860a2d537f7cdb3889f39320d579800e8b",
+      "bytes": 1431
+    },
+    {
+      "workspace_source": "dual_gemini_20261027/a_reply_03.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/dual/a_reply_03.txt",
+      "sha256": "699047b8f0645f2b631e8df7be6813d4412a629ff027ed256e5cef9ff99cc1fb",
+      "bytes": 2454
+    },
+    {
+      "workspace_source": "dual_gemini_20261027/b_prompt_01.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/dual/b_prompt_01.txt",
+      "sha256": "5291c9e8405b337c863f2e53bd9d8e275e2e246abdfbb0414cfe6e2ef959859c",
+      "bytes": 1810
+    },
+    {
+      "workspace_source": "dual_gemini_20261027/b_reply_01.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/dual/b_reply_01.txt",
+      "sha256": "24f5ed25198c1fb319a1bcc31cbecf04f787a25840c75e288150cfe73ef680aa",
+      "bytes": 6665
+    },
+    {
+      "workspace_source": "dual_gemini_20261027/b_prompt_02.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/dual/b_prompt_02.txt",
+      "sha256": "7fd9a000ee24f516b567075d8f30413c7f0324713a24ceb6e017308bd8583dd9",
+      "bytes": 1875
+    },
+    {
+      "workspace_source": "dual_gemini_20261027/b_reply_02.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/dual/b_reply_02.txt",
+      "sha256": "545fe99faa69d217f807424089a45d074db650f7be0fa3c2e5ef2db4c60927a8",
+      "bytes": 178
+    },
+    {
+      "workspace_source": "dual_gemini_20261027/b_prompt_03.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/dual/b_prompt_03.txt",
+      "sha256": "1cf35887833bba4dc2c93d5e033ded8d049e8708be8fa2742e2195001e3514f0",
+      "bytes": 895
+    },
+    {
+      "workspace_source": "dual_gemini_20261027/b_reply_03.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/dual/b_reply_03.txt",
+      "sha256": "b10fe31adfe1e3ba121414c811f23fb2c05851731dac961a1cbf027ad7b6d01d",
+      "bytes": 4033
+    },
+    {
+      "workspace_source": "dual_gemini_20261027/b_prompt_04.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/dual/b_prompt_04.txt",
+      "sha256": "f428eff27b6b415ffd2df4e82268a31cdd669434e0058aa8d600fe740a6c87c4",
+      "bytes": 1079
+    },
+    {
+      "workspace_source": "dual_gemini_20261027/b_reply_04.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/dual/b_reply_04.txt",
+      "sha256": "3c9d6ca8ca32c6f6d6558b8c36a723728a49136c4d029003ae6e95a83762332f",
+      "bytes": 2996
+    },
+    {
+      "workspace_source": "dual_gemini_20261027/b_reply_01.ax.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/dual/b_reply_01.ax.txt",
+      "sha256": "b45baac0c83b7af7bb53b58ffd81b19129d423388eb071beee2ab05f552c4fee",
+      "bytes": 31578
+    },
+    {
+      "workspace_source": "dual_gemini_20261027/b_reply_02.ax.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/dual/b_reply_02.ax.txt",
+      "sha256": "426e66cc62a110ad09188cc09c7736119ec005d69791d42b0dbab4a572a6e29e",
+      "bytes": 346
+    },
+    {
+      "workspace_source": "dual_gemini_20261027/b_reply_03.ax.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/dual/b_reply_03.ax.txt",
+      "sha256": "115b619fa5a27cdade4549fd0df7312f56cec92f79b9670d839b78761c000a5e",
+      "bytes": 25260
+    },
+    {
+      "workspace_source": "dual_gemini_20261027/b_reply_04.ax.txt",
+      "report_copy": "research/blind_cooperation_20261027/records/dual/b_reply_04.ax.txt",
+      "sha256": "d84736dfa7abe7ea0d00fadf186dd6f025212d371250845db1172070ba1b6d24",
+      "bytes": 12523
+    },
+    {
+      "workspace_source": "kaggle_submission_pr8_20261027/comparison.json",
+      "report_copy": "research/blind_cooperation_20261027/records/official/comparison.json",
+      "sha256": "fccc94f467f4324aa148e1d4c16a3819e4ef4ef1224178fa8c5463f82ee3bee7",
+      "bytes": 7068
+    },
+    {
+      "workspace_source": "kaggle_submission_pr8_20261027/submitted-package-audit.json",
+      "report_copy": "research/blind_cooperation_20261027/records/official/submitted-package-audit.json",
+      "sha256": "fc0467895b7b9d7d7c0c53c32d9c32b38993a07d3bfeef81a0f1370f85027d65",
+      "bytes": 3392
+    },
+    {
+      "workspace_source": "kaggle_submission_pr8_20261027/completed-workflow.json",
+      "report_copy": "research/blind_cooperation_20261027/records/official/completed-workflow.json",
+      "sha256": "82b1021e6c9b67c03f8e6151d3f38acba75d391874499e732202ff02063c7102",
+      "bytes": 1101
+    },
+    {
+      "workspace_source": "kaggle_submission_pr8_20261027/official-api/pr7-official-api.json",
+      "report_copy": "research/blind_cooperation_20261027/records/official/official-api/pr7-official-api.json",
+      "sha256": "c341762f2a6dfb76fe47933202da348059437381a8e52c08626457602c919365",
+      "bytes": 591
+    },
+    {
+      "workspace_source": "kaggle_submission_pr8_20261027/official-api/pr8-official-api.json",
+      "report_copy": "research/blind_cooperation_20261027/records/official/official-api/pr8-official-api.json",
+      "sha256": "93fc77d4113703763404096fcf1d46ded63f71df82d0c20401fbd828c45fd802",
+      "bytes": 601
+    },
+    {
+      "workspace_source": "kaggle_submission_pr8_20261027/official-api/receipt.json",
+      "report_copy": "research/blind_cooperation_20261027/records/official/official-api/receipt.json",
+      "sha256": "503ac6ef6266b3355be34c8f6531e3cb984cc53e32427b4ecb8152bb79925d35",
+      "bytes": 207
+    },
+    {
+      "workspace_source": "kaggle_submission_pr8_20261027/official-api/status-history.jsonl",
+      "report_copy": "research/blind_cooperation_20261027/records/official/official-api/status-history.jsonl",
+      "sha256": "d08fe3e71293b9cc45a89d8ebd0635c10a43c9e1b4db832876db7bf8d64c4d9a",
+      "bytes": 42262
+    },
+    {
+      "workspace_source": "kaggle_submission_pr8_20261027/pr7-pr8-official-scores.jpg",
+      "report_copy": "docs/assets/dqi-pr7-pr8-kaggle-20261027.jpg",
+      "sha256": "d2f745f5aa908a47b7bc5429741b3c552cad1596ae88ecbaff0446516d76fd40",
+      "bytes": 58008
+    }
+  ]
+}

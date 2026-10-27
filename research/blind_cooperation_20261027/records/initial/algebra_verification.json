@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "modulus": "0x1053",
+  "scope": "Independent finite algebra only; not full DQI verification",
+  "relative_trace_coordinate_cases": 4096,
+  "altered_formula_disagreements": 3136,
+  "inverse_identity_denominators": 4096,
+  "trace_transitivity_samples": 256,
+  "seed": 20261027,
+  "alpha_polynomial_encoding": 70,
+  "witness": {
+    "a0": 0,
+    "a1": 1,
+    "g0": 0,
+    "g1": 1,
+    "correct_H": 0,
+    "altered_H": 1
+  },
+  "exactly_one_prompt_line_changed": true,
+  "source_hashes": {
+    "private_change_record.json": "51057d5eabb6c6110e0f8514a24c9f4a8c3b9415d13778473a37fd9c19fd1861",
+    "prompt_01.txt": "8d2e51e3e8db86c3682e08575dc045d17240cf4f0e97d0e0957e15a7f6f3df50",
+    "source_provenance.json": "20e9cf689ecb6651285ccbc1e2efa8a6dbc22159f55d13500e0e727563393fba",
+    "sources\\pr7_design.md": "3d37bb7b77ad1a97133837e9797e7cb62dec9bda95e659f4ed8c94179a335700",
+    "sources\\pr7_metadata.json": "78070361e1cb8890a2a68dfb99f95cbe033126dbf64e37fb8a16f356ee9277b1",
+    "sources\\trace_phase.py": "a0a38d63dd86a2ba70528cdf3e338564ecb0cc4542485357189ed818511921d8",
+    "sources\\trace_phase3.py": "cf4f5685be67afffdd7786e1b6825d7cbce5f88e305fec5ca8b11c506c3afbea",
+    "sources\\trace_phase3_probe.py": "10c136b5d8d2130380ef6dcb6167a5a18b9a5575f759ceca4b6f9c017ef6517b",
+    "theory_baseline.txt": "abeb79b1e8c2e9209fd923d296220c57e34ae27724b77167acef3824876f8f90",
+    "verify_algebra.py": "599ac502426f9f3f1378e8ccedc6f53f5c9753be5abd45ee308a67dc17484345"
+  }
+}

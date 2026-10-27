@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "function_inputs_exhaustive": 64,
+  "root_branches": 2,
+  "independent_measurement_outcomes": 10,
+  "symbolic_scope": "all 7 input bits and every independent measurement outcome; exact Boolean ANF",
+  "all_input_and_scratch_wires_restored": true,
+  "relative_phase_exact": true,
+  "negative_deleted_phase_gates_rejected": 16,
+  "largest_polynomial_monomials": 21,
+  "op_counts": {
+    "CX": 125,
+    "CCX": 5,
+    "HMR": 10,
+    "CZif": 10,
+    "CZ": 6
+  },
+  "Toffoli_like": 5,
+  "active_wires": 15,
+  "scratch": {
+    "AND_results": 5,
+    "parity_and_product_pivots": 3
+  },
+  "attribution": "NIST SLP f121049, exact same ANF as this PR7 scalar trace"
+}

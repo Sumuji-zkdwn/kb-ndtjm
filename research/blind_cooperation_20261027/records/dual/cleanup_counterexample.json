@@ -1,0 +1,44 @@
+{
+  "correct_reverse_order": "PASS",
+  "discussion_forward_order": "NONZERO_RESIDUAL_PHASE",
+  "residual_ANF_masks": [
+    16402,
+    16406,
+    32786,
+    32790,
+    65542,
+    65550,
+    65553,
+    65554,
+    65557,
+    65570,
+    65571
+  ],
+  "witness": {
+    "b0_b1_b2_h0_h1_h2_r": [
+      0,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "measurement_results_in_execution_order": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "desired_phase_exponent": 0,
+    "wrong_phase_exponent": 1
+  },
+  "explanation": "Earlier HMR resets parent values required by later product corrections.",
+  "scope": "isolated discussion copy, no mutation of the preserved candidate"
+}

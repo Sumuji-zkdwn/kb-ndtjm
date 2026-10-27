@@ -5,17 +5,22 @@
 
 ## 最新のBM候補：盲協力からの全体実装と検証
 
-このブランチの[PR #8](https://github.com/Sumuji-zkdwn/kb-ndtjm/pull/8)は、
+第8版の[PR #8](https://github.com/Sumuji-zkdwn/kb-ndtjm/pull/8)は、
 第7版を起点としたGeminiとの盲協力で得た位相回路を完全DQIへ組み込んだ候補です。
 [Actions](https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40447516741)と
 未変更の公開公式検証器を通過しました。102,400 shotsで値・位相の誤りはともに0。
 Q=2,482を維持し、Toffoli相当数719,881 → 715,786、評価費用は
 5,282,883,023,272.201 → 5,252,831,659,254.676（追加0.568844%減）です。
 
+[盲協力の手続きと第7版から第8版の改善報告](docs/dqi-blindcoop-report-20261027.ja.md)、
 [比較条件・実装・検証結果](docs/dqi-blindcoop-validation-20261027.md)と
 [検証記録JSON](checkpoints/bm-blindcoop-20261027.json)を参照できます。
 Actionsの`dqi-bm-candidate-for-human-review`に、全13ファイルを照合済みの
-`submission-candidate.zip`を保存しています。Kaggleへの提出・秘密saltによる採点は未実施です。
+`submission-candidate.zip`を保存しています。2026年10月27日にKaggleへ提出し、
+公式公開採点で **Complete、Public Score 1.66950** を確認しました。
+第7版の1.66633から0.00317、約0.19024%向上しています。
+[公式採点の比較記録](checkpoints/kaggle-pr8-public-score-20261027.json)と
+[提出・採点監視のActions](https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40465609028)を参照できます。
 以下の通常の`dqi-gated.yml`の説明は、従来のEEA系候補についての記録です。
 最新BM候補の再現には`dqi-bm.yml`の`full-package`を使います。
 

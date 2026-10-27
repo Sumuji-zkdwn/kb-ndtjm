@@ -1,0 +1,12 @@
+{
+  "observed_utc": "2026-10-27T07:48:21.513857+00:00",
+  "ref": 57693011,
+  "date": "2026-10-27T07:11:38.670000",
+  "description": "DQI-PR8-b3f6373-147d53a4: Blind-cooperation scalar phase lowering. Q=2482; T=715786; published-verifier DQI cost=5.252831659254676e12 (-0.568844% vs PR7). 102400 shots: zero value/phase errors. Only DQI changed; other 12 files byte-identical to scored PR7. Frozen package from Actions run 40447516741.",
+  "file_name": "submission.zip",
+  "total_bytes": 83360676,
+  "status": "COMPLETE",
+  "public_score": "1.66950",
+  "private_score": "",
+  "error_description": ""
+}

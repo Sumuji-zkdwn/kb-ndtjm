@@ -1,0 +1,41 @@
+{
+  "recorded_at_utc": "2026-10-27T03:24:48.457938+00:00",
+  "scope": "local PR7 phase candidate, two external Gemini conversations",
+  "conversations": [
+    {
+      "label": "A",
+      "surface": "Chrome browser",
+      "model_label": "Gemini Auto",
+      "url": "https://gemini.google.com/app/779e52f9b50a8d07",
+      "exchanges_this_turn": 3
+    },
+    {
+      "label": "B",
+      "surface": "Windows Gemini app",
+      "model_label": "Flash",
+      "url": "https://gemini.google.com/app/3fedcaad74021583",
+      "exchanges_this_turn": 4,
+      "reply_02": "generic text-only inability response; mathematical discussion resumed in reply_03"
+    }
+  ],
+  "preserved_records_verified_unchanged": [
+    "dqi_pr7_blind_coop_20261027",
+    "fusion_experiment_20261027"
+  ],
+  "preserved_68_archive_sha256": "25b51db07b75a09ad325eee41e4ba14ab5243a6267b4b5a9dd254938bccdd79a",
+  "discussion_change": {
+    "record": "private_change_record.json",
+    "number": 1,
+    "disclosed_to_Gemini": false,
+    "present_in_final_code": false,
+    "concrete_counterexample": "cleanup_counterexample.json"
+  },
+  "contribution_summary": {
+    "A": "direct clean-target computation, shared-XOR discussion; exact correction and gate schedule supplied by Codex",
+    "B": "terminal phase-only suggestion and measurement-dependency discussion; Codex restricted elimination to terminal nodes",
+    "Codex": "explicit lowering, counterexample, 56 then 48 operation implementation, exact local certificates"
+  },
+  "verification": "optimized_verification.json",
+  "full_DQI_native_official_hardware_and_minimality": "NOT_VERIFIED",
+  "dependency_bundle": "base_candidate, copied and hash checked from preserved release"
+}

@@ -1,0 +1,121 @@
+{
+  "status": "PASS",
+  "scope": "local Forney inverse/phase replacement only",
+  "scalar": {
+    "status": "PASS",
+    "function_inputs_exhaustive": 64,
+    "root_branches": 2,
+    "independent_measurement_outcomes": 10,
+    "symbolic_scope": "all 7 input bits and every independent measurement outcome; exact Boolean ANF",
+    "all_input_and_scratch_wires_restored": true,
+    "relative_phase_exact": true,
+    "negative_deleted_phase_gates_rejected": 16,
+    "largest_polynomial_monomials": 21,
+    "op_counts": {
+      "CX": 125,
+      "CCX": 5,
+      "HMR": 10,
+      "CZif": 10,
+      "CZ": 6
+    },
+    "Toffoli_like": 5,
+    "active_wires": 15,
+    "scratch": {
+      "AND_results": 5,
+      "parity_and_product_pivots": 3
+    },
+    "attribution": "NIST SLP f121049, exact same ANF as this PR7 scalar trace"
+  },
+  "prefix": {
+    "status": "PASS",
+    "field_inputs": 4096,
+    "all_norm6_and_norm3_outputs": true,
+    "independent_measurement_variables": 30,
+    "workspace_clean": true,
+    "cleanup_phase_identically_zero": true,
+    "largest_polynomial_monomials": 431,
+    "composition": "The eraser has zero incremental phase for every outcome and restores D/scratch. Any previously applied phase on the computed norm values is therefore preserved."
+  },
+  "middle": {
+    "status": "PASS",
+    "independent_inputs": 46,
+    "independent_measurement_variables": 61,
+    "coefficient_comparisons": 82944,
+    "all_masks_and_root_branches": true,
+    "all_inputs_and_scratch_restored": true,
+    "phase_monomials": 29287,
+    "largest_polynomial_monomials": 34349,
+    "ideal": "root * parity(mask & (N * D^64 * A^8 * inv(embed3(B))))",
+    "method": "exact ANF for pre/post and field reference; independently certified scalar circuit substituted after literal operation-list correspondence",
+    "scalar_proof_substitution": true,
+    "measurement_count_breakdown": [
+      42,
+      10,
+      9
+    ]
+  },
+  "published_NIST_truth_table_identity": "PASS, f121049 matches all 64 values",
+  "retained_G_H_mask_stages_identical": true,
+  "physical_emitter_correspondence": "PASS, nontrivial qubit and mask mapping",
+  "old_Toffoli_like_per_point": 69,
+  "new_Toffoli_like_per_point": 68,
+  "root_tree_unchanged": 11,
+  "old_Forney_per_point": 80,
+  "new_Forney_per_point": 79,
+  "op_counts_baseline": {
+    "CX": 5221,
+    "CCX": 66,
+    "HMR": 87,
+    "CZ": 220,
+    "SWAP": 4,
+    "CCZ": 3,
+    "Z": 47
+  },
+  "op_counts_candidate": {
+    "CX": 5307,
+    "CCX": 68,
+    "HMR": 91,
+    "CZ": 229,
+    "Z": 42
+  },
+  "baseline_total_operations": 5648,
+  "candidate_total_operations": 5737,
+  "workspace_mapping": {
+    "B": [
+      30,
+      31,
+      32
+    ],
+    "H": [
+      36,
+      37,
+      38
+    ],
+    "five_AND_results": [
+      33,
+      34,
+      35,
+      39,
+      40
+    ],
+    "existing_pivots": [
+      42,
+      43,
+      44
+    ]
+  },
+  "extra_physical_wires_required_by_local_replacement": 0,
+  "conditional_full_DQI_projection": {
+    "Toffoli_like": 715786,
+    "Q": 2482,
+    "savings": 4095,
+    "Toffoli_percent": 0.5688440172750774
+  },
+  "full_DQI_built": false,
+  "native_Kickmix_parser": "NOT_RUN",
+  "official_verifier": "NOT_RUN",
+  "kaggle_submission": "NOT_RUN",
+  "seconds": 1.2257071999993059,
+  "circuit_sha256": "11730e6072f418d9624a11357c37a95d52eb720f68aa17ecccaa88d0fd863458",
+  "trusted_boundary": "Python exact ANF and compositional reasoning; no Lean kernel"
+}

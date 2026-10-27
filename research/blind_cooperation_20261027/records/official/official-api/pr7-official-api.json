@@ -1,0 +1,12 @@
+{
+  "observed_utc": "2026-10-27T07:11:35.717801+00:00",
+  "ref": 57685010,
+  "date": "2026-10-27T01:32:34.713000",
+  "description": "DQI-PR7-240ba77-24d4a4f9: Conservative BM, qubit reuse, GF(64)/GF(8) Forney trace phase. Q=2482; T=719881; published-verifier DQI cost=5.282883023272201e12 (-78.383809% vs v1.0). 102400+1536 checks: zero value/phase errors. Only DQI changed; other 12 files preserved. Official score pending.",
+  "file_name": "submission.zip",
+  "total_bytes": 83310332,
+  "status": "COMPLETE",
+  "public_score": "1.66633",
+  "private_score": "",
+  "error_description": ""
+}

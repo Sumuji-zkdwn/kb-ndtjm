@@ -133,7 +133,30 @@ Actions, public official verification and measured artifact improvement. It
 provides a concrete case for documenting the blind-cooperation procedure.
 The isolated contribution of the deliberately altered sentence, and the
 procedure's effectiveness across other tasks, remain unmeasured.
-Kaggle submission and held-out leaderboard evaluation were not performed.
+At this integration checkpoint, Kaggle submission was still NOT_RUN. The
+subsequent official public result is recorded below; the earlier JSON checkpoint
+is retained as a record of its original stage.
+
+## Kaggle official public evaluation
+
+The frozen PR8 package was submitted once on 2026-10-27 at 16:11:38 JST.
+At 16:48:21 JST, Kaggle returned COMPLETE with public score **1.66950**, compared
+with PR7's COMPLETE public score **1.66633**. The displayed score gain is
+0.00317, or approximately **0.1902384%**. Submission refs are 57685010 (PR7)
+and 57693011 (PR8).
+
+The submitted PR8 ZIP was downloaded back from Kaggle and matched the verified
+package SHA-256 above. Comparing both actual submitted archives confirmed that
+only `dqi.kmb` changed; the other twelve members are byte-identical.
+
+- [Official scoring and package comparison checkpoint](../checkpoints/kaggle-pr8-public-score-20261027.json).
+- [Successful submission and observation workflow](https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40465609028).
+- [Japanese report on the procedure, dialogue, implementation, and official result](dqi-blindcoop-report-20261027.ja.md).
+
+This is a scored before/after result for the artifact produced through the whole
+blind-cooperation sequence. The separate causal contribution of intentional error
+seeding is not isolated. The result is the official public score; the final
+private score is not yet published.
 
 ## Reproduction
 

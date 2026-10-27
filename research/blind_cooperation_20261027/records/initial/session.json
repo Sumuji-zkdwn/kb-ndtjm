@@ -1,0 +1,15 @@
+{
+  "recorded_at_utc": "2026-10-27T02:10:45.100Z",
+  "conversation_url": "https://gemini.google.com/app/779e52f9b50a8d07",
+  "conversation_title": "DQI第7版Forney回路の最適化 - Google Gemini",
+  "model_label": "Gemini 自動モード",
+  "underlying_model": "not exposed in observed UI",
+  "user_messages_sent": 3,
+  "assistant_replies_received": 3,
+  "source_head": "13f74c4f1574ca234e91e3e08941494cf5af5386",
+  "sent": "theory text only; no code, circuit, archive, private change record, or provenance files",
+  "deliberate_change": "one term added to the separate initial discussion copy; not disclosed to Gemini",
+  "status": "initial collaboration completed; no new reduced circuit synthesized",
+  "screenshot": "gemini_dialogue.jpg",
+  "transcript_extraction": "Read live model-response-content DOM. Preserve raw innerHTML and normalize textual math from data-math attributes. No correction of raw replies."
+}
