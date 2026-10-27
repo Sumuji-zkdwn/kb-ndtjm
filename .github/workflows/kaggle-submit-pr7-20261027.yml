@@ -1,0 +1,53 @@
+name: Submit verified PR7 ZIP to Kaggle (one authorized attempt)
+
+on:
+  push:
+    branches: ['submit/dqi-pr7-240ba77-20261027']
+    paths: ['.github/workflows/kaggle-submit-pr7-20261027.yml']
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: kaggle-dqi-pr7-240ba77-24d4a4f9
+  cancel-in-progress: false
+
+jobs:
+  submit:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify metadata of the exact previously validated Actions artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/input build/submission-report
+          gh api repos/Sumuji-zkdwn/kb-ndtjm/actions/artifacts/12694318660 > build/artifact-metadata.json
+      - name: Download the exact artifact (do not regenerate or repack)
+        uses: actions/download-artifact@v4
+        with:
+          artifact-ids: '12694318660'
+          run-id: '40414437653'
+          github-token: ${{ github.token }}
+          path: build/input
+          merge-multiple: true
+      - name: Install the official Kaggle client at a fixed upstream commit
+        run: python -m pip install --disable-pip-version-check 'kaggle @ git+https://github.com/Kaggle/kaggle-cli.git@42f85b6db020f915e32eb35131975537785a8cf3'
+      - name: Audit all 13 files, check quota and duplicates, submit once, then read score
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: python tools/submit_verified_pr7_20261027.py --input build/input/submission-candidate.zip --artifact-metadata build/artifact-metadata.json --submit --wait-seconds 900
+      - name: Preserve submission receipt and official scoring result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kaggle-pr7-submission-receipt
+          path: build/submission-report/submission-result.json
+          if-no-files-found: warn
+          retention-days: 90
