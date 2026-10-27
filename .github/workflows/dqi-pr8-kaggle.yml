@@ -1,0 +1,48 @@
+name: Submit frozen PR8 to Kaggle and record official score
+
+on:
+  push:
+    branches: ['wfs/dqi-pr8-kaggle-20261027']
+    paths:
+      - '.github/workflows/dqi-pr8-kaggle.yml'
+      - 'research/kaggle_pr8/submit_pr8.py'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: kaggle-frozen-pr8-147d53a4
+  cancel-in-progress: false
+
+jobs:
+  submit-and-observe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Download the immutable package from the successful PR8 validation run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/pr8/input build/pr8/evidence
+          gh run download 40447516741 --repo "$GITHUB_REPOSITORY" --name dqi-bm-candidate-for-human-review --dir build/pr8/input
+      - name: Verify exact frozen PR8 bytes before authentication
+        run: python research/kaggle_pr8/submit_pr8.py --package build/pr8/input/submission-candidate.zip --out build/pr8/evidence
+      - name: Install the official Kaggle client used by the successful validation run
+        run: python -m pip install --disable-pip-version-check kaggle==2.2.5 kagglesdk==0.1.38
+      - name: Submit once under the user's explicit authorization and wait for official scoring
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: python -u research/kaggle_pr8/submit_pr8.py --package build/pr8/input/submission-candidate.zip --out build/pr8/evidence --submit-authorized-pr8
+      - name: Preserve receipt, official status history, and comparison even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kaggle-pr8-official-evidence
+          path: build/pr8/evidence/
+          if-no-files-found: error
+          retention-days: 90
