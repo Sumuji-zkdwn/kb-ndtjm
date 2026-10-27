@@ -1,4 +1,6 @@
-name: Submit verified PR7 ZIP to Kaggle (one authorized attempt)
+name: Submit verified PR7 ZIP to Kaggle (canonical filename)
+# Prior request was rejected before acceptance. Read-only run 40432960080
+# confirmed no matching submission and num_today=0 before this corrected request.
 
 on:
   push:
