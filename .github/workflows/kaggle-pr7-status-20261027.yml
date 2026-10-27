@@ -1,0 +1,46 @@
+name: Read Kaggle PR7 submission status (no upload)
+on:
+  push:
+    branches: ['submit/dqi-pr7-240ba77-20261027']
+    paths: ['.github/workflows/kaggle-pr7-status-20261027.yml']
+permissions:
+  contents: read
+jobs:
+  status:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install fixed official client
+        run: python -m pip install --disable-pip-version-check 'kaggle @ git+https://github.com/Kaggle/kaggle-cli.git@42f85b6db020f915e32eb35131975537785a8cf3'
+      - name: Read history and limits only
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p build/status
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          from kaggle.api.kaggle_api_extended import KaggleApi
+          from tools.submit_verified_pr7_20261027 import COMPETITION, MARKER, FILENAME, submission_row
+          result = {"mode":"READ_ONLY", "submission_attempted":False}
+          api=KaggleApi()
+          api.authenticate()
+          limits=api.competition_get_submission_limits(COMPETITION)
+          result["limits"]={k:getattr(limits,k,None) for k in ("num_today","num_total","num_allowed_now","limited_by_total")}
+          rows=api.competition_submissions(COMPETITION,page_size=100) or []
+          result["recent_submissions"]=[submission_row(s) for s in rows if s]
+          result["matching"]=[submission_row(s) for s in rows if s and (MARKER in (getattr(s,"description",None) or "") or FILENAME==(getattr(s,"file_name",None) or ""))]
+          Path("build/status/kaggle-pr7-status.json").write_text(json.dumps(result,indent=2)+"\n")
+          print(json.dumps(result,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kaggle-pr7-readonly-status
+          path: build/status/kaggle-pr7-status.json
+          if-no-files-found: warn
+          retention-days: 90
