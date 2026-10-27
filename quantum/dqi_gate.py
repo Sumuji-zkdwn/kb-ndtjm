@@ -9,6 +9,7 @@ NAMES = {*(f"S{i}" for i in range(70)), *(f"E{i}" for i in range(4095))}
 EEA_CHECKPOINT_SHA = "416c70ef2097a07d166b8f9276872a911177694e12fe44cbf4ac23277fa94cb1"
 BM_SCRATCH3_CHECKPOINT_SHA = "9a7036ef69e46788ab20542e0a22dc21f54ba9ee4c99d2e7b03f4bd28f65bda5"
 BM_TRACE6_CHECKPOINT_SHA = "8b80aec2341c3b016b5dbd0ac74a8b78a8c1b353407766370df7c7b5ce39414d"
+BM_TRACE3_CHECKPOINT_SHA = "e957ea130c26d77887083088bf8ed1d7c7ee05e834cb2fd3ebab1c0f8b916b1d"
 
 def sha(path):
     h=hashlib.sha256()
@@ -156,7 +157,7 @@ def validate_comparison_measurement(report,reference,verifier,verifier_sha):
 
 def reuse_comparison_checkpoint(path,reference,data,verifier):
     digest=sha(path)
-    if digest not in (EEA_CHECKPOINT_SHA,BM_SCRATCH3_CHECKPOINT_SHA,BM_TRACE6_CHECKPOINT_SHA):
+    if digest not in (EEA_CHECKPOINT_SHA,BM_SCRATCH3_CHECKPOINT_SHA,BM_TRACE6_CHECKPOINT_SHA,BM_TRACE3_CHECKPOINT_SHA):
         raise ValueError("comparison checkpoint is not pinned successful evidence")
     checkpoint=json.loads(Path(path).read_text())
     if checkpoint["status"]!="PASS" or checkpoint["actions_run_conclusion"]!="success":
@@ -207,7 +208,7 @@ def main():
             raise ValueError("comparison checkpoint requires an explicit complete comparison circuit")
         if a.comparison_checkpoint:
             digest=sha(a.comparison_checkpoint)
-            expected_batch={EEA_CHECKPOINT_SHA:256,BM_SCRATCH3_CHECKPOINT_SHA:1024,BM_TRACE6_CHECKPOINT_SHA:1024}.get(digest)
+            expected_batch={EEA_CHECKPOINT_SHA:256,BM_SCRATCH3_CHECKPOINT_SHA:1024,BM_TRACE6_CHECKPOINT_SHA:1024,BM_TRACE3_CHECKPOINT_SHA:1024}.get(digest)
             if expected_batch is None or a.full_batch_size!=expected_batch:
                 raise ValueError("comparison evidence is unpinned or its batch size differs")
         result["baseline"]=baseline(a.baseline)

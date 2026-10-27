@@ -1,0 +1,11 @@
+Source: usnistgov/Circuits @ 8366158a4324ef902ce740f29ddc9f7ebb1018b2
+data/slp/n6/n6_slp_mc5.txt.gz
+
+f121049 = x3x6+x3x5+x3x4+x2x5+x2x4+x2x3x4+x1x4+x1x3x5+x1x2x6
+T = (A0 L : L) (A1 L : L) (A2 L : 0) (A3 L : 0) (A4 2 : 0 3)
+a0 = (x5) * (x5+x3)                                # a0 = x5+x3x5
+a1 = (x6+x5+x3) * (x3+x2)                          # a1 = x3+x3x6+x3x5+x2x6+x2x5+x2x3
+a2 = (x2) * (a0+x6+x5+x4+x3)                       # a2 = x2x6+x2x4+x2x3+x2x3x5
+a3 = (x2) * (a0+x5+x4+x3)                          # a3 = x2x4+x2x3+x2x3x5
+a4 = (a2+x3+x2+x1) * (a0+a3+x5+x4+x3+x2+x1)        # a4 = x3+x3x5+x3x4+x2+x2x6+x2x4+x2x3+x2x3x4+x1+x1x4+x1x3x5+x1x2x6
+f  = a1+a4+a0+x5+x2+x1
