@@ -1,4 +1,5 @@
 name: Read Kaggle PR7 submission status (no upload)
+# Check acceptance and scoring after canonical-filename request.
 on:
   push:
     branches: ['submit/dqi-pr7-240ba77-20261027']
@@ -33,7 +34,7 @@ jobs:
           result["limits"]={k:getattr(limits,k,None) for k in ("num_today","num_total","num_allowed_now","limited_by_total")}
           rows=api.competition_submissions(COMPETITION,page_size=100) or []
           result["recent_submissions"]=[submission_row(s) for s in rows if s]
-          result["matching"]=[submission_row(s) for s in rows if s and (MARKER in (getattr(s,"description",None) or "") or FILENAME==(getattr(s,"file_name",None) or ""))]
+          result["matching"]=[submission_row(s) for s in rows if s and (MARKER in (getattr(s,"description",None) or ""))]
           Path("build/status/kaggle-pr7-status.json").write_text(json.dumps(result,indent=2)+"\n")
           print(json.dumps(result,indent=2))
           PY
