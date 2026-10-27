@@ -15,7 +15,7 @@ ARTIFACT_ID = 12694318660
 RUN_ID = 40414437653
 ZIP_SHA256 = "24d4a4f91127227959b01fd073e526ec2a80cd68f68bba59410ae46a01b8c246"
 ZIP_BYTES = 83310332
-FILENAME = "DQI_PR7_240ba77_24d4a4f9_submission.zip"
+FILENAME = "submission.zip"
 MARKER = "DQI-PR7-240ba77-24d4a4f9"
 DESCRIPTION = (
     MARKER + ": Conservative BM, qubit reuse, GF(64)/GF(8) Forney trace phase. "
@@ -144,7 +144,6 @@ def matching_submissions(api):
     rows = api.competition_submissions(COMPETITION, page_size=100) or []
     return [s for s in rows if s and (
         MARKER in (getattr(s, "description", None) or "")
-        or FILENAME == (getattr(s, "file_name", None) or "")
     )]
 
 def main():
@@ -253,6 +252,14 @@ def main():
     except Exception as e:
         report["status"] = "SUBMISSION_OUTCOME_UNCERTAIN" if report["submission_attempted"] else "PREFLIGHT_FAILED"
         message = str(e)
+        response = getattr(e, "response", None)
+        if response is not None:
+            report["http_status"] = response.status_code
+            try:
+                body = response.json()
+                message += " | " + json.dumps(body)
+            except ValueError:
+                message += " | " + response.text[:2000]
         for secret_name in ("KAGGLE_API_TOKEN", "GH_TOKEN", "GITHUB_TOKEN"):
             secret = os.environ.get(secret_name)
             if secret:
