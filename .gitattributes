@@ -1,0 +1,3 @@
+# Preserve the exact bytes of quoted dialogue and evaluation snapshots. Their
+# native line endings and trailing spaces are part of the source hash record.
+/research/blind_cooperation_20261027/records/** -text -whitespace

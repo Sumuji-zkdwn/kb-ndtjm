@@ -113,7 +113,7 @@ def collect():
         "original_record_hashes_and_copies_match": True,
         "source_files": sources,
     }
-    (HERE / "evidence.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    (HERE / "evidence.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
     print(json.dumps({"status": "PASS", "preserved_source_files": len(sources),
         "official_score": str(new_score), "score_change": str(new_score-old_score),
         "saved_full_instructions": old["ops"]-new["ops"]}))

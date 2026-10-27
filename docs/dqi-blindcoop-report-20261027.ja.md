@@ -119,7 +119,7 @@ q(B,H) = Tr_GF(8)/GF(2)(H * inv(B))
 - [局所候補の検証記録](../research/blind_cooperation_20261027/records/dual/optimized_verification.json)、[会話Aの最終相談](../research/blind_cooperation_20261027/records/dual/a_prompt_03.txt)、[会話Bの最終相談](../research/blind_cooperation_20261027/records/dual/b_prompt_04.txt)。
 - [実装したスカラー回路](../research/bm_port/trace_phase5_scalar.py)、[完全DQIへの接続](../research/bm_port/trace_phase5.py)、[NIST構成の出典](../research/bm_port/NIST_f121049.txt)。
 
-原本の各実験フォルダーは保存時点の状態を保つ。局所候補の記録にある全体実行のNOT_RUN、および全体CI完了時点の記録にあるKaggleのNOT_RUNは、その段階の履歴である。現在の採点結果は上記の公式採点記録に追記している。
+対話と評価の原文は、改行と末尾空白を含めてハッシュが一致する形で保存している。原本の各実験フォルダーは保存時点の状態を保つ。局所候補の記録にある全体実行のNOT_RUN、および全体CI完了時点の記録にあるKaggleのNOT_RUNは、その段階の履歴である。現在の採点結果は上記の公式採点記録に追記している。
 
 第7版の実装は `240ba77a94e01e4d35bc82d936833ae2fbae783f`、第8版の検証済み実装は `b3f6373d10bfec8b4c7a102f774399d2563bfe8f`。DQIと提出ZIPのSHA-256は公式採点の比較記録に保存した。
 
