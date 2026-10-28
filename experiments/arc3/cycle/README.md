@@ -8,7 +8,7 @@
 ゲームIDで切り替える Explorer の hybrid は、別系統のデモ診断用比較器です。
 このサイクルのCPU候補は全ゲートウェイ環境を列挙し、方策へゲームIDを渡しません。
 その接続条件だけで未知環境への汎化が証明されるわけではありません。
-出典: [公式技術報告 Table 1 / Section 3.2](https://arcprize.org/media/ARC_AGI_3_Technical_Report.pdf)。
+出典: [公式技術報告 Table 1 / Section 3.6](https://arcprize.org/media/ARC_AGI_3_Technical_Report.pdf)。
 
 量子回路で使った「候補を固定 → 検証 → Kaggle → 結果を保存 → 次の変更」を、
 CPU と GPU の独立した系列に適用します。自動的に改善案を発明する仕組みではなく、
