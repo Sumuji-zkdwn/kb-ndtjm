@@ -1,9 +1,10 @@
 {
-  "stage": "prepare",
-  "profile": "all",
+  "version": "",
+  "baseline_label": "connected-baseline-20261029",
+  "connection_run_id": "40758186049",
+  "stage": "submit",
+  "profile": "cpu-c8b",
   "label": "baseline-20261029",
-  "hypothesis": "Freeze the existing CPU c8b baseline and the GPU baseline/memory pair without changing their code cells.",
-  "source_run_id": "",
-  "baseline_label": "baseline-20261029",
-  "version": ""
+  "hypothesis": "Score the already completed and newly ZIP-verified CPU baseline exactly once.",
+  "source_run_id": "40744103645"
 }
