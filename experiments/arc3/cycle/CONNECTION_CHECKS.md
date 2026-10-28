@@ -66,7 +66,14 @@ The derived factories use a fresh empty directory, which keeps gateway discovery
 independent of current-directory contents. Both GPU copies share this fix.
 Normal Save Version runs use a short connectivity budget (one pass, concurrency
 four, at most two actions and 90 seconds per game, five-minute benchmark budget
-after model startup). The
+after model startup). A Kaggle Save Version completed in 1178.9 seconds while
+the backend was still loading checkpoint shard 34/38; every game's token count
+was zero. That run is retained as failed inference validation, despite its
+Notebook COMPLETE status. The derived normal path now waits up to 45 additional
+minutes for model health, checks a real completion, and requires game tokens
+plus a non-RESET action. Exact-version `model-diagnostics.json` must pass before
+GPU submission or the memory comparison can start. These additional checks run
+only outside a real competition rerun. The
 real competition branch retains the original full solver settings and budgets.
 
 `cpu-c8b-probe64` is a separate

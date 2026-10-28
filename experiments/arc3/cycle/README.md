@@ -133,6 +133,12 @@ GPU は基準版と記憶版で同じ環境・入力・予算を使い、Noteboo
 最終的な公式スコアを別々に記録します。既知3ゲームでの成功や単発 Public Score の
 改善だけで、未知ゲームへの一般化や記憶機構単独の因果効果を結論しません。
 
+GPU の通常実行は、モデルの health 応答、実際の生成、ゲーム中の生成トークンと
+RESET 以外の操作まで確認します。モデル読み込みが12分を超えた実測があるため、
+通常検証では最大45分の追加起動待ちを認め、準備後に短い検証予算を開始します。
+`model-diagnostics.json` が不合格なら、Notebook が COMPLETE でも公式提出と
+記憶候補の開始を止めます。公式競技再実行の起動・探索予算は元の設定を維持します。
+
 ```powershell
 python -m pip install -r experiments/arc3/cycle/requirements.txt
 python experiments/arc3/cycle/cycle.py prepare --profile cpu-c8b --notebook path/to/new.ipynb --label c9-one-change --hypothesis "one concrete change" --out runs/cpu/c9

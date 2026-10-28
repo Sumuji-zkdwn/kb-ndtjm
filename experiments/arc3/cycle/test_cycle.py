@@ -1,12 +1,60 @@
 """Offline tests for mutations, receipts, identity and comparison boundaries."""
 import copy
+import io
 from pathlib import Path
 import shutil
 import tempfile
 from types import SimpleNamespace as Obj
 import unittest
+from unittest.mock import patch
 
 import cycle
+import gpu_validation
+
+
+class GpuValidationTests(unittest.TestCase):
+    def test_dead_model_cannot_pass_notebook_validation(self):
+        with self.assertRaisesRegex(RuntimeError, "exited"):
+            gpu_validation.validate_model_backend(Obj(poll=lambda: 1), "http://local/v1", "model", "unused")
+
+    def test_model_readiness_timeout_is_not_success(self):
+        with patch("time.monotonic", side_effect=[0, 20]):
+            with self.assertRaisesRegex(RuntimeError, "deadline"):
+                gpu_validation.validate_model_backend(Obj(poll=lambda: None), "http://local/v1", "model", "unused", timeout_s=10)
+
+    def test_model_health_without_generation_is_rejected(self):
+        health = Obj(status=200, __enter__=lambda s:s, __exit__=lambda *a:None)
+        from contextlib import nullcontext
+        with patch("urllib.request.urlopen", side_effect=[nullcontext(health), io.StringIO('{"choices":[{}],"usage":{"completion_tokens":0}}')]):
+            with self.assertRaisesRegex(RuntimeError, "no completion"):
+                gpu_validation.validate_model_backend(Obj(poll=lambda: None), "http://local/v1", "model", "unused")
+
+    def test_ready_backend_and_real_game_action_are_required(self):
+        from contextlib import nullcontext
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "model-diagnostics.json"
+            with patch("urllib.request.urlopen", side_effect=[nullcontext(Obj(status=200)), io.StringIO('{"choices":[{}],"usage":{"completion_tokens":3}}')]):
+                gpu_validation.validate_model_backend(Obj(poll=lambda: None), "http://local/v1", "model", path)
+            reset = Obj(action=Obj(id=Obj(name="RESET")), generated_tokens=0)
+            action = Obj(action=Obj(id=Obj(name="ACTION1")), generated_tokens=20)
+            with self.assertRaisesRegex(RuntimeError, "non-RESET"):
+                gpu_validation.validate_game_inference([Obj(history=[reset], final_generated_tokens=0)], path)
+            report = gpu_validation.validate_game_inference([Obj(history=[reset, action], final_generated_tokens=0)], path)
+            self.assertTrue(report["passed"])
+            self.assertEqual(report["non_reset_game_actions"], 1)
+            self.assertEqual(report["game_generated_tokens"], 20)
+
+    def test_cycle_rejects_missing_or_zero_token_gpu_evidence(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            bundle = Path(tmp)
+            with self.assertRaisesRegex(ValueError, "Collect"):
+                cycle.require_gpu_validation(bundle)
+            cycle.save(bundle / "evidence/output.json", {})
+            with self.assertRaisesRegex(ValueError, "lacks"):
+                cycle.require_gpu_validation(bundle)
+            cycle.save(bundle / "evidence/notebook-output/model-diagnostics.json", {"passed": True})
+            with self.assertRaisesRegex(ValueError, "tokens"):
+                cycle.require_gpu_validation(bundle)
 
 
 class MissingKernel(Exception):

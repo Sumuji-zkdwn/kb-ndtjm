@@ -485,6 +485,23 @@ def cycle_file_digest(path):
         return hashlib.file_digest(stream, "sha256").hexdigest()
 
 
+def require_gpu_validation(bundle):
+    """A normal Notebook exit alone does not establish model/game connectivity."""
+    evidence = Path(bundle) / "evidence"
+    if not (evidence / "output.json").exists():
+        raise ValueError("Collect exact-version GPU output before advancing the GPU line")
+    files = list((evidence / "notebook-output").rglob("model-diagnostics.json"))
+    if len(files) != 1:
+        raise ValueError("GPU output lacks an unambiguous inference validation report")
+    value = read(files[0])
+    if not (value.get("passed") is True and value.get("backend_ready") is True
+            and value.get("probe_completion_tokens", 0) > 0
+            and value.get("game_generated_tokens", 0) > 0
+            and value.get("non_reset_game_actions", 0) > 0):
+        raise ValueError("GPU validation requires model tokens and a non-RESET game action")
+    return value
+
+
 def submit(api, bundle):
     verify(bundle, launch=True)
     evidence = Path(bundle) / "evidence"
@@ -509,6 +526,8 @@ def submit(api, bundle):
         raise ValueError("Previous submit may have succeeded. Reconcile; do not submit again")
     # The remote output must exist for the exact completed version.
     collect_output(api, bundle)
+    if verify(bundle)["identity"]["line"] == "gpu":
+        require_gpu_validation(bundle)
     output = evidence / "notebook-output"
     parquet = output / "submission.parquet"
     if not parquet.is_file() or parquet.stat().st_size == 0:
