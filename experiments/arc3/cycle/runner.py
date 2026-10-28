@@ -37,18 +37,21 @@ def configuration():
 def summary(root):
     lines = ["# ARC3 improvement cycle", "",
              "CPU and GPU are separate experiment lines. Notebook completion and official scoring are separate stages.", "",
-             "| Profile | Candidate | Notebook status | Submission ref | Official status | Public score |",
-             "|---|---|---|---|---|---|"]
+             "| Profile | Candidate | Notebook / version | Notebook status | Submission ref | Official status | Public score |",
+             "|---|---|---|---|---|---|---|"]
     for manifest_path in sorted(root.glob("*/*/manifest.json")):
         bundle = manifest_path.parent
         manifest = cycle.verify(bundle)
         profile = manifest["identity"]["profile"] + "/" + manifest["identity"]["label"]
         values = {}
-        for name in ("kernel-status.json", "submission-receipt.json", "official-score.json"):
+        for name in ("kernel-status.json", "submission-receipt.json", "official-score.json", "kernel-receipt.json"):
             path = bundle / "evidence" / name
             values[name] = cycle.receipt(bundle, name) if path.exists() else {}
         status, sub, score = (values[name] for name in ("kernel-status.json", "submission-receipt.json", "official-score.json"))
-        lines.append(f"| {profile} | {manifest['candidate_id'][:12]} | {status.get('status', 'not observed')} | "
+        kernel = values["kernel-receipt.json"]
+        url = "https://www.kaggle.com/code/" + manifest["kernel"]
+        link = f"[Notebook]({url}) / {kernel.get('version', 'not started')}"
+        lines.append(f"| {profile} | {manifest['candidate_id'][:12]} | {link} | {status.get('status', 'not observed')} | "
                      f"{sub.get('ref', '')} | {score.get('status', 'not submitted / not observed')} | {score.get('public_score', '')} |")
     lines.extend(["", "The next iteration must state one concrete change and retain its baseline.",
                   "Inspect notebook outputs and failures before spending another official submission.",
@@ -89,8 +92,8 @@ def run(request, root):
                     if request["stage"] == "start":
                         raise
         if request["stage"] == "start":
-            cycle.start(api, bundle)
-            cycle.observe_kernel(api, bundle)
+            print(json.dumps(cycle.start(api, bundle)), flush=True)
+            print(json.dumps(cycle.observe_kernel(api, bundle)), flush=True)
         elif request["stage"] == "public-smoke":
             if not profile.startswith("cpu-"):
                 raise ValueError("The offline public-smoke runner is for CPU candidates")
