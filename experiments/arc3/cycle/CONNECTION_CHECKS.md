@@ -65,7 +65,8 @@ current directory and merges discovered local games with the gateway catalog.
 The derived factories use a fresh empty directory, which keeps gateway discovery
 independent of current-directory contents. Both GPU copies share this fix.
 Normal Save Version runs use a short connectivity budget (one pass, concurrency
-four, at most two actions and 90 seconds per game, 15-minute soft budget). The
+four, at most two actions and 90 seconds per game, five-minute benchmark budget
+after model startup). The
 real competition branch retains the original full solver settings and budgets.
 
 `cpu-c8b-probe64` is a separate

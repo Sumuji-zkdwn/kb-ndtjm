@@ -19,9 +19,9 @@ def build():
                 source = source.replace('    spec = taaf.game_api.ArcadeSpec(\n',
                     '    remote_only_dir = tempfile.mkdtemp(prefix="arc3_remote_only_")\n    spec = taaf.game_api.ArcadeSpec(\n', 1)
                 source = source.replace('environments_dir=""', 'environments_dir=remote_only_dir')
-                old = 'budget = float(getattr(target, "max_runtime_s", 0.0) or 0.0)'
+                old = 'soft_end = datetime.fromtimestamp(NOTEBOOK_START_EPOCH) + timedelta(seconds=budget - min(600.0, budget / 2))'
                 assert source.count(old) == 1
-                source = source.replace(old, 'budget = min(900.0, float(getattr(target, "max_runtime_s", 0.0) or 0.0))')
+                source = source.replace(old, 'soft_end = datetime.now() + timedelta(seconds=300.0)')
                 factory_changes += 1
                 deadline_changes += 1
             if 'bm.solver.max_runtime_s_per_game = 48*60' in source:
@@ -35,7 +35,7 @@ def build():
             cell["source"] = source
         assert (factory_changes, validation_changes, deadline_changes) == (1, 1, 1)
         derived["cells"].insert(0, {"cell_type": "markdown", "metadata": {}, "id": "connection-validation-scope",
-            "source": "# Official SDK connection variant\nGateway discovery uses a fresh empty directory. Normal Save Version uses one pass, four concurrent games, at most two actions and 90 seconds per game with a 15-minute soft budget. Competition reruns keep the original full solver configuration. Original notebook retained separately.\n"})
+            "source": "# Official SDK connection variant\nGateway discovery uses a fresh empty directory. Normal Save Version uses one pass, four concurrent games, at most two actions and 90 seconds per game with a five-minute benchmark budget after model startup. Competition reruns keep the original full solver configuration. Original notebook retained separately.\n"})
         target = cycle.HERE / "notebooks" / (profile + "-connected.ipynb")
         cycle.save(target, cycle.clean_notebook(derived))
         record[profile + "-connected"] = {"baseline": profile, "original_code_sha256": cycle.code_hash(original),
