@@ -1,10 +1,10 @@
 {
-  "stage": "cpu-pair",
+  "stage": "observe",
   "profile": "cpu-c8b",
   "label": "baseline-20261029",
   "candidate_label": "probe64-v1",
-  "hypothesis": "Record the now-complete CPU baseline score and continue the existing probe64 candidate after reviewed rejection recovery.",
-  "source_run_id": "40767987282",
+  "hypothesis": "Retain the complete CPU 0.35 baseline and the explicit daily-quota rejection; the next submission window belongs to the GPU baseline.",
+  "source_run_id": "40787185680",
   "connection_run_id": "",
   "baseline_label": "baseline-20261029",
   "version": ""
