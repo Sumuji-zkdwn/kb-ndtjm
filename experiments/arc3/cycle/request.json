@@ -1,10 +1,10 @@
 {
   "version": "",
   "baseline_label": "connected-baseline-20261029",
-  "connection_run_id": "40758186049",
-  "stage": "start",
+  "connection_run_id": "",
+  "stage": "submit",
   "profile": "cpu-c8b-probe64",
   "label": "probe64-v1",
   "hypothesis": "Earlier coverage intervention (64 versus 96 stagnant decisions) may reduce repeated ineffective actions; measure within the CPU line.",
-  "source_run_id": "40744103645"
+  "source_run_id": "40758814052"
 }
