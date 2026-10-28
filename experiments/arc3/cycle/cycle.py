@@ -8,7 +8,7 @@ from __future__ import annotations
 import argparse
 import ast
 import copy
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 import hashlib
 import json
@@ -525,6 +525,70 @@ def authorize_rejected_submission_retry(api, bundle, proof_path):
                  marker_matches=0, active_submissions=0, maximum_additional_submit_calls=1)
 
 
+def observe_submission_limits(api, bundle):
+    value = api.competition_get_submission_limits(COMPETITION)
+    remaining = getattr(value, "num_allowed_now", None)
+    if not isinstance(remaining, int) or remaining < 0:
+        raise ValueError("Kaggle did not return a usable official submission allowance")
+    instant = datetime.fromisoformat(now()).astimezone(timezone.utc)
+    reset = (instant + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
+    return event(bundle, "submission-limits.json", num_today=value.num_today, num_total=value.num_total,
+                 num_allowed_now=remaining, limited_by_total=value.limited_by_total,
+                 next_utc_reset=reset.isoformat(), competition=COMPETITION)
+
+
+def known_daily_quota_rejection(value):
+    if value.get("status_code") != 400:
+        return False
+    try:
+        payload = json.loads(value.get("message", ""))
+    except (TypeError, ValueError):
+        return False
+    error = payload.get("error", {}) if isinstance(payload, dict) else {}
+    if not isinstance(error, dict) or not isinstance(error.get("message", ""), str):
+        return False
+    message = error.get("message", "").lower()
+    return (error.get("code") == 400 and error.get("status") == "FAILED_PRECONDITION"
+            and "daily submission allowance" in message and "tomorrow utc" in message)
+
+
+def next_submission_intent(bundle):
+    """Unknown responses never retry; an explicit daily quota refusal can resume on a later UTC day."""
+    evidence = Path(bundle) / "evidence"
+    if not (evidence / "submission-intent.json").exists():
+        return "submission-intent.json", "submitted_once"
+    paths = [evidence / "submission-intent.json"]
+    paths += [p for p in [evidence / "submission-retry-intent.json"] if p.exists()]
+    paths += list(evidence.glob("submission-quota-*-intent.json"))
+    latest = max(paths, key=lambda p: (datetime.fromisoformat(receipt(bundle, p.name)["created_utc"]),
+                 0 if p.name == "submission-intent.json" else 1 if p.name == "submission-retry-intent.json" else 2, p.name))
+    error_path = latest.with_name(latest.name.replace("-intent.json", "-http-error.json"))
+    error = receipt(bundle, error_path.name) if error_path.exists() else {}
+    if known_daily_quota_rejection(error):
+        instant = datetime.fromisoformat(now()).astimezone(timezone.utc)
+        refused = datetime.fromisoformat(error["observed_utc"]).astimezone(timezone.utc)
+        reset = (refused + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
+        if instant < reset:
+            return None, reset.isoformat()
+        name = "submission-quota-" + instant.strftime("%Y%m%d") + "-intent.json"
+        if (evidence / name).exists():
+            raise ValueError("Previous daily quota retry may have succeeded; reconcile without another request")
+        event(bundle, "submission-quota-resume-" + instant.strftime("%Y%m%d") + ".json",
+              prior_intent=latest.name, prior_intent_sha256=cycle_file_digest(latest),
+              definitive_quota_error=error_path.name, error_sha256=cycle_file_digest(error_path),
+              not_before_utc=reset.isoformat(), maximum_submit_calls=1)
+        return name, "submitted_once_after_daily_quota_reset"
+    if latest.name != "submission-intent.json":
+        raise ValueError("Previous retry may have succeeded. Reconcile; do not retry again")
+    authorization = evidence / "submission-retry-authorization.json"
+    if not authorization.exists():
+        raise ValueError("Previous submit may have succeeded. Reconcile; do not submit again")
+    approved = receipt(bundle, authorization.name)
+    if approved.get("original_intent_sha256") != cycle_file_digest(evidence / "submission-intent.json"):
+        raise ValueError("Original submission intent changed after recovery review")
+    return "submission-retry-intent.json", "submitted_once_after_reviewed_rejection"
+
+
 def submit(api, bundle):
     verify(bundle, launch=True)
     evidence = Path(bundle) / "evidence"
@@ -545,16 +609,15 @@ def submit(api, bundle):
     if active:
         return event(bundle, "submission-deferred.json", action="deferred_without_submitting", active_submissions=active,
                      reason="Wait for the existing official evaluation before starting another one")
-    retry = (evidence / "submission-intent.json").exists()
-    if retry:
-        authorization = evidence / "submission-retry-authorization.json"
-        if not authorization.exists():
-            raise ValueError("Previous submit may have succeeded. Reconcile; do not submit again")
-        approved = receipt(bundle, authorization.name)
-        if approved.get("original_intent_sha256") != cycle_file_digest(evidence / "submission-intent.json"):
-            raise ValueError("Original submission intent changed after recovery review")
-        if (evidence / "submission-retry-intent.json").exists():
-            raise ValueError("Previous retry may have succeeded. Reconcile; do not retry again")
+    limits = observe_submission_limits(api, bundle)
+    if limits["num_allowed_now"] == 0:
+        return event(bundle, "submission-deferred.json",
+                     action="deferred_total_quota" if limits["limited_by_total"] else "deferred_daily_quota",
+                     allowance=limits, not_before_utc=None if limits["limited_by_total"] else limits["next_utc_reset"])
+    intent_name, action = next_submission_intent(bundle)
+    if intent_name is None:
+        return event(bundle, "submission-deferred.json", action="deferred_daily_quota", not_before_utc=action,
+                     reason="An explicit server daily-quota refusal applies until the next UTC day")
     # The remote output must exist for the exact completed version.
     collect_output(api, bundle)
     if verify(bundle)["identity"]["line"] == "gpu":
@@ -563,7 +626,7 @@ def submit(api, bundle):
     parquet = output / "submission.parquet"
     if not parquet.is_file() or parquet.stat().st_size == 0:
         raise ValueError("Exact notebook version did not produce submission.parquet")
-    intent(bundle, "submission-retry-intent.json" if retry else "submission-intent.json",
+    intent(bundle, intent_name,
            kernel=checked["kernel"], version=checked["version"], maximum_submit_calls=1)
     try:
         result = api.competition_submit_code("submission.parquet", marker(bundle), COMPETITION,
@@ -574,12 +637,12 @@ def submit(api, bundle):
         token = os.environ.get("KAGGLE_API_TOKEN")
         if token:
             message = message.replace(token, "[redacted]")
-        event(bundle, "submission-retry-http-error.json" if retry else "submission-http-error.json", status_code=getattr(response, "status_code", None),
+        event(bundle, intent_name.replace("-intent.json", "-http-error.json"), status_code=getattr(response, "status_code", None),
               error_type=type(exc).__name__, message=message, recovery="Reconcile the candidate marker; do not resubmit automatically")
         raise
     saved = event(bundle, "submission-receipt.json", ref=int(result.ref or 0), message=result.message,
                   kernel=checked["kernel"], version=checked["version"],
-                  action="submitted_once_after_reviewed_rejection" if retry else "submitted_once")
+                  action=action)
     if saved["ref"] < 1:
         raise ValueError("No submission ref returned; reconcile without resubmitting")
     return saved
