@@ -139,13 +139,13 @@ def run_cpu_pair(request, root):
     api = cycle.api_client()
     wait_official_score(api, baseline)
     if not (candidate / "evidence/submission-receipt.json").exists():
-        if (candidate / "evidence/submission-intent.json").exists():
+        if (candidate / "evidence/submission-intent.json").exists() and not (candidate / "evidence/submission-retry-intent.json").exists():
             cycle.authorize_rejected_submission_retry(api, candidate,
                 cycle.HERE / "baseline-evidence/cpu-probe64-submit-http400.json")
         result = cycle.submit(api, candidate)
         print(json.dumps(result), flush=True)
         if not result.get("ref"):
-            raise ValueError("CPU candidate is deferred; retain evidence without another mutation")
+            return
     wait_official_score(api, candidate)
     result = cycle.compare(baseline, candidate)
     cycle.save(root / "cpu-comparison.json", result)
@@ -158,6 +158,8 @@ def submit_when_idle(api, bundle, timeout_s=5400):
         result = cycle.submit(api, bundle)
         print(json.dumps(result), flush=True)
         if result.get("ref"):
+            return result
+        if result.get("action") in ("deferred_daily_quota", "deferred_total_quota"):
             return result
         if result.get("action") != "deferred_without_submitting":
             raise ValueError("No accepted submission or explicit idle-queue deferral")
@@ -186,7 +188,9 @@ def run_gpu_score_pair(request, root):
         remaining = deadline - time.monotonic()
         if remaining <= 0:
             raise TimeoutError("GPU score pair observation budget exhausted")
-        submit_when_idle(api, path, timeout_s=min(5400, remaining))
+        submitted = submit_when_idle(api, path, timeout_s=min(5400, remaining))
+        if not submitted.get("ref"):
+            return
         remaining = deadline - time.monotonic()
         if remaining <= 0:
             raise TimeoutError("GPU score pair observation budget exhausted")
