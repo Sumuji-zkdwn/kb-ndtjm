@@ -104,7 +104,16 @@ def environment(api, out):
     for key in ("dataset_sources", "model_sources", "competition_sources"):
         observed = metadata.get(key, [])
         # Dataset refs may include numeric versions, which must be retained.
-        normalize = lambda x: "/".join(x.split("/")[:2]) if key == "dataset_sources" else x
+        def normalize(value):
+            parts = value.split("/")
+            if key == "dataset_sources":
+                return "/".join(parts[:2])
+            if key == "model_sources" and len(parts) == 5:
+                # The API returns the framework enum as Transformers whereas
+                # saved notebook references use transformers. Other parts and
+                # the exact model version must still match.
+                parts[2] = parts[2].lower()
+            return "/".join(parts)
         if sorted(map(normalize, observed)) != sorted(map(normalize, expected[key])):
             raise ValueError(f"Original V3 {key} differ from the saved source audit: observed={observed!r}, expected={expected[key]!r}")
     save(out, {"reference": reference, "observed_utc": now(),
@@ -270,12 +279,28 @@ def start(api, bundle):
         return receipt(bundle, "kernel-receipt.json")
     if (evidence / "kernel-intent.json").exists():
         raise ValueError("Previous push may have succeeded. Adopt its exact version; do not push again")
+    if (api.get_config_value("username") or "").lower() != manifest["kernel"].split("/", 1)[0].lower():
+        raise ValueError("Authenticated account does not own this candidate")
+    owned = []
+    for page in range(1, 101):
+        items = api.kernels_list(page=page, page_size=100, mine=True) or []
+        owned.extend(item.ref.lower() for item in items if item is not None)
+        if len(items) < 100:
+            break
+    else:
+        raise ValueError("Owned notebook inventory exceeds the scan bound")
+    if manifest["kernel"].lower() in owned:
+        raise ValueError("Candidate notebook already exists remotely. Adopt its version instead of pushing")
     # A fresh runner with no local receipts must not overwrite an existing candidate.
     with tempfile.TemporaryDirectory() as temporary:
         try:
             api.kernels_pull(manifest["kernel"], temporary, metadata=True, quiet=True)
         except Exception as exc:
-            if getattr(getattr(exc, "response", None), "status_code", None) != 404:
+            status = getattr(getattr(exc, "response", None), "status_code", None)
+            # Kaggle also returns 403 for a nonexistent notebook. Accept that
+            # only after authenticated ownership and the complete successful
+            # own-notebook inventory above establish this candidate is absent.
+            if status not in (403, 404):
                 raise
         else:
             raise ValueError("Candidate notebook already exists remotely. Adopt its version instead of pushing")
