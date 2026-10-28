@@ -15,6 +15,7 @@ import json
 import os
 from pathlib import Path
 import re
+import shutil
 import tempfile
 import time
 
@@ -611,6 +612,48 @@ def require_comparable_execution(baseline, candidate):
         if connection_reports[0].get(key) != connection_reports[1].get(key):
             raise ValueError("Connection input contents differ: " + key)
     return before, after
+
+
+def import_pair_baseline(root, imported_root, profile, label, expected_id, source_run_id):
+    """Join separately saved line histories without discarding the older copy."""
+    if profile not in profiles() or not re.fullmatch(r"[a-z0-9-]{1,36}", label):
+        raise ValueError("Invalid baseline import path")
+    if not re.fullmatch(r"[1-9][0-9]*", str(source_run_id)):
+        raise ValueError("Invalid baseline source run")
+    root = Path(root).resolve()
+    source = Path(imported_root) / profile / label
+    incoming = verify(source)
+    if incoming["candidate_id"] != expected_id:
+        raise ValueError("Imported baseline is another candidate")
+    require_connection_check(source)
+    receipt(source, "submission-receipt.json")
+    target = root / profile / label
+    archived = None
+    if target.exists():
+        current = verify(target)
+        if current["candidate_id"] != expected_id:
+            raise ValueError("Existing baseline is another candidate")
+        previous = target / "evidence/pair-baseline-import.json"
+        if previous.exists() and receipt(target, previous.name).get("source_run_id") == str(source_run_id):
+            return receipt(target, previous.name)
+        for name, keys in (("submission-receipt.json", ("ref",)), ("kernel-receipt.json", ("kernel", "version"))):
+            if (target / "evidence" / name).exists():
+                old, new = receipt(target, name), receipt(source, name)
+                if any(old.get(k) != new.get(k) for k in keys):
+                    raise ValueError("Conflicting exact-version receipts in baseline import")
+        archived = root / "prior-imports" / (profile + "--" + label + "--" + str(source_run_id))
+        if not target.resolve().is_relative_to(root) or not archived.resolve().is_relative_to(root):
+            raise ValueError("Baseline import escaped the evidence root")
+        if archived.exists():
+            raise ValueError("Prior baseline import already retained; inspect before importing again")
+        archived.parent.mkdir(parents=True, exist_ok=True)
+        target.rename(archived)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copytree(source, target)
+    verify(target)
+    return event(target, "pair-baseline-import.json", source_run_id=str(source_run_id),
+                 retained_prior_copy=str(archived.relative_to(root)) if archived else None,
+                 scope="Exact candidate history restored from its own official-evaluation artifact")
 
 
 def compare(baseline, candidate):
