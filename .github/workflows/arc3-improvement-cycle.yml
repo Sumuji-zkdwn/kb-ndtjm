@@ -1,0 +1,128 @@
+name: ARC3 CPU and GPU improvement cycle
+
+on:
+  push:
+    branches: ['codex/arc3-cycle-*', main]
+    paths:
+      - 'experiments/arc3/cycle/**'
+      - '.github/workflows/arc3-improvement-cycle.yml'
+  pull_request:
+    paths:
+      - 'experiments/arc3/cycle/**'
+      - '.github/workflows/arc3-improvement-cycle.yml'
+  workflow_dispatch:
+    inputs:
+      stage:
+        type: choice
+        default: prepare
+        options: [prepare, public-smoke, start, observe, submit, adopt-kernel, reconcile-submission]
+      profile:
+        type: choice
+        default: all
+        options: [all, cpu-c8b, gpu-baseline, gpu-memory]
+      label:
+        type: string
+        default: baseline-20261029
+      hypothesis:
+        type: string
+        default: Reproduce the frozen baseline before proposing one change.
+      source_run_id:
+        description: Exact previous cycle run whose evidence artifact should be restored
+        type: string
+        default: ''
+      version:
+        description: Exact notebook version, for adopt-kernel only
+        type: string
+        default: ''
+      baseline_label:
+        description: Baseline label for the GPU memory comparison
+        type: string
+        default: baseline-20261029
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: arc3-kaggle-cycle
+  cancel-in-progress: false
+
+jobs:
+  contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: experiments/arc3/cycle/requirements.txt
+      - run: python -m pip install -r experiments/arc3/cycle/requirements.txt
+      - name: Test version identity, recovery and score boundaries offline
+        run: python -X utf8 -m unittest discover -s experiments/arc3/cycle -p 'test_cycle.py' -v
+      - name: Validate all frozen notebook profiles without credentials
+        run: python -X utf8 experiments/arc3/cycle/runner.py --offline-all --root build/offline
+
+  cycle:
+    needs: contracts
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      CYCLE_STAGE: ${{ inputs.stage }}
+      CYCLE_PROFILE: ${{ inputs.profile }}
+      CYCLE_LABEL: ${{ inputs.label }}
+      CYCLE_HYPOTHESIS: ${{ inputs.hypothesis }}
+      CYCLE_SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+      CYCLE_VERSION: ${{ inputs.version }}
+      CYCLE_BASELINE_LABEL: ${{ inputs.baseline_label }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r experiments/arc3/cycle/requirements.txt
+      - name: Read and validate the concrete cycle request
+        id: request
+        run: python experiments/arc3/cycle/runner.py --config-only
+      - name: Restore exact earlier notebook versions and submission receipts
+        if: steps.request.outputs.source_run_id != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_RUN: ${{ steps.request.outputs.source_run_id }}
+        run: gh run download "$SOURCE_RUN" --repo "$GITHUB_REPOSITORY" --name arc3-cycle-evidence --dir build/arc3-cycle
+      - name: Require the existing Kaggle credential for live stages
+        if: steps.request.outputs.stage != 'prepare' && steps.request.outputs.stage != 'public-smoke'
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          if [ -z "$KAGGLE_API_TOKEN" ]; then
+            echo '::error::Add repository Actions secret KAGGLE_API_TOKEN. Never put the token in request.json or notebook cells.'
+            exit 2
+          fi
+      - name: Download public environments for the exact CPU candidate smoke
+        if: steps.request.outputs.stage == 'public-smoke'
+        env:
+          ARC_API_KEY: ${{ secrets.ARC_API_KEY }}
+          ENVIRONMENTS_DIR: ${{ github.workspace }}/build/public-environments
+        run: |
+          if [ -z "$ARC_API_KEY" ]; then
+            echo '::error::The public download stage requires repository Actions secret ARC_API_KEY.'
+            exit 2
+          fi
+          python -m pip install -r experiments/arc3/runtime/requirements.lock
+          python experiments/arc3/runtime/arc3/download.py ls20 ft09 vc33
+          echo "ARC3_ENVIRONMENTS=$ENVIRONMENTS_DIR" >> "$GITHUB_ENV"
+      - name: Execute one short cycle stage
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: python -u -X utf8 experiments/arc3/cycle/runner.py
+      - name: Retain candidates and receipts, including failed or ambiguous attempts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: arc3-cycle-evidence
+          path: build/arc3-cycle/
+          if-no-files-found: warn
+          retention-days: 90

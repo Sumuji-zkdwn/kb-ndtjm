@@ -1,0 +1,65 @@
+{
+  "candidate_id": "f616f775564ec0d3b96853cf5f9d19db2a56c31d2101cd90110d047dc1eded57",
+  "environment_sha256": {
+    "ft09-0d8bbf25/ft09.py": "7c89e9bc9e6c7e309ccc255cf8c7eba754d10c6f64d22d02a44d3aed3cb498ea",
+    "ft09-0d8bbf25/metadata.json": "695209dc7372feb4ff4c2cef4462d9dda17145c872582d5fcb5b414328aaf763",
+    "ls20-9607627b/ls20.py": "67cc85888eeef68f125cbb5f5fb158e9ca455d6bca46b171790f556fcabf934e",
+    "ls20-9607627b/metadata.json": "1770f455b6e976a0d942431771cc23a907ede45048b9ebb15389d5f605323a16",
+    "vc33-5430563c/metadata.json": "14f2764cc9e75dc674a157870fa1ee0845807c5868db86d69e4ca40437fba8a3",
+    "vc33-5430563c/vc33.py": "2226ed7e10bb0f37586963c9332842c4cae6d5bc7aeeb41c67a78ea18a9a12eb"
+  },
+  "errors": [],
+  "observed_utc": "2026-10-28T18:01:22.064700+00:00",
+  "passed": true,
+  "results": [
+    {
+      "calls_including_initial_reset": 1005,
+      "candidate_id": "f616f775564ec0d3b96853cf5f9d19db2a56c31d2101cd90110d047dc1eded57",
+      "game": "ls20-9607627b",
+      "levels_completed": 7,
+      "official_loop_unchanged": true,
+      "seconds": 137.497,
+      "seed": 0,
+      "state": "WIN",
+      "versions": {
+        "arc-agi": "0.9.9",
+        "arcengine": "0.9.3",
+        "numpy": "2.5.4"
+      },
+      "win": true
+    },
+    {
+      "calls_including_initial_reset": 110,
+      "candidate_id": "f616f775564ec0d3b96853cf5f9d19db2a56c31d2101cd90110d047dc1eded57",
+      "game": "ft09-0d8bbf25",
+      "levels_completed": 6,
+      "official_loop_unchanged": true,
+      "seconds": 3.0866,
+      "seed": 0,
+      "state": "WIN",
+      "versions": {
+        "arc-agi": "0.9.9",
+        "arcengine": "0.9.3",
+        "numpy": "2.5.4"
+      },
+      "win": true
+    },
+    {
+      "calls_including_initial_reset": 230,
+      "candidate_id": "f616f775564ec0d3b96853cf5f9d19db2a56c31d2101cd90110d047dc1eded57",
+      "game": "vc33-5430563c",
+      "levels_completed": 7,
+      "official_loop_unchanged": true,
+      "seconds": 13.1112,
+      "seed": 0,
+      "state": "WIN",
+      "versions": {
+        "arc-agi": "0.9.9",
+        "arcengine": "0.9.3",
+        "numpy": "2.5.4"
+      },
+      "win": true
+    }
+  ],
+  "scope": "Fresh offline public game runs of the exact notebook payload; not Kaggle or hidden-set validation"
+}

@@ -1,0 +1,38 @@
+{
+  "candidate_id": "f616f775564ec0d3b96853cf5f9d19db2a56c31d2101cd90110d047dc1eded57",
+  "code_sources_preserved": true,
+  "comparison_scope": "same-line, exact runtime metadata; public score is not private performance",
+  "competition": "arc-prize-2026-arc-agi-3",
+  "created_utc": "2026-10-28T17:56:43.261345+00:00",
+  "files": {
+    "kernel-metadata.json": "726da4291d93fe90ef76bc72327b0863c79b7d89f0df3ed17eae705c6719a6f0",
+    "submission.ipynb": "03788c46195a6e48c8d865d67788f0d542472f0a29c4dffb67a9eabaf6874b8c"
+  },
+  "identity": {
+    "code_sha256": "53d9b299caec5c841869891a2c752c5e42682ba40beaa274b1238241e46b0e03",
+    "hypothesis": "Offline source validation only",
+    "label": "contract-test",
+    "line": "cpu",
+    "notebook_sha256": "03788c46195a6e48c8d865d67788f0d542472f0a29c4dffb67a9eabaf6874b8c",
+    "profile": "cpu-c8b",
+    "runtime": {
+      "competition_sources": [
+        "arc-prize-2026-arc-agi-3"
+      ],
+      "dataset_sources": [],
+      "docker_image_pinning_type": "original",
+      "enable_gpu": false,
+      "enable_internet": false,
+      "enable_tpu": false,
+      "is_private": true,
+      "kernel_sources": [],
+      "machine_shape": null,
+      "model_sources": []
+    },
+    "session_timeout_seconds": 32400
+  },
+  "kernel": "sumuji/arc3-cpu-c8b-contract-test-f616f775564e",
+  "launch_blockers": [],
+  "schema_version": 1,
+  "source_notebook_sha256": "03788c46195a6e48c8d865d67788f0d542472f0a29c4dffb67a9eabaf6874b8c"
+}

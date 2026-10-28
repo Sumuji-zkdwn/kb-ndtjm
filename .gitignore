@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+.venv*/
+build/
+experiments/arc3/cycle/runs/
+.kaggle/
+kaggle.json
+.env

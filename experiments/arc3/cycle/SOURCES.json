@@ -1,0 +1,26 @@
+{
+  "cpu-c8b": {
+    "code_sha256": "53d9b299caec5c841869891a2c752c5e42682ba40beaa274b1238241e46b0e03",
+    "code_sources_preserved": true,
+    "historical_outputs_removed": true,
+    "imported_sha256": "03788c46195a6e48c8d865d67788f0d542472f0a29c4dffb67a9eabaf6874b8c",
+    "original_sha256": "d474b369ce24f4853e61d50352d7f5768548d5659ddd8e1973faf8e636538761",
+    "source": "submission_c8b/submission.ipynb"
+  },
+  "gpu-baseline": {
+    "code_sha256": "200ae7aa600fd2dd536fd29cef6b996bba0f70c1928c253120dc101c0b4eadec",
+    "code_sources_preserved": true,
+    "historical_outputs_removed": true,
+    "imported_sha256": "55ca022da531232f6321128950be2d89c7e144d8e035641f2ed8f3caac8e7f79",
+    "original_sha256": "589eaf393f416effe925c6830fc00fcdc0d6da91193b29ff0029282cbd6ee96e",
+    "source": "public_baseline_franzen_v3/arc-agi-3-milestone-2-solution.ipynb"
+  },
+  "gpu-memory": {
+    "code_sha256": "98df9e499693d93f61874c5fc5c6b55f70b76cfb2e84d5d71207f97d81f25bb1",
+    "code_sources_preserved": true,
+    "historical_outputs_removed": true,
+    "imported_sha256": "644213412fa92c2df28fc64cb651ff15c5e533ca4e5abb975660e247b87016ec",
+    "original_sha256": "11906bf935fcef9db588232dd3ba2b7b4e49ee7f1e34417ee869a3e5e9405c1b",
+    "source": "franzen_evidence_memory_v1/arc3-franzen-evidence-memory-v1.ipynb"
+  }
+}
