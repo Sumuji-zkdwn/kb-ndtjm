@@ -94,6 +94,7 @@ class CycleTests(unittest.TestCase):
         cycle.start(self.api, self.bundle)
 
     def score(self, bundle, value, ref):
+        cycle.event(bundle, "readback.json", docker_image="same-test-image")
         cycle.event(bundle, "official-score.json", ref=ref, status="COMPLETE", public_score=value,
                     competition=cycle.COMPETITION)
 
@@ -249,6 +250,34 @@ class CycleTests(unittest.TestCase):
         other = self.make_bundle("other")
         with self.assertRaises(FileNotFoundError):
             cycle.compare(self.bundle, other)
+
+    def test_actual_runtime_image_drift_prevents_comparison(self):
+        other = self.make_bundle("other")
+        self.score(self.bundle, "0.01", 1)
+        self.score(other, "0.02", 2)
+        cycle.event(other, "readback.json", docker_image="another-image")
+        with self.assertRaisesRegex(ValueError, "runtime images"):
+            cycle.compare(self.bundle, other)
+
+    def test_exact_measured_cpu_baseline_can_reuse_evidence(self):
+        real = self.root / "measured"
+        cycle.prepare("cpu-c8b", real, "measured", "baseline reproduction")
+        value = cycle.reuse_cpu_baseline_evidence(real)
+        self.assertTrue(value["passed"])
+        self.assertIn("no new game execution", value["scope"])
+        self.assertNotEqual(value["source_candidate_id"], value["candidate_id"])
+
+    def test_changed_cpu_source_cannot_reuse_baseline_evidence(self):
+        nb = cycle.read(cycle.HERE / "notebooks/cpu-c8b.ipynb")
+        cell = next(c for c in nb["cells"] if c["cell_type"] == "code")
+        source = "".join(cell["source"]) if isinstance(cell["source"], list) else cell["source"]
+        cell["source"] = source + "\n# changed candidate\n"
+        file = self.root / "changed.ipynb"
+        cycle.save(file, nb)
+        real = self.root / "changed-real"
+        cycle.prepare("cpu-c8b", real, "changed", "source changed", notebook=file)
+        with self.assertRaisesRegex(ValueError, "fresh public-smoke"):
+            cycle.reuse_cpu_baseline_evidence(real)
 
     def test_status_identity_checked(self):
         self.started()

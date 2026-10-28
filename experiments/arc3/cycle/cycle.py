@@ -399,6 +399,9 @@ def compare(baseline, candidate):
     for key in ("line", "runtime", "session_timeout_seconds"):
         if before["identity"][key] != after["identity"][key]:
             raise ValueError("Incomparable experiment conditions: " + key)
+    images = [receipt(path, "readback.json").get("docker_image") for path in (baseline, candidate)]
+    if not all(images) or images[0] != images[1]:
+        raise ValueError("Observed Kaggle runtime images differ or are missing")
     values = [receipt(path, "official-score.json") for path in (baseline, candidate)]
     for value in values:
         if value["status"] != "COMPLETE" or value["public_score"] in (None, "") or value["competition"] != COMPETITION:

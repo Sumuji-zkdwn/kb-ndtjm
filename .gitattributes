@@ -1,5 +1,5 @@
 # Keep the recorded notebook/framework/source hashes stable across Windows/Linux.
-experiments/arc3/cycle/** -text
+experiments/arc3/cycle/** -text whitespace=cr-at-eol
 .github/workflows/arc3-improvement-cycle.yml text eol=lf
 experiments/arc3/runtime/requirements.lock text eol=lf
 experiments/arc3/runtime/arc3/download.py text eol=lf
