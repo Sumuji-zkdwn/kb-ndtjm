@@ -15,7 +15,7 @@ on:
       stage:
         type: choice
         default: prepare
-        options: [prepare, public-smoke, start, observe, collect, submit, adopt-kernel, reconcile-submission]
+        options: [prepare, public-smoke, start, observe, collect, submit, adopt-kernel, reconcile-submission, gpu-pair]
       profile:
         type: choice
         default: all
@@ -72,7 +72,7 @@ jobs:
     needs: contracts
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 190
     env:
       CYCLE_STAGE: ${{ inputs.stage }}
       CYCLE_PROFILE: ${{ inputs.profile }}
@@ -136,7 +136,7 @@ jobs:
               stream.write('ARC3_ENVIRONMENTS='+str((destination/'environment_files').resolve())+'\n')
           PY
           python -m pip install --no-index --find-links build/official-competition/arc_agi_3_wheels arc-agi==0.9.8 arcengine==0.9.3
-      - name: Execute one short cycle stage
+      - name: Execute the requested stage or bounded GPU pair
         env:
           KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
         run: python -u -X utf8 experiments/arc3/cycle/runner.py

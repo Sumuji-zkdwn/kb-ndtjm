@@ -139,6 +139,12 @@ RESET 以外の操作まで確認します。モデル読み込みが12分を超
 `model-diagnostics.json` が不合格なら、Notebook が COMPLETE でも公式提出と
 記憶候補の開始を止めます。公式競技再実行の起動・探索予算は元の設定を維持します。
 
+`gpu-pair` は最初のGPU比較を継続する有限の実行段階です。`gpu-baseline` と
+短い label を指定すると、基準版を開始し、60秒間隔で最大90分観測します。
+実推論とゲーム操作が合格した場合だけ、同じ環境で `<label>-memory` を開始し、
+同じ上限で診断を回収します。失敗・時間切れでは記録を残して停止し、再起動や
+公式提出を繰り返しません。公式スコアの比較・採用は別の段階です。
+
 ```powershell
 python -m pip install -r experiments/arc3/cycle/requirements.txt
 python experiments/arc3/cycle/cycle.py prepare --profile cpu-c8b --notebook path/to/new.ipynb --label c9-one-change --hypothesis "one concrete change" --out runs/cpu/c9
