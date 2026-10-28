@@ -15,7 +15,7 @@ on:
       stage:
         type: choice
         default: prepare
-        options: [prepare, public-smoke, start, observe, collect, submit, adopt-kernel, reconcile-submission, gpu-pair, cpu-pair]
+        options: [prepare, public-smoke, start, observe, collect, submit, adopt-kernel, reconcile-submission, gpu-pair, cpu-pair, gpu-score-pair]
       profile:
         type: choice
         default: all

@@ -598,7 +598,7 @@ def observe_score(api, bundle):
     return value
 
 
-def compare(baseline, candidate):
+def require_comparable_execution(baseline, candidate):
     before, after = verify(baseline), verify(candidate)
     for key in ("line", "runtime", "session_timeout_seconds"):
         if before["identity"][key] != after["identity"][key]:
@@ -610,6 +610,11 @@ def compare(baseline, candidate):
     for key in ("competition_zip_sha256", "gpu_source_zip_sha256"):
         if connection_reports[0].get(key) != connection_reports[1].get(key):
             raise ValueError("Connection input contents differ: " + key)
+    return before, after
+
+
+def compare(baseline, candidate):
+    before, after = require_comparable_execution(baseline, candidate)
     values = [receipt(path, "official-score.json") for path in (baseline, candidate)]
     for value in values:
         if value["status"] != "COMPLETE" or value["public_score"] in (None, "") or value["competition"] != COMPETITION:
