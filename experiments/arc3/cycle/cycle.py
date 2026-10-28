@@ -95,6 +95,9 @@ def environment(api, out):
     with tempfile.TemporaryDirectory() as temporary:
         api.kernels_pull(reference, temporary, metadata=True, quiet=True)
         metadata = read(Path(temporary) / "kernel-metadata.json")
+    observed = {"reference": reference, "observed_utc": now(),
+                **{k: metadata.get(k) for k in ("docker_image", "dataset_sources", "model_sources", "competition_sources")}}
+    save(Path(out).with_suffix(".observed.json"), observed)
     if not metadata.get("docker_image"):
         raise ValueError("V3 did not return a docker_image; environment cannot be frozen")
     expected = profiles()["gpu-baseline"]
@@ -103,7 +106,7 @@ def environment(api, out):
         # Dataset refs may include numeric versions, which must be retained.
         normalize = lambda x: "/".join(x.split("/")[:2]) if key == "dataset_sources" else x
         if sorted(map(normalize, observed)) != sorted(map(normalize, expected[key])):
-            raise ValueError(f"Original V3 {key} differ from the saved source audit")
+            raise ValueError(f"Original V3 {key} differ from the saved source audit: observed={observed!r}, expected={expected[key]!r}")
     save(out, {"reference": reference, "observed_utc": now(),
                "docker_image": metadata["docker_image"],
                **{k: metadata.get(k, []) for k in ("dataset_sources", "model_sources", "competition_sources")}},
