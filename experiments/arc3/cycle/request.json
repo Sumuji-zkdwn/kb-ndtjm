@@ -1,9 +1,10 @@
 {
-  "stage": "prepare",
-  "profile": "all",
-  "label": "baseline-20261029",
-  "hypothesis": "Freeze the existing CPU c8b baseline and the GPU baseline/memory pair without changing their code cells.",
-  "source_run_id": "",
-  "baseline_label": "baseline-20261029",
+  "stage": "gpu-score-pair",
+  "profile": "gpu-baseline",
+  "label": "ready-v2",
+  "hypothesis": "Compare the validated Franzen baseline and evidence-memory candidate using their exact completed versions and the same GPU environment.",
+  "source_run_id": "40764297953",
+  "connection_run_id": "",
+  "baseline_label": "ready-v2",
   "version": ""
 }
