@@ -1,9 +1,9 @@
 {
-  "stage": "gpu-score-pair",
+  "stage": "submit",
   "profile": "gpu-baseline",
   "label": "ready-v2",
-  "hypothesis": "Compare the validated Franzen baseline and evidence-memory candidate using their exact completed versions and the same GPU environment.",
-  "source_run_id": "40764297953",
+  "hypothesis": "Prioritize the validated GPU baseline Version 1 at the next live daily submission window, without spending a request while allowance is zero.",
+  "source_run_id": "40769413094",
   "connection_run_id": "",
   "baseline_label": "ready-v2",
   "version": ""
