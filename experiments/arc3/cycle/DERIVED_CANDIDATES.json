@@ -12,5 +12,21 @@
       }
     },
     "status": "candidate, not an adopted improvement"
+  },
+  "gpu-baseline-connected": {
+    "baseline": "gpu-baseline",
+    "candidate_code_sha256": "438a4ccebd4c03ab89b972946cd94b8d87f04664b8772af5cc492e57c837c6ff",
+    "competition_path_change": "Explicit fresh empty environment directory; no cwd demo scan",
+    "official_score": null,
+    "original_code_sha256": "200ae7aa600fd2dd536fd29cef6b996bba0f70c1928c253120dc101c0b4eadec",
+    "save_version_change": "Short connectivity run; competition solver policy and budgets unchanged"
+  },
+  "gpu-memory-connected": {
+    "baseline": "gpu-memory",
+    "candidate_code_sha256": "7c2ef12dac81599f1618ef5b944180e8095cd9a8580c96526ee391314d3e8672",
+    "competition_path_change": "Explicit fresh empty environment directory; no cwd demo scan",
+    "official_score": null,
+    "original_code_sha256": "98df9e499693d93f61874c5fc5c6b55f70b76cfb2e84d5d71207f97d81f25bb1",
+    "save_version_change": "Short connectivity run; competition solver policy and budgets unchanged"
   }
 }

@@ -136,7 +136,8 @@ GPU は基準版と記憶版で同じ環境・入力・予算を使い、Noteboo
 ```powershell
 python -m pip install -r experiments/arc3/cycle/requirements.txt
 python experiments/arc3/cycle/cycle.py prepare --profile cpu-c8b --notebook path/to/new.ipynb --label c9-one-change --hypothesis "one concrete change" --out runs/cpu/c9
-python experiments/arc3/cycle/cpu_smoke.py --bundle runs/cpu/c9 --environments path/to/public-environments
+python experiments/arc3/cycle/cycle.py attach-connection --bundle runs/cpu/c9 --report path/to/matching-connection-report.json
+python experiments/arc3/cycle/cpu_smoke.py --bundle runs/cpu/c9 --environments path/to/public-environments --official-zip path/to/arc-prize-2026-arc-agi-3.zip
 python experiments/arc3/cycle/cycle.py start --bundle runs/cpu/c9
 python experiments/arc3/cycle/cycle.py observe-kernel --bundle runs/cpu/c9
 python experiments/arc3/cycle/cycle.py submit --bundle runs/cpu/c9

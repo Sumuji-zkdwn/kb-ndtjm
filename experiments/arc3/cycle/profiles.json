@@ -15,7 +15,7 @@
   },
   "gpu-baseline": {
     "line": "gpu",
-    "notebook": "notebooks/gpu-baseline.ipynb",
+    "notebook": "notebooks/gpu-baseline-connected.ipynb",
     "machine_shape": "NvidiaRtxPro6000",
     "session_timeout_seconds": 32400,
     "dataset_sources": ["dfranzen/pennyroyal-v253", "dfranzen/taaf-kaggle-source-bundle-copy"],
@@ -23,7 +23,7 @@
   },
   "gpu-memory": {
     "line": "gpu",
-    "notebook": "notebooks/gpu-memory.ipynb",
+    "notebook": "notebooks/gpu-memory-connected.ipynb",
     "machine_shape": "NvidiaRtxPro6000",
     "session_timeout_seconds": 32400,
     "dataset_sources": ["dfranzen/pennyroyal-v253", "dfranzen/taaf-kaggle-source-bundle-copy"],
