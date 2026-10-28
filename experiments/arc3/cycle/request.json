@@ -1,9 +1,10 @@
 {
   "stage": "prepare",
-  "profile": "all",
-  "label": "baseline-20261029",
-  "hypothesis": "Freeze the existing CPU c8b baseline and the GPU baseline/memory pair without changing their code cells.",
-  "source_run_id": "",
-  "baseline_label": "baseline-20261029",
+  "profile": "gpu-memory",
+  "label": "zip-memory-v1",
+  "hypothesis": "Test bounded executed-evidence rereading against the connected GPU baseline under identical competition settings.",
+  "source_run_id": "40759574072",
+  "connection_run_id": "40758186049",
+  "baseline_label": "zip-base-20261029",
   "version": ""
 }
