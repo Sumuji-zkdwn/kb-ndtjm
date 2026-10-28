@@ -15,7 +15,7 @@ def configuration():
         for key in ("stage", "profile", "label", "hypothesis", "source_run_id", "version", "baseline_label"):
             if os.environ.get("CYCLE_" + key.upper()):
                 request[key] = os.environ["CYCLE_" + key.upper()]
-    if request["stage"] not in ("prepare", "public-smoke", "start", "observe", "submit", "adopt-kernel", "reconcile-submission"):
+    if request["stage"] not in ("prepare", "public-smoke", "start", "observe", "collect", "submit", "adopt-kernel", "reconcile-submission"):
         raise ValueError("Unknown cycle stage")
     if request["profile"] not in (*cycle.profiles(), "all"):
         raise ValueError("Unknown cycle profile")
@@ -23,7 +23,7 @@ def configuration():
         raise ValueError("Run one candidate at a time; all is available only for offline preparation")
     if request.get("source_run_id") and not re.fullmatch(r"[1-9][0-9]*", str(request["source_run_id"])):
         raise ValueError("source_run_id must be a positive Actions run ID")
-    if request["stage"] in ("public-smoke", "observe", "submit", "adopt-kernel", "reconcile-submission") and not request.get("source_run_id"):
+    if request["stage"] in ("public-smoke", "observe", "collect", "submit", "adopt-kernel", "reconcile-submission") and not request.get("source_run_id"):
         raise ValueError("This stage must restore an exact previous source_run_id")
     if not re.fullmatch(r"[a-z0-9-]{1,36}", request["label"]):
         raise ValueError("Invalid candidate label")
@@ -100,9 +100,11 @@ def run(request, root):
             subprocess.run([sys.executable, str(cycle.HERE / "cpu_smoke.py"), "--bundle", str(bundle),
                             "--environments", os.environ["ARC3_ENVIRONMENTS"]], check=True)
         elif request["stage"] == "observe":
-            cycle.observe_kernel(api, bundle)
+            print(json.dumps(cycle.observe_kernel(api, bundle)), flush=True)
             if (bundle / "evidence" / "submission-receipt.json").exists():
                 cycle.observe_score(api, bundle)
+        elif request["stage"] == "collect":
+            print(json.dumps(cycle.collect_output(api, bundle)), flush=True)
         elif request["stage"] == "submit":
             cycle.submit(api, bundle)
             cycle.observe_score(api, bundle)

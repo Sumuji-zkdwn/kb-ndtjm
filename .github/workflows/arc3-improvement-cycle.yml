@@ -15,7 +15,7 @@ on:
       stage:
         type: choice
         default: prepare
-        options: [prepare, public-smoke, start, observe, submit, adopt-kernel, reconcile-submission]
+        options: [prepare, public-smoke, start, observe, collect, submit, adopt-kernel, reconcile-submission]
       profile:
         type: choice
         default: all

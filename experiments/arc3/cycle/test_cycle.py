@@ -199,6 +199,21 @@ class CycleTests(unittest.TestCase):
             cycle.submit(self.api, self.bundle)
         self.assertEqual(self.api.submits, 0)
 
+    def test_collect_output_does_not_submit_and_can_be_reused(self):
+        self.started()
+        value = cycle.collect_output(self.api, self.bundle)
+        self.assertIn("submission.parquet", value["files"])
+        self.assertEqual(cycle.collect_output(self.api, self.bundle), value)
+        self.assertEqual(self.api.submits, 0)
+
+    def test_failed_notebook_output_can_be_collected_without_submission(self):
+        self.started()
+        self.api.worker_status = "ERROR"
+        self.api.file_present = False
+        value = cycle.collect_output(self.api, self.bundle)
+        self.assertEqual(value["notebook_status"], "ERROR")
+        self.assertEqual(self.api.submits, 0)
+
     def test_submit_once_and_observe_same_ref(self):
         self.started()
         cycle.submit(self.api, self.bundle)

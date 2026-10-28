@@ -371,6 +371,40 @@ def reconcile_submission(api, bundle):
     return event(bundle, "submission-receipt.json", ref=int(matches[0].ref), action="adopted_existing")
 
 
+def collect_output(api, bundle):
+    """Collect diagnostics before any competition submission, including failures."""
+    stored = receipt(bundle, "kernel-receipt.json")
+    checked = remote_check(api, bundle, stored["version"])
+    status = observe_kernel(api, bundle)
+    if status["status"] not in ("COMPLETE", "ERROR", "CANCEL_ACKNOWLEDGED"):
+        raise ValueError("Wait for a terminal notebook status before collecting final output")
+    evidence = Path(bundle) / "evidence"
+    output = evidence / "notebook-output"
+    if (evidence / "output.json").exists():
+        value = receipt(bundle, "output.json")
+        if value["version"] != checked["version"]:
+            raise ValueError("Output receipt belongs to another notebook version")
+        for name, expected in value["files"].items():
+            path = output / name
+            if not path.is_file() or cycle_file_digest(path) != expected:
+                raise ValueError("Collected notebook output changed")
+        return value
+    if output.exists():
+        raise ValueError("Previous output collection exists without a receipt; inspect before retrying")
+    output.mkdir()
+    api.kernels_output(f"{checked['kernel']}/{checked['version']}", str(output), quiet=True,
+                       file_pattern=r"(^|/)(submission[.]parquet|__result[.]json|__notebook[.]ipynb|.*[.]log|.*summary.*[.]json|.*diagnostic.*[.]json|.*[.]evidence[.]json)$")
+    files = {p.relative_to(output).as_posix(): cycle_file_digest(p) for p in sorted(output.rglob("*")) if p.is_file()}
+    return event(bundle, "output.json", kernel=checked["kernel"], version=checked["version"],
+                 notebook_status=status["status"], files=files,
+                 scope="Exact-version notebook output; not an official competition score")
+
+
+def cycle_file_digest(path):
+    with Path(path).open("rb") as stream:
+        return hashlib.file_digest(stream, "sha256").hexdigest()
+
+
 def submit(api, bundle):
     verify(bundle, launch=True)
     evidence = Path(bundle) / "evidence"
@@ -389,16 +423,11 @@ def submit(api, bundle):
     if (evidence / "submission-intent.json").exists():
         raise ValueError("Previous submit may have succeeded. Reconcile; do not submit again")
     # The remote output must exist for the exact completed version.
+    collect_output(api, bundle)
     output = evidence / "notebook-output"
-    if output.exists():
-        raise ValueError("Previous output collection exists without a receipt; inspect before retrying")
-    output.mkdir()
-    api.kernels_output(f"{checked['kernel']}/{checked['version']}", str(output), quiet=True,
-                       file_pattern=r"(^|/)(submission[.]parquet|__result[.]json|__notebook[.]ipynb|.*[.]log|.*summary.*[.]json|.*diagnostic.*[.]json|.*[.]evidence[.]json)$")
     parquet = output / "submission.parquet"
     if not parquet.is_file() or parquet.stat().st_size == 0:
         raise ValueError("Exact notebook version did not produce submission.parquet")
-    event(bundle, "output.json", version=checked["version"], submission_parquet_sha256=digest(parquet.read_bytes()))
     intent(bundle, "submission-intent.json", kernel=checked["kernel"], version=checked["version"], maximum_submit_calls=1)
     result = api.competition_submit_code("submission.parquet", marker(bundle), COMPETITION,
                                          checked["kernel"], checked["version"], quiet=True)
@@ -465,7 +494,7 @@ def main():
     p.add_argument("--owner", default="sumuji")
     p = commands.add_parser("resolve-environment")
     p.add_argument("--out", type=Path, required=True)
-    for name in ("verify", "start", "adopt-kernel", "observe-kernel", "submit", "reconcile-submission", "observe-score"):
+    for name in ("verify", "start", "adopt-kernel", "observe-kernel", "collect-output", "submit", "reconcile-submission", "observe-score"):
         p = commands.add_parser(name)
         p.add_argument("--bundle", type=Path, required=True)
         if name == "adopt-kernel":
@@ -490,7 +519,7 @@ def main():
         elif args.command == "adopt-kernel":
             result = adopt(api, args.bundle, args.version)
         else:
-            result = {"start": start, "observe-kernel": observe_kernel, "submit": submit,
+            result = {"start": start, "observe-kernel": observe_kernel, "collect-output": collect_output, "submit": submit,
                       "reconcile-submission": reconcile_submission, "observe-score": observe_score}[args.command](api, args.bundle)
     print(json.dumps(result, ensure_ascii=False, indent=2))
 

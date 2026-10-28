@@ -62,6 +62,7 @@ main に未反映の間も `codex/arc3-cycle-*` ブランチで `request.json` �
 | public-smoke | CPU の正確な Notebook 方策を公開3ゲームで検証 | prepare の run ID |
 | start | Notebook を一度開始し、バージョン番号を保存 | CPU は prepare/smoke の run ID。最初の GPU 基準版は空で可 |
 | observe | 同じ Notebook バージョンと提出番号の現状を記録 | 直前の run ID |
+| collect | 完了・失敗した Notebook の出力と診断を取得。競技提出はしない | start/observe の run ID |
 | submit | 完了済みの正確な版・出力を確認し、競技へ一度提出 | start/observe の run ID |
 | adopt-kernel | 通信中断後に、既存の正確な Notebook 版を読み戻して引き継ぐ | intent を含む run ID と version |
 | reconcile-submission | 通信中断後に、候補マーカーから既存の提出を探して引き継ぐ | intent を含む run ID |
@@ -80,6 +81,7 @@ main に未反映の間も `codex/arc3-cycle-*` ブランチで `request.json` �
 2. `stage=start`、`profile=cpu-c8b`、`label=baseline-20261029`、`source_run_id=prepareの番号`。
    初期 c8b は byte-identical な公開3ゲーム検証を再利用できます。
 3. `observe` で同じバージョンの完了を確認します。
+   `collect` で出力・診断を確認してから、競技採点へ進めます。
 4. 競技採点へ進む際は `submit` を実行します。
 5. `observe` で公式 Public Score が確定するまで同じ提出番号を追います。
 
