@@ -182,6 +182,27 @@ class CycleTests(unittest.TestCase):
         with self.assertRaises(FileExistsError):
             self.make_bundle()
 
+    def test_long_labels_keep_unique_compact_remote_names(self):
+        path = self.make_bundle("a" * 36)
+        value = cycle.verify(path)
+        slug = value["kernel"].split("/", 1)[1]
+        self.assertLessEqual(len(slug), 50)
+        self.assertTrue(slug.endswith(value["candidate_id"][:12]))
+
+    def test_http_push_error_retains_diagnostic_without_automatic_retry(self):
+        def reject(*args, **kwargs):
+            self.api.pushes += 1
+            error = RuntimeError("rejected request")
+            error.response = Obj(status_code=400, text='{"message":"fixture rejection"}')
+            raise error
+        self.api.kernels_push = reject
+        with self.assertRaisesRegex(RuntimeError, "rejected request"):
+            self.started()
+        self.assertEqual(cycle.receipt(self.bundle, "push-http-error.json")["status_code"], 400)
+        with self.assertRaisesRegex(ValueError, "Previous push"):
+            self.started()
+        self.assertEqual(self.api.pushes, 1)
+
     def test_push_uses_one_version_and_never_repeats(self):
         self.started()
         cycle.start(self.api, self.bundle)
