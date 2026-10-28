@@ -13,10 +13,10 @@ import cycle
 def configuration():
     request = cycle.read(cycle.HERE / "request.json")
     if os.environ.get("GITHUB_EVENT_NAME") == "workflow_dispatch":
-        for key in ("stage", "profile", "label", "hypothesis", "source_run_id", "connection_run_id", "version", "baseline_label"):
+        for key in ("stage", "profile", "label", "hypothesis", "source_run_id", "connection_run_id", "version", "baseline_label", "candidate_label"):
             if os.environ.get("CYCLE_" + key.upper()):
                 request[key] = os.environ["CYCLE_" + key.upper()]
-    if request["stage"] not in ("prepare", "public-smoke", "start", "observe", "collect", "submit", "adopt-kernel", "reconcile-submission", "gpu-pair"):
+    if request["stage"] not in ("prepare", "public-smoke", "start", "observe", "collect", "submit", "adopt-kernel", "reconcile-submission", "gpu-pair", "cpu-pair"):
         raise ValueError("Unknown cycle stage")
     if request["profile"] not in (*cycle.profiles(), "all"):
         raise ValueError("Unknown cycle profile")
@@ -36,6 +36,9 @@ def configuration():
         raise ValueError("An explicit experiment hypothesis is required")
     if request["stage"] == "gpu-pair" and (request["profile"] != "gpu-baseline" or len(request["label"]) > 29):
         raise ValueError("gpu-pair requires gpu-baseline and a label of at most 29 characters")
+    if request["stage"] == "cpu-pair" and (request["profile"] != "cpu-c8b" or not request.get("source_run_id")
+            or not re.fullmatch(r"[a-z0-9-]{1,36}", request.get("candidate_label", ""))):
+        raise ValueError("cpu-pair needs a restored CPU baseline and an explicit existing candidate label")
     return request
 
 
@@ -95,10 +98,54 @@ def run_gpu_pair(request, root):
         summary(root)
 
 
+def wait_official_score(api, bundle, timeout_s=5400):
+    deadline = time.monotonic() + timeout_s
+    while True:
+        value = cycle.observe_score(api, bundle)
+        print(json.dumps(value), flush=True)
+        if value["status"] == "COMPLETE" and value["public_score"] not in (None, ""):
+            return value
+        if value["status"] not in ("PENDING", "RUNNING"):
+            raise ValueError("Official evaluation ended without a usable public score; inspect official-score.json")
+        if time.monotonic() >= deadline:
+            raise TimeoutError("Official score observation deadline; retain the same submission ref")
+        time.sleep(60)
+
+
+def run_cpu_pair(request, root):
+    """Continue the existing CPU pair once; do not create a new notebook."""
+    baseline = root / "cpu-c8b" / request["label"]
+    candidate = root / "cpu-c8b-probe64" / request["candidate_label"]
+    manifests = [cycle.verify(p, launch=True) for p in (baseline, candidate)]
+    if any(m["identity"]["line"] != "cpu" for m in manifests):
+        raise ValueError("CPU pair cannot mix experiment lines")
+    for key in ("runtime", "session_timeout_seconds"):
+        if manifests[0]["identity"][key] != manifests[1]["identity"][key]:
+            raise ValueError("CPU pair execution conditions differ: " + key)
+    for path in (baseline, candidate):
+        cycle.require_connection_check(path)
+    api = cycle.api_client()
+    wait_official_score(api, baseline)
+    if not (candidate / "evidence/submission-receipt.json").exists():
+        if (candidate / "evidence/submission-intent.json").exists():
+            cycle.authorize_rejected_submission_retry(api, candidate,
+                cycle.HERE / "baseline-evidence/cpu-probe64-submit-http400.json")
+        result = cycle.submit(api, candidate)
+        print(json.dumps(result), flush=True)
+        if not result.get("ref"):
+            raise ValueError("CPU candidate is deferred; retain evidence without another mutation")
+    wait_official_score(api, candidate)
+    result = cycle.compare(baseline, candidate)
+    cycle.save(root / "cpu-comparison.json", result)
+    print(json.dumps(result), flush=True)
+
+
 def run(request, root):
     root.mkdir(parents=True, exist_ok=True)
     if request["stage"] == "gpu-pair":
         return run_gpu_pair(request, root)
+    if request["stage"] == "cpu-pair":
+        return run_cpu_pair(request, root)
     selected = list(cycle.profiles()) if request["profile"] == "all" else [request["profile"]]
     api = None
     if request["stage"] not in ("prepare", "public-smoke"):

@@ -14,6 +14,21 @@ import runner
 
 
 class GpuValidationTests(unittest.TestCase):
+    def test_official_score_wait_accepts_zero_score(self):
+        with patch.object(cycle, "observe_score", return_value={"status": "COMPLETE", "public_score": "0"}):
+            self.assertEqual(runner.wait_official_score(Obj(), Path("unused"))["public_score"], "0")
+
+    def test_official_score_error_stops_instead_of_submitting_candidate(self):
+        with patch.object(cycle, "observe_score", return_value={"status": "ERROR", "public_score": ""}):
+            with self.assertRaisesRegex(ValueError, "without a usable"):
+                runner.wait_official_score(Obj(), Path("unused"))
+
+    def test_official_score_timeout_keeps_existing_ref(self):
+        with patch.object(cycle, "observe_score", return_value={"status": "PENDING", "public_score": ""}):
+            with patch("runner.time.monotonic", side_effect=[0, 10]):
+                with self.assertRaises(TimeoutError):
+                    runner.wait_official_score(Obj(), Path("unused"), timeout_s=1)
+
     def test_failed_baseline_stops_pair_before_memory_start(self):
         request = {"stage": "gpu-pair", "profile": "gpu-baseline", "label": "ready-v2"}
         with patch.object(cycle, "api_client"), patch.object(runner, "run") as start:
@@ -182,6 +197,64 @@ class CycleTests(unittest.TestCase):
 
     def started(self):
         cycle.start(self.api, self.bundle)
+
+    def rejected_submit_proof(self, status=400):
+        self.started()
+        value = cycle.receipt(self.bundle, "kernel-receipt.json")
+        cycle.intent(self.bundle, "submission-intent.json", kernel=value["kernel"], version=value["version"], maximum_submit_calls=1)
+        proof = self.root / "reviewed-rejection.json"
+        cycle.save(proof, {"candidate_id": cycle.verify(self.bundle)["candidate_id"], "kernel": value["kernel"],
+                          "version": value["version"], "status_code": status, "confirmed_http_rejection": True})
+        return proof
+
+    def test_reviewed_http400_allows_only_one_additional_submit(self):
+        proof = self.rejected_submit_proof()
+        old_intent = (self.bundle / "evidence/submission-intent.json").read_bytes()
+        cycle.authorize_rejected_submission_retry(self.api, self.bundle, proof)
+        result = cycle.submit(self.api, self.bundle)
+        self.assertEqual(result["action"], "submitted_once_after_reviewed_rejection")
+        self.assertEqual(old_intent, (self.bundle / "evidence/submission-intent.json").read_bytes())
+        self.assertTrue((self.bundle / "evidence/submission-retry-intent.json").exists())
+        cycle.submit(self.api, self.bundle)
+        self.assertEqual(self.api.submits, 1)
+
+    def test_unknown_or_wrong_candidate_rejection_cannot_be_authorized(self):
+        proof = self.rejected_submit_proof(status=503)
+        with self.assertRaisesRegex(ValueError, "reviewed HTTP 400"):
+            cycle.authorize_rejected_submission_retry(self.api, self.bundle, proof)
+        value = cycle.read(proof); value.update(status_code=400, candidate_id="other")
+        cycle.save(proof, value)
+        with self.assertRaisesRegex(ValueError, "reviewed HTTP 400"):
+            cycle.authorize_rejected_submission_retry(self.api, self.bundle, proof)
+        self.assertEqual(self.api.submits, 0)
+
+    def test_pending_evaluation_prevents_rejection_recovery(self):
+        proof = self.rejected_submit_proof()
+        self.api.history.append(Obj(ref=11, description="other", status="PENDING"))
+        with self.assertRaisesRegex(ValueError, "active official"):
+            cycle.authorize_rejected_submission_retry(self.api, self.bundle, proof)
+        self.assertEqual(self.api.submits, 0)
+
+    def test_existing_marker_is_reconciled_without_retry(self):
+        proof = self.rejected_submit_proof()
+        self.api.history.append(Obj(ref=12, description=cycle.marker(self.bundle), status="PENDING"))
+        result = cycle.authorize_rejected_submission_retry(self.api, self.bundle, proof)
+        self.assertEqual(result["ref"], 12)
+        self.assertEqual(self.api.submits, 0)
+        self.assertFalse((self.bundle / "evidence/submission-retry-authorization.json").exists())
+
+    def test_ambiguous_retry_never_sends_a_third_request(self):
+        proof = self.rejected_submit_proof()
+        cycle.authorize_rejected_submission_retry(self.api, self.bundle, proof)
+        self.api.submit_timeout = True
+        with self.assertRaises(TimeoutError):
+            cycle.submit(self.api, self.bundle)
+        self.api.history.clear()
+        with self.assertRaisesRegex(ValueError, "Previous retry"):
+            cycle.submit(self.api, self.bundle)
+        with self.assertRaisesRegex(ValueError, "already attempted"):
+            cycle.authorize_rejected_submission_retry(self.api, self.bundle, proof)
+        self.assertEqual(self.api.submits, 1)
 
     def score(self, bundle, value, ref):
         cycle.event(bundle, "readback.json", docker_image="same-test-image")

@@ -502,6 +502,28 @@ def require_gpu_validation(bundle):
     return value
 
 
+def authorize_rejected_submission_retry(api, bundle, proof_path):
+    """One reviewed HTTP 400 recovery; original and retry intents are retained."""
+    if (Path(bundle) / "evidence/submission-receipt.json").exists():
+        return receipt(bundle, "submission-receipt.json")
+    if submissions_with_marker(api, bundle):
+        return reconcile_submission(api, bundle)
+    if active_submissions(api):
+        raise ValueError("Wait for all active official evaluations before rejection recovery")
+    original = receipt(bundle, "submission-intent.json")
+    proof = read(proof_path)
+    if not (proof.get("confirmed_http_rejection") is True and proof.get("status_code") == 400
+            and proof.get("candidate_id") == verify(bundle)["candidate_id"]
+            and proof.get("kernel") == original.get("kernel")
+            and proof.get("version") == original.get("version")):
+        raise ValueError("Recovery needs reviewed HTTP 400 evidence for the exact candidate and version")
+    if (Path(bundle) / "evidence/submission-retry-intent.json").exists():
+        raise ValueError("One retry was already attempted; reconcile without another retry")
+    return event(bundle, "submission-retry-authorization.json", reviewed_proof=proof,
+                 original_intent_sha256=cycle_file_digest(Path(bundle) / "evidence/submission-intent.json"),
+                 marker_matches=0, active_submissions=0, maximum_additional_submit_calls=1)
+
+
 def submit(api, bundle):
     verify(bundle, launch=True)
     evidence = Path(bundle) / "evidence"
@@ -522,8 +544,16 @@ def submit(api, bundle):
     if active:
         return event(bundle, "submission-deferred.json", action="deferred_without_submitting", active_submissions=active,
                      reason="Wait for the existing official evaluation before starting another one")
-    if (evidence / "submission-intent.json").exists():
-        raise ValueError("Previous submit may have succeeded. Reconcile; do not submit again")
+    retry = (evidence / "submission-intent.json").exists()
+    if retry:
+        authorization = evidence / "submission-retry-authorization.json"
+        if not authorization.exists():
+            raise ValueError("Previous submit may have succeeded. Reconcile; do not submit again")
+        approved = receipt(bundle, authorization.name)
+        if approved.get("original_intent_sha256") != cycle_file_digest(evidence / "submission-intent.json"):
+            raise ValueError("Original submission intent changed after recovery review")
+        if (evidence / "submission-retry-intent.json").exists():
+            raise ValueError("Previous retry may have succeeded. Reconcile; do not retry again")
     # The remote output must exist for the exact completed version.
     collect_output(api, bundle)
     if verify(bundle)["identity"]["line"] == "gpu":
@@ -532,7 +562,8 @@ def submit(api, bundle):
     parquet = output / "submission.parquet"
     if not parquet.is_file() or parquet.stat().st_size == 0:
         raise ValueError("Exact notebook version did not produce submission.parquet")
-    intent(bundle, "submission-intent.json", kernel=checked["kernel"], version=checked["version"], maximum_submit_calls=1)
+    intent(bundle, "submission-retry-intent.json" if retry else "submission-intent.json",
+           kernel=checked["kernel"], version=checked["version"], maximum_submit_calls=1)
     try:
         result = api.competition_submit_code("submission.parquet", marker(bundle), COMPETITION,
                                              checked["kernel"], checked["version"], quiet=True)
@@ -542,11 +573,12 @@ def submit(api, bundle):
         token = os.environ.get("KAGGLE_API_TOKEN")
         if token:
             message = message.replace(token, "[redacted]")
-        event(bundle, "submission-http-error.json", status_code=getattr(response, "status_code", None),
+        event(bundle, "submission-retry-http-error.json" if retry else "submission-http-error.json", status_code=getattr(response, "status_code", None),
               error_type=type(exc).__name__, message=message, recovery="Reconcile the candidate marker; do not resubmit automatically")
         raise
     saved = event(bundle, "submission-receipt.json", ref=int(result.ref or 0), message=result.message,
-                  kernel=checked["kernel"], version=checked["version"], action="submitted_once")
+                  kernel=checked["kernel"], version=checked["version"],
+                  action="submitted_once_after_reviewed_rejection" if retry else "submitted_once")
     if saved["ref"] < 1:
         raise ValueError("No submission ref returned; reconcile without resubmitting")
     return saved

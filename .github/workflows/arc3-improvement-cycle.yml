@@ -15,7 +15,7 @@ on:
       stage:
         type: choice
         default: prepare
-        options: [prepare, public-smoke, start, observe, collect, submit, adopt-kernel, reconcile-submission, gpu-pair]
+        options: [prepare, public-smoke, start, observe, collect, submit, adopt-kernel, reconcile-submission, gpu-pair, cpu-pair]
       profile:
         type: choice
         default: all
@@ -42,6 +42,10 @@ on:
         description: Baseline label for the GPU memory comparison
         type: string
         default: baseline-20261029
+      candidate_label:
+        description: Existing probe64 candidate label for cpu-pair only
+        type: string
+        default: probe64-v1
 
 permissions:
   contents: read
@@ -82,6 +86,7 @@ jobs:
       CYCLE_CONNECTION_RUN_ID: ${{ inputs.connection_run_id }}
       CYCLE_VERSION: ${{ inputs.version }}
       CYCLE_BASELINE_LABEL: ${{ inputs.baseline_label }}
+      CYCLE_CANDIDATE_LABEL: ${{ inputs.candidate_label }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

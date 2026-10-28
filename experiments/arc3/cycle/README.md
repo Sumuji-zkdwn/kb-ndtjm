@@ -82,7 +82,7 @@ main に未反映の間も `codex/arc3-cycle-*` ブランチで `request.json` �
 | adopt-kernel | 通信中断後に、既存の正確な Notebook 版を読み戻して引き継ぐ | intent を含む run ID と version |
 | reconcile-submission | 通信中断後に、候補マーカーから既存の提出を探して引き継ぐ | intent を含む run ID |
 
-長い GPU 実行中に GitHub runner を待機させません。`observe` はその時点の結果を保存し、
+通常の段階実行では、長い GPU 実行中に GitHub runner を待機させません。`observe` はその時点の結果を保存し、
 未完了なら再びその run ID を引き継ぎます。時間経過だけで終了や採点成功とは扱いません。
 実行を開始する `start` と競技の提出枠を使う `submit` は別操作です。
 
@@ -144,6 +144,18 @@ RESET 以外の操作まで確認します。モデル読み込みが12分を超
 実推論とゲーム操作が合格した場合だけ、同じ環境で `<label>-memory` を開始し、
 同じ上限で診断を回収します。失敗・時間切れでは記録を残して停止し、再起動や
 公式提出を繰り返しません。公式スコアの比較・採用は別の段階です。
+
+`cpu-pair` は既に開始・完了したCPUの2候補を引き継ぎます。`profile=cpu-c8b`、
+`label=baseline-20261029`、`candidate_label=probe64-v1` と、両方を含む
+`source_run_id` を指定します。公式基準スコアを60秒間隔・最大90分観測し、
+完了後に候補を一度提出します。候補も同じ上限で観測し、両方の公式スコアが
+揃えば同条件比較を保存します。失敗や時間切れは記録を残して停止します。
+
+probe64 の初回提出は [このログ](https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40759582035/job/123067819659)
+で HTTP 400 を確認しました。レビュー済みの拒否記録をその正確な候補に結び付け、
+全提出履歴に該当マーカーがなく、他の公式評価も動いていない場合に限り、
+追加要求を一度だけ許可します。元の intent と retry intent は両方保持します。
+応答不明・タイムアウト・別候補の記録はこの復帰条件に入りません。
 
 ```powershell
 python -m pip install -r experiments/arc3/cycle/requirements.txt
