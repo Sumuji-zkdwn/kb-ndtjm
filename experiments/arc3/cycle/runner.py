@@ -6,6 +6,7 @@ from pathlib import Path
 import re
 import subprocess
 import sys
+import time
 import cycle
 
 
@@ -15,7 +16,7 @@ def configuration():
         for key in ("stage", "profile", "label", "hypothesis", "source_run_id", "connection_run_id", "version", "baseline_label"):
             if os.environ.get("CYCLE_" + key.upper()):
                 request[key] = os.environ["CYCLE_" + key.upper()]
-    if request["stage"] not in ("prepare", "public-smoke", "start", "observe", "collect", "submit", "adopt-kernel", "reconcile-submission"):
+    if request["stage"] not in ("prepare", "public-smoke", "start", "observe", "collect", "submit", "adopt-kernel", "reconcile-submission", "gpu-pair"):
         raise ValueError("Unknown cycle stage")
     if request["profile"] not in (*cycle.profiles(), "all"):
         raise ValueError("Unknown cycle profile")
@@ -33,6 +34,8 @@ def configuration():
         raise ValueError("Invalid baseline label")
     if not isinstance(request["hypothesis"], str) or not request["hypothesis"].strip():
         raise ValueError("An explicit experiment hypothesis is required")
+    if request["stage"] == "gpu-pair" and (request["profile"] != "gpu-baseline" or len(request["label"]) > 29):
+        raise ValueError("gpu-pair requires gpu-baseline and a label of at most 29 characters")
     return request
 
 
@@ -65,8 +68,37 @@ def summary(root):
             stream.write(text)
 
 
+def wait_gpu_terminal(api, bundle, timeout_s=5400):
+    deadline = time.monotonic() + timeout_s
+    while True:
+        status = cycle.observe_kernel(api, bundle)
+        print(json.dumps(status), flush=True)
+        if status["status"] == "COMPLETE":
+            cycle.collect_output(api, bundle)
+            return cycle.require_gpu_validation(bundle)
+        if status["status"] in ("ERROR", "CANCEL_ACKNOWLEDGED"):
+            cycle.collect_output(api, bundle)
+            raise ValueError("GPU Notebook failed; keep diagnostics and stop the pair")
+        if time.monotonic() >= deadline:
+            raise TimeoutError("GPU pair observation deadline; keep the existing notebook, do not relaunch")
+        time.sleep(60)
+
+
+def run_gpu_pair(request, root):
+    """One bounded baseline/memory pair; no official submissions or adoption."""
+    api = cycle.api_client()
+    for profile, label in (("gpu-baseline", request["label"]), ("gpu-memory", request["label"] + "-memory")):
+        step = {**request, "stage": "start", "profile": profile, "label": label,
+                "baseline_label": request["label"]}
+        run(step, root)
+        wait_gpu_terminal(api, root / profile / label)
+        summary(root)
+
+
 def run(request, root):
     root.mkdir(parents=True, exist_ok=True)
+    if request["stage"] == "gpu-pair":
+        return run_gpu_pair(request, root)
     selected = list(cycle.profiles()) if request["profile"] == "all" else [request["profile"]]
     api = None
     if request["stage"] not in ("prepare", "public-smoke"):

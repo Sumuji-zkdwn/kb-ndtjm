@@ -10,9 +10,35 @@ from unittest.mock import patch
 
 import cycle
 import gpu_validation
+import runner
 
 
 class GpuValidationTests(unittest.TestCase):
+    def test_failed_baseline_stops_pair_before_memory_start(self):
+        request = {"stage": "gpu-pair", "profile": "gpu-baseline", "label": "ready-v2"}
+        with patch.object(cycle, "api_client"), patch.object(runner, "run") as start:
+            with patch.object(runner, "wait_gpu_terminal", side_effect=ValueError("failed baseline")):
+                with self.assertRaisesRegex(ValueError, "failed baseline"):
+                    runner.run_gpu_pair(request, Path("unused"))
+        self.assertEqual(start.call_count, 1)
+        self.assertEqual(start.call_args.args[0]["profile"], "gpu-baseline")
+
+    def test_pair_retains_baseline_label_and_waits_for_both(self):
+        request = {"stage": "gpu-pair", "profile": "gpu-baseline", "label": "ready-v2"}
+        with patch.object(cycle, "api_client"), patch.object(runner, "run") as start:
+            with patch.object(runner, "wait_gpu_terminal") as wait, patch.object(runner, "summary"):
+                runner.run_gpu_pair(request, Path("unused"))
+        self.assertEqual(wait.call_count, 2)
+        self.assertEqual(start.call_args.args[0]["profile"], "gpu-memory")
+        self.assertEqual(start.call_args.args[0]["label"], "ready-v2-memory")
+        self.assertEqual(start.call_args.args[0]["baseline_label"], "ready-v2")
+
+    def test_gpu_observation_timeout_does_not_relaunch(self):
+        with patch.object(cycle, "observe_kernel", return_value={"status": "RUNNING"}):
+            with patch("runner.time.monotonic", side_effect=[0, 10]):
+                with self.assertRaises(TimeoutError):
+                    runner.wait_gpu_terminal(Obj(), Path("unused"), timeout_s=1)
+
     def test_dead_model_cannot_pass_notebook_validation(self):
         with self.assertRaisesRegex(RuntimeError, "exited"):
             gpu_validation.validate_model_backend(Obj(poll=lambda: 1), "http://local/v1", "model", "unused")
