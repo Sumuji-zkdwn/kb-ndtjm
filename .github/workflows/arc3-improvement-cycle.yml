@@ -46,6 +46,14 @@ on:
         description: Existing probe64 candidate label for cpu-pair only
         type: string
         default: probe64-v1
+      baseline_run_id:
+        description: Separate accepted CPU baseline artifact, when histories were recorded independently
+        type: string
+        default: ''
+      baseline_candidate_id:
+        description: Exact candidate hash required for baseline history import
+        type: string
+        default: ''
 
 permissions:
   contents: read
@@ -87,6 +95,8 @@ jobs:
       CYCLE_VERSION: ${{ inputs.version }}
       CYCLE_BASELINE_LABEL: ${{ inputs.baseline_label }}
       CYCLE_CANDIDATE_LABEL: ${{ inputs.candidate_label }}
+      CYCLE_BASELINE_RUN_ID: ${{ inputs.baseline_run_id }}
+      CYCLE_BASELINE_CANDIDATE_ID: ${{ inputs.baseline_candidate_id }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -109,6 +119,12 @@ jobs:
           CONNECTION_RUN: ${{ steps.request.outputs.connection_run_id }}
           CONNECTION_PROFILE: ${{ steps.request.outputs.connection_profile }}
         run: gh run download "$CONNECTION_RUN" --repo "$GITHUB_REPOSITORY" --name "arc3-official-connection-$CONNECTION_PROFILE" --dir build/connection-import
+      - name: Restore the separately recorded accepted CPU baseline
+        if: steps.request.outputs.baseline_run_id != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BASELINE_RUN: ${{ steps.request.outputs.baseline_run_id }}
+        run: gh run download "$BASELINE_RUN" --repo "$GITHUB_REPOSITORY" --name arc3-cycle-evidence --dir build/baseline-import
       - name: Require the existing Kaggle credential for live stages
         if: steps.request.outputs.stage != 'prepare' && steps.request.outputs.stage != 'public-smoke'
         env:
