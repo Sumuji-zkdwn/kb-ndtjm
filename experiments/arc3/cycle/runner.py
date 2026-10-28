@@ -13,7 +13,7 @@ import cycle
 def configuration():
     request = cycle.read(cycle.HERE / "request.json")
     if os.environ.get("GITHUB_EVENT_NAME") == "workflow_dispatch":
-        for key in ("stage", "profile", "label", "hypothesis", "source_run_id", "connection_run_id", "version", "baseline_label", "candidate_label"):
+        for key in ("stage", "profile", "label", "hypothesis", "source_run_id", "connection_run_id", "version", "baseline_label", "candidate_label", "baseline_run_id", "baseline_candidate_id"):
             if os.environ.get("CYCLE_" + key.upper()):
                 request[key] = os.environ["CYCLE_" + key.upper()]
     if request["stage"] not in ("prepare", "public-smoke", "start", "observe", "collect", "submit", "adopt-kernel", "reconcile-submission", "gpu-pair", "cpu-pair", "gpu-score-pair"):
@@ -26,6 +26,9 @@ def configuration():
         raise ValueError("source_run_id must be a positive Actions run ID")
     if request.get("connection_run_id") and not re.fullmatch(r"[1-9][0-9]*", str(request["connection_run_id"])):
         raise ValueError("connection_run_id must be a positive Actions run ID")
+    if request.get("baseline_run_id") and (not re.fullmatch(r"[1-9][0-9]*", str(request["baseline_run_id"]))
+            or not re.fullmatch(r"[a-f0-9]{64}", request.get("baseline_candidate_id", ""))):
+        raise ValueError("Baseline import needs an exact run ID and candidate hash")
     if request["stage"] in ("public-smoke", "observe", "collect", "submit", "adopt-kernel", "reconcile-submission") and not request.get("source_run_id"):
         raise ValueError("This stage must restore an exact previous source_run_id")
     if not re.fullmatch(r"[a-z0-9-]{1,36}", request["label"]):
@@ -51,6 +54,8 @@ def summary(root):
              "| Profile | Candidate | Notebook / version | Notebook status | Submission ref | Official status | Public score |",
              "|---|---|---|---|---|---|---|"]
     for manifest_path in sorted(root.glob("*/*/manifest.json")):
+        if manifest_path.is_relative_to(root / "prior-imports"):
+            continue
         bundle = manifest_path.parent
         manifest = cycle.verify(bundle)
         profile = manifest["identity"]["profile"] + "/" + manifest["identity"]["label"]
@@ -119,6 +124,9 @@ def run_cpu_pair(request, root):
     """Continue the existing CPU pair once; do not create a new notebook."""
     baseline = root / "cpu-c8b" / request["label"]
     candidate = root / "cpu-c8b-probe64" / request["candidate_label"]
+    if request.get("baseline_run_id"):
+        cycle.import_pair_baseline(root, Path("build/baseline-import"), "cpu-c8b", request["label"],
+                                   request["baseline_candidate_id"], request["baseline_run_id"])
     manifests = [cycle.verify(p, launch=True) for p in (baseline, candidate)]
     if any(m["identity"]["line"] != "cpu" for m in manifests):
         raise ValueError("CPU pair cannot mix experiment lines")
@@ -272,7 +280,7 @@ def main():
         if os.environ.get("GITHUB_OUTPUT"):
             with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as stream:
                 request["connection_profile"] = request["profile"] if request["profile"].startswith("cpu-") else "cpu-c8b"
-                for key in ("stage", "profile", "source_run_id", "connection_run_id", "connection_profile"):
+                for key in ("stage", "profile", "source_run_id", "connection_run_id", "connection_profile", "baseline_run_id"):
                     stream.write(f"{key}={request.get(key, '')}\n")
         return
     try:

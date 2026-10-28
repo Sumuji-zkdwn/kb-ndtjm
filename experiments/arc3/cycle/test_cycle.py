@@ -233,6 +233,44 @@ class CycleTests(unittest.TestCase):
     def started(self):
         cycle.start(self.api, self.bundle)
 
+    def baseline_import_fixture(self):
+        self.started()
+        cycle.event(self.bundle, "submission-receipt.json", ref=72)
+        incoming = self.root / "incoming"
+        root = self.root / "combined"
+        source = incoming / "cpu-c8b/first"
+        target = root / "cpu-c8b/first"
+        shutil.copytree(self.bundle, source)
+        shutil.copytree(self.bundle, target)
+        return incoming, root, source, target
+
+    def test_pair_baseline_import_retains_previous_copy_and_exact_receipts(self):
+        incoming, root, source, target = self.baseline_import_fixture()
+        (target / "evidence/submission-receipt.json").unlink()
+        (target / "evidence/connection-check.json").unlink()
+        (target / "evidence/prior-history.txt").write_text("retain this", encoding="utf-8")
+        expected = cycle.verify(source)["candidate_id"]
+        value = cycle.import_pair_baseline(root, incoming, "cpu-c8b", "first", expected, "100")
+        archived = root / value["retained_prior_copy"]
+        self.assertEqual((archived / "evidence/prior-history.txt").read_text(encoding="utf-8"), "retain this")
+        self.assertEqual(cycle.receipt(target, "submission-receipt.json")["ref"], 72)
+        cycle.require_connection_check(target)
+        self.assertEqual(cycle.import_pair_baseline(root, incoming, "cpu-c8b", "first", expected, "100"), value)
+
+    def test_pair_baseline_import_rejects_another_candidate_before_moving(self):
+        incoming, root, source, target = self.baseline_import_fixture()
+        with self.assertRaisesRegex(ValueError, "another candidate"):
+            cycle.import_pair_baseline(root, incoming, "cpu-c8b", "first", "0" * 64, "100")
+        self.assertTrue((target / "manifest.json").exists())
+        self.assertFalse((root / "prior-imports").exists())
+
+    def test_pair_baseline_import_rejects_conflicting_submission_refs(self):
+        incoming, root, source, target = self.baseline_import_fixture()
+        cycle.event(source, "submission-receipt.json", ref=73)
+        with self.assertRaisesRegex(ValueError, "Conflicting"):
+            cycle.import_pair_baseline(root, incoming, "cpu-c8b", "first", cycle.verify(source)["candidate_id"], "100")
+        self.assertEqual(cycle.receipt(target, "submission-receipt.json")["ref"], 72)
+
     def rejected_submit_proof(self, status=400):
         self.started()
         value = cycle.receipt(self.bundle, "kernel-receipt.json")
