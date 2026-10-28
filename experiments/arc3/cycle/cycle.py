@@ -159,7 +159,9 @@ def prepare(profile, out, label, hypothesis, notebook=None, environment_path=Non
                 "code_sha256": code_hash(nb), "runtime": runtime,
                 "session_timeout_seconds": config["session_timeout_seconds"]}
     candidate = digest(encoded(identity))
-    slug = f"arc3-{profile}-{label}-{candidate[:12]}"
+    # Keep URLs/titles compact while retaining the candidate hash in full.
+    prefix = f"arc3-{profile}-{label}"[:37].rstrip("-")
+    slug = f"{prefix}-{candidate[:12]}"
     metadata = {"id": f"{owner}/{slug}", "title": slug,
                 "code_file": "submission.ipynb", "language": "python",
                 "kernel_type": "notebook", **runtime}
@@ -361,8 +363,19 @@ def start(api, bundle):
         else:
             raise ValueError("Candidate notebook already exists remotely. Adopt its version instead of pushing")
     intent(bundle, "kernel-intent.json", kernel=manifest["kernel"], maximum_push_calls=1)
-    result = api.kernels_push(str(bundle), timeout=str(manifest["identity"]["session_timeout_seconds"]),
-                              acc=manifest["identity"]["runtime"].get("machine_shape"))
+    try:
+        result = api.kernels_push(str(bundle), timeout=str(manifest["identity"]["session_timeout_seconds"]),
+                                  acc=manifest["identity"]["runtime"].get("machine_shape"))
+    except Exception as exc:
+        response = getattr(exc, "response", None)
+        message = str(getattr(response, "text", ""))[:2000]
+        token = os.environ.get("KAGGLE_API_TOKEN")
+        if token:
+            message = message.replace(token, "[redacted]")
+        event(bundle, "push-http-error.json", status_code=getattr(response, "status_code", None),
+              error_type=type(exc).__name__, message=message,
+              recovery="Inspect/adopt exact remote version before any further start; the intent remains")
+        raise
     # Persist a receipt before checking optional validation details.
     version = int(result.version_number or 0)
     saved = event(bundle, "kernel-receipt.json", kernel=manifest["kernel"], version=version,
