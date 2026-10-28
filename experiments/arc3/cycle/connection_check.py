@@ -173,6 +173,7 @@ def run(args, report):
     extract(args.competition_zip, env_root, "environment_files/")
     env_dir = env_root / "environment_files"
     os.environ["MPLBACKEND"] = "Agg"
+    os.environ["RECORDINGS_DIR"] = str(runtime / "recordings")
     os.environ.pop("OPERATION_MODE", None)
     from arc_agi import Arcade, OperationMode
     cpu = load_cpu(framework, runtime, args.cpu_profile)

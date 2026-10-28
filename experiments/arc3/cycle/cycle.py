@@ -563,6 +563,9 @@ def main():
     p.add_argument("--baseline", type=Path, required=True)
     p.add_argument("--candidate", type=Path, required=True)
     p.add_argument("--out", type=Path)
+    p = commands.add_parser("attach-connection")
+    p.add_argument("--bundle", type=Path, required=True)
+    p.add_argument("--report", type=Path, required=True)
     args = parser.parse_args()
     if args.command == "prepare":
         result = prepare(args.profile, args.out, args.label, args.hypothesis, args.notebook, args.environment, args.owner)
@@ -572,6 +575,8 @@ def main():
         result = compare(args.baseline, args.candidate)
         if args.out:
             save(args.out, result, exclusive=True)
+    elif args.command == "attach-connection":
+        result = attach_connection_check(args.bundle, args.report)
     else:
         api = api_client()
         if args.command == "resolve-environment":

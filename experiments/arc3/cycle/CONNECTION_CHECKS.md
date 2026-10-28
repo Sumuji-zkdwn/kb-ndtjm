@@ -58,7 +58,17 @@ a newly measured run. GPU baseline and memory still share the frozen V3 image an
 input references; comparisons also require matching observed images and input
 archive hashes.
 
-The original notebooks remain in `notebooks/`. `cpu-c8b-probe64` is a separate
+The original notebooks remain in `notebooks/`. GPU profiles now use separate
+`gpu-baseline-connected.ipynb` and `gpu-memory-connected.ipynb` copies. The
+original factories used `environments_dir=""`; SDK 0.9.8 interprets that as the
+current directory and merges discovered local games with the gateway catalog.
+The derived factories use a fresh empty directory, which keeps gateway discovery
+independent of current-directory contents. Both GPU copies share this fix.
+Normal Save Version runs use a short connectivity budget (one pass, concurrency
+four, at most two actions and 90 seconds per game, 15-minute soft budget). The
+real competition branch retains the original full solver settings and budgets.
+
+`cpu-c8b-probe64` is a separate
 derived notebook with one policy parameter changed (96 to 64 stagnant decisions),
 and an isolated temporary module directory. `DERIVED_CANDIDATES.json` records its
 baseline and code hashes. It is a candidate, not an adopted improvement.
