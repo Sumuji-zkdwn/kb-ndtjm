@@ -1,10 +1,10 @@
 {
   "version": "",
-  "baseline_label": "connected-baseline-20261029",
+  "baseline_label": "zip-base-20261029",
   "connection_run_id": "40758186049",
   "stage": "start",
   "profile": "gpu-baseline",
-  "label": "connected-baseline-20261029",
+  "label": "zip-base-20261029",
   "hypothesis": "Validate the gateway-isolated Franzen baseline; compare evidence memory under the same full competition settings.",
-  "source_run_id": "40753770952"
+  "source_run_id": "40758843527"
 }
