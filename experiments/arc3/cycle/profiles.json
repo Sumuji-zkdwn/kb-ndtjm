@@ -6,6 +6,13 @@
     "dataset_sources": [],
     "model_sources": []
   },
+  "cpu-c8b-probe64": {
+    "line": "cpu",
+    "notebook": "notebooks/cpu-c8b-probe64.ipynb",
+    "session_timeout_seconds": 32400,
+    "dataset_sources": [],
+    "model_sources": []
+  },
   "gpu-baseline": {
     "line": "gpu",
     "notebook": "notebooks/gpu-baseline.ipynb",

@@ -19,7 +19,7 @@ on:
       profile:
         type: choice
         default: all
-        options: [all, cpu-c8b, gpu-baseline, gpu-memory]
+        options: [all, cpu-c8b, cpu-c8b-probe64, gpu-baseline, gpu-memory]
       label:
         type: string
         default: baseline-20261029
@@ -28,6 +28,10 @@ on:
         default: Reproduce the frozen baseline before proposing one change.
       source_run_id:
         description: Exact previous cycle run whose evidence artifact should be restored
+        type: string
+        default: ''
+      connection_run_id:
+        description: Successful official connection workflow run for the exact candidate code
         type: string
         default: ''
       version:
@@ -75,6 +79,7 @@ jobs:
       CYCLE_LABEL: ${{ inputs.label }}
       CYCLE_HYPOTHESIS: ${{ inputs.hypothesis }}
       CYCLE_SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+      CYCLE_CONNECTION_RUN_ID: ${{ inputs.connection_run_id }}
       CYCLE_VERSION: ${{ inputs.version }}
       CYCLE_BASELINE_LABEL: ${{ inputs.baseline_label }}
     steps:
@@ -92,6 +97,13 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           SOURCE_RUN: ${{ steps.request.outputs.source_run_id }}
         run: gh run download "$SOURCE_RUN" --repo "$GITHUB_REPOSITORY" --name arc3-cycle-evidence --dir build/arc3-cycle
+      - name: Restore the matching official connection report
+        if: steps.request.outputs.connection_run_id != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CONNECTION_RUN: ${{ steps.request.outputs.connection_run_id }}
+          CONNECTION_PROFILE: ${{ steps.request.outputs.connection_profile }}
+        run: gh run download "$CONNECTION_RUN" --repo "$GITHUB_REPOSITORY" --name "arc3-official-connection-$CONNECTION_PROFILE" --dir build/connection-import
       - name: Require the existing Kaggle credential for live stages
         if: steps.request.outputs.stage != 'prepare' && steps.request.outputs.stage != 'public-smoke'
         env:
@@ -104,16 +116,26 @@ jobs:
       - name: Download public environments for the exact CPU candidate smoke
         if: steps.request.outputs.stage == 'public-smoke'
         env:
-          ARC_API_KEY: ${{ secrets.ARC_API_KEY }}
-          ENVIRONMENTS_DIR: ${{ github.workspace }}/build/public-environments
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
         run: |
-          if [ -z "$ARC_API_KEY" ]; then
-            echo '::error::The public download stage requires repository Actions secret ARC_API_KEY.'
-            exit 2
-          fi
-          python -m pip install -r experiments/arc3/runtime/requirements.lock
-          python experiments/arc3/runtime/arc3/download.py ls20 ft09 vc33
-          echo "ARC3_ENVIRONMENTS=$ENVIRONMENTS_DIR" >> "$GITHUB_ENV"
+          python - <<'PY'
+          from pathlib import Path
+          import zipfile
+          from kaggle.api.kaggle_api_extended import KaggleApi
+          destination=Path('build/official-competition')
+          destination.mkdir(parents=True)
+          api=KaggleApi()
+          api.authenticate()
+          api.competition_download_files('arc-prize-2026-arc-agi-3', str(destination), quiet=True)
+          archive=destination/'arc-prize-2026-arc-agi-3.zip'
+          with zipfile.ZipFile(archive) as bundle:
+              bundle.extractall(destination)
+          import os
+          with open(os.environ['GITHUB_ENV'],'a') as stream:
+              stream.write('ARC3_OFFICIAL_ZIP='+str(archive.resolve())+'\n')
+              stream.write('ARC3_ENVIRONMENTS='+str((destination/'environment_files').resolve())+'\n')
+          PY
+          python -m pip install --no-index --find-links build/official-competition/arc_agi_3_wheels arc-agi==0.9.8 arcengine==0.9.3
       - name: Execute one short cycle stage
         env:
           KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}

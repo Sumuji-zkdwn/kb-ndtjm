@@ -1,0 +1,16 @@
+{
+  "cpu-c8b-probe64": {
+    "baseline": "cpu-c8b",
+    "baseline_code_sha256": "53d9b299caec5c841869891a2c752c5e42682ba40beaa274b1238241e46b0e03",
+    "candidate_code_sha256": "6829f32256ddfbe8173af314bc4d9c1819041a1807510a65708cdba57a8bd560",
+    "official_score": null,
+    "packaging_change": "Unique temporary module directory; algorithm otherwise retained",
+    "policy_change": {
+      "stagnation_threshold": {
+        "after": 64,
+        "before": 96
+      }
+    },
+    "status": "candidate, not an adopted improvement"
+  }
+}

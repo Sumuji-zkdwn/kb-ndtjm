@@ -12,7 +12,7 @@ import cycle
 def configuration():
     request = cycle.read(cycle.HERE / "request.json")
     if os.environ.get("GITHUB_EVENT_NAME") == "workflow_dispatch":
-        for key in ("stage", "profile", "label", "hypothesis", "source_run_id", "version", "baseline_label"):
+        for key in ("stage", "profile", "label", "hypothesis", "source_run_id", "connection_run_id", "version", "baseline_label"):
             if os.environ.get("CYCLE_" + key.upper()):
                 request[key] = os.environ["CYCLE_" + key.upper()]
     if request["stage"] not in ("prepare", "public-smoke", "start", "observe", "collect", "submit", "adopt-kernel", "reconcile-submission"):
@@ -23,6 +23,8 @@ def configuration():
         raise ValueError("Run one candidate at a time; all is available only for offline preparation")
     if request.get("source_run_id") and not re.fullmatch(r"[1-9][0-9]*", str(request["source_run_id"])):
         raise ValueError("source_run_id must be a positive Actions run ID")
+    if request.get("connection_run_id") and not re.fullmatch(r"[1-9][0-9]*", str(request["connection_run_id"])):
+        raise ValueError("connection_run_id must be a positive Actions run ID")
     if request["stage"] in ("public-smoke", "observe", "collect", "submit", "adopt-kernel", "reconcile-submission") and not request.get("source_run_id"):
         raise ValueError("This stage must restore an exact previous source_run_id")
     if not re.fullmatch(r"[a-z0-9-]{1,36}", request["label"]):
@@ -91,6 +93,9 @@ def run(request, root):
                 except ValueError:
                     if request["stage"] == "start":
                         raise
+        connection = Path("build/connection-import/connection-report/report.json")
+        if connection.exists():
+            cycle.attach_connection_check(bundle, connection)
         if request["stage"] == "start":
             print(json.dumps(cycle.start(api, bundle)), flush=True)
             print(json.dumps(cycle.observe_kernel(api, bundle)), flush=True)
@@ -98,7 +103,8 @@ def run(request, root):
             if not profile.startswith("cpu-"):
                 raise ValueError("The offline public-smoke runner is for CPU candidates")
             subprocess.run([sys.executable, str(cycle.HERE / "cpu_smoke.py"), "--bundle", str(bundle),
-                            "--environments", os.environ["ARC3_ENVIRONMENTS"]], check=True)
+                            "--environments", os.environ["ARC3_ENVIRONMENTS"],
+                            "--official-zip", os.environ["ARC3_OFFICIAL_ZIP"]], check=True)
         elif request["stage"] == "observe":
             print(json.dumps(cycle.observe_kernel(api, bundle)), flush=True)
             if (bundle / "evidence" / "submission-receipt.json").exists():
@@ -128,7 +134,8 @@ def main():
         print(json.dumps(request))
         if os.environ.get("GITHUB_OUTPUT"):
             with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as stream:
-                for key in ("stage", "profile", "source_run_id"):
+                request["connection_profile"] = request["profile"] if request["profile"].startswith("cpu-") else "cpu-c8b"
+                for key in ("stage", "profile", "source_run_id", "connection_run_id", "connection_profile"):
                     stream.write(f"{key}={request.get(key, '')}\n")
         return
     try:

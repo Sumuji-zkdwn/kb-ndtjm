@@ -96,8 +96,14 @@ class CycleTests(unittest.TestCase):
         path = self.root / name
         cycle.prepare(profile, path, name, "fixture hypothesis", notebook=self.nb, environment_path=env)
         if profile == "cpu-c8b":
-            cycle.event(path, "public-smoke.json", passed=True, errors=[], results=[
+            cycle.event(path, "public-smoke.json", passed=True, errors=[], official_zip_sha256=cycle.OFFICIAL_ZIP_SHA256, results=[
                 {"candidate_id": cycle.verify(path)["candidate_id"], "official_loop_unchanged": True}])
+        report = self.root / (name + "-connection.json")
+        manifest = cycle.verify(path)
+        cycle.save(report, {"passed": True, "checks": [{"passed": True, "name": "test fixture, not real verification"}],
+                   "competition_zip_sha256": cycle.OFFICIAL_ZIP_SHA256, "gpu_source_zip_sha256": "fixture-source",
+                   "cpu_profile_tested": profile, "notebook_code_sha256": {profile: manifest["identity"]["code_sha256"]}})
+        cycle.attach_connection_check(path, report)
         return path
 
     def started(self):
@@ -125,6 +131,38 @@ class CycleTests(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):
             self.started()
         self.assertEqual(self.api.pushes, 0)
+
+    def test_missing_connection_check_blocks_a_new_notebook(self):
+        (self.bundle / "evidence/connection-check.json").unlink()
+        with self.assertRaises(FileNotFoundError):
+            self.started()
+        self.assertEqual(self.api.pushes, 0)
+
+    def test_connection_report_for_another_code_is_rejected(self):
+        report = self.root / "first-connection.json"
+        value = cycle.read(report)
+        value["notebook_code_sha256"]["cpu-c8b"] = "different"
+        cycle.save(report, value)
+        with self.assertRaisesRegex(ValueError, "different notebook code"):
+            cycle.attach_connection_check(self.bundle, report)
+
+    def test_old_sdk_smoke_cannot_start_a_new_candidate(self):
+        value = cycle.receipt(self.bundle, "public-smoke.json")
+        value.pop("official_zip_sha256")
+        cycle.save(self.bundle / "evidence/public-smoke.json", value)
+        with self.assertRaisesRegex(ValueError, "official ZIP"):
+            self.started()
+        self.assertEqual(self.api.pushes, 0)
+
+    def test_source_bundle_drift_prevents_score_comparison(self):
+        other = self.make_bundle("other")
+        self.score(self.bundle, "0.01", 1)
+        self.score(other, "0.02", 2)
+        value = cycle.receipt(other, "connection-check.json")
+        value["report"]["gpu_source_zip_sha256"] = "different-source"
+        cycle.save(other / "evidence/connection-check.json", value)
+        with self.assertRaisesRegex(ValueError, "input contents differ"):
+            cycle.compare(self.bundle, other)
 
     def test_existing_output_directory_not_overwritten(self):
         with self.assertRaises(FileExistsError):

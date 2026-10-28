@@ -1,6 +1,7 @@
 """Run the exact CPU notebook payload through the unchanged official Agent.main."""
 import argparse
 import gzip
+from io import BytesIO
 import importlib.metadata
 import importlib.util
 import json
@@ -11,21 +12,57 @@ import subprocess
 import sys
 import tempfile
 import time
+import zipfile
 from unittest.mock import patch
 import cycle
 
 
-def child(bundle, environments, game, seed, out):
+def official_runtime(archive, runtime):
+    """Use the downloaded implementation; isolate optional LLM registrations."""
+    framework = runtime / "official-framework"
+    sdk = runtime / "official-sdk"
+    with zipfile.ZipFile(archive) as source:
+        for name in ("agents/agent.py", "agents/recorder.py", "agents/tracing.py"):
+            target = framework / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(source.read("ARC-AGI-3-Agents/" + name))
+        (framework / "agents/__init__.py").write_text("# No optional LLM registrations in isolated tests.\n", encoding="utf-8")
+        versions = {}
+        for package in ("arc_agi", "arcengine"):
+            names = [n for n in source.namelist() if n.startswith("arc_agi_3_wheels/" + package + "-") and n.endswith("-py3-none-any.whl")]
+            if len(names) != 1:
+                raise ValueError("Expected one pure Python runtime wheel: " + package)
+            versions[package] = cycle.digest(source.read(names[0]))
+            with zipfile.ZipFile(BytesIO(source.read(names[0]))) as wheel:
+                for name in wheel.namelist():
+                    if name.endswith("/"):
+                        continue
+                    target = sdk / name
+                    if not target.resolve().is_relative_to(sdk.resolve()):
+                        raise ValueError("Unexpected wheel path")
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    target.write_bytes(wheel.read(name))
+    sys.path.insert(0, str(sdk))
+    return framework, {"competition_zip_sha256": cycle.cycle_file_digest(archive), "wheel_sha256": versions,
+                       "agent_source": "Official ZIP agents/agent.py, byte-identical",
+                       "registration_adapter": "Empty package initializer; optional LLM templates are not imported"}
+
+
+def child(bundle, environments, game, seed, out, official_zip=None):
     manifest = cycle.verify(bundle, launch=True)
     out.mkdir(parents=True, exist_ok=False)
     runtime = out / "runtime"
     runtime.mkdir()
     tempfile.tempdir = str(runtime.resolve())
-    framework = cycle.HERE / "framework"
-    inventory = cycle.read(cycle.HERE / "framework-sha256.json")
-    for name, expected in inventory.items():
-        if cycle.digest((framework / name).read_bytes()) != expected:
-            raise ValueError("Official framework changed: " + name)
+    if official_zip:
+        framework, provenance = official_runtime(official_zip, runtime)
+    else:
+        framework = cycle.HERE / "framework"
+        provenance = {"agent_source": "Previously pinned framework, not asserted byte-identical to the downloaded ZIP"}
+        inventory = cycle.read(cycle.HERE / "framework-sha256.json")
+        for name, expected in inventory.items():
+            if cycle.digest((framework / name).read_bytes()) != expected:
+                raise ValueError("Pinned framework changed: " + name)
     sys.path.insert(0, str(framework))
     notebook = cycle.read(bundle / "submission.ipynb")
     cells = [s for s in cycle.code_sources(notebook) if s.startswith("%%writefile /tmp/my_agent.py\n")]
@@ -88,6 +125,7 @@ def child(bundle, environments, game, seed, out):
                           "calls_including_initial_reset": calls, "levels_completed": int(frame.levels_completed),
                           "state": frame.state.name, "win": frame.state.name == "WIN",
                           "seconds": round(time.perf_counter()-started, 4), "official_loop_unchanged": True,
+                          "runtime_source": provenance,
                           "versions": {p: importlib.metadata.version(p) for p in ("arc-agi", "arcengine", "numpy")}}
                 cycle.save(out / "result.json", result, exclusive=True)
             finally:
@@ -104,13 +142,14 @@ def main():
     parser.add_argument("--seconds-per-game", type=int, default=360)
     parser.add_argument("--child", action="store_true")
     parser.add_argument("--out", type=Path)
+    parser.add_argument("--official-zip", type=Path, help="Use the exact downloaded Agent and pure Python SDK wheels")
     args = parser.parse_args()
     args.bundle, args.environments = args.bundle.resolve(), args.environments.resolve()
     manifest = cycle.verify(args.bundle, launch=True)
     if manifest["identity"]["line"] != "cpu":
         raise ValueError("This smoke runner is for the CPU line only")
     if args.child:
-        child(args.bundle, args.environments, args.games[0], args.seed, args.out)
+        child(args.bundle, args.environments, args.games[0], args.seed, args.out, args.official_zip)
         return
     root = args.bundle / "evidence" / "public-smoke"
     root.mkdir(parents=True, exist_ok=False)
@@ -120,6 +159,8 @@ def main():
             out = root / game
             command = [sys.executable, str(Path(__file__).resolve()), "--child", "--bundle", str(args.bundle),
                        "--environments", str(args.environments), "--games", game, "--seed", str(args.seed), "--out", str(out)]
+            if args.official_zip:
+                command.extend(["--official-zip", str(args.official_zip.resolve())])
             with (root / (game + ".log")).open("w", encoding="utf-8") as stream:
                 subprocess.run(command, stdout=stream, stderr=subprocess.STDOUT, check=True, timeout=args.seconds_per_game)
             rows.append(cycle.read(out / "result.json"))
@@ -131,6 +172,7 @@ def main():
                  for p in sorted(args.environments.rglob("*")) if p.is_file() and "__pycache__" not in p.parts}
         cycle.event(args.bundle, "public-smoke.json", passed=not errors and len(rows) == len(args.games),
                     results=rows, errors=errors, environment_sha256=files,
+                    official_zip_sha256=cycle.cycle_file_digest(args.official_zip) if args.official_zip else None,
                     scope="Fresh offline public game runs of the exact notebook payload; not Kaggle or hidden-set validation")
 
 

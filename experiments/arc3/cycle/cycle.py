@@ -20,6 +20,7 @@ import time
 
 HERE = Path(__file__).resolve().parent
 COMPETITION = "arc-prize-2026-arc-agi-3"
+OFFICIAL_ZIP_SHA256 = "c72400a32db5e48da9014baf893b48016b300e9a6a77bd5d505de2b1ec61d645"
 
 
 def now():
@@ -215,6 +216,33 @@ def receipt(bundle, name):
     return value
 
 
+def attach_connection_check(bundle, report_path):
+    manifest = verify(bundle)
+    report = read(report_path)
+    profile = manifest["identity"]["profile"]
+    if not report.get("passed") or not report.get("checks") or not all(c.get("passed") for c in report["checks"]):
+        raise ValueError("Official connection checks did not pass")
+    if report.get("competition_zip_sha256") != OFFICIAL_ZIP_SHA256:
+        raise ValueError("Official competition ZIP differs from the audited reference")
+    if report.get("notebook_code_sha256", {}).get(profile) != manifest["identity"]["code_sha256"]:
+        raise ValueError("Connection report tested different notebook code")
+    if manifest["identity"]["line"] == "cpu" and report.get("cpu_profile_tested") != profile:
+        raise ValueError("Connection report tested another CPU policy")
+    return event(bundle, "connection-check.json", passed=True, profile=profile,
+                 code_sha256=manifest["identity"]["code_sha256"], report_sha256=cycle_file_digest(report_path),
+                 report=report, scope="Official public SDK and simulated gateway; not hidden-game or model-inference validation")
+
+
+def require_connection_check(bundle):
+    manifest = verify(bundle)
+    value = receipt(bundle, "connection-check.json")
+    if not value.get("passed") or value.get("code_sha256") != manifest["identity"]["code_sha256"]:
+        raise ValueError("Candidate needs matching official connection checks")
+    if value.get("report", {}).get("competition_zip_sha256") != OFFICIAL_ZIP_SHA256:
+        raise ValueError("Connection check used another official bundle")
+    return value
+
+
 def reuse_cpu_baseline_evidence(bundle):
     """Reuse measured evidence only for byte-identical payload/runtime conditions."""
     manifest = verify(bundle, launch=True)
@@ -278,6 +306,9 @@ def start(api, bundle):
             raise ValueError("CPU smoke results do not match the candidate and official loop")
     if (evidence / "kernel-receipt.json").exists():
         return receipt(bundle, "kernel-receipt.json")
+    connection = require_connection_check(bundle)
+    if manifest["identity"]["line"] == "cpu" and smoke.get("official_zip_sha256") != OFFICIAL_ZIP_SHA256:
+        raise ValueError("A fresh CPU smoke using the official ZIP is required before launch")
     if (evidence / "kernel-intent.json").exists():
         raise ValueError("Previous push may have succeeded. Adopt its exact version; do not push again")
     if (api.get_config_value("username") or "").lower() != manifest["kernel"].split("/", 1)[0].lower():
@@ -410,6 +441,7 @@ def submit(api, bundle):
     evidence = Path(bundle) / "evidence"
     if (evidence / "submission-receipt.json").exists():
         return receipt(bundle, "submission-receipt.json")
+    require_connection_check(bundle)
     if (evidence / "push-error.json").exists():
         raise ValueError("Rejected push cannot be submitted")
     stored = receipt(bundle, "kernel-receipt.json")
@@ -460,6 +492,10 @@ def compare(baseline, candidate):
     images = [receipt(path, "readback.json").get("docker_image") for path in (baseline, candidate)]
     if not all(images) or images[0] != images[1]:
         raise ValueError("Observed Kaggle runtime images differ or are missing")
+    connection_reports = [require_connection_check(path)["report"] for path in (baseline, candidate)]
+    for key in ("competition_zip_sha256", "gpu_source_zip_sha256"):
+        if connection_reports[0].get(key) != connection_reports[1].get(key):
+            raise ValueError("Connection input contents differ: " + key)
     values = [receipt(path, "official-score.json") for path in (baseline, candidate)]
     for value in values:
         if value["status"] != "COMPLETE" or value["public_score"] in (None, "") or value["competition"] != COMPETITION:
