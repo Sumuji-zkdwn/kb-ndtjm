@@ -115,8 +115,10 @@ def run(request, root):
         elif request["stage"] == "collect":
             print(json.dumps(cycle.collect_output(api, bundle)), flush=True)
         elif request["stage"] == "submit":
-            cycle.submit(api, bundle)
-            cycle.observe_score(api, bundle)
+            result = cycle.submit(api, bundle)
+            print(json.dumps(result), flush=True)
+            if result.get("ref"):
+                cycle.observe_score(api, bundle)
         elif request["stage"] == "adopt-kernel":
             cycle.adopt(api, bundle, int(request["version"]))
         elif request["stage"] == "reconcile-submission":

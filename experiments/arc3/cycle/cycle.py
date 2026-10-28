@@ -439,6 +439,18 @@ def reconcile_submission(api, bundle):
     return event(bundle, "submission-receipt.json", ref=int(matches[0].ref), action="adopted_existing")
 
 
+def active_submissions(api):
+    """Keep official reruns bounded; normal CPU/GPU notebook runs stay separate."""
+    active = []
+    for page in range(1, 101):
+        values = api.competition_submissions(COMPETITION, page_number=page, page_size=100) or []
+        active.extend({"ref": int(s.ref), "status": enum_name(s.status)} for s in values if s is not None
+                      and enum_name(getattr(s, "status", "")) in ("PENDING", "RUNNING"))
+        if len(values) < 100:
+            return active
+    raise ValueError("Submission inventory exceeds scan bound")
+
+
 def collect_output(api, bundle):
     """Collect diagnostics before any competition submission, including failures."""
     stored = receipt(bundle, "kernel-receipt.json")
@@ -489,6 +501,10 @@ def submit(api, bundle):
     matches = submissions_with_marker(api, bundle)
     if matches:
         return reconcile_submission(api, bundle)
+    active = active_submissions(api)
+    if active:
+        return event(bundle, "submission-deferred.json", action="deferred_without_submitting", active_submissions=active,
+                     reason="Wait for the existing official evaluation before starting another one")
     if (evidence / "submission-intent.json").exists():
         raise ValueError("Previous submit may have succeeded. Reconcile; do not submit again")
     # The remote output must exist for the exact completed version.
@@ -498,8 +514,18 @@ def submit(api, bundle):
     if not parquet.is_file() or parquet.stat().st_size == 0:
         raise ValueError("Exact notebook version did not produce submission.parquet")
     intent(bundle, "submission-intent.json", kernel=checked["kernel"], version=checked["version"], maximum_submit_calls=1)
-    result = api.competition_submit_code("submission.parquet", marker(bundle), COMPETITION,
-                                         checked["kernel"], checked["version"], quiet=True)
+    try:
+        result = api.competition_submit_code("submission.parquet", marker(bundle), COMPETITION,
+                                             checked["kernel"], checked["version"], quiet=True)
+    except Exception as exc:
+        response = getattr(exc, "response", None)
+        message = str(getattr(response, "text", ""))[:2000]
+        token = os.environ.get("KAGGLE_API_TOKEN")
+        if token:
+            message = message.replace(token, "[redacted]")
+        event(bundle, "submission-http-error.json", status_code=getattr(response, "status_code", None),
+              error_type=type(exc).__name__, message=message, recovery="Reconcile the candidate marker; do not resubmit automatically")
+        raise
     saved = event(bundle, "submission-receipt.json", ref=int(result.ref or 0), message=result.message,
                   kernel=checked["kernel"], version=checked["version"], action="submitted_once")
     if saved["ref"] < 1:

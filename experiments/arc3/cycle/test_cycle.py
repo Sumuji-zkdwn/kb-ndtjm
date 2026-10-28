@@ -295,6 +295,14 @@ class CycleTests(unittest.TestCase):
         self.assertEqual(value["ref"], 72)
         self.assertEqual(self.api.submits, 1)
 
+    def test_another_pending_evaluation_defers_without_spending_a_submission(self):
+        self.started()
+        self.api.history.append(Obj(ref=99, description="another-candidate", status="PENDING"))
+        value = cycle.submit(self.api, self.bundle)
+        self.assertEqual(value["action"], "deferred_without_submitting")
+        self.assertEqual(self.api.submits, 0)
+        self.assertFalse((self.bundle / "evidence/submission-intent.json").exists())
+
     def test_submit_timeout_reconciles_without_resubmission(self):
         self.started()
         self.api.submit_timeout = True
