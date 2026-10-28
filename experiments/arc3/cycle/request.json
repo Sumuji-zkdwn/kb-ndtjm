@@ -1,9 +1,10 @@
 {
-  "stage": "prepare",
-  "profile": "all",
-  "label": "baseline-20261029",
-  "hypothesis": "Freeze the existing CPU c8b baseline and the GPU baseline/memory pair without changing their code cells.",
-  "source_run_id": "",
-  "baseline_label": "baseline-20261029",
-  "version": ""
+  "version": "",
+  "baseline_label": "connected-baseline-20261029",
+  "connection_run_id": "40758186049",
+  "stage": "start",
+  "profile": "gpu-baseline",
+  "label": "connected-baseline-20261029",
+  "hypothesis": "Validate the gateway-isolated Franzen baseline; compare evidence memory under the same full competition settings.",
+  "source_run_id": "40753770952"
 }
