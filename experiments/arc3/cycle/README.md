@@ -157,6 +157,12 @@ probe64 の初回提出は [このログ](https://github.com/Sumuji-zkdwn/kb-ndt
 追加要求を一度だけ許可します。元の intent と retry intent は両方保持します。
 応答不明・タイムアウト・別候補の記録はこの復帰条件に入りません。
 
+GPUの通常検証が両方とも通った後は、`gpu-score-pair` でその完了artifactと
+基準labelを引き継げます。実際のイメージ・モデル条件と推論診断を再確認し、
+他の公式再実行が動いていれば60秒間隔で待ちます。空いた場合だけ基準版、次に
+記憶版を提出し、それぞれのスコアを観測します。各待機は最大90分、段階全体は
+最大3時間です。時間切れでも既存の提出番号を保持し、新しいNotebookは作りません。
+
 ```powershell
 python -m pip install -r experiments/arc3/cycle/requirements.txt
 python experiments/arc3/cycle/cycle.py prepare --profile cpu-c8b --notebook path/to/new.ipynb --label c9-one-change --hypothesis "one concrete change" --out runs/cpu/c9

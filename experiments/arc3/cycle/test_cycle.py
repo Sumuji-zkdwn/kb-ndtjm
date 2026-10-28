@@ -14,6 +14,41 @@ import runner
 
 
 class GpuValidationTests(unittest.TestCase):
+    def test_official_queue_deferral_is_observed_without_forcing_submission(self):
+        values = [{"action": "deferred_without_submitting", "active_submissions": [11]}, {"ref": 72}]
+        with patch.object(cycle, "submit", side_effect=values) as submit, patch("runner.time.sleep"):
+            self.assertEqual(runner.submit_when_idle(Obj(), Path("unused"))["ref"], 72)
+        self.assertEqual(submit.call_count, 2)
+
+    def test_official_queue_timeout_does_not_force_a_submission(self):
+        with patch.object(cycle, "submit", return_value={"action": "deferred_without_submitting"}) as submit:
+            with patch("runner.time.monotonic", side_effect=[0, 10]):
+                with self.assertRaises(TimeoutError):
+                    runner.submit_when_idle(Obj(), Path("unused"), timeout_s=1)
+        self.assertEqual(submit.call_count, 1)
+
+    def test_gpu_score_pair_does_not_submit_after_failed_inference_validation(self):
+        request = {"label": "ready-v2"}
+        manifest = {"identity": {"line": "gpu", "runtime": {}, "session_timeout_seconds": 10}}
+        with patch.object(cycle, "api_client"), patch.object(cycle, "verify", return_value=manifest):
+            with patch.object(cycle, "require_comparable_execution"), patch.object(cycle, "require_connection_check"):
+                with patch.object(cycle, "collect_output"), patch.object(cycle, "require_gpu_validation", side_effect=ValueError("bad inference")):
+                    with patch.object(cycle, "submit") as submit:
+                        with self.assertRaisesRegex(ValueError, "bad inference"):
+                            runner.run_gpu_score_pair(request, Path("unused"))
+        submit.assert_not_called()
+
+    def test_cpu_baseline_error_prevents_candidate_submission(self):
+        request = {"label": "baseline", "candidate_label": "probe64"}
+        manifest = {"identity": {"line": "cpu", "runtime": {}, "session_timeout_seconds": 10}}
+        with patch.object(cycle, "api_client"), patch.object(cycle, "verify", return_value=manifest):
+            with patch.object(cycle, "require_comparable_execution"), patch.object(cycle, "require_connection_check"):
+                with patch.object(runner, "wait_official_score", side_effect=ValueError("failed baseline")):
+                    with patch.object(cycle, "submit") as submit:
+                        with self.assertRaisesRegex(ValueError, "failed baseline"):
+                            runner.run_cpu_pair(request, Path("unused"))
+        submit.assert_not_called()
+
     def test_official_score_wait_accepts_zero_score(self):
         with patch.object(cycle, "observe_score", return_value={"status": "COMPLETE", "public_score": "0"}):
             self.assertEqual(runner.wait_official_score(Obj(), Path("unused"))["public_score"], "0")

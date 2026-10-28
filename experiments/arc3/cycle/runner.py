@@ -16,7 +16,7 @@ def configuration():
         for key in ("stage", "profile", "label", "hypothesis", "source_run_id", "connection_run_id", "version", "baseline_label", "candidate_label"):
             if os.environ.get("CYCLE_" + key.upper()):
                 request[key] = os.environ["CYCLE_" + key.upper()]
-    if request["stage"] not in ("prepare", "public-smoke", "start", "observe", "collect", "submit", "adopt-kernel", "reconcile-submission", "gpu-pair", "cpu-pair"):
+    if request["stage"] not in ("prepare", "public-smoke", "start", "observe", "collect", "submit", "adopt-kernel", "reconcile-submission", "gpu-pair", "cpu-pair", "gpu-score-pair"):
         raise ValueError("Unknown cycle stage")
     if request["profile"] not in (*cycle.profiles(), "all"):
         raise ValueError("Unknown cycle profile")
@@ -36,6 +36,9 @@ def configuration():
         raise ValueError("An explicit experiment hypothesis is required")
     if request["stage"] == "gpu-pair" and (request["profile"] != "gpu-baseline" or len(request["label"]) > 29):
         raise ValueError("gpu-pair requires gpu-baseline and a label of at most 29 characters")
+    if request["stage"] == "gpu-score-pair" and (request["profile"] != "gpu-baseline"
+            or not request.get("source_run_id") or len(request["label"]) > 29):
+        raise ValueError("gpu-score-pair requires the completed GPU pair artifact and its baseline label")
     if request["stage"] == "cpu-pair" and (request["profile"] != "cpu-c8b" or not request.get("source_run_id")
             or not re.fullmatch(r"[a-z0-9-]{1,36}", request.get("candidate_label", ""))):
         raise ValueError("cpu-pair needs a restored CPU baseline and an explicit existing candidate label")
@@ -124,6 +127,7 @@ def run_cpu_pair(request, root):
             raise ValueError("CPU pair execution conditions differ: " + key)
     for path in (baseline, candidate):
         cycle.require_connection_check(path)
+    cycle.require_comparable_execution(baseline, candidate)
     api = cycle.api_client()
     wait_official_score(api, baseline)
     if not (candidate / "evidence/submission-receipt.json").exists():
@@ -140,12 +144,59 @@ def run_cpu_pair(request, root):
     print(json.dumps(result), flush=True)
 
 
+def submit_when_idle(api, bundle, timeout_s=5400):
+    deadline = time.monotonic() + timeout_s
+    while True:
+        result = cycle.submit(api, bundle)
+        print(json.dumps(result), flush=True)
+        if result.get("ref"):
+            return result
+        if result.get("action") != "deferred_without_submitting":
+            raise ValueError("No accepted submission or explicit idle-queue deferral")
+        if time.monotonic() >= deadline:
+            raise TimeoutError("Official submission queue deadline; retain the candidate without another request")
+        time.sleep(60)
+
+
+def run_gpu_score_pair(request, root):
+    """Use existing validated versions; total queue/scoring observation <= 3h."""
+    api = cycle.api_client()
+    paths = [root / "gpu-baseline" / request["label"], root / "gpu-memory" / (request["label"] + "-memory")]
+    manifests = [cycle.verify(p, launch=True) for p in paths]
+    for key in ("line", "runtime", "session_timeout_seconds"):
+        if manifests[0]["identity"][key] != manifests[1]["identity"][key]:
+            raise ValueError("GPU pair execution conditions differ: " + key)
+    if manifests[0]["identity"]["line"] != "gpu":
+        raise ValueError("GPU score pair cannot mix experiment lines")
+    cycle.require_comparable_execution(*paths)
+    for path in paths:
+        cycle.require_connection_check(path)
+        cycle.collect_output(api, path)
+        cycle.require_gpu_validation(path)
+    deadline = time.monotonic() + 10800
+    for path in paths:
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            raise TimeoutError("GPU score pair observation budget exhausted")
+        submit_when_idle(api, path, timeout_s=min(5400, remaining))
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            raise TimeoutError("GPU score pair observation budget exhausted")
+        wait_official_score(api, path, timeout_s=min(5400, remaining))
+        summary(root)
+    result = cycle.compare(*paths)
+    cycle.save(root / "gpu-comparison.json", result)
+    print(json.dumps(result), flush=True)
+
+
 def run(request, root):
     root.mkdir(parents=True, exist_ok=True)
     if request["stage"] == "gpu-pair":
         return run_gpu_pair(request, root)
     if request["stage"] == "cpu-pair":
         return run_cpu_pair(request, root)
+    if request["stage"] == "gpu-score-pair":
+        return run_gpu_score_pair(request, root)
     selected = list(cycle.profiles()) if request["profile"] == "all" else [request["profile"]]
     api = None
     if request["stage"] not in ("prepare", "public-smoke"):
