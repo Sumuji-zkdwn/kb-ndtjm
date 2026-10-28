@@ -14,6 +14,11 @@
 CPU と GPU の独立した系列に適用します。自動的に改善案を発明する仕組みではなく、
 変更の仮説から実行・比較までを追跡し、次の改善を同じ条件で試すための実行基盤です。
 
+公式ZIPとの接続検査を [CONNECTION_CHECKS.md](CONNECTION_CHECKS.md) に追加しました。
+新しいNotebookの開始と競技提出には、同じコードの接続検査結果が必要です。
+CPUの実ゲーム検証も、ZIP内の `arc-agi 0.9.8` / `arcengine 0.9.3` と
+ZIP原文の `Agent.main()` を使う経路に揃えました。過去の結果は保持します。
+
 ```mermaid
 flowchart LR
   A[一つの変更と仮説] --> B[Notebook・条件・ハッシュを固定]
@@ -30,7 +35,7 @@ flowchart LR
 
 | 系列 | 基準 | 最初の比較対象 | 実行資源 |
 |---|---|---|---|
-| CPU | 既存 Coverage c8b | c8b の一変更版 | Kaggle CPU |
+| CPU | 既存 Coverage c8b | `cpu-c8b-probe64`: 停滞時の探索介入を96手から64手へ | Kaggle CPU |
 | GPU | Franzen Milestone 2 V3 | 既存 evidence-memory v1 | Kaggle RTX Pro 6000 |
 
 GPU 基準版と記憶版は同じ `gpu-environment.json` を共有します。元 V3 の正確な
@@ -59,7 +64,7 @@ ARC 専用の `.github/workflows/arc3-improvement-cycle.yml` を追加します�
 
 ## GitHub から動かす
 
-初回 push は `prepare / all` です。秘密情報を使わず、3つの候補の schema・構文・
+初回 push は `prepare / all` です。秘密情報を使わず、4つの候補の schema・構文・
 コード同一性と制御処理を検査し、`arc3-cycle-evidence` artifact を作ります。
 
 main への反映後は Actions の **ARC3 CPU and GPU improvement cycle → Run workflow** を使います。
@@ -82,6 +87,9 @@ main に未反映の間も `codex/arc3-cycle-*` ブランチで `request.json` �
 実行を開始する `start` と競技の提出枠を使う `submit` は別操作です。
 
 共通入力は `profile`、`label`、`hypothesis`、`source_run_id` です。
+`connection_run_id` は `ARC3 official bundle connection checks` の成功run番号です。
+CPUではそのprofileのartifact、GPUではCPU基準版とGPU両方を確認したartifactを
+取得し、Notebookコードのハッシュを照合します。検査結果を引き継いだ後は省略できます。
 `all` は prepare 専用。live の各段階は候補を一つ選びます。
 各段階の artifact 全体を次に引き継ぐので、CPU/GPU の履歴は同じ台帳内でも別のフォルダーです。
 
@@ -110,9 +118,9 @@ Kaggle 側の現在の状態に依存します。初期設定の session timeout
 隠しゲームの実行がその時間内に収まることを検証した値ではありません。
 
 必要な Actions Secret は `KAGGLE_API_TOKEN`。量子回路側に既にあるものをそのまま使い、
-値を Notebook や Git、ログへ移しません。クラウドで新しい公開環境を取得する
-`public-smoke` には別途 `ARC_API_KEY` が必要です。初期の実測済み CPU 基準版と
-GPU の Kaggle 実行には ARC_API_KEY を必要としません。
+値を Notebook や Git、ログへ移しません。`public-smoke` はKaggleの競技ZIPから
+公開環境を取得するため、同じ `KAGGLE_API_TOKEN` を使います。このサイクルの
+公式ZIP検査、ローカル公開環境実行、Kaggle実行には `ARC_API_KEY` は必要ありません。
 
 ## 次の改善を試す
 
@@ -136,8 +144,10 @@ python experiments/arc3/cycle/cycle.py observe-score --bundle runs/cpu/c9
 python experiments/arc3/cycle/cycle.py compare --baseline runs/cpu/baseline --candidate runs/cpu/c9 --out comparison.json
 ```
 
-CPU 公開ゲームの実行には `arc-agi==0.9.9` と `arcengine==0.9.3` など、
-既存の `experiments/arc3/runtime/requirements.lock` の依存が追加で必要です。
+CPU 公開ゲームの実行には公式ZIP内の `arc-agi==0.9.8` と `arcengine==0.9.3`
+およびその依存が必要です。`cpu_smoke.py --official-zip <ZIP>` はZIP内の
+SDKと公式Agent原文を使います。Linuxの依存wheelは同梱されているため、
+ActionsではPython 3.12でそのまま取得・インストールします。
 APIを呼ぶコマンド以外は Kaggle 認証をしません。
 
 ## 重複と中断
