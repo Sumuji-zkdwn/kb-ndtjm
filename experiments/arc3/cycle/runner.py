@@ -79,6 +79,8 @@ def run(request, root):
                 raise ValueError("GPU memory must restore its baseline artifact, including gpu-environment.json")
             if cycle.observe_kernel(api, baseline)["status"] != "COMPLETE":
                 raise ValueError("Finish the GPU baseline before starting its memory comparison")
+            cycle.collect_output(api, baseline)
+            cycle.require_gpu_validation(baseline)
         if request["stage"] in ("prepare", "start"):
             env_path = root / "gpu-environment.json"
             if request["stage"] == "start" and profile.startswith("gpu-") and not env_path.exists():
