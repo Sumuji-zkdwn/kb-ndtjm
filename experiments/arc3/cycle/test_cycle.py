@@ -329,6 +329,33 @@ class CycleTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "environment image"):
             cycle.submit(api, right)
 
+    def environment_api(self, model_version="1"):
+        config = cycle.profiles()["gpu-baseline"]
+        def pull(kernel, path, metadata=False, quiet=True):
+            self.assertEqual(kernel, "dfranzen/arc-agi-3-milestone-2-solution/3")
+            models = [s.replace("/transformers/", "/Transformers/").rsplit("/", 1)[0] + "/" + model_version
+                      for s in config["model_sources"]]
+            cycle.save(Path(path) / "kernel-metadata.json", {"docker_image": "original-image",
+                       "dataset_sources": [s + "/7" for s in config["dataset_sources"]],
+                       "model_sources": models, "competition_sources": [cycle.COMPETITION]})
+        return Obj(kernels_pull=pull)
+
+    def test_original_environment_accepts_framework_enum_casing(self):
+        value = cycle.environment(self.environment_api(), self.root / "gpu-env.json")
+        self.assertTrue(all("/Transformers/" in s for s in value["model_sources"]))
+        self.assertEqual(value["competition_sources"], [cycle.COMPETITION])
+
+    def test_original_environment_keeps_dataset_versions(self):
+        value = cycle.environment(self.environment_api(), self.root / "gpu-env.json")
+        self.assertTrue(all(s.endswith("/7") for s in value["dataset_sources"]))
+
+    def test_model_version_change_is_rejected_and_observed_metadata_retained(self):
+        out = self.root / "gpu-env.json"
+        with self.assertRaisesRegex(ValueError, "model_sources differ"):
+            cycle.environment(self.environment_api("2"), out)
+        self.assertFalse(out.exists())
+        self.assertTrue(out.with_suffix(".observed.json").exists())
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
