@@ -101,6 +101,7 @@ def environment(api, out):
     if not metadata.get("docker_image"):
         raise ValueError("V3 did not return a docker_image; environment cannot be frozen")
     expected = profiles()["gpu-baseline"]
+    expected["competition_sources"] = [COMPETITION]
     for key in ("dataset_sources", "model_sources", "competition_sources"):
         observed = metadata.get(key, [])
         # Dataset refs may include numeric versions, which must be retained.
