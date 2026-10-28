@@ -1,6 +1,7 @@
 """Offline tests for mutations, receipts, identity and comparison boundaries."""
 import copy
 import io
+import json
 from pathlib import Path
 import shutil
 import tempfile
@@ -14,6 +15,11 @@ import runner
 
 
 class GpuValidationTests(unittest.TestCase):
+    def test_daily_quota_returns_checkpoint_without_waiting_in_actions(self):
+        value = {"action": "deferred_daily_quota", "not_before_utc": "2026-10-29T00:00:00+00:00"}
+        with patch.object(cycle, "submit", return_value=value), patch("runner.time.sleep") as sleep:
+            self.assertEqual(runner.submit_when_idle(Obj(), Path("unused")), value)
+        sleep.assert_not_called()
     def test_official_queue_deferral_is_observed_without_forcing_submission(self):
         values = [{"action": "deferred_without_submitting", "active_submissions": [11]}, {"ref": 72}]
         with patch.object(cycle, "submit", side_effect=values) as submit, patch("runner.time.sleep"):
@@ -149,6 +155,12 @@ class FakeKaggle:
         self.file_present = True
         self.username = "sumuji"
         self.absent_status = 404
+        self.allowed_now = 1
+        self.total_limit = False
+
+    def competition_get_submission_limits(self, competition):
+        return Obj(num_today=0 if self.allowed_now else 1, num_total=len(self.history),
+                   num_allowed_now=self.allowed_now, limited_by_total=self.total_limit)
 
     def get_config_value(self, key):
         return self.username
@@ -279,6 +291,63 @@ class CycleTests(unittest.TestCase):
         cycle.save(proof, {"candidate_id": cycle.verify(self.bundle)["candidate_id"], "kernel": value["kernel"],
                           "version": value["version"], "status_code": status, "confirmed_http_rejection": True})
         return proof
+
+    def quota_rejection_fixture(self):
+        with patch.object(cycle, "now", return_value="2026-10-28T23:25:00+00:00"):
+            proof = self.rejected_submit_proof()
+            cycle.authorize_rejected_submission_retry(self.api, self.bundle, proof)
+            stored = cycle.receipt(self.bundle, "kernel-receipt.json")
+            cycle.intent(self.bundle, "submission-retry-intent.json", kernel=stored["kernel"], version=stored["version"], maximum_submit_calls=1)
+            cycle.event(self.bundle, "submission-retry-http-error.json", status_code=400,
+                        message=json.dumps({"error": {"code": 400, "status": "FAILED_PRECONDITION",
+                            "message": "Your team has used its daily Submission allowance (1) today, please try again tomorrow UTC."}}))
+
+    def test_daily_allowance_is_checked_before_any_submission_mutation(self):
+        self.started(); self.api.allowed_now = 0
+        result = cycle.submit(self.api, self.bundle)
+        self.assertEqual(result["action"], "deferred_daily_quota")
+        self.assertEqual(self.api.submits, 0)
+        self.assertFalse((self.bundle / "evidence/submission-intent.json").exists())
+
+    def test_total_allowance_does_not_claim_a_midnight_reset(self):
+        self.started(); self.api.allowed_now = 0; self.api.total_limit = True
+        result = cycle.submit(self.api, self.bundle)
+        self.assertEqual(result["action"], "deferred_total_quota")
+        self.assertIsNone(result["not_before_utc"])
+        self.assertEqual(self.api.submits, 0)
+
+    def test_explicit_quota_rejection_waits_for_utc_reset_even_if_allowance_is_stale(self):
+        self.quota_rejection_fixture()
+        with patch.object(cycle, "now", return_value="2026-10-28T23:50:00+00:00"):
+            result = cycle.submit(self.api, self.bundle)
+        self.assertEqual(result["action"], "deferred_daily_quota")
+        self.assertEqual(result["not_before_utc"], "2026-10-29T00:00:00+00:00")
+        self.assertEqual(self.api.submits, 0)
+
+    def test_definitive_quota_rejection_can_resume_once_on_a_new_utc_day(self):
+        self.quota_rejection_fixture()
+        original = (self.bundle / "evidence/submission-retry-intent.json").read_bytes()
+        with patch.object(cycle, "now", return_value="2026-10-29T00:01:00+00:00"):
+            result = cycle.submit(self.api, self.bundle)
+            cycle.submit(self.api, self.bundle)
+        self.assertEqual(result["action"], "submitted_once_after_daily_quota_reset")
+        self.assertEqual(self.api.submits, 1)
+        self.assertEqual(original, (self.bundle / "evidence/submission-retry-intent.json").read_bytes())
+        self.assertTrue((self.bundle / "evidence/submission-quota-20261029-intent.json").exists())
+
+    def test_ambiguous_quota_resume_never_repeats_a_request(self):
+        self.quota_rejection_fixture(); self.api.submit_timeout = True
+        with patch.object(cycle, "now", return_value="2026-10-29T00:01:00+00:00"):
+            with self.assertRaises(TimeoutError):
+                cycle.submit(self.api, self.bundle)
+            self.api.history.clear()
+            with self.assertRaisesRegex(ValueError, "Previous retry"):
+                cycle.submit(self.api, self.bundle)
+        self.assertEqual(self.api.submits, 1)
+
+    def test_unstructured_or_unrelated_http400_is_not_a_daily_quota_proof(self):
+        for message in ("bad request", "[]", '{"error":{"code":400,"status":"INVALID_ARGUMENT","message":"invalid version"}}'):
+            self.assertFalse(cycle.known_daily_quota_rejection({"status_code": 400, "message": message}))
 
     def test_reviewed_http400_allows_only_one_additional_submit(self):
         proof = self.rejected_submit_proof()
