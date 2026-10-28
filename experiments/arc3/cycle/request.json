@@ -1,9 +1,11 @@
 {
-  "stage": "prepare",
-  "profile": "all",
+  "stage": "cpu-pair",
+  "profile": "cpu-c8b",
   "label": "baseline-20261029",
-  "hypothesis": "Freeze the existing CPU c8b baseline and the GPU baseline/memory pair without changing their code cells.",
-  "source_run_id": "",
+  "candidate_label": "probe64-v1",
+  "hypothesis": "Complete the accepted CPU baseline evaluation, recover the reviewed HTTP 400 only after reconciliation, and compare probe64 under the same conditions.",
+  "source_run_id": "40760569692",
+  "connection_run_id": "",
   "baseline_label": "baseline-20261029",
   "version": ""
 }
