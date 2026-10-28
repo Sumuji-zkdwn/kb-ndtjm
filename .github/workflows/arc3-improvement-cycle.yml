@@ -44,7 +44,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: arc3-kaggle-cycle
+  group: arc3-kaggle-cycle-${{ github.ref }}-${{ github.event_name }}
   cancel-in-progress: false
 
 jobs:
