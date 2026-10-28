@@ -23,10 +23,20 @@ class FakeKaggle:
         self.history, self.status_queries = [], []
         self.source_changed = self.image_changed = False
         self.file_present = True
+        self.username = "sumuji"
+        self.absent_status = 404
+
+    def get_config_value(self, key):
+        return self.username
+
+    def kernels_list(self, *, page=1, page_size=100, mine=False):
+        return [Obj(ref=cycle.verify(self.bundle)["kernel"])] if self.exists else []
 
     def kernels_pull(self, kernel, path, metadata=False, quiet=True):
         if not self.exists:
-            raise MissingKernel()
+            error = MissingKernel()
+            error.response = Obj(status_code=self.absent_status)
+            raise error
         path = Path(path)
         meta = cycle.read(self.bundle / "kernel-metadata.json")
         nb = cycle.read(self.bundle / "submission.ipynb")
@@ -148,6 +158,17 @@ class CycleTests(unittest.TestCase):
             raise PermissionError("denied")
         self.api.kernels_pull = denied
         with self.assertRaises(PermissionError):
+            self.started()
+        self.assertEqual(self.api.pushes, 0)
+
+    def test_kaggle_403_for_absent_owned_slug_can_create(self):
+        self.api.absent_status = 403
+        self.started()
+        self.assertEqual(self.api.pushes, 1)
+
+    def test_wrong_authenticated_owner_cannot_create(self):
+        self.api.username = "another-user"
+        with self.assertRaisesRegex(ValueError, "does not own"):
             self.started()
         self.assertEqual(self.api.pushes, 0)
 
