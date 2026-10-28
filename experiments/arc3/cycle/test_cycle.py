@@ -154,6 +154,20 @@ class CycleTests(unittest.TestCase):
             self.started()
         self.assertEqual(self.api.pushes, 0)
 
+    def test_completed_official_zip_smoke_can_follow_identical_code(self):
+        other = self.make_bundle("other")
+        imported = cycle.import_cpu_smoke(other, self.bundle)
+        self.assertEqual(imported["source_candidate_id"], cycle.verify(self.bundle)["candidate_id"])
+        self.assertEqual(imported["results"][0]["candidate_id"], cycle.verify(other)["candidate_id"])
+
+    def test_measured_smoke_cannot_follow_changed_code(self):
+        nb = cycle.read(self.nb)
+        nb["cells"][0]["source"] = "print('new policy')"
+        cycle.save(self.nb, nb)
+        other = self.make_bundle("other")
+        with self.assertRaisesRegex(ValueError, "different notebook/config"):
+            cycle.import_cpu_smoke(other, self.bundle)
+
     def test_source_bundle_drift_prevents_score_comparison(self):
         other = self.make_bundle("other")
         self.score(self.bundle, "0.01", 1)

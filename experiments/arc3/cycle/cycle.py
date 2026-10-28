@@ -243,6 +243,30 @@ def require_connection_check(bundle):
     return value
 
 
+def import_cpu_smoke(bundle, measured_bundle):
+    """Reuse a full official-ZIP run only for identical notebook/config bytes."""
+    manifest = verify(bundle, launch=True)
+    measured = verify(measured_bundle)
+    source = receipt(measured_bundle, "public-smoke.json")
+    if manifest["identity"]["line"] != "cpu" or measured["identity"]["line"] != "cpu":
+        raise ValueError("Measured CPU evidence requires CPU candidates")
+    for key in ("notebook_sha256", "code_sha256", "runtime", "session_timeout_seconds"):
+        if manifest["identity"][key] != measured["identity"][key]:
+            raise ValueError("Measured CPU evidence tested different notebook/config bytes")
+    if not source.get("passed") or source.get("errors") or not source.get("results") or source.get("official_zip_sha256") != OFFICIAL_ZIP_SHA256:
+        raise ValueError("A successful official-ZIP CPU measurement is required")
+    rows = copy.deepcopy(source["results"])
+    for row in rows:
+        if row.get("candidate_id") != measured["candidate_id"] or not row.get("official_loop_unchanged"):
+            raise ValueError("Measured CPU result identity/loop differs")
+        row["measured_candidate_id"] = row["candidate_id"]
+        row["candidate_id"] = manifest["candidate_id"]
+    return event(bundle, "public-smoke.json", passed=True, errors=[], results=rows,
+                 official_zip_sha256=source["official_zip_sha256"], environment_sha256=source.get("environment_sha256", {}),
+                 measured_utc=source["observed_utc"], source_candidate_id=measured["candidate_id"],
+                 scope="Reused completed official-ZIP local regression for identical notebook/config bytes; not a Kaggle score")
+
+
 def reuse_cpu_baseline_evidence(bundle):
     """Reuse measured evidence only for byte-identical payload/runtime conditions."""
     manifest = verify(bundle, launch=True)

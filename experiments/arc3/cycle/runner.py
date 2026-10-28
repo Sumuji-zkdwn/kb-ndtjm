@@ -96,6 +96,9 @@ def run(request, root):
         connection = Path("build/connection-import/connection-report/report.json")
         if connection.exists():
             cycle.attach_connection_check(bundle, connection)
+            measured = Path("build/connection-import/cpu-candidate")
+            if cycle.verify(bundle)["identity"]["line"] == "cpu" and (measured / "manifest.json").exists():
+                cycle.import_cpu_smoke(bundle, measured)
         if request["stage"] == "start":
             print(json.dumps(cycle.start(api, bundle)), flush=True)
             print(json.dumps(cycle.observe_kernel(api, bundle)), flush=True)

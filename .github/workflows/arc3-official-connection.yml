@@ -61,5 +61,7 @@ jobs:
             build/connection-inputs/
             build/connection-report/report.json
             build/cpu-candidate/manifest.json
+            build/cpu-candidate/submission.ipynb
+            build/cpu-candidate/kernel-metadata.json
             build/cpu-candidate/evidence/public-smoke.json
           retention-days: 30
