@@ -47,6 +47,9 @@ def sources(profile):
 
 def patched_source(source_zip, profile, target):
     extract(source_zip, target)
+    # A Kaggle bundle is outside a Git checkout. Reproduce that behaviour even
+    # when this audit's build directory lives inside the Actions checkout.
+    git_environment = {**os.environ, "GIT_CEILING_DIRECTORIES": str(target.resolve())}
     for index, cell in enumerate(sources(profile)):
         if cell.startswith("%%writefile /kaggle/") and ".patch\n" in cell.splitlines()[0] + "\n":
             name = cell.splitlines()[0].split("/kaggle/", 1)[1]
@@ -54,12 +57,18 @@ def patched_source(source_zip, profile, target):
             # IPython's %%writefile supplies the final newline that a notebook
             # cell source may omit. git apply requires it on the final hunk.
             patch_file.write_bytes((cell.split("\n", 1)[1].rstrip("\n") + "\n").encode("utf-8"))
+            before = {p.relative_to(target).as_posix(): cycle.cycle_file_digest(p)
+                      for p in (target / "src/ARC3-Inference").rglob("*.py")}
             checked = subprocess.run(["git", "apply", "--check", "--include=ARC3-Inference/*", str(patch_file.resolve())],
-                                     cwd=target / "src", capture_output=True, text=True)
+                                     cwd=target / "src", env=git_environment, capture_output=True, text=True)
             if checked.returncode:
                 raise ValueError(name + ": " + checked.stderr[:2000])
             subprocess.run(["git", "apply", "--include=ARC3-Inference/*", str(patch_file.resolve())],
-                           cwd=target / "src", check=True, capture_output=True)
+                           cwd=target / "src", env=git_environment, check=True, capture_output=True)
+            after = {p.relative_to(target).as_posix(): cycle.cycle_file_digest(p)
+                     for p in (target / "src/ARC3-Inference").rglob("*.py")}
+            if before == after:
+                raise ValueError("Notebook patch was skipped: " + name)
     return target
 
 
