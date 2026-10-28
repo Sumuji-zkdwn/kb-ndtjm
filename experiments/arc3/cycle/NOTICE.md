@@ -13,6 +13,13 @@ and Tufa Labs' Duck harness. The original Apache 2.0 license is included in
 `notebooks/gpu-memory.ipynb` preserves the existing local evidence-memory v1
 extension of that baseline. These are alternative members of the same GPU line.
 
+The GPU profiles now select the separate `*-connected.ipynb` derived copies.
+Both isolate competition gateway discovery from local environment files and use
+a short non-competition connection run; the original competition solver settings
+remain in the rerun branch. The original files above are retained unchanged.
+`notebooks/cpu-c8b-probe64.ipynb` derives one CPU policy parameter experiment.
+`DERIVED_CANDIDATES.json` records all derived code hashes and changes.
+
 Historical outputs and execution metadata are removed; all code cell sources are
 preserved. `SOURCES.json` records original and imported hashes. Notebook identity
 does not establish that models, inputs, dependencies or runtime were executed.

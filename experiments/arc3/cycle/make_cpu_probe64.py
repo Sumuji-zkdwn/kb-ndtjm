@@ -30,11 +30,14 @@ def build():
         "source": "# CPU c8b: earlier coverage probe (64)\nOne policy change: the stagnant-scene intervention threshold is 64 instead of 96 decisions.\nHypothesis: earlier action coverage may reduce repeated ineffective actions on unfamiliar environments.\nThis is an experimental candidate; no hidden-game improvement is claimed. The c8b source is retained.\n"})
     target = cycle.HERE / "notebooks/cpu-c8b-probe64.ipynb"
     cycle.save(target, cycle.clean_notebook(candidate))
-    cycle.save(cycle.HERE / "DERIVED_CANDIDATES.json", {"cpu-c8b-probe64": {
+    record_path = cycle.HERE / "DERIVED_CANDIDATES.json"
+    record = cycle.read(record_path) if record_path.exists() else {}
+    record["cpu-c8b-probe64"] = {
         "baseline": "cpu-c8b", "baseline_code_sha256": cycle.code_hash(original),
         "candidate_code_sha256": cycle.code_hash(candidate), "policy_change": {"stagnation_threshold": {"before": 96, "after": 64}},
         "packaging_change": "Unique temporary module directory; algorithm otherwise retained",
-        "official_score": None, "status": "candidate, not an adopted improvement"}})
+        "official_score": None, "status": "candidate, not an adopted improvement"}
+    cycle.save(record_path, record)
     print(target)
 
 
