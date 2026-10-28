@@ -1,9 +1,9 @@
 {
-  "stage": "prepare",
-  "profile": "all",
+  "stage": "observe",
+  "profile": "gpu-baseline",
   "label": "baseline-20261029",
-  "hypothesis": "Freeze the existing CPU c8b baseline and the GPU baseline/memory pair without changing their code cells.",
-  "source_run_id": "",
+  "hypothesis": "Observe the exact existing GPU baseline while auditing its official ZIP interface; preserve the running version.",
+  "source_run_id": "40744111582",
   "baseline_label": "baseline-20261029",
   "version": ""
 }
