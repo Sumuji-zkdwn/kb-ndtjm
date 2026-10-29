@@ -1,9 +1,9 @@
 {
-  "stage": "submit",
+  "stage": "observe",
   "profile": "gpu-baseline",
   "label": "ready-v2",
-  "hypothesis": "After the 2026-10-29 UTC daily reset, recheck live allowance and submit the user-prioritized validated GPU baseline Version 1 once.",
-  "source_run_id": "40788294879",
+  "hypothesis": "Read the official result of accepted GPU baseline submission 57751913 and preserve exact Version 1 receipts; no new execution or submission.",
+  "source_run_id": "40791210629",
   "connection_run_id": "",
   "baseline_label": "ready-v2",
   "version": ""
