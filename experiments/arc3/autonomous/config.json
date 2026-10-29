@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "profile": "cpu-c8b",
+  "games": "all",
+  "seeds": [0],
+  "actions_per_game": 1200,
+  "max_candidates": 3,
+  "patience": 3,
+  "max_wall_seconds": 7200,
+  "seconds_per_game": 360,
+  "min_score_gain": 0.0001,
+  "max_mean_level_regression": 0,
+  "official_submission": "manual_only"
+}
