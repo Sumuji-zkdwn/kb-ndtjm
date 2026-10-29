@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-29",
+  "documents": [
+    {
+      "original_path": "C:\\Users\\Dalcia\\Research\\05_Notes\\abstract_elastica_reference_2026-10-19\\variable_pairs_2026-10-20\\読む.html",
+      "sha256": "065da46d0908aee479fad08a7763a13e3d32ac4878a74474b528dacb0878eb99",
+      "implementation_connection": "Vary the conditional observation set and record which coefficients are fixed. No claim of statistical identifiability from polynomial invertibility."
+    },
+    {
+      "original_path": "C:\\Users\\Dalcia\\Documents\\Codex\\2026-10-20\\primitive\\linear_input\\explore.html",
+      "sha256": "b406db1dfed9e51d1a8825aa4e9c987d51029ee20ced8dbb0a89fad918df0a16",
+      "implementation_connection": "Tilt log-probability by linear input; compare one/two-well families. The two-measurement identity requires the same state, not two independently minimized states."
+    },
+    {
+      "original_path": "C:\\Users\\Dalcia\\Documents\\Codex\\2026-10-20\\primitive\\検証と再実行.html",
+      "sha256": "2fe41984acdedbfb21f0dee9c1b65694bac139cf54c28db1e418144f240f0fbe",
+      "implementation_connection": "Normalize exp(-beta E) with beta positive. Existing Lean results do not prove the statistical interpretation or exploratory search convergence."
+    }
+  ],
+  "originals_modified": false,
+  "formal_proofs_rerun": false,
+  "source_code_executed": false
+}

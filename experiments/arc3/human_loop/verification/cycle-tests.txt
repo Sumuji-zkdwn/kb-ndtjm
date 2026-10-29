@@ -1,0 +1,87 @@
+test_actual_runtime_image_drift_prevents_comparison (test_cycle.CycleTests.test_actual_runtime_image_drift_prevents_comparison) ... ok
+test_ambiguous_push_requires_adoption (test_cycle.CycleTests.test_ambiguous_push_requires_adoption) ... ok
+test_ambiguous_quota_resume_never_repeats_a_request (test_cycle.CycleTests.test_ambiguous_quota_resume_never_repeats_a_request) ... ok
+test_ambiguous_remote_submissions_rejected (test_cycle.CycleTests.test_ambiguous_remote_submissions_rejected) ... ok
+test_ambiguous_retry_never_sends_a_third_request (test_cycle.CycleTests.test_ambiguous_retry_never_sends_a_third_request) ... ok
+test_another_pending_evaluation_defers_without_spending_a_submission (test_cycle.CycleTests.test_another_pending_evaluation_defers_without_spending_a_submission) ... ok
+test_auth_failure_never_causes_push (test_cycle.CycleTests.test_auth_failure_never_causes_push) ... ok
+test_changed_candidate_bytes_rejected (test_cycle.CycleTests.test_changed_candidate_bytes_rejected) ... ok
+test_changed_cpu_source_cannot_reuse_baseline_evidence (test_cycle.CycleTests.test_changed_cpu_source_cannot_reuse_baseline_evidence) ... ok
+test_collect_output_does_not_submit_and_can_be_reused (test_cycle.CycleTests.test_collect_output_does_not_submit_and_can_be_reused) ... ok
+test_completed_official_zip_smoke_can_follow_identical_code (test_cycle.CycleTests.test_completed_official_zip_smoke_can_follow_identical_code) ... ok
+test_connection_report_for_another_code_is_rejected (test_cycle.CycleTests.test_connection_report_for_another_code_is_rejected) ... ok
+test_cpu_without_game_evidence_cannot_start (test_cycle.CycleTests.test_cpu_without_game_evidence_cannot_start) ... ok
+test_cross_line_scores_cannot_be_compared (test_cycle.CycleTests.test_cross_line_scores_cannot_be_compared) ... ok
+test_daily_allowance_is_checked_before_any_submission_mutation (test_cycle.CycleTests.test_daily_allowance_is_checked_before_any_submission_mutation) ... ok
+test_definitive_quota_rejection_can_resume_once_on_a_new_utc_day (test_cycle.CycleTests.test_definitive_quota_rejection_can_resume_once_on_a_new_utc_day) ... ok
+test_exact_measured_cpu_baseline_can_reuse_evidence (test_cycle.CycleTests.test_exact_measured_cpu_baseline_can_reuse_evidence) ... ok
+test_existing_marker_is_reconciled_without_retry (test_cycle.CycleTests.test_existing_marker_is_reconciled_without_retry) ... ok
+test_existing_output_directory_not_overwritten (test_cycle.CycleTests.test_existing_output_directory_not_overwritten) ... ok
+test_explicit_quota_rejection_waits_for_utc_reset_even_if_allowance_is_stale (test_cycle.CycleTests.test_explicit_quota_rejection_waits_for_utc_reset_even_if_allowance_is_stale) ... ok
+test_failed_notebook_output_can_be_collected_without_submission (test_cycle.CycleTests.test_failed_notebook_output_can_be_collected_without_submission) ... ok
+test_fresh_runner_refuses_existing_remote_candidate (test_cycle.CycleTests.test_fresh_runner_refuses_existing_remote_candidate) ... ok
+test_gpu_pair_uses_same_explicit_environment (test_cycle.CycleTests.test_gpu_pair_uses_same_explicit_environment) ... ok
+test_gpu_without_image_can_prepare_but_cannot_start (test_cycle.CycleTests.test_gpu_without_image_can_prepare_but_cannot_start) ... ok
+test_http_push_error_retains_diagnostic_without_automatic_retry (test_cycle.CycleTests.test_http_push_error_retains_diagnostic_without_automatic_retry) ... ok
+test_invalid_model_mount_blocks_submission (test_cycle.CycleTests.test_invalid_model_mount_blocks_submission) ... ok
+test_invisible_timed_out_submit_is_not_retried (test_cycle.CycleTests.test_invisible_timed_out_submit_is_not_retried) ... ok
+test_kaggle_403_for_absent_owned_slug_can_create (test_cycle.CycleTests.test_kaggle_403_for_absent_owned_slug_can_create) ... ok
+test_long_labels_keep_unique_compact_remote_names (test_cycle.CycleTests.test_long_labels_keep_unique_compact_remote_names) ... ok
+test_measured_smoke_cannot_follow_changed_code (test_cycle.CycleTests.test_measured_smoke_cannot_follow_changed_code) ... ok
+test_missing_connection_check_blocks_a_new_notebook (test_cycle.CycleTests.test_missing_connection_check_blocks_a_new_notebook) ... ok
+test_missing_output_cannot_be_submitted (test_cycle.CycleTests.test_missing_output_cannot_be_submitted) ... ok
+test_model_version_change_is_rejected_and_observed_metadata_retained (test_cycle.CycleTests.test_model_version_change_is_rejected_and_observed_metadata_retained) ... ok
+test_notebook_completion_is_not_an_official_score (test_cycle.CycleTests.test_notebook_completion_is_not_an_official_score) ... ok
+test_notebook_hypothesis_changes_identity (test_cycle.CycleTests.test_notebook_hypothesis_changes_identity) ... ok
+test_notebook_running_cannot_be_submitted (test_cycle.CycleTests.test_notebook_running_cannot_be_submitted) ... ok
+test_old_sdk_smoke_cannot_start_a_new_candidate (test_cycle.CycleTests.test_old_sdk_smoke_cannot_start_a_new_candidate) ... ok
+test_original_environment_accepts_framework_enum_casing (test_cycle.CycleTests.test_original_environment_accepts_framework_enum_casing) ... ok
+test_original_environment_keeps_dataset_versions (test_cycle.CycleTests.test_original_environment_keeps_dataset_versions) ... ok
+test_pair_baseline_import_rejects_another_candidate_before_moving (test_cycle.CycleTests.test_pair_baseline_import_rejects_another_candidate_before_moving) ... ok
+test_pair_baseline_import_rejects_conflicting_submission_refs (test_cycle.CycleTests.test_pair_baseline_import_rejects_conflicting_submission_refs) ... ok
+test_pair_baseline_import_retains_previous_copy_and_exact_receipts (test_cycle.CycleTests.test_pair_baseline_import_retains_previous_copy_and_exact_receipts) ... ok
+test_pending_evaluation_prevents_rejection_recovery (test_cycle.CycleTests.test_pending_evaluation_prevents_rejection_recovery) ... ok
+test_prepare_preserves_code_and_removes_historical_outputs (test_cycle.CycleTests.test_prepare_preserves_code_and_removes_historical_outputs) ... ok
+test_push_uses_one_version_and_never_repeats (test_cycle.CycleTests.test_push_uses_one_version_and_never_repeats) ... ok
+test_readback_source_mismatch_stops_submission (test_cycle.CycleTests.test_readback_source_mismatch_stops_submission) ... ok
+test_receipt_from_another_candidate_rejected (test_cycle.CycleTests.test_receipt_from_another_candidate_rejected) ... ok
+test_reviewed_http400_allows_only_one_additional_submit (test_cycle.CycleTests.test_reviewed_http400_allows_only_one_additional_submit) ... ok
+test_second_history_page_is_searched (test_cycle.CycleTests.test_second_history_page_is_searched) ... ok
+test_source_bundle_drift_prevents_score_comparison (test_cycle.CycleTests.test_source_bundle_drift_prevents_score_comparison) ... ok
+test_status_identity_checked (test_cycle.CycleTests.test_status_identity_checked) ... ok
+test_submit_once_and_observe_same_ref (test_cycle.CycleTests.test_submit_once_and_observe_same_ref) ... ok
+test_submit_timeout_reconciles_without_resubmission (test_cycle.CycleTests.test_submit_timeout_reconciles_without_resubmission) ... ok
+test_total_allowance_does_not_claim_a_midnight_reset (test_cycle.CycleTests.test_total_allowance_does_not_claim_a_midnight_reset) ... ok
+test_unknown_or_wrong_candidate_rejection_cannot_be_authorized (test_cycle.CycleTests.test_unknown_or_wrong_candidate_rejection_cannot_be_authorized) ... ok
+test_unstructured_or_unrelated_http400_is_not_a_daily_quota_proof (test_cycle.CycleTests.test_unstructured_or_unrelated_http400_is_not_a_daily_quota_proof) ... ok
+test_wrong_authenticated_owner_cannot_create (test_cycle.CycleTests.test_wrong_authenticated_owner_cannot_create) ... ok
+test_zero_public_score_is_valid (test_cycle.CycleTests.test_zero_public_score_is_valid) ... ok
+test_cpu_baseline_error_prevents_candidate_submission (test_cycle.GpuValidationTests.test_cpu_baseline_error_prevents_candidate_submission) ... ok
+test_cycle_rejects_missing_or_zero_token_gpu_evidence (test_cycle.GpuValidationTests.test_cycle_rejects_missing_or_zero_token_gpu_evidence) ... ok
+test_daily_quota_returns_checkpoint_without_waiting_in_actions (test_cycle.GpuValidationTests.test_daily_quota_returns_checkpoint_without_waiting_in_actions) ... ok
+{"action": "deferred_daily_quota", "not_before_utc": "2026-10-29T00:00:00+00:00"}
+test_dead_model_cannot_pass_notebook_validation (test_cycle.GpuValidationTests.test_dead_model_cannot_pass_notebook_validation) ... ok
+test_failed_baseline_stops_pair_before_memory_start (test_cycle.GpuValidationTests.test_failed_baseline_stops_pair_before_memory_start) ... ok
+test_gpu_observation_timeout_does_not_relaunch (test_cycle.GpuValidationTests.test_gpu_observation_timeout_does_not_relaunch) ... ok
+{"status": "RUNNING"}
+test_gpu_score_pair_does_not_submit_after_failed_inference_validation (test_cycle.GpuValidationTests.test_gpu_score_pair_does_not_submit_after_failed_inference_validation) ... ok
+test_model_health_without_generation_is_rejected (test_cycle.GpuValidationTests.test_model_health_without_generation_is_rejected) ... ok
+test_model_readiness_timeout_is_not_success (test_cycle.GpuValidationTests.test_model_readiness_timeout_is_not_success) ... ok
+{"action": "deferred_without_submitting", "active_submissions": [11]}
+{"ref": 72}
+test_official_queue_deferral_is_observed_without_forcing_submission (test_cycle.GpuValidationTests.test_official_queue_deferral_is_observed_without_forcing_submission) ... ok
+{"action": "deferred_without_submitting"}
+test_official_queue_timeout_does_not_force_a_submission (test_cycle.GpuValidationTests.test_official_queue_timeout_does_not_force_a_submission) ... ok
+{"status": "ERROR", "public_score": ""}
+test_official_score_error_stops_instead_of_submitting_candidate (test_cycle.GpuValidationTests.test_official_score_error_stops_instead_of_submitting_candidate) ... ok
+{"status": "PENDING", "public_score": ""}
+test_official_score_timeout_keeps_existing_ref (test_cycle.GpuValidationTests.test_official_score_timeout_keeps_existing_ref) ... ok
+{"status": "COMPLETE", "public_score": "0"}
+test_official_score_wait_accepts_zero_score (test_cycle.GpuValidationTests.test_official_score_wait_accepts_zero_score) ... ok
+test_pair_retains_baseline_label_and_waits_for_both (test_cycle.GpuValidationTests.test_pair_retains_baseline_label_and_waits_for_both) ... ok
+test_ready_backend_and_real_game_action_are_required (test_cycle.GpuValidationTests.test_ready_backend_and_real_game_action_are_required) ... ok
+
+----------------------------------------------------------------------
+Ran 74 tests in 7.327s
+
+OK

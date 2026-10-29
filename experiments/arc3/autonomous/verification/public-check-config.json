@@ -1,0 +1,20 @@
+{
+  "actions_per_game": 1200,
+  "games": [
+    "ft09",
+    "vc33",
+    "ar25"
+  ],
+  "max_candidates": 3,
+  "max_mean_level_regression": 0,
+  "max_wall_seconds": 1800,
+  "min_score_gain": 0.0001,
+  "official_submission": "manual_only",
+  "patience": 3,
+  "profile": "cpu-c8b",
+  "schema_version": 1,
+  "seconds_per_game": 360,
+  "seeds": [
+    0
+  ]
+}

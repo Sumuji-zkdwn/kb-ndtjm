@@ -1,0 +1,67 @@
+test_game_selection_uses_a_fixed_denominator (test_autonomous.Boundaries.test_game_selection_uses_a_fixed_denominator) ... ok
+test_initial_reset_registers_scoring_then_restores_level_only_mode (test_autonomous.Boundaries.test_initial_reset_registers_scoring_then_restores_level_only_mode) ... ok
+test_invalid_scores_id_budget_or_reset_are_rejected (test_autonomous.Boundaries.test_invalid_scores_id_budget_or_reset_are_rejected) ... ok
+test_no_automatic_submission_or_unbounded_budget_config (test_autonomous.Boundaries.test_no_automatic_submission_or_unbounded_budget_config) ... ok
+test_process_lock_excludes_another_writer (test_autonomous.Boundaries.test_process_lock_excludes_another_writer) ... ok
+test_ties_and_level_regression_are_not_adopted (test_autonomous.Boundaries.test_ties_and_level_regression_are_not_adopted) ... ok
+test_zero_is_valid_but_missing_or_duplicate_cases_are_not (test_autonomous.Boundaries.test_zero_is_valid_but_missing_or_duplicate_cases_are_not) ... ok
+{"event": "candidate_started", "candidate": "auto-000", "parameters": {"stagnation": 96, "repeat_visits": 3, "failure_penalty": 3, "base_priority_levels": 2}}
+{"event": "candidate_finished", "candidate": "auto-000", "status": "failed", "accepted": false}
+test_baseline_failure_stops_without_exporting_unmeasured_candidate (test_autonomous.CompleteLoop.test_baseline_failure_stops_without_exporting_unmeasured_candidate) ... ok
+{"event": "candidate_started", "candidate": "auto-000", "parameters": {"stagnation": 96, "repeat_visits": 3, "failure_penalty": 3, "base_priority_levels": 2}}
+{"event": "candidate_finished", "candidate": "auto-000", "status": "measured", "accepted": true}
+{"event": "candidate_started", "candidate": "auto-001", "parameters": {"stagnation": 64, "repeat_visits": 3, "failure_penalty": 3, "base_priority_levels": 2}}
+{"event": "candidate_finished", "candidate": "auto-001", "status": "measured", "accepted": false}
+{"event": "candidate_started", "candidate": "auto-002", "parameters": {"stagnation": 96, "repeat_visits": 2, "failure_penalty": 3, "base_priority_levels": 2}}
+{"event": "candidate_finished", "candidate": "auto-002", "status": "measured", "accepted": false}
+{"event": "candidate_started", "candidate": "auto-003", "parameters": {"stagnation": 96, "repeat_visits": 3, "failure_penalty": 3, "base_priority_levels": 3}}
+{"event": "candidate_finished", "candidate": "auto-003", "status": "measured", "accepted": false}
+test_changed_protocol_refuses_to_reuse_results (test_autonomous.CompleteLoop.test_changed_protocol_refuses_to_reuse_results) ... ok
+{"event": "candidate_started", "candidate": "auto-000", "parameters": {"stagnation": 96, "repeat_visits": 3, "failure_penalty": 3, "base_priority_levels": 2}}
+{"event": "candidate_finished", "candidate": "auto-000", "status": "measured", "accepted": true}
+{"event": "candidate_started", "candidate": "auto-001", "parameters": {"stagnation": 64, "repeat_visits": 3, "failure_penalty": 3, "base_priority_levels": 2}}
+{"event": "candidate_finished", "candidate": "auto-001", "status": "failed", "accepted": false}
+test_failed_candidate_keeps_previous_best (test_autonomous.CompleteLoop.test_failed_candidate_keeps_previous_best) ... ok
+{"event": "candidate_started", "candidate": "auto-000", "parameters": {"stagnation": 96, "repeat_visits": 3, "failure_penalty": 3, "base_priority_levels": 2}}
+{"event": "candidate_finished", "candidate": "auto-000", "status": "measured", "accepted": true}
+{"event": "candidate_started", "candidate": "auto-001", "parameters": {"stagnation": 64, "repeat_visits": 3, "failure_penalty": 3, "base_priority_levels": 2}}
+{"event": "candidate_finished", "candidate": "auto-001", "status": "measured", "accepted": true}
+{"event": "candidate_started", "candidate": "auto-002", "parameters": {"stagnation": 48, "repeat_visits": 3, "failure_penalty": 3, "base_priority_levels": 2}}
+{"event": "candidate_finished", "candidate": "auto-002", "status": "measured", "accepted": false}
+{"event": "candidate_started", "candidate": "auto-003", "parameters": {"stagnation": 64, "repeat_visits": 2, "failure_penalty": 3, "base_priority_levels": 2}}
+{"event": "candidate_finished", "candidate": "auto-003", "status": "measured", "accepted": true}
+test_full_loop_adopts_better_rejects_worse_and_exports_best (test_autonomous.CompleteLoop.test_full_loop_adopts_better_rejects_worse_and_exports_best) ... ok
+{"event": "candidate_started", "candidate": "auto-000", "parameters": {"stagnation": 96, "repeat_visits": 3, "failure_penalty": 3, "base_priority_levels": 2}}
+{"event": "candidate_finished", "candidate": "auto-000", "status": "measured", "accepted": true}
+{"event": "candidate_started", "candidate": "auto-001", "parameters": {"stagnation": 64, "repeat_visits": 3, "failure_penalty": 3, "base_priority_levels": 2}}
+{"event": "candidate_started", "candidate": "auto-001", "parameters": {"base_priority_levels": 2, "failure_penalty": 3, "repeat_visits": 3, "stagnation": 64}}
+{"event": "candidate_finished", "candidate": "auto-001", "status": "measured", "accepted": true}
+{"event": "candidate_started", "candidate": "auto-002", "parameters": {"base_priority_levels": 2, "failure_penalty": 3, "repeat_visits": 3, "stagnation": 48}}
+{"event": "candidate_finished", "candidate": "auto-002", "status": "measured", "accepted": true}
+{"event": "candidate_started", "candidate": "auto-003", "parameters": {"base_priority_levels": 2, "failure_penalty": 3, "repeat_visits": 3, "stagnation": 24}}
+{"event": "candidate_finished", "candidate": "auto-003", "status": "measured", "accepted": true}
+test_interruption_resumes_pending_candidate_instead_of_creating_duplicate (test_autonomous.CompleteLoop.test_interruption_resumes_pending_candidate_instead_of_creating_duplicate) ... ok
+{"event": "candidate_started", "candidate": "auto-000", "parameters": {"stagnation": 96, "repeat_visits": 3, "failure_penalty": 3, "base_priority_levels": 2}}
+{"event": "candidate_finished", "candidate": "auto-000", "status": "measured", "accepted": true}
+{"event": "candidate_started", "candidate": "auto-001", "parameters": {"stagnation": 64, "repeat_visits": 3, "failure_penalty": 3, "base_priority_levels": 2}}
+{"event": "candidate_finished", "candidate": "auto-001", "status": "measured", "accepted": false}
+{"event": "candidate_started", "candidate": "auto-002", "parameters": {"stagnation": 96, "repeat_visits": 2, "failure_penalty": 3, "base_priority_levels": 2}}
+{"event": "candidate_finished", "candidate": "auto-002", "status": "measured", "accepted": false}
+{"event": "candidate_started", "candidate": "auto-003", "parameters": {"stagnation": 96, "repeat_visits": 3, "failure_penalty": 3, "base_priority_levels": 3}}
+{"event": "candidate_finished", "candidate": "auto-003", "status": "measured", "accepted": false}
+test_modified_result_is_detected_on_resume (test_autonomous.CompleteLoop.test_modified_result_is_detected_on_resume) ... ok
+{"event": "candidate_started", "candidate": "auto-000", "parameters": {"stagnation": 96, "repeat_visits": 3, "failure_penalty": 3, "base_priority_levels": 2}}
+{"event": "candidate_finished", "candidate": "auto-000", "status": "measured", "accepted": true}
+{"event": "candidate_started", "candidate": "auto-001", "parameters": {"stagnation": 64, "repeat_visits": 3, "failure_penalty": 3, "base_priority_levels": 2}}
+{"event": "candidate_finished", "candidate": "auto-001", "status": "measured", "accepted": false}
+test_plateau_stops_at_patience (test_autonomous.CompleteLoop.test_plateau_stops_at_patience) ... ok
+test_stop_file_prevents_any_candidate (test_autonomous.CompleteLoop.test_stop_file_prevents_any_candidate) ... ok
+test_feedback_changes_the_first_proposal (test_autonomous.Proposals.test_feedback_changes_the_first_proposal) ... ok
+test_mutation_changes_only_expected_module_and_retains_adapter (test_autonomous.Proposals.test_mutation_changes_only_expected_module_and_retains_adapter) ... ok
+test_no_repeated_proposal_and_finite_exhaustion (test_autonomous.Proposals.test_no_repeated_proposal_and_finite_exhaustion) ... ok
+test_unknown_or_unsafe_parameter_is_rejected (test_autonomous.Proposals.test_unknown_or_unsafe_parameter_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 5.649s
+
+OK

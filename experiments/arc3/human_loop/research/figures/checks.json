@@ -1,0 +1,41 @@
+{
+  "source_energy": "E(x;u)=x^4-3*x^2/2+9/16-u*x",
+  "T3": "4*x^3-3*x",
+  "root_observation": 0.2,
+  "inverse_tree_checks": [
+    {
+      "depth": 1,
+      "distinct_inverse_states": 3,
+      "max_residual": 1.4988010832439613e-15
+    },
+    {
+      "depth": 2,
+      "distinct_inverse_states": 9,
+      "max_residual": 6.38378239159465e-15
+    },
+    {
+      "depth": 3,
+      "distinct_inverse_states": 27,
+      "max_residual": 1.687538997430238e-14
+    },
+    {
+      "depth": 4,
+      "distinct_inverse_states": 81,
+      "max_residual": 1.3561374245796287e-13
+    }
+  ],
+  "same_state_energy_difference_checked": true,
+  "fenchel_family": {
+    "V0": "(x^2-3/4)^2",
+    "h": "0.3*max(1-(x/(sqrt(3)/2))^2,0)^4",
+    "V1": "V0+h",
+    "proof": "For u>=0 and -a<x<a, V0(x)-u*x - (V0(a)-u*a)=V0(x)+u*(a-x)>0. Use -a for u<=0. All global minimizers are outside the support of h, so V1*=V0*."
+  },
+  "scope": [
+    "V1 illustrative bump chosen for this figure, not a recovered historical parameter set.",
+    "Fenchel conjugacy of potentials and P_n fibers of states are different equivalence relations.",
+    "Adding h changes V0 derivative, so the same T3 tree is not asserted for V1.",
+    "Inverse states are not all stable equilibria.",
+    "No human-data fit or ARC performance claim."
+  ]
+}

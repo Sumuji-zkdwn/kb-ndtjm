@@ -1,0 +1,172 @@
+{
+  "human_progress_probability": 0.5845999192118962,
+  "model_range": [
+    0.4536042116317476,
+    0.7825941562598762
+  ],
+  "model_range_is_confidence_interval": false,
+  "members": {
+    "h00000": {
+      "probability_progress_within_budget": 0.48228786172277915,
+      "survival_at_elapsed": 0.5035892939018114,
+      "elapsed": 64.0,
+      "additional": 64.0,
+      "scope": "human next-level reference under fitted distribution; within-bin log interpolation; last tail unresolved"
+    },
+    "h00005": {
+      "probability_progress_within_budget": 0.6268569079270339,
+      "survival_at_elapsed": 0.4801941459821568,
+      "elapsed": 64.0,
+      "additional": 64.0,
+      "scope": "human next-level reference under fitted distribution; within-bin log interpolation; last tail unresolved"
+    },
+    "h00006": {
+      "probability_progress_within_budget": 0.7397101818586352,
+      "survival_at_elapsed": 0.27074590876072624,
+      "elapsed": 64.0,
+      "additional": 64.0,
+      "scope": "human next-level reference under fitted distribution; within-bin log interpolation; last tail unresolved"
+    },
+    "h00007": {
+      "probability_progress_within_budget": 0.63303381183215,
+      "survival_at_elapsed": 0.4897781622708174,
+      "elapsed": 64.0,
+      "additional": 64.0,
+      "scope": "human next-level reference under fitted distribution; within-bin log interpolation; last tail unresolved"
+    },
+    "h00011": {
+      "probability_progress_within_budget": 0.48228786172277915,
+      "survival_at_elapsed": 0.5035892939018114,
+      "elapsed": 64.0,
+      "additional": 64.0,
+      "scope": "human next-level reference under fitted distribution; within-bin log interpolation; last tail unresolved"
+    },
+    "h00012": {
+      "probability_progress_within_budget": 0.6426447943422786,
+      "survival_at_elapsed": 0.4813153498555831,
+      "elapsed": 64.0,
+      "additional": 64.0,
+      "scope": "human next-level reference under fitted distribution; within-bin log interpolation; last tail unresolved"
+    },
+    "h00013": {
+      "probability_progress_within_budget": 0.7397101818586352,
+      "survival_at_elapsed": 0.27074590876072624,
+      "elapsed": 64.0,
+      "additional": 64.0,
+      "scope": "human next-level reference under fitted distribution; within-bin log interpolation; last tail unresolved"
+    },
+    "h00014": {
+      "probability_progress_within_budget": 0.6268569079270339,
+      "survival_at_elapsed": 0.4801941459821568,
+      "elapsed": 64.0,
+      "additional": 64.0,
+      "scope": "human next-level reference under fitted distribution; within-bin log interpolation; last tail unresolved"
+    },
+    "h00019": {
+      "probability_progress_within_budget": 0.48228786172277915,
+      "survival_at_elapsed": 0.5035892939018114,
+      "elapsed": 64.0,
+      "additional": 64.0,
+      "scope": "human next-level reference under fitted distribution; within-bin log interpolation; last tail unresolved"
+    },
+    "h00021": {
+      "probability_progress_within_budget": 0.48664960065012075,
+      "survival_at_elapsed": 0.5248835052045593,
+      "elapsed": 64.0,
+      "additional": 64.0,
+      "scope": "human next-level reference under fitted distribution; within-bin log interpolation; last tail unresolved"
+    },
+    "h00022": {
+      "probability_progress_within_budget": 0.6646120846304442,
+      "survival_at_elapsed": 0.4743946921395783,
+      "elapsed": 64.0,
+      "additional": 64.0,
+      "scope": "human next-level reference under fitted distribution; within-bin log interpolation; last tail unresolved"
+    },
+    "h00023": {
+      "probability_progress_within_budget": 0.46696196450924465,
+      "survival_at_elapsed": 0.7020406542994329,
+      "elapsed": 64.0,
+      "additional": 64.0,
+      "scope": "human next-level reference under fitted distribution; within-bin log interpolation; last tail unresolved"
+    },
+    "h00028": {
+      "probability_progress_within_budget": 0.6426447943422786,
+      "survival_at_elapsed": 0.4813153498555831,
+      "elapsed": 64.0,
+      "additional": 64.0,
+      "scope": "human next-level reference under fitted distribution; within-bin log interpolation; last tail unresolved"
+    },
+    "h00029": {
+      "probability_progress_within_budget": 0.46794524809590443,
+      "survival_at_elapsed": 0.6825370100764988,
+      "elapsed": 64.0,
+      "additional": 64.0,
+      "scope": "human next-level reference under fitted distribution; within-bin log interpolation; last tail unresolved"
+    },
+    "h00030": {
+      "probability_progress_within_budget": 0.7514240410919872,
+      "survival_at_elapsed": 0.2194438253357014,
+      "elapsed": 64.0,
+      "additional": 64.0,
+      "scope": "human next-level reference under fitted distribution; within-bin log interpolation; last tail unresolved"
+    },
+    "h00031": {
+      "probability_progress_within_budget": 0.6426447943422786,
+      "survival_at_elapsed": 0.4813153498555831,
+      "elapsed": 64.0,
+      "additional": 64.0,
+      "scope": "human next-level reference under fitted distribution; within-bin log interpolation; last tail unresolved"
+    },
+    "h00032": {
+      "probability_progress_within_budget": 0.7729389174527601,
+      "survival_at_elapsed": 0.24515641929128718,
+      "elapsed": 64.0,
+      "additional": 64.0,
+      "scope": "human next-level reference under fitted distribution; within-bin log interpolation; last tail unresolved"
+    },
+    "h00033": {
+      "probability_progress_within_budget": 0.7825941562598762,
+      "survival_at_elapsed": 0.23774955008017695,
+      "elapsed": 64.0,
+      "additional": 64.0,
+      "scope": "human next-level reference under fitted distribution; within-bin log interpolation; last tail unresolved"
+    },
+    "h00034": {
+      "probability_progress_within_budget": 0.4536042116317476,
+      "survival_at_elapsed": 0.26821084776078985,
+      "elapsed": 64.0,
+      "additional": 64.0,
+      "scope": "human next-level reference under fitted distribution; within-bin log interpolation; last tail unresolved"
+    },
+    "h00037": {
+      "probability_progress_within_budget": 0.48203302064608256,
+      "survival_at_elapsed": 0.5036522374686296,
+      "elapsed": 64.0,
+      "additional": 64.0,
+      "scope": "human next-level reference under fitted distribution; within-bin log interpolation; last tail unresolved"
+    },
+    "h00039": {
+      "probability_progress_within_budget": 0.768253252972831,
+      "survival_at_elapsed": 0.3320088727997339,
+      "elapsed": 64.0,
+      "additional": 64.0,
+      "scope": "human next-level reference under fitted distribution; within-bin log interpolation; last tail unresolved"
+    },
+    "h00046": {
+      "probability_progress_within_budget": 0.4812254308713284,
+      "survival_at_elapsed": 0.5038526562331332,
+      "elapsed": 64.0,
+      "additional": 64.0,
+      "scope": "human next-level reference under fitted distribution; within-bin log interpolation; last tail unresolved"
+    },
+    "h00047": {
+      "probability_progress_within_budget": 0.7729389174527601,
+      "survival_at_elapsed": 0.24515641929128718,
+      "elapsed": 64.0,
+      "additional": 64.0,
+      "scope": "human next-level reference under fitted distribution; within-bin log interpolation; last tail unresolved"
+    }
+  },
+  "scope": "human effort reference, not agent solve probability, causal noticing, or official score forecast"
+}
