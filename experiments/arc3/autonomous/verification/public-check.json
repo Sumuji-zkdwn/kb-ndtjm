@@ -1,0 +1,324 @@
+{
+  "scope": "Fresh local public-demo runs on three named games, not Kaggle or hidden-set validation",
+  "base_commit": "2e4e3063c22ec32220b6b95b2ec83748c1a40f15",
+  "protocol_id": "68d89824da6f5184927cb8cc525ee38be714a685e73e1311dcb7d9b98275c231",
+  "official_zip_sha256": "c72400a32db5e48da9014baf893b48016b300e9a6a77bd5d505de2b1ec61d645",
+  "games": [
+    "ar25-0c556536",
+    "ft09-0d8bbf25",
+    "vc33-5430563c"
+  ],
+  "seeds": [
+    0
+  ],
+  "actions_per_game": 1200,
+  "python": "3.14.5",
+  "packages": {
+    "flask": "3.1.3",
+    "ipython": "9.17.1",
+    "matplotlib": "3.10.9",
+    "nbformat": "5.11.1",
+    "numpy": "2.4.4",
+    "pydantic": "2.14.1",
+    "python-dotenv": "1.2.4",
+    "requests": "2.34.2"
+  },
+  "os": "Windows",
+  "engine": {
+    "autonomous/evaluate.py": "7363b8881247727c0017aab0220e6cb694fb5803df2477f77699f52ebbce2007",
+    "autonomous/loop.py": "5f1c22db3ef86447108c0ddad07c70707c49debfaf851463fc84065e74d9669c",
+    "autonomous/proposal.py": "bd1103c3be7ee2f8cfb37ad8aacb690ab14b5ef4e2a314124723254c79ef46e4",
+    "cycle/cpu_smoke.py": "91b571446c9938ccdaa7fce1702531e0c323ff438acf2219f3a8edb237b82390",
+    "cycle/cycle.py": "252b87ee1e920f7065b1e7cbd593dffb17ea8d38e7eec01a7669c4db39dbdb16",
+    "cycle/profiles.json": "4c808cf67590ad920f94267d5d824ddae3a8f7fae5d32646d7d844a4e5723e26"
+  },
+  "observed_utc": "2026-10-29T09:05:09.036867+00:00",
+  "stop_reason": "candidate_budget",
+  "selected": "auto-000",
+  "official_submission": "manual_only",
+  "autonomous_control_tests": 19,
+  "existing_cycle_tests": 74,
+  "resume_integrity_check": "PASS; zero new game executions",
+  "runs": [
+    {
+      "label": "auto-000",
+      "candidate_id": "c544b61d0fa1c1d3dabf6350aac64414ebdc1e7df3f4c66aea4d92bf424bf9ac",
+      "parameters": {
+        "base_priority_levels": 2,
+        "failure_penalty": 3,
+        "repeat_visits": 3,
+        "stagnation": 96
+      },
+      "summary": {
+        "calls": 1540,
+        "cases": 3,
+        "failure_rate": 0.005844155844155844,
+        "mean_levels_completed": 4.666666666666667,
+        "mean_public_rhae": 66.66879149219857,
+        "scope": "Fixed public demos and seeds only; not official Kaggle or unseen-game performance",
+        "wins": 2
+      },
+      "accepted": true,
+      "games": [
+        {
+          "game": "ar25-0c556536",
+          "seed": 0,
+          "score": 0.0063744765957107746,
+          "levels_completed": 1,
+          "win": false,
+          "calls": 1200,
+          "seconds": 25.656039900000906,
+          "sdk_versions": {
+            "arc-agi": "0.9.8",
+            "arcengine": "0.9.3"
+          },
+          "official_loop_unchanged": true,
+          "level_reset_only": true,
+          "trace_sha256": "b38030039060af3d721894120f605404c864e30b5df50b1cbf63a0714e891096"
+        },
+        {
+          "game": "ft09-0d8bbf25",
+          "seed": 0,
+          "score": 100.0,
+          "levels_completed": 6,
+          "win": true,
+          "calls": 110,
+          "seconds": 4.4480564999976195,
+          "sdk_versions": {
+            "arc-agi": "0.9.8",
+            "arcengine": "0.9.3"
+          },
+          "official_loop_unchanged": true,
+          "level_reset_only": true,
+          "trace_sha256": "640f236759abcf458df565c7d1a9f5815148f2325ccf085860ac897320c82c89"
+        },
+        {
+          "game": "vc33-5430563c",
+          "seed": 0,
+          "score": 100.0,
+          "levels_completed": 7,
+          "win": true,
+          "calls": 230,
+          "seconds": 14.94755250000162,
+          "sdk_versions": {
+            "arc-agi": "0.9.8",
+            "arcengine": "0.9.3"
+          },
+          "official_loop_unchanged": true,
+          "level_reset_only": true,
+          "trace_sha256": "bc37df2db38fe9b55b80a51b961f347cabb1fbe0abdab3e0579d296c4e816b12"
+        }
+      ]
+    },
+    {
+      "label": "auto-001",
+      "candidate_id": "18f4e31ae48be784be75b29ee4e2e40baa6666c9437dba01a505d08654230cdf",
+      "parameters": {
+        "base_priority_levels": 2,
+        "failure_penalty": 3,
+        "repeat_visits": 3,
+        "stagnation": 64
+      },
+      "summary": {
+        "calls": 1540,
+        "cases": 3,
+        "failure_rate": 0.005844155844155844,
+        "mean_levels_completed": 4.333333333333333,
+        "mean_public_rhae": 66.66666666666667,
+        "scope": "Fixed public demos and seeds only; not official Kaggle or unseen-game performance",
+        "wins": 2
+      },
+      "accepted": false,
+      "games": [
+        {
+          "game": "ar25-0c556536",
+          "seed": 0,
+          "score": 0.0,
+          "levels_completed": 0,
+          "win": false,
+          "calls": 1200,
+          "seconds": 22.98315489999368,
+          "sdk_versions": {
+            "arc-agi": "0.9.8",
+            "arcengine": "0.9.3"
+          },
+          "official_loop_unchanged": true,
+          "level_reset_only": true,
+          "trace_sha256": "faa96f803774b877bd20aeb69ebb1189e13e6ff30fb79bdf10e1c8bdcf2a15c8"
+        },
+        {
+          "game": "ft09-0d8bbf25",
+          "seed": 0,
+          "score": 100.0,
+          "levels_completed": 6,
+          "win": true,
+          "calls": 110,
+          "seconds": 4.5932232000050135,
+          "sdk_versions": {
+            "arc-agi": "0.9.8",
+            "arcengine": "0.9.3"
+          },
+          "official_loop_unchanged": true,
+          "level_reset_only": true,
+          "trace_sha256": "307f40752c38140b18440b61e0b4b4a0df83f51b10928c2033a5c82c3944dc53"
+        },
+        {
+          "game": "vc33-5430563c",
+          "seed": 0,
+          "score": 100.0,
+          "levels_completed": 7,
+          "win": true,
+          "calls": 230,
+          "seconds": 14.645847100007813,
+          "sdk_versions": {
+            "arc-agi": "0.9.8",
+            "arcengine": "0.9.3"
+          },
+          "official_loop_unchanged": true,
+          "level_reset_only": true,
+          "trace_sha256": "65ad7fdb4e395d9490ae93d80ef42f780bea3ff1b8bc9b86e7d0e6bde745b4cd"
+        }
+      ]
+    },
+    {
+      "label": "auto-002",
+      "candidate_id": "aeb3e76bc1a0da2e5d3dc5df5eee7bd72ac7bd0fb99017b1e29e7a1b7e850832",
+      "parameters": {
+        "base_priority_levels": 2,
+        "failure_penalty": 3,
+        "repeat_visits": 2,
+        "stagnation": 96
+      },
+      "summary": {
+        "calls": 1540,
+        "cases": 3,
+        "failure_rate": 0.005844155844155844,
+        "mean_levels_completed": 4.333333333333333,
+        "mean_public_rhae": 66.66666666666667,
+        "scope": "Fixed public demos and seeds only; not official Kaggle or unseen-game performance",
+        "wins": 2
+      },
+      "accepted": false,
+      "games": [
+        {
+          "game": "ar25-0c556536",
+          "seed": 0,
+          "score": 0.0,
+          "levels_completed": 0,
+          "win": false,
+          "calls": 1200,
+          "seconds": 21.980268999992404,
+          "sdk_versions": {
+            "arc-agi": "0.9.8",
+            "arcengine": "0.9.3"
+          },
+          "official_loop_unchanged": true,
+          "level_reset_only": true,
+          "trace_sha256": "3cb888a4a84105c089d3d994c1e17b3a8536c0dff61378a417c0ff186de84888"
+        },
+        {
+          "game": "ft09-0d8bbf25",
+          "seed": 0,
+          "score": 100.0,
+          "levels_completed": 6,
+          "win": true,
+          "calls": 110,
+          "seconds": 4.840810699999565,
+          "sdk_versions": {
+            "arc-agi": "0.9.8",
+            "arcengine": "0.9.3"
+          },
+          "official_loop_unchanged": true,
+          "level_reset_only": true,
+          "trace_sha256": "e8a8aca869439b994bd2eb7f96c7ffa914594d4e0aef0be9d36ca0b73dec45f8"
+        },
+        {
+          "game": "vc33-5430563c",
+          "seed": 0,
+          "score": 100.0,
+          "levels_completed": 7,
+          "win": true,
+          "calls": 230,
+          "seconds": 14.759525299989036,
+          "sdk_versions": {
+            "arc-agi": "0.9.8",
+            "arcengine": "0.9.3"
+          },
+          "official_loop_unchanged": true,
+          "level_reset_only": true,
+          "trace_sha256": "e7867ff94a017c5c32084d8ba3140ee04434604c6a15c5d696640d8c9fa8a51d"
+        }
+      ]
+    },
+    {
+      "label": "auto-003",
+      "candidate_id": "5c733d3ea9df85a809b6f37155d4906217027249ee2eb9f988337b082afa4bf6",
+      "parameters": {
+        "base_priority_levels": 3,
+        "failure_penalty": 3,
+        "repeat_visits": 3,
+        "stagnation": 96
+      },
+      "summary": {
+        "calls": 1540,
+        "cases": 3,
+        "failure_rate": 0.005844155844155844,
+        "mean_levels_completed": 4.666666666666667,
+        "mean_public_rhae": 66.66879149219857,
+        "scope": "Fixed public demos and seeds only; not official Kaggle or unseen-game performance",
+        "wins": 2
+      },
+      "accepted": false,
+      "games": [
+        {
+          "game": "ar25-0c556536",
+          "seed": 0,
+          "score": 0.0063744765957107746,
+          "levels_completed": 1,
+          "win": false,
+          "calls": 1200,
+          "seconds": 26.240715000007185,
+          "sdk_versions": {
+            "arc-agi": "0.9.8",
+            "arcengine": "0.9.3"
+          },
+          "official_loop_unchanged": true,
+          "level_reset_only": true,
+          "trace_sha256": "3e1d58804c0f2fc23c598ce27ad730bd77eb6762674cfc49a05b9edde99e4522"
+        },
+        {
+          "game": "ft09-0d8bbf25",
+          "seed": 0,
+          "score": 100.0,
+          "levels_completed": 6,
+          "win": true,
+          "calls": 110,
+          "seconds": 4.581149500008905,
+          "sdk_versions": {
+            "arc-agi": "0.9.8",
+            "arcengine": "0.9.3"
+          },
+          "official_loop_unchanged": true,
+          "level_reset_only": true,
+          "trace_sha256": "2e8d4efd0942438856441e202cdf2bc384513d1a38dc4a6561a0f5abed58676a"
+        },
+        {
+          "game": "vc33-5430563c",
+          "seed": 0,
+          "score": 100.0,
+          "levels_completed": 7,
+          "win": true,
+          "calls": 230,
+          "seconds": 14.66674860000785,
+          "sdk_versions": {
+            "arc-agi": "0.9.8",
+            "arcengine": "0.9.3"
+          },
+          "official_loop_unchanged": true,
+          "level_reset_only": true,
+          "trace_sha256": "3393acd2a620942171a0bc589499ac7e86bca35e07417c299d7eb7197b00e5db"
+        }
+      ]
+    }
+  ]
+}
