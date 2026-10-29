@@ -2,8 +2,8 @@
   "stage": "submit",
   "profile": "gpu-baseline",
   "label": "ready-v2",
-  "hypothesis": "Prioritize the validated GPU baseline Version 1 at the next live daily submission window, without spending a request while allowance is zero.",
-  "source_run_id": "40769413094",
+  "hypothesis": "After the 2026-10-29 UTC daily reset, recheck live allowance and submit the user-prioritized validated GPU baseline Version 1 once.",
+  "source_run_id": "40788294879",
   "connection_run_id": "",
   "baseline_label": "ready-v2",
   "version": ""
