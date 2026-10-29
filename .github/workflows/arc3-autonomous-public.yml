@@ -5,10 +5,12 @@ on:
     branches: ['codex/arc3-autonomous-*']
     paths:
       - 'experiments/arc3/autonomous/**'
+      - 'experiments/arc3/human_loop/**'
       - '.github/workflows/arc3-autonomous-public.yml'
   pull_request:
     paths:
       - 'experiments/arc3/autonomous/**'
+      - 'experiments/arc3/human_loop/**'
       - '.github/workflows/arc3-autonomous-public.yml'
   workflow_dispatch:
     inputs:
@@ -41,6 +43,9 @@ jobs:
           cache: pip
           cache-dependency-path: experiments/arc3/autonomous/requirements.txt
       - run: python -m pip install -r experiments/arc3/autonomous/requirements.txt
+      - run: python -m pip install -r experiments/arc3/human_loop/requirements.txt
+      - name: Check human-data prediction, censoring, exploration, and frozen holdout
+        run: python -B -m unittest discover -s experiments/arc3/human_loop -p test_human.py -v
       - name: Test generation, adoption, rejection, budgets, integrity, and resume
         run: python -B -m unittest discover -s experiments/arc3/autonomous -p test_autonomous.py -v
       - name: Check compatibility with the existing cycle

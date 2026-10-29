@@ -1,0 +1,27 @@
+h00000 empirical none complete 0.02
+test_candidate_tampering_detected_on_resume (test_human.Control.test_candidate_tampering_detected_on_resume) ... ok
+test_deterministic_continuation_matches_initial_schedule (test_human.Control.test_deterministic_continuation_matches_initial_schedule) ... ok
+test_finite_budget_required (test_human.Control.test_finite_budget_required) ... ok
+test_input_tampering_detected (test_human.Control.test_input_tampering_detected) ... ok
+h00000 empirical none complete 0.02
+h00001 lognormal none complete 0.08
+test_stop_resume_seal_and_refusal_to_tune_test (test_human.Control.test_stop_resume_seal_and_refusal_to_tune_test) ... ok
+test_all_distribution_families_normalize_with_extreme_parameters (test_human.Distributions.test_all_distribution_families_normalize_with_extreme_parameters) ... ok
+test_censored_likelihood_is_survival_not_event_mass (test_human.Distributions.test_censored_likelihood_is_survival_not_event_mass) ... ok
+test_censoring_retains_right_tail (test_human.Distributions.test_censoring_retains_right_tail) ... ok
+test_group_split_has_no_overlap (test_human.Distributions.test_group_split_has_no_overlap) ... ok
+test_unknown_condition_uses_training_fallback (test_human.Distributions.test_unknown_condition_uses_training_fallback) ... ok
+test_unused_energy_parameters_do_not_create_a_new_hypothesis (test_human.Distributions.test_unused_energy_parameters_do_not_create_a_new_hypothesis) ... ok
+test_validated_forecasts_do_not_read_test_targets (test_human.Distributions.test_validated_forecasts_do_not_read_test_targets) ... ok
+test_worse_distinct_forecast_is_retained (test_human.Distributions.test_worse_distinct_forecast_is_retained) ... ok
+test_future_frame_cannot_change_preceding_predictors (test_human.Observations.test_future_frame_cannot_change_preceding_predictors) ... ok
+test_janssen_chat_and_addresses_not_in_normalized_output (test_human.Observations.test_janssen_chat_and_addresses_not_in_normalized_output) ... ok
+test_reset_does_not_erase_effort (test_human.Observations.test_reset_does_not_erase_effort) ... ok
+test_scorecard_footer_is_not_an_action (test_human.Observations.test_scorecard_footer_is_not_an_action) ... ok
+test_unsolved_attempt_is_censored (test_human.Observations.test_unsolved_attempt_is_censored) ... ok
+test_xstream_relative_reference_identity (test_human.Observations.test_xstream_relative_reference_identity) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.513s
+
+OK

@@ -1,0 +1,126 @@
+{
+  "schema": 2,
+  "sources": {
+    "arc": {
+      "sha256": "99a32ffc3b9e55bc3077b979d00906f256c26354b5fada0b052690b2f5cd634a",
+      "bytes": 111142305
+    },
+    "lab": {
+      "sha256": "536996e6a977de63fcb82e9a0678c51cded6cd3bd2e962fbfeb00701dbcb9896",
+      "bytes": 46391545
+    },
+    "janssen": {
+      "sha256": "9b3cfe6384418e9e9e3bdd05589d7b4345029b55ef22792fac0929ad5dad9ea3",
+      "bytes": 135933590
+    }
+  },
+  "domains": {
+    "arc": {
+      "group_unit": "environment",
+      "groups": 25,
+      "sessions": 340,
+      "per_game_replays": {
+        "ar25": 10,
+        "bp35": 14,
+        "cd82": 11,
+        "cn04": 12,
+        "dc22": 11,
+        "ft09": 10,
+        "g50t": 12,
+        "ka59": 10,
+        "lf52": 11,
+        "lp85": 54,
+        "ls20": 13,
+        "m0r0": 11,
+        "r11l": 10,
+        "re86": 11,
+        "s5i5": 11,
+        "sb26": 12,
+        "sc25": 15,
+        "sk48": 14,
+        "sp80": 12,
+        "su15": 13,
+        "tn36": 14,
+        "tr87": 12,
+        "tu93": 13,
+        "vc33": 10,
+        "wa30": 14
+      },
+      "solves": 144,
+      "versions": [
+        "ar25-0c556536",
+        "bp35-0a0ad940",
+        "cd82-fb555c5d",
+        "cn04-2fe56bfb",
+        "dc22-fdcac232",
+        "ft09-0d8bbf25",
+        "g50t-5849a774",
+        "ka59-38d34dbb",
+        "lf52-271a04aa",
+        "lp85-305b61c3",
+        "ls20-9607627b",
+        "m0r0-492f87ba",
+        "r11l-495a7899",
+        "re86-8af5384d",
+        "s5i5-18d95033",
+        "sb26-7fbdac44",
+        "sc25-635fd71a",
+        "sk48-d8078629",
+        "sp80-589a99af",
+        "su15-1944f8ab",
+        "tn36-ef4dde99",
+        "tr87-cd924810",
+        "tu93-0768757b",
+        "vc33-5430563c",
+        "wa30-ee6fef47"
+      ],
+      "article_replays": 342,
+      "archive_replays": 340,
+      "identity_limit": "Replay GUID is not a participant ID. Environment holdout, not verified participant holdout.",
+      "action_target": "next ARC action ID, after preceding returned frame",
+      "duration_target": "actions until first attainment of the next level; final unfinished level censored",
+      "notice_label": "unobserved; frame stagnation is only a predictive proxy",
+      "action_observations": 180156,
+      "duration_observations": 1808,
+      "censored": 194
+    },
+    "lab": {
+      "group_unit": "pair across rounds and conditions",
+      "groups": 20,
+      "sessions": 157,
+      "person_rounds": 314,
+      "action_target": "next sampled avatar displacement in 9 sign directions (includes stay); not keypress",
+      "duration_target": "seconds until next recorded harvest; censored at last field observation",
+      "deduplication": "04_data only; 03_rawdata duplicate copies excluded",
+      "privacy": "No pair names, original filenames, absolute timestamps, or participant identifiers exported",
+      "action_observations": 573718,
+      "duration_observations": 22782,
+      "censored": 313
+    },
+    "janssen": {
+      "group_unit": "whole experimental session across all rounds",
+      "groups": 32,
+      "rounds": 288,
+      "person_rounds": 2625,
+      "treatments": [
+        "t1",
+        "t2",
+        "t3",
+        "t4",
+        "t5",
+        "t6"
+      ],
+      "same_millisecond_intervals_excluded": 169,
+      "action_target": "next recorded movement direction or token collection, per participant",
+      "duration_target": "positive seconds between recorded movement/harvest events; no inferred terminal censor",
+      "duration_limit": "Conditional on a subsequent recorded event, not an unconditional waiting-time distribution.",
+      "privacy": "No UUID, network address, station number, chat text, or absolute timestamp exported",
+      "source": "DeCaro, DeCaro, Janssen, Lee, Graci & Flener (2024), doi:10.1371/journal.pone.0307832, OSF v3drm",
+      "action_observations": 1637246,
+      "duration_observations": 1634452,
+      "censored": 0
+    }
+  },
+  "observations_sha256": "5a1db62eb527c20a2c66d12ca4f6a15b4b27b05b429c40f9712aa4202eb103b1",
+  "normalizer_sha256": "59ad14c9fd35ab03933385e2c64bfb2dfb952d9a58fdfe2af40d1d77e96fbb34"
+}

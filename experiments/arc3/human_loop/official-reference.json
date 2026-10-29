@@ -1,0 +1,20 @@
+{
+  "receipt": {
+    "candidate_id": "0ceeba93ecd722e3f27af8194a34d3c4c1f1522750854032db8eeaeaefbb076f",
+    "competition": "arc-prize-2026-arc-agi-3",
+    "description": "ARC3-CYCLE-0ceeba93ecd722e3f27af8194a34d3c4c1f1522750854032db8eeaeaefbb076f",
+    "error_description": "",
+    "line": "gpu",
+    "observed_utc": "2026-10-29T09:04:33.476380+00:00",
+    "private_score": "",
+    "public_score": "26.20",
+    "ref": 57751913,
+    "status": "COMPLETE"
+  },
+  "receipt_sha256": "70db163b2eb22306e2db300005b8ab7e401464459ab81cee44e72415f872e3e9",
+  "api_receipt_source": "https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40846700062",
+  "pr": "https://github.com/Sumuji-zkdwn/kb-ndtjm/pull/9",
+  "role": "Downstream ARC reference only, never a human behavior label",
+  "official_submission": "manual_only",
+  "new_submission_performed": false
+}

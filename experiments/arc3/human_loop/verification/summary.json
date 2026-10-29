@@ -1,0 +1,636 @@
+{
+  "version": "0.2",
+  "candidates": 48,
+  "completed": 48,
+  "retained": 23,
+  "portfolio": {
+    "pareto": [
+      "h00005",
+      "h00006",
+      "h00007",
+      "h00011",
+      "h00013",
+      "h00014",
+      "h00019",
+      "h00022",
+      "h00023",
+      "h00028",
+      "h00030",
+      "h00032",
+      "h00033",
+      "h00034",
+      "h00037",
+      "h00046",
+      "h00047"
+    ],
+    "specialists": [
+      "h00000",
+      "h00005",
+      "h00011",
+      "h00013",
+      "h00021",
+      "h00022",
+      "h00029",
+      "h00031",
+      "h00033",
+      "h00037"
+    ],
+    "diverse": [
+      "h00000",
+      "h00012",
+      "h00039"
+    ],
+    "retained": [
+      "h00000",
+      "h00005",
+      "h00006",
+      "h00007",
+      "h00011",
+      "h00012",
+      "h00013",
+      "h00014",
+      "h00019",
+      "h00021",
+      "h00022",
+      "h00023",
+      "h00028",
+      "h00029",
+      "h00030",
+      "h00031",
+      "h00032",
+      "h00033",
+      "h00034",
+      "h00037",
+      "h00039",
+      "h00046",
+      "h00047"
+    ],
+    "policy": "All evaluated candidates remain archived; retention guides proposals, not deletion. No patience cutoff."
+  },
+  "domains": {
+    "arc": {
+      "group_unit": "environment",
+      "groups": 25,
+      "sessions": 340,
+      "per_game_replays": {
+        "ar25": 10,
+        "bp35": 14,
+        "cd82": 11,
+        "cn04": 12,
+        "dc22": 11,
+        "ft09": 10,
+        "g50t": 12,
+        "ka59": 10,
+        "lf52": 11,
+        "lp85": 54,
+        "ls20": 13,
+        "m0r0": 11,
+        "r11l": 10,
+        "re86": 11,
+        "s5i5": 11,
+        "sb26": 12,
+        "sc25": 15,
+        "sk48": 14,
+        "sp80": 12,
+        "su15": 13,
+        "tn36": 14,
+        "tr87": 12,
+        "tu93": 13,
+        "vc33": 10,
+        "wa30": 14
+      },
+      "solves": 144,
+      "versions": [
+        "ar25-0c556536",
+        "bp35-0a0ad940",
+        "cd82-fb555c5d",
+        "cn04-2fe56bfb",
+        "dc22-fdcac232",
+        "ft09-0d8bbf25",
+        "g50t-5849a774",
+        "ka59-38d34dbb",
+        "lf52-271a04aa",
+        "lp85-305b61c3",
+        "ls20-9607627b",
+        "m0r0-492f87ba",
+        "r11l-495a7899",
+        "re86-8af5384d",
+        "s5i5-18d95033",
+        "sb26-7fbdac44",
+        "sc25-635fd71a",
+        "sk48-d8078629",
+        "sp80-589a99af",
+        "su15-1944f8ab",
+        "tn36-ef4dde99",
+        "tr87-cd924810",
+        "tu93-0768757b",
+        "vc33-5430563c",
+        "wa30-ee6fef47"
+      ],
+      "article_replays": 342,
+      "archive_replays": 340,
+      "identity_limit": "Replay GUID is not a participant ID. Environment holdout, not verified participant holdout.",
+      "action_target": "next ARC action ID, after preceding returned frame",
+      "duration_target": "actions until first attainment of the next level; final unfinished level censored",
+      "notice_label": "unobserved; frame stagnation is only a predictive proxy",
+      "action_observations": 180156,
+      "duration_observations": 1808,
+      "censored": 194
+    },
+    "lab": {
+      "group_unit": "pair across rounds and conditions",
+      "groups": 20,
+      "sessions": 157,
+      "person_rounds": 314,
+      "action_target": "next sampled avatar displacement in 9 sign directions (includes stay); not keypress",
+      "duration_target": "seconds until next recorded harvest; censored at last field observation",
+      "deduplication": "04_data only; 03_rawdata duplicate copies excluded",
+      "privacy": "No pair names, original filenames, absolute timestamps, or participant identifiers exported",
+      "action_observations": 573718,
+      "duration_observations": 22782,
+      "censored": 313
+    },
+    "janssen": {
+      "group_unit": "whole experimental session across all rounds",
+      "groups": 32,
+      "rounds": 288,
+      "person_rounds": 2625,
+      "treatments": [
+        "t1",
+        "t2",
+        "t3",
+        "t4",
+        "t5",
+        "t6"
+      ],
+      "same_millisecond_intervals_excluded": 169,
+      "action_target": "next recorded movement direction or token collection, per participant",
+      "duration_target": "positive seconds between recorded movement/harvest events; no inferred terminal censor",
+      "duration_limit": "Conditional on a subsequent recorded event, not an unconditional waiting-time distribution.",
+      "privacy": "No UUID, network address, station number, chat text, or absolute timestamp exported",
+      "source": "DeCaro, DeCaro, Janssen, Lee, Graci & Flener (2024), doi:10.1371/journal.pone.0307832, OSF v3drm",
+      "action_observations": 1637246,
+      "duration_observations": 1634452,
+      "censored": 0
+    }
+  },
+  "splits": {
+    "arc": {
+      "train": [
+        1,
+        2,
+        3,
+        6,
+        8,
+        10,
+        11,
+        14,
+        15,
+        16,
+        18,
+        19,
+        20,
+        21,
+        24
+      ],
+      "validation": [
+        9,
+        12,
+        13,
+        17,
+        22
+      ],
+      "test": [
+        0,
+        4,
+        5,
+        7,
+        23
+      ]
+    },
+    "lab": {
+      "train": [
+        0,
+        1,
+        2,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        14,
+        16,
+        17
+      ],
+      "validation": [
+        4,
+        11,
+        15,
+        19
+      ],
+      "test": [
+        3,
+        12,
+        13,
+        18
+      ]
+    },
+    "janssen": {
+      "train": [
+        3,
+        4,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        22,
+        24,
+        28
+      ],
+      "validation": [
+        1,
+        5,
+        6,
+        23,
+        30,
+        31
+      ],
+      "test": [
+        0,
+        2,
+        21,
+        25,
+        26,
+        27,
+        29
+      ]
+    }
+  },
+  "source_hashes": {
+    "arc": {
+      "sha256": "99a32ffc3b9e55bc3077b979d00906f256c26354b5fada0b052690b2f5cd634a",
+      "bytes": 111142305
+    },
+    "lab": {
+      "sha256": "536996e6a977de63fcb82e9a0678c51cded6cd3bd2e962fbfeb00701dbcb9896",
+      "bytes": 46391545
+    },
+    "janssen": {
+      "sha256": "9b3cfe6384418e9e9e3bdd05589d7b4345029b55ef22792fac0929ad5dad9ea3",
+      "bytes": 135933590
+    }
+  },
+  "protocol_id": "e0c1a9141e2c5b7e35dc0590cf8c9a85740cc870e121cca1a78afd2041d13e9c",
+  "holdout_sha256": "f2a0b0c170fcd3614954050b8bd18cf630401eb506350a1b53bcab14a9b0a5e5",
+  "baseline": "h00000: unconditional smoothed empirical distributions, fitted to training groups only",
+  "baseline_test": {
+    "arc": {
+      "action": {
+        "n": 27835,
+        "groups": 5,
+        "group_macro_nll": 1.601060526607706,
+        "group_nll_se": 0.10449304750335352,
+        "observation_micro_nll": 1.6564829860610963,
+        "worst_group_nll": 1.8686525228805568,
+        "brier": 0.7853861743959102,
+        "condition_nll": {
+          "1": 1.6564829860610963
+        },
+        "accuracy": 0.34765582899227593,
+        "confidence_bins": [
+          {
+            "lower": 0.2,
+            "n": 27835,
+            "confidence": 0.2844187149215492,
+            "accuracy": 0.34765582899227593
+          }
+        ]
+      },
+      "duration": {
+        "n": 261,
+        "groups": 5,
+        "group_macro_nll": 1.7040710784235056,
+        "group_nll_se": 0.05515506600175833,
+        "observation_micro_nll": 1.7147610340876995,
+        "worst_group_nll": 1.8298096912520057,
+        "brier": null,
+        "condition_nll": {
+          "1": 1.7147610340876995
+        },
+        "events": 232,
+        "censored": 29
+      }
+    },
+    "lab": {
+      "action": {
+        "n": 113290,
+        "groups": 4,
+        "group_macro_nll": 1.0983422945957675,
+        "group_nll_se": 0.18527044879574972,
+        "observation_micro_nll": 1.11239340398325,
+        "worst_group_nll": 1.4623363679244443,
+        "brier": 0.5309792646824729,
+        "condition_nll": {
+          "0": 1.0254566616729663,
+          "1": 1.193891582087715
+        },
+        "accuracy": 0.6799187924794774,
+        "confidence_bins": [
+          {
+            "lower": 0.8,
+            "n": 113290,
+            "confidence": 0.8031419034689867,
+            "accuracy": 0.6799187924794774
+          }
+        ]
+      },
+      "duration": {
+        "n": 5093,
+        "groups": 4,
+        "group_macro_nll": 1.9266284752783007,
+        "group_nll_se": 0.06699076631304036,
+        "observation_micro_nll": 1.94124603572606,
+        "worst_group_nll": 2.104950540916385,
+        "brier": null,
+        "condition_nll": {
+          "0": 1.99470022625794,
+          "1": 1.9006614724137725
+        },
+        "events": 5031,
+        "censored": 62
+      }
+    },
+    "janssen": {
+      "action": {
+        "n": 355766,
+        "groups": 7,
+        "group_macro_nll": 1.5956436937340368,
+        "group_nll_se": 0.003710644625971862,
+        "observation_micro_nll": 1.594595671206706,
+        "worst_group_nll": 1.6062264396519739,
+        "brier": 0.794575673564558,
+        "condition_nll": {
+          "0": 1.5948347395723035,
+          "4": 1.5899732856588042,
+          "5": 1.5975428283783446
+        },
+        "accuracy": 0.22256483194009546,
+        "confidence_bins": [
+          {
+            "lower": 0.2,
+            "n": 355766,
+            "confidence": 0.2209412902947843,
+            "accuracy": 0.22256483194009546
+          }
+        ]
+      },
+      "duration": {
+        "n": 355144,
+        "groups": 7,
+        "group_macro_nll": 1.3509751386652566,
+        "group_nll_se": 0.026517194102613696,
+        "observation_micro_nll": 1.3437943426815453,
+        "worst_group_nll": 1.4836557274575364,
+        "brier": null,
+        "condition_nll": {
+          "0": 1.340412824510275,
+          "4": 1.3827986019155742,
+          "5": 1.3201915443549816
+        },
+        "events": 355144,
+        "censored": 0
+      }
+    }
+  },
+  "portfolio_test": {
+    "arc": {
+      "action": {
+        "n": 27835,
+        "groups": 5,
+        "group_macro_nll": 0.9583134628031658,
+        "group_nll_se": 0.17756870893842575,
+        "observation_micro_nll": 1.0516697789456533,
+        "worst_group_nll": 1.2366908204400704,
+        "brier": 0.4659892741081226,
+        "condition_nll": {
+          "1": 1.0516697789456533
+        },
+        "accuracy": 0.7191305909825759,
+        "confidence_bins": [
+          {
+            "lower": 0.2,
+            "n": 111,
+            "confidence": 0.28232930089730063,
+            "accuracy": 0.22522522522522523
+          },
+          {
+            "lower": 0.3,
+            "n": 570,
+            "confidence": 0.3438048527416732,
+            "accuracy": 0.1649122807017544
+          },
+          {
+            "lower": 0.4,
+            "n": 2875,
+            "confidence": 0.49817999255781237,
+            "accuracy": 0.6497391304347826
+          },
+          {
+            "lower": 0.5,
+            "n": 14641,
+            "confidence": 0.5376452760722535,
+            "accuracy": 0.6611570247933884
+          },
+          {
+            "lower": 0.6,
+            "n": 6,
+            "confidence": 0.650091482938819,
+            "accuracy": 0.8333333333333334
+          },
+          {
+            "lower": 0.7,
+            "n": 9632,
+            "confidence": 0.7445269761331881,
+            "accuracy": 0.8663828903654485
+          }
+        ]
+      },
+      "duration": {
+        "n": 261,
+        "groups": 5,
+        "group_macro_nll": 1.6333190473605363,
+        "group_nll_se": 0.04087319398436163,
+        "observation_micro_nll": 1.642191550653114,
+        "worst_group_nll": 1.6988950003840906,
+        "brier": null,
+        "condition_nll": {
+          "1": 1.642191550653114
+        },
+        "events": 232,
+        "censored": 29
+      }
+    },
+    "lab": {
+      "action": {
+        "n": 113290,
+        "groups": 4,
+        "group_macro_nll": 0.6740789975363988,
+        "group_nll_se": 0.11482215620082711,
+        "observation_micro_nll": 0.6824242294986125,
+        "worst_group_nll": 0.9111224401990328,
+        "brier": 0.3447638238414436,
+        "condition_nll": {
+          "0": 0.6295400263628659,
+          "1": 0.7320001175700475
+        },
+        "accuracy": 0.7533939447435785,
+        "confidence_bins": [
+          {
+            "lower": 0.4,
+            "n": 23481,
+            "confidence": 0.4743543575889849,
+            "accuracy": 0.5292789915250629
+          },
+          {
+            "lower": 0.5,
+            "n": 12764,
+            "confidence": 0.5210089889187964,
+            "accuracy": 0.6034158570980884
+          },
+          {
+            "lower": 0.6,
+            "n": 13525,
+            "confidence": 0.6833978524490859,
+            "accuracy": 0.5675415896487985
+          },
+          {
+            "lower": 0.7,
+            "n": 13670,
+            "confidence": 0.7362770700291404,
+            "accuracy": 0.6115581565471836
+          },
+          {
+            "lower": 0.8,
+            "n": 11643,
+            "confidence": 0.8704542029037581,
+            "accuracy": 0.9600618397320279
+          },
+          {
+            "lower": 0.9,
+            "n": 38207,
+            "confidence": 0.9150310120050491,
+            "accuracy": 0.9947915303478421
+          }
+        ]
+      },
+      "duration": {
+        "n": 5093,
+        "groups": 4,
+        "group_macro_nll": 1.8491953110957524,
+        "group_nll_se": 0.06480891854897004,
+        "observation_micro_nll": 1.856733464244138,
+        "worst_group_nll": 2.02312565156692,
+        "brier": null,
+        "condition_nll": {
+          "0": 1.9386189479553897,
+          "1": 1.794562723934179
+        },
+        "events": 5031,
+        "censored": 62
+      }
+    },
+    "janssen": {
+      "action": {
+        "n": 355766,
+        "groups": 7,
+        "group_macro_nll": 1.1261987009652916,
+        "group_nll_se": 0.009504931530652294,
+        "observation_micro_nll": 1.1226211017381347,
+        "worst_group_nll": 1.1585579836413533,
+        "brier": 0.5619314724318584,
+        "condition_nll": {
+          "0": 1.1078693043619596,
+          "4": 1.1183409746196158,
+          "5": 1.1393097950847055
+        },
+        "accuracy": 0.5930555477476769,
+        "confidence_bins": [
+          {
+            "lower": 0.2,
+            "n": 48031,
+            "confidence": 0.2648332433928865,
+            "accuracy": 0.2573546251379317
+          },
+          {
+            "lower": 0.3,
+            "n": 264,
+            "confidence": 0.32820808606107393,
+            "accuracy": 0.3522727272727273
+          },
+          {
+            "lower": 0.5,
+            "n": 215138,
+            "confidence": 0.5591358270101339,
+            "accuracy": 0.561639505805576
+          },
+          {
+            "lower": 0.6,
+            "n": 67159,
+            "confidence": 0.6433124985497338,
+            "accuracy": 0.8082163224586429
+          },
+          {
+            "lower": 0.7,
+            "n": 25174,
+            "confidence": 0.7111679940541848,
+            "accuracy": 0.9305632795741638
+          }
+        ]
+      },
+      "duration": {
+        "n": 355144,
+        "groups": 7,
+        "group_macro_nll": 1.3303780653242085,
+        "group_nll_se": 0.02474703036631852,
+        "observation_micro_nll": 1.3238048033132288,
+        "worst_group_nll": 1.4630088530295884,
+        "brier": null,
+        "condition_nll": {
+          "0": 1.3173260907749458,
+          "4": 1.3647739043526308,
+          "5": 1.301741881091726
+        },
+        "events": 355144,
+        "censored": 0
+      }
+    }
+  },
+  "weights": "uniform, frozen before holdout exposure",
+  "tests": {
+    "human_loop": 19,
+    "public_loop": 19,
+    "existing_cycle": 74
+  },
+  "resume_checked": true,
+  "STOP_checked": true,
+  "seal_idempotence_checked": true,
+  "post_seal_tuning_rejected": true,
+  "candidate_compute_seconds": 40.30180799998925,
+  "official_submission": "manual_only",
+  "new_official_score": null,
+  "gpu_reference_public_score": "26.20",
+  "noticing_identified": false,
+  "cross_domain_transfer_tested": false,
+  "baseline_not_state_of_the_art": true
+}
