@@ -1,0 +1,100 @@
+{
+  "status": "passed",
+  "hashed_files_checked": 6,
+  "primitive": {
+    "AB": {
+      "word": [
+        "B",
+        "A"
+      ],
+      "states": [
+        2,
+        1,
+        0
+      ],
+      "observations": [
+        1,
+        0,
+        0
+      ],
+      "final_state": 0,
+      "observation": 0
+    },
+    "BA": {
+      "word": [
+        "A",
+        "B"
+      ],
+      "states": [
+        2,
+        2,
+        1
+      ],
+      "observations": [
+        1,
+        1,
+        0
+      ],
+      "final_state": 1,
+      "observation": 0
+    },
+    "distinguishing_word": [
+      "B"
+    ],
+    "initial_partition": [
+      0,
+      0,
+      1
+    ],
+    "future_partition": [
+      0,
+      1,
+      2
+    ],
+    "unsafe_quotient_rejected": "Operation 'B' does not descend: {'states': [0, 1], 'image_states': [0, 2]}"
+  },
+  "flow": {
+    "distinguishing_probe": {
+      "status": "distinguished",
+      "word": [
+        "push"
+      ],
+      "kind": "observation",
+      "visited_pairs": 1
+    },
+    "zero_budget_result": {
+      "status": "unknown_budget",
+      "word": null,
+      "visited_pairs": 0
+    }
+  },
+  "chebyshev": [
+    {
+      "depth": 1,
+      "distinct_inverse_states": 3,
+      "max_residual": 1.4988010832439613e-15
+    },
+    {
+      "depth": 2,
+      "distinct_inverse_states": 9,
+      "max_residual": 6.38378239159465e-15
+    },
+    {
+      "depth": 3,
+      "distinct_inverse_states": 27,
+      "max_residual": 1.687538997430238e-14
+    },
+    {
+      "depth": 4,
+      "distinct_inverse_states": 81,
+      "max_residual": 1.3561374245796287e-13
+    }
+  ],
+  "same_state_energy_difference_checked": true,
+  "original_sources_copied_without_changes": true,
+  "lean_rebuilt": false,
+  "human_state_identified": false,
+  "arc_decision_integration_implemented": false,
+  "scheduled_exploration_started": false,
+  "official_submission": "manual_only"
+}

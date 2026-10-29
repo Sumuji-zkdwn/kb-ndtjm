@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-29",
+  "source_modules": [
+    {
+      "file": "sources/primitive/primitive.py",
+      "source_root": "Research",
+      "source_path": "05_Notes/primitive_operations_2026-10-20/python_2026-10-26/primitive.py",
+      "sha256": "9f75dfbcf1f2799d987ffd2540188f5b207d019292f26103e0ee914629537865",
+      "bytes": 29216,
+      "copy": "byte_identical"
+    },
+    {
+      "file": "sources/flow/finite.py",
+      "source_root": "Research",
+      "source_path": "01_Models/Flow_Calculus/formalization/r2_2026-09-23/src/finite.py",
+      "sha256": "2b9cb30b2858453744c3ebe27b381c4ad7e632bdbe17de2385bd0a715669550d",
+      "bytes": 11477,
+      "copy": "byte_identical"
+    },
+    {
+      "file": "sources/flow/examples.py",
+      "source_root": "Research",
+      "source_path": "01_Models/Flow_Calculus/formalization/r2_2026-09-23/src/examples.py",
+      "sha256": "37d55680451f5808ac108dce390246443107bb9e927e77ba98c1d61c93bc689a",
+      "bytes": 3320,
+      "copy": "byte_identical"
+    }
+  ],
+  "source_documents": [
+    {
+      "source_root": "Research",
+      "source_path": "05_Notes/primitive_operations_2026-10-20/原始の操作と忘却の導出.md",
+      "sha256": "7f42fc5d5f4ac664cb84c54ba67e7aab635b7c0611856fbe769644444e09d9b1",
+      "included": false
+    },
+    {
+      "source_root": "Research",
+      "source_path": "01_Models/Flow_Calculus/formalization/r2_2026-09-23/docs/FORMAL_SPEC.md",
+      "sha256": "c15b14da2b05f3f4c412d23b9431b15c845653c2975a8935343fa431b5563f18",
+      "included": false
+    },
+    {
+      "source_root": "Documents/Codex",
+      "source_path": "2026-10-20/primitive/原始の形式化.md",
+      "sha256": "334d7e140b5ffa2f204a2fd7f862d5365fa15713404b0602ec3e2982605e2167",
+      "included": false
+    },
+    {
+      "source_root": "Documents/Codex",
+      "source_path": "2026-10-29/new-chat-4/outputs/Galois_CPR_ARC_2026-10-29/Fenchel_invisibility_original.md",
+      "sha256": "52482bf28ebeab3b5b33925c06bd22761d95c766244aa12e000f222270712950",
+      "included": false
+    }
+  ],
+  "artifacts": [
+    {
+      "file": "figures/fenchel-chebyshev-3n.png",
+      "sha256": "84d47882df7a57c7437fa0cdf387aacf47b7f5ae687d25016882c73c811ef6c2",
+      "bytes": 430349
+    },
+    {
+      "file": "figures/fenchel-chebyshev-3n.svg",
+      "sha256": "3ed46b58c9499261d049f63de7214abd4d8bd06026f941b624508692992f9e31",
+      "bytes": 193962
+    },
+    {
+      "file": "figures/checks.json",
+      "sha256": "b94b7d27f115dc1c89cdb80033cb2c95f2f60cb9afab0dc893fe4800b5bc4d1c",
+      "bytes": 1340
+    }
+  ],
+  "human_raw_data_included": false,
+  "original_sources_modified": false
+}

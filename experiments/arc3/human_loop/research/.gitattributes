@@ -1,0 +1,5 @@
+# Preserve archived Windows source bytes and recognize CRLF line endings.
+sources/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+figures/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# The rendered SVG is a generated artifact; review the PNG and source checks.
+figures/*.svg -diff
