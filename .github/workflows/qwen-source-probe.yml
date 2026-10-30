@@ -1,0 +1,30 @@
+name: Read-only Qwen model source diagnostic
+on:
+  push:
+    branches: [codex/kaggle-dispatch-20261031]
+    paths: [kaggle_dispatch/qwen_probe_request.json]
+permissions:
+  contents: read
+concurrency:
+  group: qwen-source-probe
+  cancel-in-progress: false
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate diagnostic classification without credentials
+        run: python -m unittest discover -s kaggle_dispatch -p test_qwen_source_probe.py -v
+      - run: python -m pip install kaggle==2.2.5 kagglesdk==0.1.38
+      - name: Pull own Qwen notebook metadata, without writing to Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: python -u kaggle_dispatch/qwen_source_probe.py
+      - name: Read additional owned notebook metadata
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: python -u kaggle_dispatch/extra_probe.py
