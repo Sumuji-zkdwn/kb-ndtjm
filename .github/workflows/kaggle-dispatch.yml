@@ -1,4 +1,4 @@
-name: Execute registered private Kaggle research notebook
+name: Run registered private Kaggle notebook
 
 on:
   push:
@@ -7,23 +7,24 @@ on:
 
 permissions:
   contents: read
+
 concurrency:
   group: bounded-kaggle-dispatch
-  cancel-in-progress: false
+  queue: max
 
 jobs:
-  research:
+  dispatch:
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Test dispatch protections without credentials
-        run: python -m unittest discover -s kaggle_dispatch -p test_research_run.py -v
+      - name: Check dispatch protections without credentials
+        run: python -m unittest discover -s kaggle_dispatch -p test_router.py -v
       - run: python -m pip install kaggle==2.2.5 kagglesdk==0.1.38
-      - name: Run one registered notebook as a new private Kaggle version
+      - name: Run one selected registered notebook
         env:
           KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
-        run: python -u kaggle_dispatch/research_run.py
+        run: python -u kaggle_dispatch/router.py
