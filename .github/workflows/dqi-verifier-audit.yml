@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
       - name: Download official verifier assets
@@ -39,7 +39,7 @@ jobs:
                           print(f'{j+1}: {lines[j]}')
                           seen.add(j)
           PY
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: official-dqi-verifier-source-${{ github.run_attempt }}
           path: official/verifiers

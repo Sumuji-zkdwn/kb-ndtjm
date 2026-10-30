@@ -33,8 +33,8 @@ jobs:
       RUN_STAGE: ${{ inputs.stage || 'full-package' }}
       GH_TOKEN: ${{ github.token }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
       - name: Download preserved v1.0 reference ZIP
@@ -89,7 +89,7 @@ jobs:
           fi
       - name: Preserve reports even when validation fails
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: dqi-bm-checkpoint-${{ inputs.stage || 'full-package' }}
           path: |
@@ -102,7 +102,7 @@ jobs:
           retention-days: 30
       - name: Preserve complete unscored DQI
         if: always() && steps.generated.outputs.ready == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: dqi-bm-conservative-unscored
           path: build/bm-conservative/dqi.kmb
@@ -110,7 +110,7 @@ jobs:
           retention-days: 30
       - name: Preserve reviewed submission ZIP only after successful gates
         if: success() && env.RUN_STAGE == 'full-package'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: dqi-bm-candidate-for-human-review
           path: build/report/full-package/submission-candidate.zip
