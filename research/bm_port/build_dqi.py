@@ -141,7 +141,8 @@ def _forney_sweep(b,sigma,omega,google,work,forward,erase,kernel,sqrt_ops,square
             for reg,ops in steps:
                 for op,qs in ops:b.raw(op,[reg[q] for q in qs])
 
-def build(out,decode_only=False,reuse_forney_scratch=True,trace_allocations=False,trace_phase=False):
+def build(out,decode_only=False,reuse_forney_scratch=True,trace_allocations=False,trace_phase=False,trace_phase3=False):
+    if trace_phase and trace_phase3:raise ValueError('select exactly one trace phase')
     check_provenance()
     out.mkdir(parents=True,exist_ok=True)
     formal=out/'formal';formal.mkdir(exist_ok=True)
@@ -164,9 +165,9 @@ def build(out,decode_only=False,reuse_forney_scratch=True,trace_allocations=Fals
     if not decode_only:
         with b.phase('coefficients_to_google'):
             for reg in sigma[1:]+syn[:35]:linear_in_place(b,reg,to_google)
-        if trace_phase:
+        if trace_phase or trace_phase3:
             from trace_phase import forney_trace
-            forney_trace(b,v,sigma,syn[:35],google,formal,held[20:23] if reuse_forney_scratch else ())
+            forney_trace(b,v,sigma,syn[:35],google,formal,held[20:23] if reuse_forney_scratch else (),nested=trace_phase3)
         else:
             forney(b,v,sigma,syn[:35],google,formal,held[20:23] if reuse_forney_scratch else ())
         with b.phase('coefficients_to_public'):
@@ -185,7 +186,7 @@ def build(out,decode_only=False,reuse_forney_scratch=True,trace_allocations=Fals
         'BM_coefficient_clipping':False,'stack_cap':35,'stack_is_complete_DP_bound':True,
         'fixed_public_mask_used':False,'approximate_Psi_route_used':False,
         'forney_borrowed_clean_Em_pivots':3 if reuse_forney_scratch and not decode_only else 0,
-        'forney_phase_method':'relative_trace_6' if trace_phase and not decode_only else 'inverse66_WFS12',
+        'forney_phase_method':('relative_trace_3' if trace_phase3 else 'relative_trace_6' if trace_phase else 'inverse66_WFS12') if not decode_only else 'inverse66_WFS12',
         'source_commit':'64b5a13aa249f1360846657392e6c66817b26d0f',
         'attribution':'andigu/uncompute BM, inverse66 and field tensors (Apache-2.0); adapted to Kaggle variable E masks',
         'stages':b.stages,'full_verifier':'NOT_RUN','kaggle_submission':'NOT_RUN'}
@@ -212,8 +213,10 @@ if __name__=='__main__':
     p.add_argument('--decode-only',action='store_true')
     p.add_argument('--no-reuse-forney-scratch',action='store_true',help='Reproduce the verified 2485-qubit allocation')
     p.add_argument('--trace-allocations',action='store_true',help='Record allocation, ownership and phase boundaries')
-    p.add_argument('--trace-phase',action='store_true',help='Use the exactly checked 72-Toffoli inverse phase')
+    phase=p.add_mutually_exclusive_group()
+    phase.add_argument('--trace-phase',action='store_true',help='Use the exactly checked 72-Toffoli inverse phase')
+    phase.add_argument('--trace-phase3',action='store_true',help='Use the exactly checked nested 69-Toffoli inverse phase')
     p.add_argument('--parse',action='store_true',help='Parse an existing complete candidate without rebuilding')
     args=p.parse_args()
     if args.parse:parse_complete(args.out)
-    else:build(args.out,args.decode_only,not args.no_reuse_forney_scratch,args.trace_allocations,args.trace_phase)
+    else:build(args.out,args.decode_only,not args.no_reuse_forney_scratch,args.trace_allocations,args.trace_phase,args.trace_phase3)
