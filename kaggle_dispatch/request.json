@@ -1,5 +1,5 @@
 {
-  "id": "quartic-20261031-001",
-  "kind": "quartic-energy-rerun",
-  "previous_id": "none"
+  "id": "squares-diagnostic-20261031-a2",
+  "kind": "squares-v8-diagnostic-rerun",
+  "previous_id": "squares-diagnostic-20261031-a1"
 }

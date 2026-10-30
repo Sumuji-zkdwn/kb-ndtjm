@@ -25,6 +25,64 @@ def receipt(**overrides):
 
 
 class RouterTests(unittest.TestCase):
+    def test_squares_target_requires_private_cpu_offline_and_no_inputs(self):
+        target = router.TARGETS['squares-v8-diagnostic-rerun']
+        self.assertEqual(target['id'], 141798233)
+        self.assertEqual(target['hash'], '09e737183d9e560fa989115e927077a3003598eea325d5c261e635c371d12c22')
+        meta = {'id': target['ref'], 'id_no': target['id'], 'title': target['title'], 'is_private': True,
+                'language': 'python', 'kernel_type': 'notebook', 'enable_gpu': False, 'enable_tpu': False,
+                'enable_internet': False, 'dataset_sources': [], 'kernel_sources': [],
+                'competition_sources': [], 'model_sources': [], 'keywords': []}
+        router.check_metadata(meta, target)
+        for name, value in [('enable_internet', True), ('enable_gpu', True), ('is_private', False),
+                            ('id_no', 1), ('dataset_sources', ['bad']), ('kernel_sources', ['bad']),
+                            ('competition_sources', ['bad']), ('model_sources', ['bad'])]:
+            with self.assertRaises(router.RouterError):
+                router.check_metadata(dict(meta, **{name: value}), target)
+
+    def test_squares_history_accepts_only_verified_previous_id(self):
+        target = dict(router.TARGETS['squares-v8-diagnostic-rerun'])
+        target['hash'] = router.canonical(NB)[0]
+        nb = json.loads(json.dumps(NB))
+        previous = 'squares-diagnostic-20261031-a1'
+        history = ['receipt-probe-20261031-d5', previous]
+        nb['cells'].append({'cell_type': 'markdown', 'source': router.V2 + json.dumps(history, separators=(',', ':')) + '\n'})
+        req = {'id':'squares-diagnostic-20261031-a2','previous_id':previous,'kind':'squares-v8-diagnostic-rerun'}
+        self.assertEqual(router.check_request(req)['id'], target['id'])
+        prepared, digest, next_history = router.prepare(nb, req, target)
+        self.assertEqual(next_history, history + [req['id']])
+        self.assertEqual(digest, target['hash'])
+        self.assertIsNotNone(prepared)
+        with self.assertRaises(router.RouterError):
+            router.prepare(nb, dict(req, previous_id='receipt-probe-20261031-d5'), target)
+
+    def test_squares_dispatch_keeps_offline_and_checks_exact_version(self):
+        target = dict(router.TARGETS['squares-v8-diagnostic-rerun'])
+        target['hash'] = router.canonical(NB)[0]
+        previous = 'squares-diagnostic-20261031-a1'
+        req = {'id':'squares-diagnostic-20261031-a2','previous_id':previous,'kind':'squares-v8-diagnostic-rerun'}
+        nb = json.loads(json.dumps(NB))
+        nb['cells'].append({'cell_type':'markdown','source':router.V2+json.dumps([previous],separators=(',',':'))+'\n'})
+        meta = {'id':target['ref'],'id_no':target['id'],'title':target['title'],'is_private':True,
+                'language':'python','kernel_type':'notebook','enable_gpu':False,'enable_tpu':False,
+                'enable_internet':False,'code_file':'job.ipynb','dataset_sources':[],'kernel_sources':[],
+                'competition_sources':[],'model_sources':[],'keywords':[]}
+        class Fake:
+            def __init__(self): self.nb=nb; self.refs=[]
+            def kernels_status(self, ref):
+                self.refs.append(ref); return types.SimpleNamespace(status=types.SimpleNamespace(name='COMPLETE'))
+            def kernels_pull(self, ref, path, **kwargs):
+                p=pathlib.Path(path); (p/'kernel-metadata.json').write_text(json.dumps(meta),encoding='utf-8'); (p/'job.ipynb').write_text(json.dumps(self.nb),encoding='utf-8')
+            def kernels_push(self,path):
+                p=pathlib.Path(path);self.payload=json.loads((p/'kernel-metadata.json').read_text(encoding='utf-8')); self.nb=json.loads((p/'job.ipynb').read_text(encoding='utf-8'))
+                return receipt(ref='/code/'+target['ref'], kernel_id=target['id'], version_number=7)
+        fake=Fake()
+        with patch.dict(os.environ, {'GITHUB_RUN_ATTEMPT':'1'}), patch.dict(router.TARGETS,{req['kind']:target}):
+            self.assertEqual(router.run(fake,req,timeout_seconds=10,sleep=lambda _:None),7)
+        self.assertFalse(fake.payload['enable_internet'])
+        self.assertFalse(fake.payload['enable_gpu'])
+        self.assertIn(target['ref']+'/7',fake.refs)
+
     def test_initial_and_legacy_migration_retains_id(self):
         nb = json.loads(json.dumps(NB))
         nb['cells'].append({'cell_type': 'markdown', 'source': router.V1 + REQ['previous_id'] + '\n'})
@@ -110,7 +168,7 @@ class RouterTests(unittest.TestCase):
                 router.run(Never(), REQ)
 
     def test_known_targets_and_gpu_exact_metadata(self):
-        self.assertEqual(len(router.TARGETS), 6)
+        self.assertEqual(len(router.TARGETS), 7)
         for name, target in router.TARGETS.items():
             self.assertTrue(target['id'] > 0)
             self.assertTrue(target['ref'].startswith('sumuji/'))

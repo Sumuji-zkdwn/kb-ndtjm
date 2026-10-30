@@ -33,6 +33,9 @@ TARGETS = {
     "quartic-energy-rerun": {"ref": "sumuji/quartic-energy-kaggle", "id": 141793500,
                                "title": "quartic_energy_kaggle", "hash": "87b30495155ee6124593826cffdb1cc10ba4de957a006c1a70ab7250f05d3615",
                                "gpu": True, "models": [], "machine_shape": "NvidiaTeslaT4", "initial_gpu_transition": True},
+    "squares-v8-diagnostic-rerun": {"ref": "sumuji/dispatch-anchor-20261031-c9fa2c1d", "id": 141798233,
+                                    "title": "dispatch-anchor-20261031-c9fa2c1d", "hash": "09e737183d9e560fa989115e927077a3003598eea325d5c261e635c371d12c22",
+                                    "gpu": False, "models": [], "required_internet": False},
     "qwen25-rerun": {"ref": "sumuji/qwen25-7b-kaggle-smoke", "id": 141794310,
                      "title": "qwen25_7b_kaggle_smoke", "hash": "0b23c42fb4f289b6a2aa9f24a18a1a678570bbf19e132265d4dabd2d74999c46", "gpu": True,
                      "models": ["qwen-lm/qwen2.5/Transformers/7b-instruct/1"], "machine_shape": "NvidiaTeslaT4"},
@@ -86,6 +89,8 @@ def check_metadata(meta, target, notebook=None):
         raise RouterError("unexpected GPU machine shape")
     if type(meta.get("enable_internet")) is not bool:
         raise RouterError("internet setting missing")
+    if "required_internet" in target and meta.get("enable_internet") is not target["required_internet"]:
+        raise RouterError("unexpected internet setting")
     if not isinstance(meta.get("keywords"), list):
         raise RouterError("tag metadata unavailable")
 
