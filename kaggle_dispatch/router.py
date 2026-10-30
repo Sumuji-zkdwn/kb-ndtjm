@@ -13,6 +13,7 @@ import sys
 import tempfile
 import time
 from pathlib import Path
+from urllib.parse import urlsplit
 
 from owned_probe import canonical
 
@@ -135,6 +136,21 @@ def prepare(nb, req, target):
     return result, digest, ledger
 
 
+def trusted_receipt_ref(value, expected):
+    """Accept the exact ref or an exact, unadorned Kaggle URL for this ref."""
+    if value == expected:
+        return True
+    if not isinstance(value, str):
+        return False
+    try:
+        parsed = urlsplit(value)
+    except ValueError:
+        return False
+    return (parsed.scheme == "https" and parsed.netloc in {"kaggle.com", "www.kaggle.com"}
+            and not parsed.query and not parsed.fragment
+            and parsed.path in {"/" + expected, "/code/" + expected})
+
+
 def check_receipt(response, target):
     if response is None or getattr(response, "error", None):
         raise RouterError("push failed or response ambiguous")
@@ -142,7 +158,7 @@ def check_receipt(response, target):
         value = getattr(response, name, None)
         if not isinstance(value, list) or value:
             raise RouterError("push returned invalid or missing source diagnostics")
-    if getattr(response, "ref", None) != target["ref"] or getattr(response, "kernel_id", None) != target["id"]:
+    if not trusted_receipt_ref(getattr(response, "ref", None), target["ref"]) or getattr(response, "kernel_id", None) != target["id"]:
         raise RouterError("push response identity mismatch")
     number = getattr(response, "version_number", None)
     if type(number) is not int or number <= 0:

@@ -58,6 +58,14 @@ class RouterTests(unittest.TestCase):
 
     def test_receipt_checks_all_fields_and_identity(self):
         self.assertEqual(router.check_receipt(receipt(), T), 3)
+        for value in (f"https://www.kaggle.com/code/{T['ref']}", f"https://www.kaggle.com/{T['ref']}",
+                      f"https://kaggle.com/code/{T['ref']}"):
+            self.assertEqual(router.check_receipt(receipt(ref=value), T), 3)
+        for value in (f"https://evil.example/{T['ref']}", f"http://www.kaggle.com/code/{T['ref']}",
+                      f"https://www.kaggle.com@evil.example/code/{T['ref']}",
+                      f"https://www.kaggle.com/code/{T['ref']}?other=1", f"https://www.kaggle.com:443/code/{T['ref']}"):
+            with self.assertRaises(router.RouterError):
+                router.check_receipt(receipt(ref=value), T)
         for field in router.FIELDS:
             with self.assertRaises(router.RouterError):
                 router.check_receipt(receipt(**{field: ['bad']}), T)
