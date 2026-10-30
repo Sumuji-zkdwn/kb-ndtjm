@@ -168,7 +168,7 @@ class RouterTests(unittest.TestCase):
                 router.run(Never(), REQ)
 
     def test_known_targets_and_gpu_exact_metadata(self):
-        self.assertEqual(len(router.TARGETS), 7)
+        self.assertEqual(len(router.TARGETS), 8)
         for name, target in router.TARGETS.items():
             self.assertTrue(target['id'] > 0)
             self.assertTrue(target['ref'].startswith('sumuji/'))
@@ -184,6 +184,29 @@ class RouterTests(unittest.TestCase):
             with self.assertRaises(router.RouterError):
                 router.check_metadata(dict(meta, **{key: val}), q)
 
+
+    def test_phase_needle_private_offline_no_inputs(self):
+        q = router.TARGETS['phase-needle-rerun']
+        meta = {'id': q['ref'], 'id_no': q['id'], 'title': q['title'], 'is_private': True,
+                'language': 'python', 'kernel_type': 'notebook', 'enable_gpu': False,
+                'enable_internet': False, 'enable_tpu': False, 'machine_shape': 'None',
+                'dataset_sources': [], 'kernel_sources': [], 'competition_sources': [],
+                'model_sources': [], 'keywords': []}
+        router.check_metadata(meta, q)
+        for key, val in [('enable_internet', True), ('is_private', False), ('enable_gpu', True),
+                         ('dataset_sources', ['unexpected']), ('id_no', 999)]:
+            with self.assertRaises(router.RouterError):
+                router.check_metadata(dict(meta, **{key: val}), q)
+
+    def test_phase_needle_first_request_requires_no_prior_id(self):
+        q = dict(router.TARGETS['phase-needle-rerun'], hash=router.canonical(NB)[0])
+        req = {'kind': 'phase-needle-rerun', 'id': 'phase-needle-20261031-001', 'previous_id': 'none'}
+        prepared, digest, ledger = router.prepare(NB, req, q)
+        self.assertEqual(ledger, [req['id']])
+        self.assertEqual(digest, q['hash'])
+        self.assertEqual(router.source(prepared['cells'][-1]), router.V2 + '["phase-needle-20261031-001"]\n')
+        with self.assertRaises(router.RouterError):
+            router.prepare(NB, dict(req, previous_id='wrong-previous'), q)
 
     def test_quartic_initial_cpu_metadata_transition_only_without_marker(self):
         q = router.TARGETS['quartic-energy-rerun']
