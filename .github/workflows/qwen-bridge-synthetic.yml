@@ -1,0 +1,31 @@
+name: Test explicit Qwen bridge using synthetic input once
+on:
+  push:
+    branches: [codex/kaggle-dispatch-20261031]
+    paths: [qwen_local_bridge/synthetic-smoke-request.json]
+permissions:
+  contents: read
+concurrency:
+  group: bounded-kaggle-dispatch
+  queue: max
+jobs:
+  smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install kaggle==2.2.5 kagglesdk==0.1.38
+      - name: Send only synthetic test text to the existing private notebook
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: python -u qwen_local_bridge/synthetic_smoke.py
+      - name: Keep synthetic test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: qwen-bridge-synthetic-results
+          path: qwen_local_bridge/synthetic-output/
+          if-no-files-found: error
+          retention-days: 7
