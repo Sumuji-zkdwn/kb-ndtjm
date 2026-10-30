@@ -11,6 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 OWNER = "sumuji"
+KNOWN_PRIVATE_CONTROL = "sumuji/quartic-energy-kaggle"
 ALLOWED = {
     "synthetic-smoke": {"path": "notebooks/synthetic_smoke.ipynb", "gpu": False, "model_sources": []},
 }
@@ -74,6 +75,31 @@ def classify(code, out, err):
     return "existing"
 
 
+def diagnostic(code, out, err):
+    """Return only controlled labels, never remote output or credentials."""
+    data = (out + "\n" + err).lower()
+    state = classify(code, out, err)
+    if code == 0:
+        category = "accessible_" + state
+    elif "permission 'kernels.get' was denied" in data:
+        # CLI 2.2.5 maps BOTH 401 and 403 to the same ValueError, including
+        # nonexistent and inaccessible private notebooks. This is ambiguous.
+        category = "permission_or_missing_ambiguous"
+    elif re.search(r"\b401\b", data):
+        category = "http_401"
+    elif re.search(r"\b403\b", data):
+        category = "http_403"
+    elif re.search(r"\b404\b", data):
+        category = "http_404"
+    elif "authentication required" in data:
+        category = "authentication_required"
+    elif "timed out" in data or "timeout" in data:
+        category = "timeout"
+    else:
+        category = "other_error"
+    return {"return_code": code, "category": category}
+
+
 def main():
     req = json.loads((ROOT / "request.json").read_text(encoding="utf-8"))
     path, entry = validate(req)
@@ -81,10 +107,18 @@ def main():
         raise DispatchError("Kaggle credential is unavailable")
     meta = metadata(req, entry)
     ref = meta["id"]
+    reference_code, reference_out, reference_err = call(["kernels", "status", KNOWN_PRIVATE_CONTROL])
     code, out, err = call(["kernels", "status", ref])
     before = classify(code, out, err)
     print(json.dumps({"job_id": req["id"], "kind": req["kind"], "kernel": ref,
-                      "source_sha256": req["source_sha256"], "preflight": before}))
+                      "source_sha256": req["source_sha256"], "preflight": before,
+                      "known_private_control": diagnostic(reference_code, reference_out, reference_err),
+                      "target_diagnostic": diagnostic(code, out, err)}))
+    if os.environ.get("KAGGLE_DIAGNOSTIC_ONLY") == "1":
+        print("Diagnostic-only mode: no notebook upload attempted")
+        return
+    if reference_code != 0 or classify(reference_code, reference_out, reference_err) == "existing":
+        raise DispatchError("Known private control inaccessible or unrecognised; no upload attempted")
     if before == "unknown":
         raise DispatchError("Cannot establish absence; no upload attempted")
     if before != "absent":
