@@ -1,0 +1,21 @@
+name: Inspect saved Qwen template safely
+on:
+  push:
+    branches: [codex/kaggle-dispatch-20261031]
+    paths: [qwen_local_bridge/read-only-request.json]
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install kaggle==2.2.5 kagglesdk==0.1.38
+      - name: Read-only compare of saved private notebook
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: python -u qwen_local_bridge/inspect_saved.py
