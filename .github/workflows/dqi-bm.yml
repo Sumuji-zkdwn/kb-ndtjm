@@ -24,6 +24,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   gated:
@@ -41,6 +42,7 @@ jobs:
         run: |
           mkdir -p build/input build/report
           gh release download v1.0 --repo "$GITHUB_REPOSITORY" --pattern submission.zip --dir build/input
+          gh run download 40254656389 --repo "$GITHUB_REPOSITORY" --name dqi-bm-conservative-unscored --dir build/input/bm-verified
       - name: Baseline-only gate
         if: env.RUN_STAGE == 'baseline'
         run: python quantum/dqi_gate.py --stage baseline --baseline build/input/submission.zip --out build/report/baseline
@@ -63,15 +65,16 @@ jobs:
         id: generated
         if: env.RUN_STAGE != 'baseline'
         run: |
-          python research/bm_port/build_dqi.py --out build/bm-conservative
+          python research/bm_port/build_dqi.py --out build/bm-conservative --trace-allocations
           python research/bm_port/build_dqi.py --out build/bm-conservative --parse
+          python quantum/bm_scratch_audit.py --reference build/input/bm-verified/dqi.kmb --candidate build/bm-conservative/dqi.kmb --out build/report/scratch-correspondence.json
           echo 'ready=true' >> "$GITHUB_OUTPUT"
       - name: Candidate then smoke then full-package (or explicit NOT_RUN)
         if: steps.generated.outputs.ready == 'true'
         env:
           KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
         run: |
-          python quantum/run_wfs_gates.py --stage "$RUN_STAGE" --baseline build/input/submission.zip --candidate build/bm-conservative/dqi.kmb --full-batch-size 1024 --out build/report --fetch-official
+          python quantum/run_wfs_gates.py --stage "$RUN_STAGE" --baseline build/input/submission.zip --candidate build/bm-conservative/dqi.kmb --comparison build/input/bm-verified/dqi.kmb --full-batch-size 1024 --out build/report --fetch-official
       - name: Check deep BM history and variable masks
         if: steps.generated.outputs.ready == 'true' && (env.RUN_STAGE == 'smoke' || env.RUN_STAGE == 'full-package')
         run: |
@@ -96,6 +99,7 @@ jobs:
             build/report/**/*.json
             build/bm-conservative/generation.json
             build/bm-conservative/parse.json
+            build/bm-conservative/allocations.json
             build/bm-conservative/formal/*
             research/bm_port/provenance.json
           if-no-files-found: warn
