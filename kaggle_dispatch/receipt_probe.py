@@ -5,6 +5,7 @@ Never prints the source, raw service response, user inputs, or credentials.
 import json
 import os
 import pathlib
+import re
 import sys
 import tempfile
 import time
@@ -21,7 +22,7 @@ TARGET = {
     "gpu": False,
     "models": [],
 }
-REQ = {"id": "receipt-probe-20261031-d4", "previous_id": "receipt-probe-20261031-d3", "kind": "diagnostic"}
+REQ = {"id": "receipt-probe-20261031-d5", "previous_id": "receipt-probe-20261031-d4", "kind": "diagnostic"}
 
 
 def category(response):
@@ -33,9 +34,15 @@ def category(response):
         v = getattr(response, f, None)
         fields[f] = "empty" if isinstance(v, list) and not v else "nonempty" if isinstance(v, list) else "missing_or_other"
     public_synthetic_ref = "redacted"
+    public_synthetic_prefix = "redacted"
     if isinstance(ref, str):
         try:
             parsed = urlsplit(ref)
+            if ref.endswith("/" + TARGET["ref"]):
+                prefix = ref[:-len(TARGET["ref"])]
+                # Only non-secret, URI-like ASCII characters in a short prefix.
+                if re.fullmatch(r"[A-Za-z0-9:./_-]{1,80}", prefix):
+                    public_synthetic_prefix = prefix
             # This one dedicated non-personal test identifier may be logged only
             # with a verified Kaggle origin and a simple path, never query/fragment.
             if (parsed.scheme == "https" and parsed.netloc in {"www.kaggle.com", "kaggle.com"}
@@ -48,8 +55,9 @@ def category(response):
         "error_present": bool(getattr(response, "error", None)),
         "ref_category": "exact" if ref == TARGET["ref"] else "empty" if ref in (None, "") else "url_form" if isinstance(ref, str) and ref.rstrip("/").endswith("/" + TARGET["ref"]) else "other",
         "kernel_id_category": "exact" if ident == TARGET["id"] else "zero_or_missing" if ident in (0, None) else "other",
-        "version_category": "four" if type(version) is int and version == 4 else "positive_other" if type(version) is int and version > 0 else "invalid",
+        "version_category": "five" if type(version) is int and version == 5 else "positive_other" if type(version) is int and version > 0 else "invalid",
         "synthetic_ref_if_safe": public_synthetic_ref,
+        "synthetic_ref_prefix_if_safe": public_synthetic_prefix,
         "invalid_fields": fields,
     }
 
@@ -83,19 +91,19 @@ def run(api):
         response = router.quiet_call(api.kernels_push, str(path))
     info = category(response)
     print(json.dumps(info, sort_keys=True))
-    # Probe only its own expected next v4; never blindly retry even on errors.
-    if info["error_present"] or info["version_category"] != "four" or any(v != "empty" for v in info["invalid_fields"].values()):
+    # Probe only its own expected next v5; never blindly retry even on errors.
+    if info["error_present"] or info["version_category"] != "five" or any(v != "empty" for v in info["invalid_fields"].values()):
         raise router.RouterError("response ambiguous; inspect anchor before any retry")
     deadline = time.monotonic() + 300
-    ref = TARGET["ref"] + "/4"
+    ref = TARGET["ref"] + "/5"
     while time.monotonic() < deadline:
         status = router.state(api, ref)
         if status == "COMPLETE":
             _, nb = router.pull(api, TARGET, ref)
             after, _, ledger = router.prepare(nb, REQ, TARGET)
-            if after is not None or ledger != [REQ["previous_id"], REQ["id"]]:
+            if after is not None or ledger != history:
                 raise router.RouterError("completed anchor source or marker mismatch")
-            print(json.dumps({"version": 4, "version_specific_status": status, "marker_verified": True}))
+            print(json.dumps({"version": 5, "version_specific_status": status, "marker_verified": True}))
             return
         if status in {"ERROR", "CANCEL_REQUESTED", "CANCEL_ACKNOWLEDGED"}:
             raise router.RouterError("probe execution failed")
