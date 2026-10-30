@@ -18,8 +18,8 @@ ROOT = Path(__file__).resolve().parent
 DATASET = 'sumuji/qwen-batch-synthetic-20261031'
 KERNEL = 'sumuji/qwen-batch-private-pilot-20261031'
 MODEL = 'qwen-lm/qwen2.5/Transformers/7b-instruct/1'
-INPUT_HASH = '24806ad464a156e9de2fd0ba66ed795b43d62b9ca047107ed60c2520ef80f45c'
-CODE_HASH = 'f79cafb1b820c64df9beda417720bcc3c494428b1e17462571624d0f5c3fd3e2'
+INPUT_HASH = '5e4b578056dbe80f626a82c1581c9d6b4bfb5e044ed7d375b52206ff01d8b3f0'
+CODE_HASH = 'b3611038038da721610d9f919f98cf9b732e8c8724b125f204b5e2fda56d231d'
 
 
 class PilotError(Exception):
