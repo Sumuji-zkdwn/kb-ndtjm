@@ -138,7 +138,7 @@ def prepare(nb, req, target):
 
 def trusted_receipt_ref(value, expected):
     """Accept the exact ref or an exact, unadorned Kaggle URL for this ref."""
-    if value == expected:
+    if value in {expected, "/code/" + expected}:
         return True
     if not isinstance(value, str):
         return False
@@ -151,6 +151,42 @@ def trusted_receipt_ref(value, expected):
             and parsed.path in {"/" + expected, "/code/" + expected})
 
 
+def receipt_identity_categories(response, target):
+    """Return only fixed labels, never network data, for post-push diagnosis."""
+    ref = getattr(response, "ref", None)
+    ident = getattr(response, "kernel_id", None)
+    if trusted_receipt_ref(ref, target["ref"]):
+        ref_kind = "trusted_exact"
+    elif ref in (None, ""):
+        ref_kind = "missing"
+    elif isinstance(ref, str):
+        try:
+            parsed = urlsplit(ref)
+            host = parsed.netloc in {"www.kaggle.com", "kaggle.com"} and parsed.scheme == "https"
+            path = parsed.path.rstrip("/") in {"/" + target["ref"], "/code/" + target["ref"]}
+            if host and path and parsed.query:
+                ref_kind = "kaggle_exact_path_with_query"
+            elif host and path and parsed.fragment:
+                ref_kind = "kaggle_exact_path_with_fragment"
+            elif host and path:
+                ref_kind = "kaggle_exact_path_with_trailing_slash"
+            elif host:
+                ref_kind = "other_kaggle_url"
+            else:
+                ref_kind = "other_nonempty"
+        except ValueError:
+            ref_kind = "invalid_url"
+    else:
+        ref_kind = "other_type"
+    if type(ident) is int and ident == target["id"]:
+        ident_kind = "exact"
+    elif ident in (0, None):
+        ident_kind = "zero_or_missing"
+    else:
+        ident_kind = "other"
+    return {"ref_category": ref_kind, "kernel_id_category": ident_kind}
+
+
 def check_receipt(response, target):
     if response is None or getattr(response, "error", None):
         raise RouterError("push failed or response ambiguous")
@@ -159,6 +195,7 @@ def check_receipt(response, target):
         if not isinstance(value, list) or value:
             raise RouterError("push returned invalid or missing source diagnostics")
     if not trusted_receipt_ref(getattr(response, "ref", None), target["ref"]) or getattr(response, "kernel_id", None) != target["id"]:
+        print(json.dumps({"receipt_identity_diagnostic": receipt_identity_categories(response, target)}))
         raise RouterError("push response identity mismatch")
     number = getattr(response, "version_number", None)
     if type(number) is not int or number <= 0:

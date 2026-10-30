@@ -58,10 +58,11 @@ class RouterTests(unittest.TestCase):
 
     def test_receipt_checks_all_fields_and_identity(self):
         self.assertEqual(router.check_receipt(receipt(), T), 3)
-        for value in (f"https://www.kaggle.com/code/{T['ref']}", f"https://www.kaggle.com/{T['ref']}",
+        for value in (f"/code/{T['ref']}", f"https://www.kaggle.com/code/{T['ref']}", f"https://www.kaggle.com/{T['ref']}",
                       f"https://kaggle.com/code/{T['ref']}"):
             self.assertEqual(router.check_receipt(receipt(ref=value), T), 3)
-        for value in (f"https://evil.example/{T['ref']}", f"http://www.kaggle.com/code/{T['ref']}",
+        for value in (f"/code/{T['ref']}?foo=bar", f"/code/{T['ref']}/more", f"//code/{T['ref']}",
+                      f"https://evil.example/{T['ref']}", f"http://www.kaggle.com/code/{T['ref']}",
                       f"https://www.kaggle.com@evil.example/code/{T['ref']}",
                       f"https://www.kaggle.com/code/{T['ref']}?other=1", f"https://www.kaggle.com:443/code/{T['ref']}"):
             with self.assertRaises(router.RouterError):
@@ -74,6 +75,11 @@ class RouterTests(unittest.TestCase):
         for changes in ({'error': 'bad'}, {'kernel_id': 0}, {'ref': 'wrong'}, {'version_number': 0}):
             with self.assertRaises(router.RouterError):
                 router.check_receipt(receipt(**changes), T)
+
+    def test_identity_diagnostic_is_categorical_only(self):
+        got = router.receipt_identity_categories(receipt(ref=f"https://www.kaggle.com/code/{T['ref']}?x=secret", kernel_id=0), T)
+        self.assertEqual(got, {'ref_category': 'kaggle_exact_path_with_query', 'kernel_id_category': 'zero_or_missing'})
+        self.assertNotIn('secret', json.dumps(got))
 
     def test_private_identity_and_no_competition(self):
         m = {'id': T['ref'], 'id_no': T['id'], 'title': T['title'], 'is_private': True,
