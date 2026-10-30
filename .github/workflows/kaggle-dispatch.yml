@@ -1,4 +1,4 @@
-name: Read-only private Kaggle notebook diagnostics
+name: Execute registered private Kaggle research notebook
 
 on:
   push:
@@ -12,7 +12,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  diagnostics:
+  research:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -20,10 +20,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Test read-only diagnostic
-        run: python -m unittest discover -s kaggle_dispatch -p test_owned_probe.py -v
+      - name: Test dispatch protections without credentials
+        run: python -m unittest discover -s kaggle_dispatch -p test_research_run.py -v
       - run: python -m pip install kaggle==2.2.5 kagglesdk==0.1.38
-      - name: Read metadata and cell fingerprints without source or output
+      - name: Run one registered notebook as a new private Kaggle version
         env:
           KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
-        run: python -u kaggle_dispatch/owned_probe.py
+        run: python -u kaggle_dispatch/research_run.py
