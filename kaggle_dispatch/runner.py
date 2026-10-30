@@ -16,6 +16,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 ANCHOR = "sumuji/dispatch-anchor-20261031-c9fa2c1d"
 ANCHOR_TITLE = "dispatch-anchor-20261031-c9fa2c1d"
+ANCHOR_ID = 141798233
 SENTINEL = ('# Anchor sentinel KA-DISPATCH-ANCHOR-20261031-C9FA2C1D\n'
             'print("Synthetic anchor only; not research data")\n')
 NOTEBOOK = ROOT / 'notebooks' / 'synthetic_smoke.ipynb'
@@ -48,8 +49,8 @@ def validate_anchor(metadata, notebook):
     if metadata.get('id') != ANCHOR or metadata.get('is_private') is not True:
         raise PilotError('Anchor identity or privacy mismatch')
     anchor_id = metadata.get('id_no')
-    if type(anchor_id) is not int or anchor_id <= 0:
-        raise PilotError('Anchor numeric identity missing')
+    if type(anchor_id) is not int or anchor_id != ANCHOR_ID:
+        raise PilotError('Anchor numeric identity mismatch')
     if metadata.get('title') != ANCHOR_TITLE:
         raise PilotError('Anchor title mismatch')
     if metadata.get('language') != 'python' or metadata.get('kernel_type') != 'notebook':

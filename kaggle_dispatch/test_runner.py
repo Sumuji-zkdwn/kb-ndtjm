@@ -11,16 +11,16 @@ r = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(r)
 REQUEST = json.loads((HERE / 'request.json').read_text(encoding='utf-8'))
 ANCHOR_NB = {'nbformat': 4, 'cells': [{'cell_type': 'code', 'source': r.SENTINEL}]}
-META = {'id': r.ANCHOR, 'id_no': 123, 'title': r.ANCHOR_TITLE, 'is_private': True,
+META = {'id': r.ANCHOR, 'id_no': r.ANCHOR_ID, 'title': r.ANCHOR_TITLE, 'is_private': True,
         'language': 'python', 'kernel_type': 'notebook', 'dataset_sources': [],
         'kernel_sources': [], 'competition_sources': [], 'model_sources': []}
 
 
 class AnchorTests(unittest.TestCase):
     def test_sentinel_and_metadata(self):
-        self.assertEqual(r.validate_anchor(META, ANCHOR_NB), 123)
+        self.assertEqual(r.validate_anchor(META, ANCHOR_NB), r.ANCHOR_ID)
         self.assertEqual(r.validate_anchor(META, {'nbformat': 4, 'cells': [
-            {'cell_type': 'code', 'source': r.SENTINEL.splitlines(keepends=True)}]}), 123)
+            {'cell_type': 'code', 'source': r.SENTINEL.splitlines(keepends=True)}]}), r.ANCHOR_ID)
 
     def test_reject_wrong_identity_privacy_and_inputs(self):
         for bad in ({**META, 'id': 'sumuji/existing'}, {**META, 'id_no': 0},
@@ -56,14 +56,14 @@ class AnchorTests(unittest.TestCase):
     def test_diagnostic_mode_never_pushes(self):
         with patch.dict(os.environ, {'KAGGLE_API_TOKEN': 'TEST_ONLY', 'KAGGLE_DIAGNOSTIC_ONLY': '1'}), \
              patch.object(r, 'call', return_value=(0, 'status "COMPLETE"', '')) as fake, \
-             patch.object(r, 'pull_anchor', return_value=123):
+             patch.object(r, 'pull_anchor', return_value=r.ANCHOR_ID):
             r.main()
             self.assertEqual(fake.call_count, 1)
 
     def test_changed_anchor_between_preflights_blocks_push(self):
         with patch.dict(os.environ, {'KAGGLE_API_TOKEN': 'TEST_ONLY'}, clear=True), \
              patch.object(r, 'call', return_value=(0, 'status "COMPLETE"', '')) as fake, \
-             patch.object(r, 'pull_anchor', side_effect=[123, r.PilotError('changed')]):
+             patch.object(r, 'pull_anchor', side_effect=[r.ANCHOR_ID, r.PilotError('changed')]):
             with self.assertRaises(r.PilotError):
                 r.main()
             self.assertEqual(fake.call_count, 1)
@@ -74,7 +74,7 @@ class AnchorTests(unittest.TestCase):
             calls.append(args[1])
             if args[1] == 'push':
                 meta = json.loads((Path(args[-1]) / 'kernel-metadata.json').read_text(encoding='utf-8'))
-                self.assertEqual(meta['id_no'], 123)
+                self.assertEqual(meta['id_no'], r.ANCHOR_ID)
                 self.assertTrue(meta['is_private'])
                 self.assertEqual(meta['competition_sources'], [])
                 self.assertFalse(meta['enable_internet'])
@@ -82,7 +82,7 @@ class AnchorTests(unittest.TestCase):
             return (0, 'status "COMPLETE"', '')
         with patch.dict(os.environ, {'KAGGLE_API_TOKEN': 'TEST_ONLY'}, clear=True), \
              patch.object(r, 'call', side_effect=fake_call), \
-             patch.object(r, 'pull_anchor', return_value=123):
+             patch.object(r, 'pull_anchor', return_value=r.ANCHOR_ID):
             r.main()
         self.assertEqual(calls, ['status', 'status', 'push'])
 
@@ -90,7 +90,7 @@ class AnchorTests(unittest.TestCase):
         def fake_call(args, **kwargs):
             return (0, 'Kernel push error: redacted', '') if args[1] == 'push' else (0, 'status "COMPLETE"', '')
         with patch.dict(os.environ, {'KAGGLE_API_TOKEN': 'TEST_ONLY'}, clear=True), \
-             patch.object(r, 'call', side_effect=fake_call), patch.object(r, 'pull_anchor', return_value=123):
+             patch.object(r, 'call', side_effect=fake_call), patch.object(r, 'pull_anchor', return_value=r.ANCHOR_ID):
             with self.assertRaisesRegex(r.PilotError, 'No unambiguous'):
                 r.main()
 
@@ -100,7 +100,7 @@ class AnchorTests(unittest.TestCase):
             calls.append(args[1])
             return (1, '', 'HTTP error') if args[1] == 'push' else (0, 'status "COMPLETE"', '')
         with patch.dict(os.environ, {'KAGGLE_API_TOKEN': 'TEST_ONLY'}, clear=True), \
-             patch.object(r, 'call', side_effect=fake_call), patch.object(r, 'pull_anchor', return_value=123):
+             patch.object(r, 'call', side_effect=fake_call), patch.object(r, 'pull_anchor', return_value=r.ANCHOR_ID):
             with self.assertRaisesRegex(r.PilotError, 'uncertain'):
                 r.main()
         self.assertEqual(calls, ['status', 'status', 'push'])
