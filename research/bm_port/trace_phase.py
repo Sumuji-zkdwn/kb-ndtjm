@@ -139,16 +139,20 @@ class TracePhase:
         emit(self.erase)
 
 
-def forney_trace(b,v,sigma,omega,google,formal,clean_scratch=(),nested=False):
+def forney_trace(b,v,sigma,omega,google,formal,clean_scratch=(),nested=False,scalar=False):
     from build_dqi import forney_workspace,linear_schedule,rows_of
-    if nested:
+    if nested and scalar:raise ValueError('select one trace implementation')
+    if scalar:
+        from trace_phase5 import TracePhase5 as Phase
+        from trace_phase5_probe import verify
+    elif nested:
         from trace_phase3 import TracePhase3 as Phase
         from trace_phase3_probe import verify
     else:
         Phase=TracePhase
         from trace_phase_probe import verify
     p=Phase();proof=verify(p)
-    (formal/('trace-phase3-report.json' if nested else 'trace-phase-report.json')).write_text(json.dumps(proof,indent=2)+'\n')
+    (formal/('trace-phase5-report.json' if scalar else 'trace-phase3-report.json' if nested else 'trace-phase-report.json')).write_text(json.dumps(proof,indent=2)+'\n')
     steps=[]
     for k,reg in list(enumerate(sigma[1:],1))+list(enumerate(omega,1)):
         factor=google.pow(google.gen,(-k)%4095)
