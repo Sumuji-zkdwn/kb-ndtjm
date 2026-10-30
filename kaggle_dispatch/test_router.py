@@ -110,7 +110,7 @@ class RouterTests(unittest.TestCase):
                 router.run(Never(), REQ)
 
     def test_known_targets_and_gpu_exact_metadata(self):
-        self.assertEqual(len(router.TARGETS), 5)
+        self.assertEqual(len(router.TARGETS), 6)
         for name, target in router.TARGETS.items():
             self.assertTrue(target['id'] > 0)
             self.assertTrue(target['ref'].startswith('sumuji/'))
@@ -125,6 +125,57 @@ class RouterTests(unittest.TestCase):
                          ('model_sources', ['qwen-lm/qwen2.5/transformers/7b-instruct/1'])]:
             with self.assertRaises(router.RouterError):
                 router.check_metadata(dict(meta, **{key: val}), q)
+
+
+    def test_quartic_initial_cpu_metadata_transition_only_without_marker(self):
+        q = router.TARGETS['quartic-energy-rerun']
+        meta = {'id': q['ref'], 'id_no': q['id'], 'title': q['title'], 'is_private': True,
+                'language': 'python', 'kernel_type': 'notebook', 'enable_gpu': False,
+                'enable_internet': True, 'enable_tpu': False, 'machine_shape': 'None',
+                'dataset_sources': [], 'kernel_sources': [], 'competition_sources': [],
+                'model_sources': [], 'keywords': []}
+        router.check_metadata(meta, q, NB)
+        marked = json.loads(json.dumps(NB))
+        marked['cells'].append({'cell_type': 'markdown', 'source': router.V2 + '["quartic-test-001"]\n'})
+        with self.assertRaises(router.RouterError):
+            router.check_metadata(meta, q, marked)
+        for key,val in [('machine_shape','unexpected'), ('enable_gpu',None), ('model_sources',['bad'])]:
+            with self.assertRaises(router.RouterError):
+                router.check_metadata(dict(meta, **{key: val}), q, NB)
+        transitioned = dict(meta, enable_gpu=True, machine_shape='NvidiaTeslaT4')
+        router.check_metadata(transitioned, q, marked)
+
+
+    def test_quartic_transition_pushes_gpu_and_checks_finished_version(self):
+        target = dict(router.TARGETS['quartic-energy-rerun'])
+        target['hash'] = router.canonical(NB)[0]
+        req = {'kind': 'quartic-energy-rerun', 'id': 'quartic-20261031-001', 'previous_id': 'none'}
+        meta = {'id': target['ref'], 'id_no': target['id'], 'title': target['title'], 'is_private': True,
+                'language': 'python', 'kernel_type': 'notebook', 'enable_gpu': False,
+                'enable_tpu': False, 'enable_internet': True, 'code_file': 'job.ipynb',
+                'machine_shape': 'None', 'dataset_sources': [], 'kernel_sources': [],
+                'competition_sources': [], 'model_sources': [], 'keywords': []}
+        class Fake:
+            def __init__(self):
+                self.nb = json.loads(json.dumps(NB)); self.meta = dict(meta); self.refs=[]
+            def kernels_status(self, ref):
+                self.refs.append(ref); return types.SimpleNamespace(status=types.SimpleNamespace(name='COMPLETE'))
+            def kernels_pull(self, ref, path, **kwargs):
+                root = pathlib.Path(path)
+                (root / 'kernel-metadata.json').write_text(json.dumps(self.meta), encoding='utf-8')
+                (root / 'job.ipynb').write_text(json.dumps(self.nb), encoding='utf-8')
+            def kernels_push(self, path):
+                root = pathlib.Path(path)
+                self.nb = json.loads((root / 'job.ipynb').read_text(encoding='utf-8'))
+                self.payload = json.loads((root / 'kernel-metadata.json').read_text(encoding='utf-8'))
+                self.meta.update(enable_gpu=self.payload['enable_gpu'], machine_shape=self.payload['machine_shape'])
+                return receipt(ref='/code/'+target['ref'], kernel_id=target['id'], version_number=2)
+        fake = Fake()
+        with patch.dict(os.environ, {'GITHUB_RUN_ATTEMPT': '1'}), patch.dict(router.TARGETS, {req['kind']: target}):
+            self.assertEqual(router.run(fake, req, timeout_seconds=10, sleep=lambda _: None), 2)
+        self.assertIs(fake.payload['enable_gpu'], True)
+        self.assertEqual(fake.payload['machine_shape'], 'NvidiaTeslaT4')
+        self.assertIn(target['ref'] + '/2', fake.refs)
 
     def test_check_specific_version_and_sdk_response(self):
         nb = json.loads(json.dumps(NB))

@@ -30,6 +30,9 @@ TARGETS = {
                           "title": "arc3_memory_regression_kaggle", "hash": "10f3c5139969a56a7a688092e60c38b72be53c3c23d91b805978a41ed855990e", "gpu": False, "models": []},
     "tbp-forest-rerun": {"ref": "sumuji/research-models-tbp-forest-kaggle", "id": 141798383,
                          "title": "research_models_tbp_forest_kaggle", "hash": "f69df62dc526be37a650db8f395dcdd60eeeb400d6f0dff7f702b462c5720ee5", "gpu": False, "models": []},
+    "quartic-energy-rerun": {"ref": "sumuji/quartic-energy-kaggle", "id": 141793500,
+                               "title": "quartic_energy_kaggle", "hash": "87b30495155ee6124593826cffdb1cc10ba4de957a006c1a70ab7250f05d3615",
+                               "gpu": True, "models": [], "machine_shape": "NvidiaTeslaT4", "initial_gpu_transition": True},
     "qwen25-rerun": {"ref": "sumuji/qwen25-7b-kaggle-smoke", "id": 141794310,
                      "title": "qwen25_7b_kaggle_smoke", "hash": "0b23c42fb4f289b6a2aa9f24a18a1a678570bbf19e132265d4dabd2d74999c46", "gpu": True,
                      "models": ["qwen-lm/qwen2.5/Transformers/7b-instruct/1"], "machine_shape": "NvidiaTeslaT4"},
@@ -57,20 +60,29 @@ def check_request(req):
     return TARGETS[req["kind"]]
 
 
-def check_metadata(meta, target):
+def check_metadata(meta, target, notebook=None):
     if (meta.get("id") != target["ref"] or meta.get("id_no") != target["id"]
         or meta.get("is_private") is not True or meta.get("title") != target["title"]):
         raise RouterError("notebook identity or privacy mismatch")
     if meta.get("language") != "python" or meta.get("kernel_type") != "notebook":
         raise RouterError("unexpected notebook type")
-    if meta.get("enable_gpu") is not target["gpu"] or meta.get("enable_tpu") not in (False, None):
+    # Existing version used T4; initial pull metadata reports CPU/None.
+    # Allow this exact state only before a dispatch marker, then explicitly
+    # request T4. Subsequent and completed versions must report target GPU.
+    initial_transition = (target.get("initial_gpu_transition") is True
+                          and meta.get("enable_gpu") is False
+                          and meta.get("machine_shape") == "None"
+                          and isinstance(notebook, dict)
+                          and isinstance(notebook.get("cells"), list)
+                          and all(not source(c).startswith((V1, V2)) for c in notebook["cells"]))
+    if (meta.get("enable_gpu") is not target["gpu"] and not initial_transition) or meta.get("enable_tpu") not in (False, None):
         raise RouterError("unexpected accelerator")
     for field in ("dataset_sources", "kernel_sources", "competition_sources"):
         if meta.get(field) != []:
             raise RouterError("unexpected source input")
     if meta.get("model_sources") != target["models"]:
         raise RouterError("unexpected model input")
-    if target["gpu"] and meta.get("machine_shape") != target["machine_shape"]:
+    if target["gpu"] and not initial_transition and meta.get("machine_shape") != target["machine_shape"]:
         raise RouterError("unexpected GPU machine shape")
     if type(meta.get("enable_internet")) is not bool:
         raise RouterError("internet setting missing")
@@ -213,14 +225,15 @@ def pull(api, target, ref=None):
         quiet_call(api.kernels_pull, ref or target["ref"], tmp, metadata=True, quiet=True)
         p = Path(tmp)
         meta = json.loads((p / "kernel-metadata.json").read_text(encoding="utf-8"))
-        check_metadata(meta, target)
         filename = meta.get("code_file")
         if not isinstance(filename, str) or Path(filename).name != filename:
             raise RouterError("unexpected filename")
         nb_path = p / filename
         if nb_path.stat().st_size > 2_000_000:
             raise RouterError("notebook too large")
-        return meta, json.loads(nb_path.read_text(encoding="utf-8"))
+        notebook = json.loads(nb_path.read_text(encoding="utf-8"))
+        check_metadata(meta, target, notebook)
+        return meta, notebook
 
 
 def state(api, ref):
