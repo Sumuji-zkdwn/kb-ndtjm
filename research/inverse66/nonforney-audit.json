@@ -1,0 +1,105 @@
+{
+  "status": "PASS",
+  "baseline_sha256": "959471d05a26373b4f14ca0cae2d8639ea25f18170d9f6532139aa51ccc04995",
+  "forney_reference_sha256": "ea0d6717e7b37fb386a0d99730eebf150c0e78de1cc8547f0727c2f6845a99bc",
+  "baseline_nested_tags": {
+    "tags": 3257126,
+    "max_depth": 9,
+    "balanced": true,
+    "inverse_ancestry_counts": [
+      {
+        "path": [
+          "chien_forney_mbuc",
+          "forney_step"
+        ],
+        "count": 4095
+      },
+      {
+        "path": [
+          "forward_eea",
+          "eea_step",
+          "multiply_and_add_or_sub",
+          "quotient_div",
+          "gf_div"
+        ],
+        "count": 444
+      },
+      {
+        "path": [
+          "reverse_eea",
+          "eea_step",
+          "multiply_and_add_or_sub",
+          "quotient_div",
+          "gf_div"
+        ],
+        "count": 444
+      }
+    ]
+  },
+  "reference_nested_tags": {
+    "tags": 2495456,
+    "max_depth": 9,
+    "balanced": true,
+    "inverse_ancestry_counts": [
+      {
+        "path": [
+          "chien_forney_mbuc",
+          "forney_step"
+        ],
+        "count": 4095
+      },
+      {
+        "path": [
+          "forward_eea",
+          "eea_step",
+          "multiply_and_add_or_sub",
+          "quotient_div",
+          "gf_div"
+        ],
+        "count": 444
+      },
+      {
+        "path": [
+          "reverse_eea",
+          "eea_step",
+          "multiply_and_add_or_sub",
+          "quotient_div",
+          "gf_div"
+        ],
+        "count": 444
+      }
+    ]
+  },
+  "inverse_partition": {
+    "quotient_div": 888,
+    "forney_step": 4095
+  },
+  "paired_forward_erase_regions": 4983,
+  "nonforney_by_stage": {
+    "forward_eea": 444,
+    "reverse_eea": 444
+  },
+  "all_888_actual_operand_templates": "PASS",
+  "template_variants": {
+    "fresh_parity": 1,
+    "reused_parity": 887
+  },
+  "all_888_measurement_liveness": "PASS",
+  "old_caller_scaffold_access_count_histogram": {
+    "0": 888
+  },
+  "classification_counts": {
+    "retained_66_plus_0_with_rebuilt_quotient": 888,
+    "requires_66_plus_66": 0,
+    "unsupported": 0
+  },
+  "isolated_inverse_only_drop_in": "NOT_CERTIFIED by phase-only Forney contract: caller temporarily writes inverse output 84 times. Dirty scaffold is offered by source but no scaffold wire is accessed in these 888 actual callers. Composite quotient proof is used.",
+  "complete_quotient_toffoli": {
+    "old": 390,
+    "retained": 141,
+    "clean_twice_alternative_unimplemented": 207
+  },
+  "static_additional_saving": 221112,
+  "all_site_static_toffoli": 4484694,
+  "kaggle_submission": "NOT_RUN"
+}
