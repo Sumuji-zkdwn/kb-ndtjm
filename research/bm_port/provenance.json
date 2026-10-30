@@ -1,0 +1,67 @@
+{
+  "repository": "andigu/uncompute",
+  "commit": "64b5a13aa249f1360846657392e6c66817b26d0f",
+  "license": "Apache-2.0",
+  "files": [
+    {
+      "local_path": "vendor/circuit.py",
+      "upstream_path": "tasks/dqi-reed-solomon/circuits/discovered/circuit.py",
+      "upstream_git_blob_sha": "56f5f5acf08b71aa2ae14e75259fe12fb18f7bb4",
+      "sha256": "d5f7dd55915e3426ab87ec75da5b76a37123cb996cd750f46ecd74be17a5ec30"
+    },
+    {
+      "local_path": "vendor/README.md",
+      "upstream_path": "tasks/dqi-reed-solomon/circuits/discovered/README.md",
+      "upstream_git_blob_sha": "76f74143068a063dc908b53d58a3e9b636bb89e2",
+      "sha256": "3ac2a30edad07bb01cfd21e5ff474b47e262031fa871e30b31be4e01e1118aa7"
+    },
+    {
+      "local_path": "vendor/constants.json",
+      "upstream_path": "tasks/dqi-reed-solomon/circuits/discovered/constants.json",
+      "upstream_git_blob_sha": "31512e1eaa4f897ca9a69765dc43088487de2337",
+      "sha256": "b5e93915f5636cf084456e2ede7cad3f195ddc869c4a4c9942aa98b8a58cc12e"
+    },
+    {
+      "local_path": "vendor/contract.json",
+      "upstream_path": "tasks/dqi-reed-solomon/contract.json",
+      "upstream_git_blob_sha": "14cc99e324245b12219d8622e04379b915c60717",
+      "sha256": "c2a257b333527bf8dabde3a3d2ec0464f0a3439efac9f1e8d2811659bc3bcf42"
+    },
+    {
+      "local_path": "vendor/LICENSE",
+      "upstream_path": "LICENSE",
+      "upstream_git_blob_sha": "d645695673349e3947e8e5ae42332d0ac3164cd7",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "local_path": "LICENSE-APACHE-2.0.txt",
+      "upstream_path": "LICENSE",
+      "upstream_git_blob_sha": "d645695673349e3947e8e5ae42332d0ac3164cd7",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "local_path": "uncompute/bennett.py",
+      "upstream_path": "uncompute/bennett.py",
+      "upstream_git_blob_sha": "4349ad6b2848c1ba2af238d1c5583a0541978f79",
+      "sha256": "d82a243a2c183cd7ace211d13804445fcde0ff5213b6908247053035201c8570"
+    },
+    {
+      "local_path": "uncompute/classical.py",
+      "upstream_path": "uncompute/classical.py",
+      "upstream_git_blob_sha": "de8ff81f0de00d4cb89a8dc8dce613a11ce5838c",
+      "sha256": "c05c9e7a84a69e3ad0590b972642dcb30c2c29ca2613a821c82d09d53556ba62"
+    },
+    {
+      "local_path": "uncompute/gadgets/linear.py",
+      "upstream_path": "uncompute/gadgets/linear.py",
+      "upstream_git_blob_sha": "aabd76dfea24a4b707f0aed8c85da7b8a15a8a01",
+      "sha256": "d0b89d494ae63ec28e8bac6f33b344c11aaaab378d0cec81683b1a5743ed25d3"
+    },
+    {
+      "local_path": "uncompute/gadgets/wires.py",
+      "upstream_path": "uncompute/gadgets/wires.py",
+      "upstream_git_blob_sha": "57dba67bbf5ce2ec6876ee61842fb3dc22ef3148",
+      "sha256": "4c0e7a979e884ee1d5c3ef2e74100868348b0dd212212df3ad72c3d60d0f9aa3"
+    }
+  ]
+}

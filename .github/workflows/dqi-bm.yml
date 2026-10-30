@@ -1,0 +1,118 @@
+name: DQI conservative BM staged validation (no submissions)
+
+on:
+  push:
+    branches: ['wfs/dqi-bm-*']
+    paths:
+      - '.github/workflows/dqi-bm.yml'
+      - 'research/bm_port/**'
+      - 'quantum/bm_edge_verify.py'
+      - 'quantum/test_bm_port.py'
+      - 'quantum/dqi_gate.py'
+      - 'quantum/run_wfs_gates.py'
+      - 'quantum/test_dqi_gate.py'
+      - 'quantum/wfs_mobile_ci.py'
+      - 'research/inverse66/**'
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: 'Offline verification only; no Kaggle submissions'
+        type: choice
+        required: true
+        default: full-package
+        options: [baseline, candidate, smoke, full-package]
+
+permissions:
+  contents: read
+
+jobs:
+  gated:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    env:
+      RUN_STAGE: ${{ inputs.stage || 'full-package' }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Download preserved v1.0 reference ZIP
+        run: |
+          mkdir -p build/input build/report
+          gh release download v1.0 --repo "$GITHUB_REPOSITORY" --pattern submission.zip --dir build/input
+      - name: Baseline-only gate
+        if: env.RUN_STAGE == 'baseline'
+        run: python quantum/dqi_gate.py --stage baseline --baseline build/input/submission.zip --out build/report/baseline
+      - name: Check generators and source provenance
+        if: env.RUN_STAGE != 'baseline'
+        run: |
+          python -m pip install --disable-pip-version-check numpy
+          python -m unittest discover -s quantum -p 'test_*.py' -v
+          python research/bm_port/check_provenance.py
+      - name: Install pinned upstream Kickmix
+        if: env.RUN_STAGE != 'baseline'
+        env:
+          NPY_NUM_BUILD_JOBS: 2
+        run: |
+          git clone --filter=blob:none https://github.com/quantumlib/Qualtran.git qualtran-src
+          git -C qualtran-src checkout 638777fac4379bc62e2a1e4a52cf1a1753895d48
+          python quantum/patch_kickmix_memory.py qualtran-src/kickmix
+          python -m pip install ./qualtran-src/kickmix
+      - name: Generate complete conservative BM candidate
+        id: generated
+        if: env.RUN_STAGE != 'baseline'
+        run: |
+          python research/bm_port/build_dqi.py --out build/bm-conservative
+          python research/bm_port/build_dqi.py --out build/bm-conservative --parse
+          echo 'ready=true' >> "$GITHUB_OUTPUT"
+      - name: Candidate then smoke then full-package (or explicit NOT_RUN)
+        if: steps.generated.outputs.ready == 'true'
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          python quantum/run_wfs_gates.py --stage "$RUN_STAGE" --baseline build/input/submission.zip --candidate build/bm-conservative/dqi.kmb --full-batch-size 1024 --out build/report --fetch-official
+      - name: Check deep BM history and variable masks
+        if: steps.generated.outputs.ready == 'true' && (env.RUN_STAGE == 'smoke' || env.RUN_STAGE == 'full-package')
+        run: |
+          if [ -f build/kaggle/verifiers/dqi/verify_submission_dqi.py ]; then
+            python quantum/bm_edge_verify.py --candidate build/bm-conservative/dqi.kmb --data-root build/kaggle --out build/report/edge.json
+          else
+            python -c 'import json; from pathlib import Path; Path("build/report/edge.json").write_text(json.dumps({"status":"NOT_RUN","reason":"published official verifier unavailable","submits_to_kaggle":False},indent=2)+"\n")'
+          fi
+      - name: Audit final ZIP against the generated circuit and v1.0
+        if: success() && env.RUN_STAGE == 'full-package' && steps.generated.outputs.ready == 'true'
+        run: |
+          if [ -f build/report/full-package/submission-candidate.zip ]; then
+            candidate_sha=$(python -c 'import json; print(json.load(open("build/bm-conservative/generation.json"))["candidate_sha256"])')
+            python quantum/audit_dqi_package.py --baseline build/input/submission.zip --package build/report/full-package/submission-candidate.zip --expected-dqi-sha256 "$candidate_sha" --out build/report/package-audit.json
+          fi
+      - name: Preserve reports even when validation fails
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: dqi-bm-checkpoint-${{ inputs.stage || 'full-package' }}
+          path: |
+            build/report/**/*.json
+            build/bm-conservative/generation.json
+            build/bm-conservative/parse.json
+            build/bm-conservative/formal/*
+            research/bm_port/provenance.json
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Preserve complete unscored DQI
+        if: always() && steps.generated.outputs.ready == 'true'
+        uses: actions/upload-artifact@v6
+        with:
+          name: dqi-bm-conservative-unscored
+          path: build/bm-conservative/dqi.kmb
+          if-no-files-found: error
+          retention-days: 30
+      - name: Preserve reviewed submission ZIP only after successful gates
+        if: success() && env.RUN_STAGE == 'full-package'
+        uses: actions/upload-artifact@v6
+        with:
+          name: dqi-bm-candidate-for-human-review
+          path: build/report/full-package/submission-candidate.zip
+          if-no-files-found: ignore
+          retention-days: 30

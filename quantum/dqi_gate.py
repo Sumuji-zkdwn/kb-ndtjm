@@ -91,7 +91,7 @@ def smoke_shot_count(verifier):
             raise ValueError("official default shot budget cannot satisfy smoke confidence")
     return shots
 
-def verify(path,data,shots,salt):
+def verify(path,data,shots,salt,batch_size=None):
     sys.path.insert(0,str(Path(data)/"kickmix"))
     sys.path.insert(0,str(Path(data)/"verifiers"))
     import kickmix
@@ -101,11 +101,12 @@ def verify(path,data,shots,salt):
     t=time.monotonic()
     # Shared explicit seed couples candidate/baseline inputs and measurement draws.
     # Salt alone does not: the official default also mixes in each circuit's SHA.
-    result=vdqi.verify(circuit,spec,salt=salt,seed=20261025,max_workers=1)
+    batch_size=vdqi.DEFAULT_BATCH_SIZE if batch_size is None else batch_size
+    result=vdqi.verify(circuit,spec,salt=salt,seed=20261025,max_workers=1,batch_size=batch_size)
     score=float(result["score"])
     if not math.isfinite(score) or not score>0: raise RuntimeError("nonfinite or nonpositive verifier cost")
     return {"status":"PASS","cost":score,"num_shots":shots,
-            "value_errors":result["value_errors"],"phase_errors":result["phase_errors"],
+            "batch_size":batch_size,"value_errors":result["value_errors"],"phase_errors":result["phase_errors"],
             "effective_error_rate":result["effective_error_rate"],
             "log2_delta":result["log2_delta"],"seed":20261025,"max_workers":1,
             "toffoli_count":result["toffoli_count"],
@@ -179,6 +180,10 @@ def pack(baseline_path,candidate_path,dest):
         if z.testzip() is not None: raise ValueError("invalid candidate ZIP CRC")
     return {"zip_sha256":sha(dest),"zip_bytes":Path(dest).stat().st_size}
 
+def validate_full_batch(verifier,batch_size):
+    if type(batch_size) is not int or batch_size<=0 or verifier.DEFAULT_NUM_SHOTS%batch_size:
+        raise ValueError("full batch size must divide the unchanged official shot count")
+
 def main():
     p=argparse.ArgumentParser()
     p.add_argument("--stage",required=True,choices=["baseline","candidate","smoke","full-package"])
@@ -187,6 +192,8 @@ def main():
     p.add_argument("--comparison", help="Optional complete previously validated DQI for incremental full comparison")
     p.add_argument("--comparison-checkpoint", help="Reuse only the pinned EEA comparison measurement; new candidates are always rerun")
     p.add_argument("--data-root")
+    p.add_argument("--full-batch-size",type=int,default=256,
+                   help="Official verifier batch size for full runs; shot count and confidence are unchanged")
     p.add_argument("--out",default="build/gated")
     a=p.parse_args()
     out=Path(a.out);out.mkdir(parents=True,exist_ok=True)
@@ -194,6 +201,8 @@ def main():
     try:
         if a.comparison_checkpoint and not a.comparison:
             raise ValueError("comparison checkpoint requires an explicit complete comparison circuit")
+        if a.comparison_checkpoint and a.full_batch_size!=256:
+            raise ValueError("pinned comparison evidence uses batch size 256")
         result["baseline"]=baseline(a.baseline)
         if a.stage!="baseline":
             if not a.candidate or not Path(a.candidate).is_file():
@@ -212,7 +221,8 @@ def main():
                 "log2_delta":v.DEFAULT_LOG2_DELTA,"error_limit":1/16,"confidence_unmodified":True}
             result["smoke"]=verify(a.candidate,a.data_root,smoke_shots,salt)
             if a.stage=="full-package":
-                result["full"]=verify(a.candidate,a.data_root,v.DEFAULT_NUM_SHOTS,salt)
+                validate_full_batch(v,a.full_batch_size)
+                result["full"]=verify(a.candidate,a.data_root,v.DEFAULT_NUM_SHOTS,salt,a.full_batch_size)
                 if a.comparison:
                     reference_dqi=Path(a.comparison)
                     reference_key="comparison_full"
@@ -227,7 +237,7 @@ def main():
                 if a.comparison_checkpoint:
                     result[reference_key]=reuse_comparison_checkpoint(a.comparison_checkpoint,result["comparison"],a.data_root,v)
                 else:
-                    result[reference_key]=verify(reference_dqi,a.data_root,v.DEFAULT_NUM_SHOTS,salt)
+                    result[reference_key]=verify(reference_dqi,a.data_root,v.DEFAULT_NUM_SHOTS,salt,a.full_batch_size)
                 old=result[reference_key]["cost"]
                 new=result["full"]["cost"]
                 result["local_improvement"]=new<old
