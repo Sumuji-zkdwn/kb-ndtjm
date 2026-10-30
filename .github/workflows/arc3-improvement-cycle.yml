@@ -68,8 +68,8 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
           cache: pip
@@ -98,8 +98,8 @@ jobs:
       CYCLE_BASELINE_RUN_ID: ${{ inputs.baseline_run_id }}
       CYCLE_BASELINE_CANDIDATE_ID: ${{ inputs.baseline_candidate_id }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - run: python -m pip install -r experiments/arc3/cycle/requirements.txt
@@ -163,7 +163,7 @@ jobs:
         run: python -u -X utf8 experiments/arc3/cycle/runner.py
       - name: Retain candidates and receipts, including failed or ambiguous attempts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: arc3-cycle-evidence
           path: build/arc3-cycle/
