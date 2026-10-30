@@ -50,19 +50,17 @@ def run(ref):
                 'kernel_count':len(m.get('kernel_sources',[])), 'machine':machine_category}
 
 def status(ref):
-    cmd = [sys.executable, '-m', 'kaggle', 'kernels', 'status', ref]
+    # Direct SDK enum.name avoids assumptions about CLI string formatting.
+    # Do not log failure_message or exception contents.
     try:
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=120, check=False)
-    except (OSError, subprocess.TimeoutExpired):
+        from kaggle.api.kaggle_api_extended import KaggleApi
+        api = KaggleApi()
+        api.authenticate()
+        reply = api.kernels_status(ref)
+        state = getattr(reply.status, 'name', '').lower()
+    except Exception:
         return 'unknown'
-    if result.returncode:
-        return 'unknown'
-    line = next((line for line in result.stdout.splitlines() if 'has status' in line), '')
-    match = re.search(r'has status [\"\']([a-zA-Z_]+)[\"\']', line)
-    if not match:
-        return 'unknown'
-    state = match.group(1).lower()
-    if state in {'complete', 'error', 'cancelled', 'running', 'queued', 'pending', 'cancelacknowledged'}:
+    if state in {'complete', 'error', 'running', 'queued', 'cancel_acknowledged', 'cancel_requested', 'new_script'}:
         return state
     return 'unknown'
 

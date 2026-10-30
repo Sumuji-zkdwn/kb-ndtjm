@@ -17,7 +17,7 @@ class Tests(unittest.TestCase):
         self.assertEqual(p.classify({'private':'value'})['kind'],'non_string')
     def test_request(self):
         request=json.loads((Path(__file__).parent/'qwen_probe_request.json').read_text(encoding='utf-8-sig'))
-        self.assertEqual(request, {'id':'qwen-source-probe-20261031-a1','kind':'qwen-metadata-read-only'})
+        self.assertEqual(request, {'id':'qwen-source-probe-20261031-b1','kind':'qwen-metadata-read-only'})
 
 if __name__ == '__main__':
     unittest.main()
