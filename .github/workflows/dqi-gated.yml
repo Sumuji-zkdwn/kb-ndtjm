@@ -49,8 +49,8 @@ jobs:
       CANDIDATE_RELEASE: ${{ inputs.candidate_release }}
       GH_TOKEN: ${{ github.token }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
       - name: Download preserved v1.0 reference ZIP
@@ -155,7 +155,7 @@ jobs:
 
       - name: Save reports even when a gate fails
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: dqi-checkpoint-${{ inputs.stage || 'full-package' }}
           path: |
@@ -173,7 +173,7 @@ jobs:
 
       - name: Save complete integration candidate (unscored)
         if: always() && steps.generated.outputs.ready == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: dqi-multiply42-unscored
           path: build/integration/dqi.kmb
@@ -183,7 +183,7 @@ jobs:
 
       - name: Save staged submission ZIP only if produced by full-package gates
         if: success() && env.RUN_STAGE == 'full-package'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: dqi-candidate-for-human-review
           path: build/report/full-package/submission-candidate.zip
