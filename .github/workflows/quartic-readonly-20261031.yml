@@ -1,0 +1,50 @@
+name: Read-only quartic notebook identity
+on:
+  push:
+    branches: [codex/quartic-readonly-20261031]
+    paths: [.github/workflows/quartic-readonly-20261031.yml]
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install kaggle==2.2.5 kagglesdk==0.1.38
+      - name: Inspect already-owned private notebook without publishing or executing
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          python - <<'PY'
+          import contextlib, io, json, sys, tempfile
+          from pathlib import Path
+          sys.path.insert(0,'kaggle_dispatch')
+          from owned_probe import canonical
+          from kaggle.api.kaggle_api_extended import KaggleApi
+          ref='sumuji/quartic-energy-kaggle'
+          api=KaggleApi()
+          with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+              api.authenticate()
+              with tempfile.TemporaryDirectory() as tmp:
+                  api.kernels_pull(ref,tmp,metadata=True,quiet=True)
+                  p=Path(tmp)
+                  meta=json.loads((p/'kernel-metadata.json').read_text(encoding='utf8'))
+                  name=meta.get('code_file')
+                  if not isinstance(name,str) or Path(name).name != name: raise ValueError('Invalid filename')
+                  nb=json.loads((p/name).read_text(encoding='utf8'))
+                  digest,count=canonical(nb)
+                  status=api.kernels_status(ref)
+          result={'id_no':meta.get('id_no'), 'ref_matches':meta.get('id')==ref, 'title':meta.get('title'),
+            'private':meta.get('is_private'), 'language':meta.get('language'), 'kernel_type':meta.get('kernel_type'),
+            'enable_gpu':meta.get('enable_gpu'), 'enable_tpu':meta.get('enable_tpu'),
+            'machine_shape':meta.get('machine_shape'), 'enable_internet':meta.get('enable_internet'),
+            'empty_dataset':meta.get('dataset_sources')==[], 'empty_competition':meta.get('competition_sources')==[],
+            'empty_kernel':meta.get('kernel_sources')==[], 'empty_model':meta.get('model_sources')==[],
+            'keywords_list':isinstance(meta.get('keywords'),list), 'canonical_sha256':digest, 'cell_count':count,
+            'status':getattr(getattr(status,'status',None),'name',None),
+            'marker_count':sum('KAGGLE-DISPATCH-' in ''.join(c.get('source',[])) for c in nb['cells'])}
+          print(json.dumps(result,sort_keys=True))
+          PY
