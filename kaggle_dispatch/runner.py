@@ -1,4 +1,9 @@
-"""Bounded, fail-closed Kaggle notebook dispatch; never submits competitions."""
+"""One-time synthetic update of a pre-existing, private Kaggle anchor.
+
+Never submits to a competition. A dedicated anchor must first be created and
+verified separately. This cannot provide atomic compare-and-swap against other
+writers; do not allow another writer to touch the anchor during the pilot.
+"""
 import hashlib
 import json
 import os
@@ -6,148 +11,141 @@ import re
 import subprocess
 import sys
 import tempfile
-import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-OWNER = "sumuji"
-KNOWN_PRIVATE_CONTROL = "sumuji/quartic-energy-kaggle"
-ALLOWED = {
-    "synthetic-smoke": {"path": "notebooks/synthetic_smoke.ipynb", "gpu": False, "model_sources": []},
-}
-REQ_KEYS = {"id", "kind", "source_sha256"}
-ID_RE = re.compile(r"^[a-z0-9][a-z0-9-]{5,29}$")
-HASH_RE = re.compile(r"^[0-9a-f]{64}$")
+ANCHOR = "sumuji/dispatch-anchor-20261031-c9fa2c1d"
+ANCHOR_TITLE = "dispatch-anchor-20261031-c9fa2c1d"
+SENTINEL = ('# Anchor sentinel KA-DISPATCH-ANCHOR-20261031-C9FA2C1D\n'
+            'print("Synthetic anchor only; not research data")\n')
+NOTEBOOK = ROOT / 'notebooks' / 'synthetic_smoke.ipynb'
+REQ_FIELDS = {'id', 'kind', 'source_sha256'}
 
 
-class DispatchError(Exception):
+class PilotError(Exception):
     pass
 
 
-def validate(request):
-    if not isinstance(request, dict) or set(request) != REQ_KEYS:
-        raise DispatchError("Request must contain exactly id, kind, source_sha256")
-    job_id, kind, digest = request["id"], request["kind"], request["source_sha256"]
-    if not isinstance(job_id, str) or not ID_RE.fullmatch(job_id):
-        raise DispatchError("Invalid job id")
-    if not isinstance(kind, str) or kind not in ALLOWED:
-        raise DispatchError("Unregistered job kind")
-    if not isinstance(digest, str) or not HASH_RE.fullmatch(digest):
-        raise DispatchError("Invalid source digest")
-    entry = ALLOWED[kind]
-    path = (ROOT / entry["path"]).resolve()
-    if not path.is_relative_to(ROOT / "notebooks") or not path.is_file():
-        raise DispatchError("Registered source not found inside notebook directory")
-    raw = path.read_bytes()
-    if len(raw) > 1_000_000 or hashlib.sha256(raw).hexdigest() != digest:
-        raise DispatchError("Notebook size or digest mismatch")
-    nb = json.loads(raw)
-    if nb.get("nbformat") != 4 or not isinstance(nb.get("cells"), list):
-        raise DispatchError("Invalid notebook")
-    return path, entry
+def validate_request(req):
+    if not isinstance(req, dict) or set(req) != REQ_FIELDS:
+        raise PilotError('Unexpected request fields')
+    if req.get('kind') != 'synthetic-smoke':
+        raise PilotError('Only synthetic-smoke is allowed')
+    if not isinstance(req.get('id'), str) or not re.fullmatch(r'[a-z0-9][a-z0-9-]{5,29}', req['id']):
+        raise PilotError('Invalid job id')
+    if not isinstance(req.get('source_sha256'), str) or not re.fullmatch(r'[0-9a-f]{64}', req['source_sha256']):
+        raise PilotError('Invalid source digest')
+    data = NOTEBOOK.read_bytes()
+    if len(data) > 50000 or hashlib.sha256(data).hexdigest() != req['source_sha256']:
+        raise PilotError('Synthetic source digest or size mismatch')
+    nb = json.loads(data)
+    if nb.get('nbformat') != 4 or not isinstance(nb.get('cells'), list):
+        raise PilotError('Invalid synthetic notebook')
+    return data
 
 
-def metadata(request, entry):
-    slug = "dispatch-" + request["id"]
-    return {"id": f"{OWNER}/{slug}", "title": slug, "code_file": "job.ipynb",
-            "language": "python", "kernel_type": "notebook", "is_private": True,
-            "enable_gpu": entry["gpu"], "enable_internet": False,
-            "machine_shape": "NvidiaTeslaT4" if entry["gpu"] else "",
-            "dataset_sources": [], "competition_sources": [], "kernel_sources": [],
-            "model_sources": entry["model_sources"]}
+def validate_anchor(metadata, notebook):
+    if metadata.get('id') != ANCHOR or metadata.get('is_private') is not True:
+        raise PilotError('Anchor identity or privacy mismatch')
+    anchor_id = metadata.get('id_no')
+    if type(anchor_id) is not int or anchor_id <= 0:
+        raise PilotError('Anchor numeric identity missing')
+    if metadata.get('title') != ANCHOR_TITLE:
+        raise PilotError('Anchor title mismatch')
+    if metadata.get('language') != 'python' or metadata.get('kernel_type') != 'notebook':
+        raise PilotError('Anchor type mismatch')
+    for field in ('dataset_sources', 'kernel_sources', 'competition_sources', 'model_sources'):
+        if metadata.get(field) != []:
+            raise PilotError('Anchor must not have inputs')
+    if not isinstance(notebook, dict) or notebook.get('nbformat') != 4:
+        raise PilotError('Anchor notebook format mismatch')
+    cells = notebook.get('cells')
+    if not isinstance(cells, list) or len(cells) != 1 or cells[0].get('cell_type') != 'code':
+        raise PilotError('Anchor must contain one sentinel code cell')
+    source = cells[0].get('source')
+    if isinstance(source, list) and all(isinstance(line, str) for line in source):
+        source = ''.join(source)
+    if source != SENTINEL:
+        raise PilotError('Anchor sentinel missing or changed; no update attempted')
+    return anchor_id
 
 
 def call(args, timeout=120):
-    # Do not print subprocess stdout/stderr: it may contain sensitive information.
-    p = subprocess.run([sys.executable, "-m", "kaggle", *args], capture_output=True,
+    # Never write remote response bodies to logs; they can contain credentials.
+    p = subprocess.run([sys.executable, '-m', 'kaggle', *args], capture_output=True,
                        text=True, timeout=timeout, check=False)
     return p.returncode, p.stdout, p.stderr
 
 
-def classify(code, out, err):
-    data = (out + "\n" + err).lower()
+def status(code, stdout):
     if code != 0:
-        # A 403, an auth/network error, or an unclear response is NOT proof of absence.
-        return "absent" if re.search(r"\b404\b", data) else "unknown"
-    for state in ("complete", "error", "cancelacknowledged", "cancelled", "running", "queued", "pending"):
-        if re.search(r"\b" + state + r"\b", data):
-            return state
-    return "existing"
+        return 'unknown'
+    data = stdout.lower()
+    for value in ('complete', 'error', 'cancelacknowledged', 'cancelled', 'running', 'queued', 'pending'):
+        if re.search(r'\b' + value + r'\b', data):
+            return value
+    return 'unknown'
 
 
-def diagnostic(code, out, err):
-    """Return only controlled labels, never remote output or credentials."""
-    data = (out + "\n" + err).lower()
-    state = classify(code, out, err)
-    if code == 0:
-        category = "accessible_" + state
-    elif "permission 'kernels.get' was denied" in data:
-        # CLI 2.2.5 maps BOTH 401 and 403 to the same ValueError, including
-        # nonexistent and inaccessible private notebooks. This is ambiguous.
-        category = "permission_or_missing_ambiguous"
-    elif re.search(r"\b401\b", data):
-        category = "http_401"
-    elif re.search(r"\b403\b", data):
-        category = "http_403"
-    elif re.search(r"\b404\b", data):
-        category = "http_404"
-    elif "authentication required" in data:
-        category = "authentication_required"
-    elif "timed out" in data or "timeout" in data:
-        category = "timeout"
-    else:
-        category = "other_error"
-    return {"return_code": code, "category": category}
+def pull_anchor():
+    with tempfile.TemporaryDirectory(prefix='anchor-read-') as td:
+        folder = Path(td)
+        code, _, _ = call(['kernels', 'pull', ANCHOR, '-p', str(folder), '-m'])
+        if code != 0:
+            raise PilotError('Cannot read anchor and metadata')
+        meta = json.loads((folder / 'kernel-metadata.json').read_text(encoding='utf-8'))
+        code_file = meta.get('code_file')
+        if not isinstance(code_file, str) or Path(code_file).name != code_file:
+            raise PilotError('Unexpected anchor source name')
+        nb = json.loads((folder / code_file).read_text(encoding='utf-8'))
+        return validate_anchor(meta, nb)
 
 
 def main():
-    req = json.loads((ROOT / "request.json").read_text(encoding="utf-8"))
-    path, entry = validate(req)
-    if not os.environ.get("KAGGLE_API_TOKEN"):
-        raise DispatchError("Kaggle credential is unavailable")
-    meta = metadata(req, entry)
-    ref = meta["id"]
-    reference_code, reference_out, reference_err = call(["kernels", "status", KNOWN_PRIVATE_CONTROL])
-    code, out, err = call(["kernels", "status", ref])
-    before = classify(code, out, err)
-    print(json.dumps({"job_id": req["id"], "kind": req["kind"], "kernel": ref,
-                      "source_sha256": req["source_sha256"], "preflight": before,
-                      "known_private_control": diagnostic(reference_code, reference_out, reference_err),
-                      "target_diagnostic": diagnostic(code, out, err)}))
-    if os.environ.get("KAGGLE_DIAGNOSTIC_ONLY") == "1":
-        print("Diagnostic-only mode: no notebook upload attempted")
+    request = json.loads((ROOT / 'request.json').read_text(encoding='utf-8'))
+    data = validate_request(request)
+    if not os.environ.get('KAGGLE_API_TOKEN'):
+        raise PilotError('Kaggle credential unavailable')
+    code, out, _ = call(['kernels', 'status', ANCHOR])
+    current = status(code, out)
+    if current != 'complete':
+        raise PilotError('Anchor is not complete or status is unknown')
+    anchor_id = pull_anchor()
+    print(json.dumps({'anchor': ANCHOR, 'anchor_id': anchor_id, 'status': current,
+                      'sentinel_verified': True, 'request_id': request['id']}))
+    if os.environ.get('KAGGLE_DIAGNOSTIC_ONLY') == '1':
+        print('Diagnostic-only mode: no notebook update attempted')
         return
-    if reference_code != 0 or classify(reference_code, reference_out, reference_err) == "existing":
-        raise DispatchError("Known private control inaccessible or unrecognised; no upload attempted")
-    if before == "unknown":
-        raise DispatchError("Cannot establish absence; no upload attempted")
-    if before != "absent":
-        raise DispatchError("Kernel already exists; no duplicate upload attempted")
-    with tempfile.TemporaryDirectory(prefix="bounded-kaggle-") as td:
+    # Re-read immediately before push; other writers can still race this check.
+    if pull_anchor() != anchor_id:
+        raise PilotError('Anchor changed since preflight')
+    code, out, _ = call(['kernels', 'status', ANCHOR])
+    if status(code, out) != 'complete':
+        raise PilotError('Anchor no longer complete')
+    meta = {'id': ANCHOR, 'id_no': anchor_id, 'title': ANCHOR_TITLE,
+            'code_file': 'job.ipynb', 'language': 'python', 'kernel_type': 'notebook',
+            'is_private': True, 'enable_gpu': False, 'enable_internet': False,
+            'dataset_sources': [], 'competition_sources': [], 'kernel_sources': [], 'model_sources': []}
+    with tempfile.TemporaryDirectory(prefix='anchor-push-') as td:
         folder = Path(td)
-        (folder / "job.ipynb").write_bytes(path.read_bytes())
-        (folder / "kernel-metadata.json").write_text(json.dumps(meta), encoding="utf-8")
-        code, _, _ = call(["kernels", "push", "-p", str(folder)])
-    if code:
-        # Submission result could be ambiguous: do not retry automatically.
-        raise DispatchError("Upload outcome uncertain; inspect this kernel before any retry")
-    print(json.dumps({"kernel": ref, "push": "accepted", "privacy_requested": True}))
-    deadline = time.monotonic() + 900
-    while time.monotonic() < deadline:
-        time.sleep(20)
-        code, out, err = call(["kernels", "status", ref])
-        state = classify(code, out, err)
-        if state == "complete":
-            print(json.dumps({"kernel": ref, "status": state, "version_note": "unique kernel slug; verify saved version and outputs in Kaggle"}))
-            return
-        if state in ("error", "cancelled", "cancelacknowledged", "unknown", "absent"):
-            raise DispatchError("Remote run failed or status is ambiguous; inspect Kaggle")
-    raise DispatchError("Polling timed out; remote job may still be active; do not retry blindly")
+        (folder / 'job.ipynb').write_bytes(data)
+        (folder / 'kernel-metadata.json').write_text(json.dumps(meta), encoding='utf-8')
+        code, push_out, _ = call(['kernels', 'push', '-p', str(folder)])
+    if code != 0:
+        raise PilotError('Update outcome is uncertain; inspect anchor before any retry')
+    # CLI 2.2.5 may print an error while exiting 0. Do not leak raw output.
+    match = re.search(r'(?m)^Kernel version ([1-9][0-9]*) successfully pushed\.', push_out)
+    if not match:
+        raise PilotError('No unambiguous push receipt; inspect anchor before any retry')
+    version = int(match.group(1))
+    print(json.dumps({'anchor': ANCHOR, 'push': 'accepted', 'version': version,
+                      'privacy_requested': True,
+                      'remote_run': 'not independently verified; inspect exact Kaggle version'}))
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     try:
         main()
-    except (DispatchError, OSError, subprocess.TimeoutExpired, json.JSONDecodeError) as exc:
-        print(f"Dispatch stopped: {exc}", file=sys.stderr)
+    except (PilotError, OSError, subprocess.TimeoutExpired, json.JSONDecodeError, ValueError) as e:
+        print('Pilot stopped: ' + str(e), file=sys.stderr)
         sys.exit(1)
