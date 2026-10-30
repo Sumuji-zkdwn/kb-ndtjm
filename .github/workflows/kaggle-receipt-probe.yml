@@ -1,0 +1,21 @@
+name: Inspect synthetic Kaggle receipt
+on:
+  push:
+    branches: [codex/kaggle-dispatch-20261031]
+    paths: [kaggle_dispatch/receipt_probe_request.json]
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install kaggle==2.2.5 kagglesdk==0.1.38
+      - name: Probe only the dedicated synthetic notebook
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: python -u kaggle_dispatch/receipt_probe.py
