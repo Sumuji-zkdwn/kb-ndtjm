@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: bounded-kaggle-dispatch
+  group: qwen-batch-read-only
   queue: max
 
 jobs:

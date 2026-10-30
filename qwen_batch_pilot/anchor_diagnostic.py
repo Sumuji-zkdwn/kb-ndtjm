@@ -35,8 +35,14 @@ def main():
     if not os.environ.get('KAGGLE_API_TOKEN'):
         raise RuntimeError('Missing credential')
     from kaggle.api.kaggle_api_extended import KaggleApi
+    from kagglesdk.kernels.types.kernels_api_service import ApiGetKernelRequest
     api = KaggleApi()
     quiet(api.authenticate)
+    request = ApiGetKernelRequest()
+    request.user_name, request.kernel_slug = REF.split('/')
+    with api.build_kaggle_client() as client:
+        current = quiet(client.kernels.kernels_api_client.get_kernel, request)
+    remote = getattr(current, 'metadata', None)
     with tempfile.TemporaryDirectory(prefix='qwen-anchor-readonly-') as td:
         path = Path(td)
         quiet(api.kernels_pull, REF + '/1', str(path), metadata=True, quiet=True)
@@ -54,7 +60,9 @@ def main():
                   'language': meta.get('language'), 'kernel_type': meta.get('kernel_type'),
                   'gpu': meta.get('enable_gpu'), 'internet': meta.get('enable_internet'),
                   'machine_shape': meta.get('machine_shape'), 'source_sha256': digest,
-                  'cell_count': count, 'status': state}
+                  'cell_count': count, 'status': state,
+                  'current_version': getattr(remote, 'current_version_number', None),
+                  'current_id_matches': getattr(remote, 'id', None) == meta.get('id_no')}
         for key in ('dataset_sources', 'kernel_sources', 'competition_sources', 'model_sources'):
             value = meta.get(key)
             output[key + '_count'] = len(value) if isinstance(value, list) else None
