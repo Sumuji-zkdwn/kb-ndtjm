@@ -1,0 +1,278 @@
+{
+  "status": "PASS",
+  "scope": "local multiplier, not complete DQI",
+  "archive_sha256": "25c74454ef8c00b44bb42177f491c196743f3dedd24e3ec5f096fbb60e6c19c3",
+  "polynomial": "0x1053",
+  "tower_delta6": 11,
+  "bilinear_basis_pairs_checked": 144,
+  "bilinear_terms": [
+    [
+      1623,
+      1623,
+      3682
+    ],
+    [
+      1264,
+      1264,
+      3731
+    ],
+    [
+      679,
+      679,
+      241
+    ],
+    [
+      3485,
+      3485,
+      1050
+    ],
+    [
+      1794,
+      1794,
+      4005
+    ],
+    [
+      2719,
+      2719,
+      3007
+    ],
+    [
+      201,
+      201,
+      2705
+    ],
+    [
+      28,
+      28,
+      2332
+    ],
+    [
+      213,
+      213,
+      909
+    ],
+    [
+      2819,
+      2819,
+      2902
+    ],
+    [
+      1006,
+      1006,
+      3120
+    ],
+    [
+      2285,
+      2285,
+      1894
+    ],
+    [
+      1388,
+      1388,
+      868
+    ],
+    [
+      3284,
+      3284,
+      699
+    ],
+    [
+      2488,
+      2488,
+      479
+    ],
+    [
+      588,
+      588,
+      1441
+    ],
+    [
+      1584,
+      1584,
+      1198
+    ],
+    [
+      1148,
+      1148,
+      271
+    ],
+    [
+      3616,
+      3616,
+      1857
+    ],
+    [
+      2048,
+      2048,
+      611
+    ],
+    [
+      1568,
+      1568,
+      1314
+    ],
+    [
+      2856,
+      2856,
+      877
+    ],
+    [
+      3290,
+      3290,
+      196
+    ],
+    [
+      2034,
+      2034,
+      937
+    ],
+    [
+      1860,
+      1860,
+      1199
+    ],
+    [
+      746,
+      746,
+      328
+    ],
+    [
+      1454,
+      1454,
+      1511
+    ],
+    [
+      1876,
+      1876,
+      548
+    ],
+    [
+      2230,
+      2230,
+      1380
+    ],
+    [
+      4066,
+      4066,
+      1856
+    ],
+    [
+      1051,
+      1051,
+      3468
+    ],
+    [
+      704,
+      704,
+      3512
+    ],
+    [
+      1755,
+      1755,
+      52
+    ],
+    [
+      957,
+      957,
+      1051
+    ],
+    [
+      3842,
+      3842,
+      4066
+    ],
+    [
+      3263,
+      3263,
+      3065
+    ],
+    [
+      3041,
+      3041,
+      3704
+    ],
+    [
+      3270,
+      3270,
+      2133
+    ],
+    [
+      1831,
+      1831,
+      1581
+    ],
+    [
+      3143,
+      3143,
+      3094
+    ],
+    [
+      260,
+      260,
+      3604
+    ],
+    [
+      3395,
+      3395,
+      514
+    ],
+    [
+      568,
+      568,
+      450
+    ],
+    [
+      1122,
+      1122,
+      1143
+    ],
+    [
+      1626,
+      1626,
+      1461
+    ]
+  ],
+  "certificate": {
+    "status": "PASS",
+    "method": "exact Boolean ANF on 36 independent variables",
+    "arbitrary_xor_target": true,
+    "inputs_restored": true,
+    "unitary_phase": "exactly zero: CX/CCX/SWAP positive permutation gates only",
+    "measurement_outcomes": 0,
+    "extra_quantum_workspace": 0,
+    "entangled_reference_allowed": true
+  },
+  "old_certificate": {
+    "status": "PASS",
+    "method": "exact Boolean ANF on 36 independent variables",
+    "arbitrary_xor_target": true,
+    "inputs_restored": true,
+    "unitary_phase": "exactly zero: CX/CCX/SWAP positive permutation gates only",
+    "measurement_outcomes": 0,
+    "extra_quantum_workspace": 0,
+    "entangled_reference_allowed": true
+  },
+  "negative_control_missing_CCX": "REJECTED",
+  "kickmix_parse": "PASS",
+  "old_op_counts": {
+    "CX": 481,
+    "SWAP": 21,
+    "CCX": 63
+  },
+  "new_op_counts": {
+    "CX": 1258,
+    "CCX": 45
+  },
+  "uncontrolled_Toffoli_like": {
+    "old": 63,
+    "new": 45
+  },
+  "controlled_Toffoli_like_model": {
+    "old": 75,
+    "new": 57
+  },
+  "extra_qubits": 0,
+  "extra_classical_bits": 0,
+  "full_DQI_verifier": "NOT_RUN",
+  "kaggle_submission": "NOT_RUN"
+}

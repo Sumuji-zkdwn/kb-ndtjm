@@ -1,0 +1,631 @@
+{
+  "scope": "Complete DQI: all 32408 tagged multipliers use 45-Toffoli unitary",
+  "recorded_at": "2026-10-26T02:12:39.993829+09:00",
+  "source_parent_commit": "e8886dbea9c551ba7d3780697e18561d73b761f4",
+  "validation_environment": "Local pinned Kickmix and unchanged published DQI verifier; not a GitHub Actions result",
+  "local_multiplier": {
+    "status": "PASS",
+    "scope": "local multiplier, not complete DQI",
+    "archive_sha256": "25c74454ef8c00b44bb42177f491c196743f3dedd24e3ec5f096fbb60e6c19c3",
+    "polynomial": "0x1053",
+    "tower_delta6": 11,
+    "bilinear_basis_pairs_checked": 144,
+    "bilinear_terms": [
+      [
+        1623,
+        1623,
+        3682
+      ],
+      [
+        1264,
+        1264,
+        3731
+      ],
+      [
+        679,
+        679,
+        241
+      ],
+      [
+        3485,
+        3485,
+        1050
+      ],
+      [
+        1794,
+        1794,
+        4005
+      ],
+      [
+        2719,
+        2719,
+        3007
+      ],
+      [
+        201,
+        201,
+        2705
+      ],
+      [
+        28,
+        28,
+        2332
+      ],
+      [
+        213,
+        213,
+        909
+      ],
+      [
+        2819,
+        2819,
+        2902
+      ],
+      [
+        1006,
+        1006,
+        3120
+      ],
+      [
+        2285,
+        2285,
+        1894
+      ],
+      [
+        1388,
+        1388,
+        868
+      ],
+      [
+        3284,
+        3284,
+        699
+      ],
+      [
+        2488,
+        2488,
+        479
+      ],
+      [
+        588,
+        588,
+        1441
+      ],
+      [
+        1584,
+        1584,
+        1198
+      ],
+      [
+        1148,
+        1148,
+        271
+      ],
+      [
+        3616,
+        3616,
+        1857
+      ],
+      [
+        2048,
+        2048,
+        611
+      ],
+      [
+        1568,
+        1568,
+        1314
+      ],
+      [
+        2856,
+        2856,
+        877
+      ],
+      [
+        3290,
+        3290,
+        196
+      ],
+      [
+        2034,
+        2034,
+        937
+      ],
+      [
+        1860,
+        1860,
+        1199
+      ],
+      [
+        746,
+        746,
+        328
+      ],
+      [
+        1454,
+        1454,
+        1511
+      ],
+      [
+        1876,
+        1876,
+        548
+      ],
+      [
+        2230,
+        2230,
+        1380
+      ],
+      [
+        4066,
+        4066,
+        1856
+      ],
+      [
+        1051,
+        1051,
+        3468
+      ],
+      [
+        704,
+        704,
+        3512
+      ],
+      [
+        1755,
+        1755,
+        52
+      ],
+      [
+        957,
+        957,
+        1051
+      ],
+      [
+        3842,
+        3842,
+        4066
+      ],
+      [
+        3263,
+        3263,
+        3065
+      ],
+      [
+        3041,
+        3041,
+        3704
+      ],
+      [
+        3270,
+        3270,
+        2133
+      ],
+      [
+        1831,
+        1831,
+        1581
+      ],
+      [
+        3143,
+        3143,
+        3094
+      ],
+      [
+        260,
+        260,
+        3604
+      ],
+      [
+        3395,
+        3395,
+        514
+      ],
+      [
+        568,
+        568,
+        450
+      ],
+      [
+        1122,
+        1122,
+        1143
+      ],
+      [
+        1626,
+        1626,
+        1461
+      ]
+    ],
+    "certificate": {
+      "status": "PASS",
+      "method": "exact Boolean ANF on 36 independent variables",
+      "arbitrary_xor_target": true,
+      "inputs_restored": true,
+      "unitary_phase": "exactly zero: CX/CCX/SWAP positive permutation gates only",
+      "measurement_outcomes": 0,
+      "extra_quantum_workspace": 0,
+      "entangled_reference_allowed": true
+    },
+    "old_certificate": {
+      "status": "PASS",
+      "method": "exact Boolean ANF on 36 independent variables",
+      "arbitrary_xor_target": true,
+      "inputs_restored": true,
+      "unitary_phase": "exactly zero: CX/CCX/SWAP positive permutation gates only",
+      "measurement_outcomes": 0,
+      "extra_quantum_workspace": 0,
+      "entangled_reference_allowed": true
+    },
+    "negative_control_missing_CCX": "REJECTED",
+    "kickmix_parse": "PASS",
+    "old_op_counts": {
+      "CX": 481,
+      "SWAP": 21,
+      "CCX": 63
+    },
+    "new_op_counts": {
+      "CX": 1258,
+      "CCX": 45
+    },
+    "uncontrolled_Toffoli_like": {
+      "old": 63,
+      "new": 45
+    },
+    "controlled_Toffoli_like_model": {
+      "old": 75,
+      "new": 57
+    },
+    "extra_qubits": 0,
+    "extra_classical_bits": 0,
+    "full_DQI_verifier": "NOT_RUN",
+    "kaggle_submission": "NOT_RUN"
+  },
+  "one_site": {
+    "scope": "one 45-Toffoli multiplier inside complete DQI",
+    "integration": {
+      "status": "PASS",
+      "scope": "complete DQI; existing inverse66 plus 45-Toffoli multiplier",
+      "reference_dqi_sha256": "655e83ab2ee40d65688e01c883a3804765080c1e47ee4e53f9d7b01bb6621177",
+      "sites_replaced": 1,
+      "sites_by_stage": {
+        "forward_eea": 1
+      },
+      "candidate_sha256": "6c167b365cddd21a2a73bfea967c5f35f8114c2be5e9a092248d617fbc1fc7ae",
+      "candidate_bytes": 863190280,
+      "qubits": 1893,
+      "bits": 49155,
+      "registers": 4165,
+      "ops": 86823761,
+      "reference_static_Toffoli_like": 4484694,
+      "candidate_static_Toffoli_like": 4484676,
+      "static_Toffoli_saved": 18,
+      "extra_qubits": 0,
+      "extra_classical_bits": 0,
+      "all_old_instructions_matched_under_injective_renaming": true,
+      "named_registers_unchanged": true,
+      "existing_product_cleanup_unchanged": true,
+      "classical_records_unchanged": true,
+      "outer_conditions_unchanged": true,
+      "unchanged_packet_span_bytes_verified": 799342422,
+      "retained_metadata_byte_equal": true,
+      "local_certificate": {
+        "status": "PASS",
+        "method": "exact Boolean ANF on 36 independent variables",
+        "arbitrary_xor_target": true,
+        "inputs_restored": true,
+        "unitary_phase": "exactly zero: CX/CCX/SWAP positive permutation gates only",
+        "measurement_outcomes": 0,
+        "extra_quantum_workspace": 0,
+        "entangled_reference_allowed": true
+      },
+      "local_old_certificate": {
+        "status": "PASS",
+        "method": "exact Boolean ANF on 36 independent variables",
+        "arbitrary_xor_target": true,
+        "inputs_restored": true,
+        "unitary_phase": "exactly zero: CX/CCX/SWAP positive permutation gates only",
+        "measurement_outcomes": 0,
+        "extra_quantum_workspace": 0,
+        "entangled_reference_allowed": true
+      },
+      "generator_sha256": "ce8e489ce8e5a597e24615d3eee1eca9837033bc48e2a2410d22b30892b8af08",
+      "probe_sha256": "5c10d34ebd3b73638482f1ddb6bc1f7febf92a25d9366277a66149a30c8fabc1",
+      "kickmix_full_parse": "PASS",
+      "full_DQI_verifier": "NOT_RUN",
+      "kaggle_submission": "NOT_RUN"
+    },
+    "smoke": {
+      "stage": "smoke",
+      "submits_to_kaggle": false,
+      "platform_secret_salt": "unavailable",
+      "baseline": {
+        "archive_sha256": "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43",
+        "members": 13,
+        "angle_count": 10,
+        "dqi": {
+          "qubits": 1893,
+          "bits": 49154,
+          "registers": 4165,
+          "ops": 86051014,
+          "3q_ops": 5725461,
+          "2q_ops": 66446727,
+          "register_contract": "PASS"
+        },
+        "status": "PASS"
+      },
+      "candidate": {
+        "candidate_sha256": "6c167b365cddd21a2a73bfea967c5f35f8114c2be5e9a092248d617fbc1fc7ae",
+        "candidate_bytes": 863190280,
+        "dqi": {
+          "qubits": 1893,
+          "bits": 49155,
+          "registers": 4165,
+          "ops": 86823761,
+          "3q_ops": 4484676,
+          "2q_ops": 71888919,
+          "register_contract": "PASS"
+        },
+        "quantum_correctness": "NOT_YET_VERIFIED",
+        "status": "PASS"
+      },
+      "smoke_plan": {
+        "num_shots": 1536,
+        "zero_error_upper_bound": 0.0561256873183065,
+        "log2_delta": -128.0,
+        "error_limit": 0.0625,
+        "confidence_unmodified": true
+      },
+      "smoke": {
+        "status": "PASS",
+        "cost": 419839784148183.1,
+        "num_shots": 1536,
+        "value_errors": 0,
+        "phase_errors": 0,
+        "effective_error_rate": 0.0561256873183065,
+        "log2_delta": -128.0,
+        "seed": 20261025,
+        "max_workers": 1,
+        "toffoli_count": 4484575.59375,
+        "elapsed_seconds": 17.8,
+        "verifier_sha256": "f14274bc0943fb9769ddb01131be6063191a15009fe1caf1d4bdd9fd25194e65",
+        "candidate_sha256": "6c167b365cddd21a2a73bfea967c5f35f8114c2be5e9a092248d617fbc1fc7ae",
+        "source": "published verifier; non-secret local salt"
+      },
+      "status": "PASS"
+    },
+    "kaggle_submission": "NOT_RUN",
+    "status": "PASS"
+  },
+  "all_site_generation_report_before_verification": {
+    "status": "PASS",
+    "scope": "complete DQI; existing inverse66 plus 45-Toffoli multiplier",
+    "reference_dqi_sha256": "655e83ab2ee40d65688e01c883a3804765080c1e47ee4e53f9d7b01bb6621177",
+    "sites_replaced": 32408,
+    "sites_by_stage": {
+      "forward_eea": 16204,
+      "reverse_eea": 16204
+    },
+    "candidate_sha256": "fc212bc49a145c2d1f3f964d3d0597f46a424604120370d54c26836fd26226dd",
+    "candidate_bytes": 1065409960,
+    "qubits": 1893,
+    "bits": 49155,
+    "registers": 4165,
+    "ops": 110351243,
+    "reference_static_Toffoli_like": 4484694,
+    "candidate_static_Toffoli_like": 3901350,
+    "static_Toffoli_saved": 583344,
+    "extra_qubits": 0,
+    "extra_classical_bits": 0,
+    "all_old_instructions_matched_under_injective_renaming": true,
+    "named_registers_unchanged": true,
+    "existing_product_cleanup_unchanged": true,
+    "classical_records_unchanged": true,
+    "outer_conditions_unchanged": true,
+    "unchanged_packet_span_bytes_verified": 625997379,
+    "retained_metadata_byte_equal": true,
+    "local_certificate": {
+      "status": "PASS",
+      "method": "exact Boolean ANF on 36 independent variables",
+      "arbitrary_xor_target": true,
+      "inputs_restored": true,
+      "unitary_phase": "exactly zero: CX/CCX/SWAP positive permutation gates only",
+      "measurement_outcomes": 0,
+      "extra_quantum_workspace": 0,
+      "entangled_reference_allowed": true
+    },
+    "local_old_certificate": {
+      "status": "PASS",
+      "method": "exact Boolean ANF on 36 independent variables",
+      "arbitrary_xor_target": true,
+      "inputs_restored": true,
+      "unitary_phase": "exactly zero: CX/CCX/SWAP positive permutation gates only",
+      "measurement_outcomes": 0,
+      "extra_quantum_workspace": 0,
+      "entangled_reference_allowed": true
+    },
+    "generator_sha256": "ce8e489ce8e5a597e24615d3eee1eca9837033bc48e2a2410d22b30892b8af08",
+    "probe_sha256": "5c10d34ebd3b73638482f1ddb6bc1f7febf92a25d9366277a66149a30c8fabc1",
+    "kickmix_full_parse": "PASS",
+    "full_DQI_verifier": "NOT_RUN",
+    "kaggle_submission": "NOT_RUN"
+  },
+  "all_site_smoke": {
+    "status": "PASS",
+    "cost": 365229608266805.06,
+    "num_shots": 1536,
+    "value_errors": 0,
+    "phase_errors": 0,
+    "effective_error_rate": 0.0561256873183065,
+    "log2_delta": -128.0,
+    "seed": 20261025,
+    "max_workers": 1,
+    "toffoli_count": 3901249.59375,
+    "elapsed_seconds": 18.32,
+    "verifier_sha256": "f14274bc0943fb9769ddb01131be6063191a15009fe1caf1d4bdd9fd25194e65",
+    "candidate_sha256": "fc212bc49a145c2d1f3f964d3d0597f46a424604120370d54c26836fd26226dd",
+    "source": "published verifier; non-secret local salt"
+  },
+  "all_site_full_and_cached_comparison": {
+    "status": "PASS",
+    "submits_to_kaggle": false,
+    "candidate": {
+      "candidate_sha256": "fc212bc49a145c2d1f3f964d3d0597f46a424604120370d54c26836fd26226dd",
+      "candidate_bytes": 1065409960,
+      "dqi": {
+        "qubits": 1893,
+        "bits": 49155,
+        "registers": 4165,
+        "ops": 110351243,
+        "3q_ops": 3901350,
+        "2q_ops": 96388611,
+        "register_contract": "PASS"
+      },
+      "quantum_correctness": "PASS: published verifier, 102400 shots, zero value/phase errors",
+      "status": "PASS"
+    },
+    "generation_report_before_verification": {
+      "status": "PASS",
+      "scope": "complete DQI; existing inverse66 plus 45-Toffoli multiplier",
+      "reference_dqi_sha256": "655e83ab2ee40d65688e01c883a3804765080c1e47ee4e53f9d7b01bb6621177",
+      "sites_replaced": 32408,
+      "sites_by_stage": {
+        "forward_eea": 16204,
+        "reverse_eea": 16204
+      },
+      "candidate_sha256": "fc212bc49a145c2d1f3f964d3d0597f46a424604120370d54c26836fd26226dd",
+      "candidate_bytes": 1065409960,
+      "qubits": 1893,
+      "bits": 49155,
+      "registers": 4165,
+      "ops": 110351243,
+      "reference_static_Toffoli_like": 4484694,
+      "candidate_static_Toffoli_like": 3901350,
+      "static_Toffoli_saved": 583344,
+      "extra_qubits": 0,
+      "extra_classical_bits": 0,
+      "all_old_instructions_matched_under_injective_renaming": true,
+      "named_registers_unchanged": true,
+      "existing_product_cleanup_unchanged": true,
+      "classical_records_unchanged": true,
+      "outer_conditions_unchanged": true,
+      "unchanged_packet_span_bytes_verified": 625997379,
+      "retained_metadata_byte_equal": true,
+      "local_certificate": {
+        "status": "PASS",
+        "method": "exact Boolean ANF on 36 independent variables",
+        "arbitrary_xor_target": true,
+        "inputs_restored": true,
+        "unitary_phase": "exactly zero: CX/CCX/SWAP positive permutation gates only",
+        "measurement_outcomes": 0,
+        "extra_quantum_workspace": 0,
+        "entangled_reference_allowed": true
+      },
+      "local_old_certificate": {
+        "status": "PASS",
+        "method": "exact Boolean ANF on 36 independent variables",
+        "arbitrary_xor_target": true,
+        "inputs_restored": true,
+        "unitary_phase": "exactly zero: CX/CCX/SWAP positive permutation gates only",
+        "measurement_outcomes": 0,
+        "extra_quantum_workspace": 0,
+        "entangled_reference_allowed": true
+      },
+      "generator_sha256": "ce8e489ce8e5a597e24615d3eee1eca9837033bc48e2a2410d22b30892b8af08",
+      "probe_sha256": "5c10d34ebd3b73638482f1ddb6bc1f7febf92a25d9366277a66149a30c8fabc1",
+      "kickmix_full_parse": "PASS",
+      "full_DQI_verifier": "NOT_RUN",
+      "kaggle_submission": "NOT_RUN"
+    },
+    "comparison_reexecuted": false,
+    "comparison_source": "checkpoints/nonforney-20261026.json, local published-verifier validation",
+    "reference_checkpoint_sha256": "88af24ceac800e340b22c5518aec3d81bdddb73d06dadc2eb889d072c1a83ec4",
+    "comparison_full_cached": {
+      "status": "PASS",
+      "cost": 19143921722159.74,
+      "num_shots": 102400,
+      "value_errors": 0,
+      "phase_errors": 0,
+      "effective_error_rate": 0.0008660587301657926,
+      "log2_delta": -128.0,
+      "seed": 20261025,
+      "max_workers": 1,
+      "toffoli_count": 4484592.157382812,
+      "elapsed_seconds": 504.13,
+      "verifier_sha256": "f14274bc0943fb9769ddb01131be6063191a15009fe1caf1d4bdd9fd25194e65",
+      "candidate_sha256": "655e83ab2ee40d65688e01c883a3804765080c1e47ee4e53f9d7b01bb6621177",
+      "source": "published verifier; non-secret local salt"
+    },
+    "kaggle_official_evaluation": "NOT_RUN",
+    "full": {
+      "status": "PASS",
+      "cost": 16653730533936.092,
+      "num_shots": 102400,
+      "value_errors": 0,
+      "phase_errors": 0,
+      "effective_error_rate": 0.0008660587301657926,
+      "log2_delta": -128.0,
+      "seed": 20261025,
+      "max_workers": 1,
+      "toffoli_count": 3901248.1573828124,
+      "elapsed_seconds": 559.71,
+      "verifier_sha256": "f14274bc0943fb9769ddb01131be6063191a15009fe1caf1d4bdd9fd25194e65",
+      "candidate_sha256": "fc212bc49a145c2d1f3f964d3d0597f46a424604120370d54c26836fd26226dd",
+      "source": "published verifier; non-secret local salt"
+    },
+    "measured_additional_Toffoli_saved": 583344.0,
+    "measured_incremental_cost_reduction_fraction": 0.13007738040117278,
+    "original_baseline_full_cached": {
+      "status": "PASS",
+      "cost": 24439472802075.414,
+      "num_shots": 102400,
+      "value_errors": 0,
+      "phase_errors": 0,
+      "effective_error_rate": 0.0008660587301657926,
+      "log2_delta": -128.0,
+      "seed": 20261025,
+      "max_workers": 1,
+      "toffoli_count": 5725110.541582031,
+      "elapsed_seconds": 565.27,
+      "verifier_sha256": "f14274bc0943fb9769ddb01131be6063191a15009fe1caf1d4bdd9fd25194e65",
+      "candidate_sha256": "959471d05a26373b4f14ca0cae2d8639ea25f18170d9f6532139aa51ccc04995",
+      "source": "published verifier; non-secret local salt"
+    },
+    "measured_total_cost_reduction_fraction": 0.31857243121374335
+  },
+  "package_audit": {
+    "zip_sha256": "0c81959078c08aa809d316096565395361caa81db35c072e34a7d3a217082180",
+    "zip_bytes": 87828000,
+    "members": 13,
+    "non_DQI_members_byte_identical": 12,
+    "member_hashes": {
+      "dfthcsos/angle_k_0.kmb": "7bfb3983accc6ff97d6ab41a88deae924f1d1c97cf30e60879d0bff5688a8e25",
+      "dfthcsos/angle_k_1.kmb": "a04b6d0d57ce851b123af265066aaab2ab33353ea049d26acd534727466d72b6",
+      "dfthcsos/angle_k_2.kmb": "5c1b8987bc3fa1a4b8607e470f8c8f1392c22e7a7dbcb228f0ce9ec986e18058",
+      "dfthcsos/angle_k_3.kmb": "16ac67cdcaf3e2c6abdd98c4138ff1ae8a56cfc4ae15622bcdb3d3a3ba1e22cf",
+      "dfthcsos/angle_k_4.kmb": "d21cdd4c7e94196654aab15ebcabfe10ce8d343151a5e8dc3672e76684b6628d",
+      "dfthcsos/angle_k_5.kmb": "63b8d4cba36955e6098321f3b2ef3e34401dd276fa629b2e490d043b1743880b",
+      "dfthcsos/angle_k_6.kmb": "5bf740428e661d035fda860142578f421969e35e0df2e4e024fbf01a7340b378",
+      "dfthcsos/angle_k_7.kmb": "606009582111a22bd549b795c8d115ac8bbeb124bc8da24a80380eca6d34163d",
+      "dfthcsos/angle_k_8.kmb": "57c7cc51f5922fff6e95d76e1f723d4c2d029a241da643b95684d6322157a8fe",
+      "dfthcsos/angle_k_9.kmb": "22cbe2828988ff954fc07fd971a25e6bc04a02c302bf2cc642e4c3535daaad65",
+      "dfthcsos/submission.npz": "88722115206ffebe5f79eda60781572e6a6cc182576084c9e1609f2f2587055a",
+      "invsqrt.kmb": "e2bf8eb64350a4460a271fc7f1d591ef125b1e276377e9a0f64b96ab3ca321e1",
+      "dqi.kmb": "fc212bc49a145c2d1f3f964d3d0597f46a424604120370d54c26836fd26226dd"
+    },
+    "status": "PASS",
+    "correctness_gate": "PASS: published verifier, 102400 shots, zero value/phase errors"
+  },
+  "unit_tests": {
+    "passed": 20
+  },
+  "site_map": {
+    "file": "research/mul45/site-map.json.gz",
+    "sites": 32408,
+    "sha256": "f64d1c25588f0b1db3ddf96aa98874c8ef6d62737c4c98413cd554e7ae9f76cd"
+  },
+  "unchanged_existing_candidates_PRs_and_release": true,
+  "kaggle_submission": "NOT_RUN",
+  "kaggle_official_score": "NOT_EVALUATED for this candidate",
+  "status": "PASS"
+}
