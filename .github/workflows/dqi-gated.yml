@@ -34,8 +34,8 @@ jobs:
       CANDIDATE_RELEASE: ${{ inputs.candidate_release }}
       GH_TOKEN: ${{ github.token }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
       - name: Download immutable v1.0 reference ZIP
@@ -84,7 +84,7 @@ jobs:
 
       - name: Upload checkpoint and report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: dqi-checkpoint-${{ inputs.stage || 'baseline' }}
           path: build/report/report.json
@@ -93,7 +93,7 @@ jobs:
 
       - name: Upload staged candidate ZIP (never submit)
         if: success() && env.RUN_STAGE == 'full-package'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: dqi-candidate-for-human-review
           path: build/report/submission-candidate.zip
