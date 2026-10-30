@@ -66,7 +66,11 @@ def split_code(code):
     lines = code.splitlines(keepends=True)
     before = ''.join(lines[:a.lineno - 1])
     end = lines[a.end_lineno - 1]
-    after = end[a.end_col_offset:] + ''.join(lines[a.end_lineno:])
+    try:
+        # CPython AST column offsets count UTF-8 bytes, not Unicode code points.
+        suffix = end.encode('utf8')[a.end_col_offset:].decode('utf8')
+    except UnicodeError: raise Stop('Invalid input assignment boundary') from None
+    after = suffix + ''.join(lines[a.end_lineno:])
     return before, after
 
 
