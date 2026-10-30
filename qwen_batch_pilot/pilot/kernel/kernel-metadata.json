@@ -1,0 +1,19 @@
+{
+  "id": "sumuji/qwen-batch-private-pilot-20261031",
+  "title": "qwen_batch_private_pilot_20261031",
+  "code_file": "qwen_batch_private_pilot_20261031.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": false,
+  "machine_shape": "NvidiaTeslaT4",
+  "dataset_sources": [
+    "sumuji/qwen-batch-synthetic-20261031/1"
+  ],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": [
+    "qwen-lm/qwen2.5/Transformers/7b-instruct/1"
+  ]
+}
