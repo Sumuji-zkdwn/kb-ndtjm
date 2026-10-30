@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "baseline_dqi_sha256": "959471d05a26373b4f14ca0cae2d8639ea25f18170d9f6532139aa51ccc04995",
+  "sites_audited": 4095,
+  "inverse_output_phase_degree": 1,
+  "reads_of_old_inverse_temporary_records": 0,
+  "caller_writes_to_mask_or_guard": 0,
+  "counts": {
+    "op_06": 16380,
+    "op_12": 49140,
+    "op_31": 49140,
+    "linear_inverse_phase_operations": 589680,
+    "op_a0": 638820,
+    "op_40": 45045,
+    "op_c2": 425880,
+    "op_50": 49140
+  },
+  "scope": "actual pinned caller operands; complements local ANF and integration checks",
+  "submits_to_kaggle": false
+}

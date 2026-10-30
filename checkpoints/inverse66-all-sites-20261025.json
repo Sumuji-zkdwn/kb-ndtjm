@@ -1,0 +1,159 @@
+{
+  "integration": {
+    "status": "PASS",
+    "scope": "complete DQI; retained-scaffold inverse66 replacement",
+    "baseline_zip_sha256": "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43",
+    "baseline_dqi_sha256": "959471d05a26373b4f14ca0cae2d8639ea25f18170d9f6532139aa51ccc04995",
+    "candidate_sha256": "ea0d6717e7b37fb386a0d99730eebf150c0e78de1cc8547f0727c2f6845a99bc",
+    "candidate_bytes": 867743915,
+    "sites_replaced": 4095,
+    "inverse_regions_replaced": 8190,
+    "qubits": 1893,
+    "bits": 49155,
+    "registers": 4165,
+    "baseline_static_Toffoli_like": 5725461,
+    "candidate_static_Toffoli_like": 4705806,
+    "static_Toffoli_saved": 1019655,
+    "ops": 86689834,
+    "workspace_policy": "reuse first 21 of each original 48-qubit scaffold",
+    "named_registers_unchanged": true,
+    "outer_classical_guards_preserved": true,
+    "unchanged_packet_span_bytes_verified": 592003495,
+    "nested_metadata_only_removed": 761670,
+    "local_formal_proof": {
+      "status": "PASS",
+      "proof": "exact Boolean ANF with independent coherent phase coefficients",
+      "input_variables": 12,
+      "phase_coefficient_variables": 12,
+      "independent_measurement_variables": 96,
+      "measurement_branches_represented": "2^96",
+      "forward_CCX": 66,
+      "erase_CCX": 0,
+      "forward_op_counts": {
+        "CX": 1269,
+        "CCX": 66,
+        "HMR": 66,
+        "CZ_IF": 66
+      },
+      "erase_op_counts": {
+        "HMR": 30,
+        "CX": 3674,
+        "CZ_IF": 228,
+        "Z_IF": 47
+      },
+      "phase_preserved": true,
+      "output_and_workspace_clean": true,
+      "output_precondition": "zero initially; caller phase diagonal and scaffold untouched",
+      "local_qubits": 45,
+      "workspace_beyond_input_and_output": 21,
+      "DQI_integration": "NOT_IMPLEMENTED",
+      "DQI_Q_T_measurement": "NOT_RUN"
+    },
+    "kickmix_full_parse": "PASS",
+    "official_DQI_verifier": "NOT_RUN",
+    "score_improvement": "UNCONFIRMED",
+    "submits_to_kaggle": false
+  },
+  "gates": {
+    "submits_to_kaggle": false,
+    "requested_stage": "smoke",
+    "gates": {
+      "candidate": {
+        "stage": "candidate",
+        "submits_to_kaggle": false,
+        "platform_secret_salt": "unavailable",
+        "baseline": {
+          "archive_sha256": "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43",
+          "members": 13,
+          "angle_count": 10,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49154,
+            "registers": 4165,
+            "ops": 86051014,
+            "3q_ops": 5725461,
+            "2q_ops": 66446727,
+            "register_contract": "PASS"
+          },
+          "status": "PASS"
+        },
+        "candidate": {
+          "candidate_sha256": "ea0d6717e7b37fb386a0d99730eebf150c0e78de1cc8547f0727c2f6845a99bc",
+          "candidate_bytes": 867743915,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49155,
+            "registers": 4165,
+            "ops": 86689834,
+            "3q_ops": 4705806,
+            "2q_ops": 70918467,
+            "register_contract": "PASS"
+          },
+          "quantum_correctness": "NOT_YET_VERIFIED",
+          "status": "PASS"
+        },
+        "status": "PASS"
+      },
+      "smoke": {
+        "stage": "smoke",
+        "submits_to_kaggle": false,
+        "platform_secret_salt": "unavailable",
+        "baseline": {
+          "archive_sha256": "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43",
+          "members": 13,
+          "angle_count": 10,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49154,
+            "registers": 4165,
+            "ops": 86051014,
+            "3q_ops": 5725461,
+            "2q_ops": 66446727,
+            "register_contract": "PASS"
+          },
+          "status": "PASS"
+        },
+        "candidate": {
+          "candidate_sha256": "ea0d6717e7b37fb386a0d99730eebf150c0e78de1cc8547f0727c2f6845a99bc",
+          "candidate_bytes": 867743915,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49155,
+            "registers": 4165,
+            "ops": 86689834,
+            "3q_ops": 4705806,
+            "2q_ops": 70918467,
+            "register_contract": "PASS"
+          },
+          "quantum_correctness": "NOT_YET_VERIFIED",
+          "status": "PASS"
+        },
+        "smoke_plan": {
+          "num_shots": 1536,
+          "zero_error_upper_bound": 0.0561256873183065,
+          "log2_delta": -128.0,
+          "error_limit": 0.0625,
+          "confidence_unmodified": true
+        },
+        "smoke": {
+          "status": "PASS",
+          "cost": 440541669873573.6,
+          "num_shots": 1536,
+          "value_errors": 0,
+          "phase_errors": 0,
+          "effective_error_rate": 0.0561256873183065,
+          "log2_delta": -128.0,
+          "seed": 20261025,
+          "max_workers": 1,
+          "toffoli_count": 4705705.59375,
+          "elapsed_seconds": 13.3,
+          "verifier_sha256": "f14274bc0943fb9769ddb01131be6063191a15009fe1caf1d4bdd9fd25194e65",
+          "candidate_sha256": "ea0d6717e7b37fb386a0d99730eebf150c0e78de1cc8547f0727c2f6845a99bc",
+          "source": "published verifier; non-secret local salt"
+        },
+        "status": "PASS"
+      }
+    },
+    "all_requested_gates_passed": true
+  }
+}

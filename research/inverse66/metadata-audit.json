@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "candidate_sha256": "ea0d6717e7b37fb386a0d99730eebf150c0e78de1cc8547f0727c2f6845a99bc",
+  "forney_pairs": 4095,
+  "balanced_outer_INFO_tags": true,
+  "retained_INFO_tags_byte_equal": 2495456,
+  "removed_nested_INFO_tags": 761670
+}

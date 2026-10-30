@@ -1,0 +1,86 @@
+{
+  "scope": "local inverse contract and composition, NOT an integrated DQI candidate",
+  "archive_sha256": "25c74454ef8c00b44bb42177f491c196743f3dedd24e3ec5f096fbb60e6c19c3",
+  "kmx_sha256": "17e49adbe58563d692d2285fe8d336ea94ed3578fa237cb2cb49351c0d9dbb2d",
+  "polynomial": "0x1053",
+  "op_counts": {
+    "CX": 2367,
+    "CCX": 66,
+    "HMR": 84,
+    "CZ_IF": 140,
+    "Z_IF": 47
+  },
+  "inverse_output_ANF_degrees": [
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11
+  ],
+  "single": {
+    "status": "PASS",
+    "proof": "exact Boolean ANF",
+    "input_variables": 24,
+    "independent_measurement_variables": 84,
+    "measurement_branches_represented": "2^84",
+    "arbitrary_input_and_xor_target": true,
+    "scratch_clean": true,
+    "residual_phase_monomials": 0,
+    "largest_polynomial_monomials": 2125,
+    "inverse_applications": 1
+  },
+  "double": {
+    "status": "PASS",
+    "proof": "exact Boolean ANF",
+    "input_variables": 24,
+    "independent_measurement_variables": 168,
+    "measurement_branches_represented": "2^168",
+    "arbitrary_input_and_xor_target": true,
+    "scratch_clean": true,
+    "residual_phase_monomials": 0,
+    "largest_polynomial_monomials": 2125,
+    "inverse_applications": 2
+  },
+  "trusted_boundary": "Python ANF checker, KMx gate/HMR semantics; not Lean-checked",
+  "DQI_Q_T_measurement": "NOT_RUN",
+  "official_DQI_verifier": "NOT_RUN",
+  "kickmix_parser": "PASS",
+  "kaggle_submissions": 0,
+  "negative_control_missing_phase_correction": "REJECTED",
+  "retained_scaffold": {
+    "status": "PASS",
+    "proof": "exact Boolean ANF with independent coherent phase coefficients",
+    "input_variables": 12,
+    "phase_coefficient_variables": 12,
+    "independent_measurement_variables": 96,
+    "measurement_branches_represented": "2^96",
+    "forward_CCX": 66,
+    "erase_CCX": 0,
+    "forward_op_counts": {
+      "CX": 1269,
+      "CCX": 66,
+      "HMR": 66,
+      "CZ_IF": 66
+    },
+    "erase_op_counts": {
+      "HMR": 30,
+      "CX": 3674,
+      "CZ_IF": 228,
+      "Z_IF": 47
+    },
+    "phase_preserved": true,
+    "output_and_workspace_clean": true,
+    "output_precondition": "zero initially; caller phase diagonal and scaffold untouched",
+    "local_qubits": 45,
+    "workspace_beyond_input_and_output": 21,
+    "DQI_integration": "NOT_IMPLEMENTED",
+    "DQI_Q_T_measurement": "NOT_RUN"
+  }
+}

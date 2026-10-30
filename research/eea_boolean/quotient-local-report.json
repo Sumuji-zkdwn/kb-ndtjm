@@ -1,0 +1,73 @@
+{
+  "scope": "local coherent quotient contract; NOT a full DQI candidate",
+  "contract": "|a,b,t,c,0> -> |a,b,t XOR c*(a*inv(b)),c,0>",
+  "polynomial": "0x1053",
+  "certificate": {
+    "status": "PASS",
+    "method": "exact Boolean ANF, not trajectory sampling",
+    "independent_input_variables": 37,
+    "independent_measurement_variables": 108,
+    "measurement_branches_represented": "2^108",
+    "coherent_control": true,
+    "arbitrary_xor_target": true,
+    "zero_divisor_convention": "inv(0) = 0",
+    "quantum_workspace_clean": true,
+    "temporary_classical_bits_clean": true,
+    "residual_phase_monomials": 0
+  },
+  "baseline_certificate": {
+    "status": "PASS",
+    "method": "exact Boolean ANF, not trajectory sampling",
+    "independent_input_variables": 37,
+    "independent_measurement_variables": 84,
+    "measurement_branches_represented": "2^84",
+    "coherent_control": true,
+    "arbitrary_xor_target": true,
+    "zero_divisor_convention": "inv(0) = 0",
+    "quantum_workspace_clean": true,
+    "temporary_classical_bits_clean": true,
+    "residual_phase_monomials": 0
+  },
+  "baseline_reused_parity_certificate": {
+    "status": "PASS",
+    "method": "exact Boolean ANF, not trajectory sampling",
+    "independent_input_variables": 37,
+    "independent_measurement_variables": 84,
+    "measurement_branches_represented": "2^84",
+    "coherent_control": true,
+    "arbitrary_xor_target": true,
+    "zero_divisor_convention": "inv(0) = 0",
+    "quantum_workspace_clean": true,
+    "temporary_classical_bits_clean": true,
+    "residual_phase_monomials": 0
+  },
+  "negative_control_missing_fixup": "REJECTED",
+  "kickmix_parse": "PASS",
+  "baseline_local_qubits": 109,
+  "candidate_local_qubits": 82,
+  "baseline_static_toffoli": 390,
+  "candidate_static_toffoli": 141,
+  "static_saved_per_call": 249,
+  "candidate_op_counts": {
+    "BIT_STORE0": 36,
+    "CX": 5424,
+    "CCX": 141,
+    "HMR": 108,
+    "CZ": 438,
+    "R": 12,
+    "SWAP": 21,
+    "BIT_INVERT": 104,
+    "Z": 47
+  },
+  "local_kmx_sha256": "85132c3cdc060f876befe232ddc7dabb6adbcc30e0718d71baabbd4d3920f5dd",
+  "probe_source_sha256": "afd278a6553d537309b8538cc968802808eba580f766359397faa21d12fa20d7",
+  "inverse_component_sha256": {
+    "forward": "1f7ba6cecf009d68b2f17af540af432d8acfa14760c07429c3bb7a23d7554e9d",
+    "erase": "9a9f87288af4fe5972bf234c8b5ca9bf57e3c55fc3639e579abe905860d46515"
+  },
+  "kickmix_reference_source_commit": "638777fac4379bc62e2a1e4a52cf1a1753895d48",
+  "trusted_boundary": "Python ANF checker, finite-field reference, gate/HMR semantics; not Lean checked",
+  "full_DQI_integration": "NOT_RUN",
+  "official_verifier": "NOT_RUN",
+  "kaggle_submission": "NOT_RUN"
+}

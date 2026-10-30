@@ -1,0 +1,146 @@
+{
+  "baseline_dqi_sha256": "959471d05a26373b4f14ca0cae2d8639ea25f18170d9f6532139aa51ccc04995",
+  "quantum_bits": 1893,
+  "static_toffoli_like": 5725461,
+  "top_level_stages": [
+    {
+      "stage": "gf_iadd",
+      "start_zero_based": 4,
+      "stop_exclusive": 9,
+      "static_toffoli_like": 0
+    },
+    {
+      "stage": "gf_iadd",
+      "start_zero_based": 9,
+      "stop_exclusive": 15,
+      "static_toffoli_like": 0
+    },
+    {
+      "stage": "initial_shift",
+      "start_zero_based": 15,
+      "stop_exclusive": 46282,
+      "static_toffoli_like": 30912
+    },
+    {
+      "stage": "forward_eea",
+      "start_zero_based": 46282,
+      "stop_exclusive": 19209669,
+      "static_toffoli_like": 2109450
+    },
+    {
+      "stage": "chien_forney_mbuc",
+      "start_zero_based": 19209669,
+      "stop_exclusive": 66838590,
+      "static_toffoli_like": 1444737
+    },
+    {
+      "stage": "reverse_eea",
+      "start_zero_based": 66838590,
+      "stop_exclusive": 86005974,
+      "static_toffoli_like": 2109450
+    },
+    {
+      "stage": "uncompute_initial_shift",
+      "start_zero_based": 86005974,
+      "stop_exclusive": 86050999,
+      "static_toffoli_like": 30912
+    },
+    {
+      "stage": "gf_iadd",
+      "start_zero_based": 86050999,
+      "stop_exclusive": 86051005,
+      "static_toffoli_like": 0
+    },
+    {
+      "stage": "gf_iadd",
+      "start_zero_based": 86051005,
+      "stop_exclusive": 86051010,
+      "static_toffoli_like": 0
+    }
+  ],
+  "exclusive_toffoli_by_innermost_tag": {
+    "gf_mul": 3667293,
+    "c_gf_iadd": 399552,
+    "swap_a_and_b": 396492,
+    "shift_b_array_right": 384504,
+    "sweep_positions": 327600,
+    "unary_iteration": 205956,
+    "forney_step": 147420,
+    "update_flag": 51504,
+    "left_rotate": 32676,
+    "right_rotate": 32676,
+    "c_iadd_classical": 29214,
+    "flip_if_lt": 18726,
+    "eea_step": 9324,
+    "update_halting_counter": 8436,
+    "iadd_classical": 5328,
+    "iadd": 3108,
+    "isub": 3108,
+    "shift_step": 1656,
+    "update_metadata": 888,
+    "(outside)": 0,
+    "gf_iadd": 0,
+    "initial_shift": 0,
+    "c_isub_classical": 0,
+    "forward_eea": 0,
+    "isub_classical": 0,
+    "multiply_and_add_or_sub": 0,
+    "quotient_div": 0,
+    "gf_div": 0,
+    "gf_inverse_chain": 0,
+    "gf_ifrobenius": 0,
+    "linear_map": 0,
+    "gf_idiv_x": 0,
+    "gf_idiv_classical": 0,
+    "gf_imul_x": 0,
+    "gf_imul_classical": 0,
+    "gf_ifrobenius_adjoint": 0,
+    "gf_undiv": 0,
+    "gf_unmul": 0,
+    "gf_phase_by_product": 0,
+    "gf_uninverse_chain": 0,
+    "c_gf_mul": 0,
+    "chien_forney_mbuc": 0,
+    "pre_align_reg_b": 0,
+    "unalign_reg_b": 0,
+    "reverse_eea": 0,
+    "uncompute_initial_shift": 0
+  },
+  "per_call_static_toffoli_histograms": {
+    "gf_inverse_chain": {
+      "315": 4983
+    },
+    "gf_uninverse_chain": {
+      "0": 4983
+    },
+    "forney_step": {
+      "351": 4095
+    }
+  },
+  "interpretation": "static counts; actual score uses measured mean conditional counts",
+  "conservative_Forney_model": {
+    "old_inverse_compute": 315,
+    "old_inverse_erase": 0,
+    "new_inverse_compute": 66,
+    "new_inverse_erase": 66,
+    "saved_per_active_position": 183,
+    "positions": 4095,
+    "static_saved_if_embedded": 749385,
+    "static_new_T_if_embedded": 4976076,
+    "assumptions": "each Forney inverse pair replaced; all other operations unchanged",
+    "integration_status": "NOT_IMPLEMENTED",
+    "Q_prime": "UNKNOWN"
+  },
+  "retained_scaffold_model": {
+    "old_compute": 315,
+    "old_erase": 0,
+    "new_compute": 66,
+    "new_erase": 0,
+    "positions": 4095,
+    "static_saved_if_embedded": 1019655,
+    "static_new_T_if_embedded": 4705806,
+    "integration_status": "NOT_IMPLEMENTED",
+    "Q_prime": "UNKNOWN",
+    "measured_mean_T": "NOT_RUN"
+  }
+}

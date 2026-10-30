@@ -1,0 +1,340 @@
+{
+  "status": "PASS",
+  "scope": "one complete DQI phase-block replacement",
+  "baseline_zip_sha256": "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43",
+  "baseline_dqi_sha256": "959471d05a26373b4f14ca0cae2d8639ea25f18170d9f6532139aa51ccc04995",
+  "candidate_sha256": "6079f1aeca6cf87a4ffbfa22110104c6fd5e588198c5d0e86f62409d757162ca",
+  "candidate_bytes": 886121285,
+  "site": {
+    "start_zero_based": 51505,
+    "stop_exclusive": 51763,
+    "tag": "first @enter:gf_phase_by_product",
+    "polynomial": "0x1053",
+    "lhs_qubits": [
+      1740,
+      1741,
+      1742,
+      1743,
+      1744,
+      1745,
+      1746,
+      1747,
+      1748,
+      1749,
+      1750,
+      1751
+    ],
+    "rhs_qubits": [
+      1833,
+      1834,
+      1835,
+      1836,
+      1837,
+      1838,
+      1839,
+      1840,
+      1841,
+      1842,
+      1843,
+      1844
+    ],
+    "measurement_mask_bits": [
+      49140,
+      49141,
+      49142,
+      49143,
+      49144,
+      49145,
+      49146,
+      49147,
+      49148,
+      49149,
+      49150,
+      49151
+    ],
+    "scratch_qubit": 1821,
+    "classical_scratch_bit": 49152,
+    "mask_source": "preceding 12 HMRs, NOT E registers",
+    "scratch_precondition": "q1821 reset by HMR; b49152 previously unused and initially zero",
+    "active_condition_depth": 0,
+    "root": "constant 1; no quantum root in baseline",
+    "adapter": "V -> V^(2^11), WFS r=1 UV^2, inverse adapter"
+  },
+  "old_ops": 258,
+  "new_ops": 535,
+  "op_delta": 277,
+  "old_op_counts": {
+    "CZ_IF": 144,
+    "BIT_INVERT_IF": 104,
+    "BIT_STORE0": 10
+  },
+  "new_op_counts": {
+    "CX": 230,
+    "SWAP": 4,
+    "CX_IF": 288,
+    "CZ": 12,
+    "BIT_STORE0": 1
+  },
+  "qubit_delta": 0,
+  "register_delta": 0,
+  "baseline_local_proof": {
+    "ANF_exact": true,
+    "independent_variables": 36,
+    "phase_monomials": 363,
+    "quantum_restoration": true,
+    "classical_mask_preserved": true,
+    "scratch_q_and_b_zero": true
+  },
+  "wfs_original_local_proof": {
+    "phase_ANF_exact": true,
+    "variables": 37,
+    "phase_monomials": 550,
+    "restored_and_clean": true,
+    "op_counts": {
+      "CX_IF": 288,
+      "CCZ": 12,
+      "CX": 132
+    },
+    "total_ops": 432
+  },
+  "integrated_local_proof": {
+    "ANF_exact": true,
+    "independent_variables": 36,
+    "phase_monomials": 363,
+    "quantum_restoration": true,
+    "classical_mask_preserved": true,
+    "scratch_q_and_b_zero": true
+  },
+  "packet_preservation": {
+    "1": {
+      "prefix_bytes": 51505,
+      "suffix_bytes": 85999251,
+      "unchanged_bytes_verified": true
+    },
+    "2": {
+      "prefix_bytes": 125848,
+      "suffix_bytes": 22775996,
+      "unchanged_bytes_verified": true
+    },
+    "3": {
+      "prefix_bytes": 125848,
+      "suffix_bytes": 22775996,
+      "unchanged_bytes_verified": true
+    },
+    "4": {
+      "prefix_bytes": 125848,
+      "suffix_bytes": 22775996,
+      "unchanged_bytes_verified": true
+    },
+    "5": {
+      "prefix_bytes": 24108,
+      "suffix_bytes": 265762224,
+      "unchanged_bytes_verified": true
+    },
+    "6": {
+      "prefix_bytes": 24108,
+      "suffix_bytes": 265762224,
+      "unchanged_bytes_verified": true
+    },
+    "7": {
+      "prefix_bytes": 37792,
+      "suffix_bytes": 13231728,
+      "unchanged_bytes_verified": true
+    },
+    "8": {
+      "prefix_bytes": 7792,
+      "suffix_bytes": 33775944,
+      "unchanged_bytes_verified": true
+    },
+    "9": {
+      "prefix_bytes": 7744,
+      "suffix_bytes": 63888940,
+      "unchanged_bytes_verified": true
+    },
+    "10": {
+      "prefix_bytes": 0,
+      "suffix_bytes": 0,
+      "unchanged_bytes_verified": true
+    },
+    "11": {
+      "prefix_bytes": 0,
+      "suffix_bytes": 88516705,
+      "unchanged_bytes_verified": true
+    }
+  },
+  "kickmix_full_parse": "PASS",
+  "smoke": "NOT_RUN",
+  "full_package": "NOT_RUN",
+  "official_score_improvement": "UNCONFIRMED",
+  "cost_note": "integration checkpoint; more two-qubit operations; no cost-reduction claim",
+  "submits_to_kaggle": false,
+  "kickmix_qubits": 1893,
+  "kickmix_bits": 49154,
+  "kickmix_toffoli_like": 5725461,
+  "checkpoint_date_jst": "2026-10-25",
+  "local_stages": {
+    "submits_to_kaggle": false,
+    "requested_stage": "full-package",
+    "gates": {
+      "candidate": {
+        "stage": "candidate",
+        "submits_to_kaggle": false,
+        "platform_secret_salt": "unavailable",
+        "baseline": {
+          "archive_sha256": "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43",
+          "members": 13,
+          "angle_count": 10,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49154,
+            "registers": 4165,
+            "ops": 86051014,
+            "3q_ops": 5725461,
+            "2q_ops": 66446727,
+            "register_contract": "PASS"
+          },
+          "status": "PASS"
+        },
+        "candidate": {
+          "candidate_sha256": "6079f1aeca6cf87a4ffbfa22110104c6fd5e588198c5d0e86f62409d757162ca",
+          "candidate_bytes": 886121285,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49154,
+            "registers": 4165,
+            "ops": 86051291,
+            "3q_ops": 5725461,
+            "2q_ops": 66447117,
+            "register_contract": "PASS"
+          },
+          "quantum_correctness": "NOT_YET_VERIFIED",
+          "status": "PASS"
+        },
+        "status": "PASS"
+      },
+      "smoke": {
+        "stage": "smoke",
+        "status": "NOT_RUN",
+        "reason": "published official DQI verifier files unavailable",
+        "submits_to_kaggle": false
+      },
+      "full-package": {
+        "stage": "full-package",
+        "status": "NOT_RUN",
+        "reason": "published official DQI verifier files unavailable",
+        "submits_to_kaggle": false
+      }
+    },
+    "all_requested_gates_passed": false
+  },
+  "regression_tests": {
+    "status": "PASS",
+    "tests": 4,
+    "cases": [
+      "exact adapted phase",
+      "wrong mask endianness rejected",
+      "missing adapter rejected",
+      "missing uncompute rejected"
+    ]
+  },
+  "source_commit": "6f533d1fba05b5ecc5bffd5512f7e0e3b2cf0a0c",
+  "pull_request": "https://github.com/Sumuji-zkdwn/kb-ndtjm/pull/1",
+  "upstream_kickmix_commit": "638777fac4379bc62e2a1e4a52cf1a1753895d48",
+  "official_verification": {
+    "smoke": "NOT_RUN",
+    "full-package": "NOT_RUN",
+    "reason": "KAGGLE_API_TOKEN unavailable in Actions; official files not downloaded"
+  },
+  "initial_classical_scratch_evidence": "Pinned upstream sim.h ensure_big_enough_state_for uses value-initialized state_block.resize; scratch bit is outside E registers and no earlier write exists in baseline.",
+  "github_actions": {
+    "run_id": 40188396910,
+    "url": "https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40188396910",
+    "source_commit": "6f533d1fba05b5ecc5bffd5512f7e0e3b2cf0a0c",
+    "workflow_conclusion": "success",
+    "full_kickmix_parse": "PASS",
+    "candidate": "PASS",
+    "smoke": "NOT_RUN",
+    "full-package": "NOT_RUN",
+    "all_requested_gates_passed": false,
+    "reason": "KAGGLE_API_TOKEN unavailable; official files not downloaded",
+    "candidate_sha256_matches_local": true,
+    "artifact_candidate": {
+      "id": 12597432193,
+      "name": "dqi-wfs-one-site-unscored",
+      "zip_bytes": 70438011,
+      "zip_sha256": "12bcb47247d2e9e6be4bda8e2454aab3d3790042f1037c9c3a3111824f8014d9",
+      "url": "https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40188396910/artifacts/12597432193"
+    },
+    "artifact_reports": {
+      "id": 12597087822,
+      "name": "dqi-checkpoint-full-package",
+      "url": "https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40188396910/artifacts/12597087822"
+    },
+    "existing_local_kernel_workflow": {
+      "id": 40188396933,
+      "conclusion": "success"
+    },
+    "stage_reports": {
+      "submits_to_kaggle": false,
+      "requested_stage": "full-package",
+      "gates": {
+        "candidate": {
+          "stage": "candidate",
+          "submits_to_kaggle": false,
+          "platform_secret_salt": "unavailable",
+          "baseline": {
+            "archive_sha256": "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43",
+            "members": 13,
+            "angle_count": 10,
+            "dqi": {
+              "qubits": 1893,
+              "bits": 49154,
+              "registers": 4165,
+              "ops": 86051014,
+              "3q_ops": 5725461,
+              "2q_ops": 66446727,
+              "register_contract": "PASS"
+            },
+            "status": "PASS"
+          },
+          "candidate": {
+            "candidate_sha256": "6079f1aeca6cf87a4ffbfa22110104c6fd5e588198c5d0e86f62409d757162ca",
+            "candidate_bytes": 886121285,
+            "dqi": {
+              "qubits": 1893,
+              "bits": 49154,
+              "registers": 4165,
+              "ops": 86051291,
+              "3q_ops": 5725461,
+              "2q_ops": 66447117,
+              "register_contract": "PASS"
+            },
+            "quantum_correctness": "NOT_YET_VERIFIED",
+            "status": "PASS"
+          },
+          "status": "PASS"
+        },
+        "smoke": {
+          "stage": "smoke",
+          "status": "NOT_RUN",
+          "reason": "KAGGLE_API_TOKEN unavailable; official files not downloaded",
+          "submits_to_kaggle": false
+        },
+        "full-package": {
+          "stage": "full-package",
+          "status": "NOT_RUN",
+          "reason": "KAGGLE_API_TOKEN unavailable; official files not downloaded",
+          "submits_to_kaggle": false
+        }
+      },
+      "all_requested_gates_passed": false
+    },
+    "reports_artifact_contents_verified": true
+  },
+  "baseline_release_unchanged": {
+    "tag": "v1.0",
+    "asset": "submission.zip",
+    "bytes": 73818680,
+    "sha256": "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43"
+  }
+}

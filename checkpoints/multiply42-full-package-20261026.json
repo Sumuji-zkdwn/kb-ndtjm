@@ -1,0 +1,1079 @@
+{
+  "status": "PASS",
+  "source_commit": "ae70132dd4ab05d7429220add0f90ba1f1eaafb2",
+  "actions_run": "https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40218581338",
+  "actions_run_conclusion": "success",
+  "artifacts": [
+    {
+      "id": 12609606030,
+      "name": "dqi-candidate-for-human-review",
+      "size_in_bytes": 47035559,
+      "url": "https://api.github.com/repos/Sumuji-zkdwn/kb-ndtjm/actions/artifacts/12609606030",
+      "archive_download_url": "https://api.github.com/repos/Sumuji-zkdwn/kb-ndtjm/actions/artifacts/12609606030/zip",
+      "expired": false,
+      "created_at": "2026-10-25T18:26:46Z",
+      "expires_at": "2026-11-24T18:26:43Z",
+      "updated_at": "2026-10-25T18:26:46Z",
+      "digest": "sha256:98e61248d2ffce38c3a4bf0bce037fb497417fcf64a3e8c74b5c9dc69deccefe",
+      "workflow_run": {
+        "id": 40218581338,
+        "repository_id": 1432765360,
+        "head_repository_id": 1432765360,
+        "head_branch": "wfs/dqi-single-site-20261025",
+        "head_sha": "ae70132dd4ab05d7429220add0f90ba1f1eaafb2"
+      }
+    },
+    {
+      "id": 12609463968,
+      "name": "dqi-checkpoint-full-package",
+      "size_in_bytes": 1720087,
+      "url": "https://api.github.com/repos/Sumuji-zkdwn/kb-ndtjm/actions/artifacts/12609463968",
+      "archive_download_url": "https://api.github.com/repos/Sumuji-zkdwn/kb-ndtjm/actions/artifacts/12609463968/zip",
+      "expired": false,
+      "created_at": "2026-10-25T18:26:29Z",
+      "expires_at": "2026-11-24T18:26:28Z",
+      "updated_at": "2026-10-25T18:26:29Z",
+      "digest": "sha256:73a00a2273b28efdbaa454aa7524825cbd70bbf80a279abc21b3dd95ff7ea36f",
+      "workflow_run": {
+        "id": 40218581338,
+        "repository_id": 1432765360,
+        "head_repository_id": 1432765360,
+        "head_branch": "wfs/dqi-single-site-20261025",
+        "head_sha": "ae70132dd4ab05d7429220add0f90ba1f1eaafb2"
+      }
+    },
+    {
+      "id": 12608919762,
+      "name": "dqi-multiply42-unscored",
+      "size_in_bytes": 67429212,
+      "url": "https://api.github.com/repos/Sumuji-zkdwn/kb-ndtjm/actions/artifacts/12608919762",
+      "archive_download_url": "https://api.github.com/repos/Sumuji-zkdwn/kb-ndtjm/actions/artifacts/12608919762/zip",
+      "expired": false,
+      "created_at": "2026-10-25T18:26:42Z",
+      "expires_at": "2026-11-24T18:26:30Z",
+      "updated_at": "2026-10-25T18:26:42Z",
+      "digest": "sha256:3541aab673a106ee45c456108bd249e712679ba8454784fb2d25924302db123b",
+      "workflow_run": {
+        "id": 40218581338,
+        "repository_id": 1432765360,
+        "head_repository_id": 1432765360,
+        "head_branch": "wfs/dqi-single-site-20261025",
+        "head_sha": "ae70132dd4ab05d7429220add0f90ba1f1eaafb2"
+      }
+    }
+  ],
+  "unit_tests_passed": 24,
+  "one_site_gates": {
+    "submits_to_kaggle": false,
+    "requested_stage": "full-package",
+    "gates": {
+      "candidate": {
+        "stage": "candidate",
+        "submits_to_kaggle": false,
+        "platform_secret_salt": "unavailable",
+        "baseline": {
+          "archive_sha256": "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43",
+          "members": 13,
+          "angle_count": 10,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49154,
+            "registers": 4165,
+            "ops": 86051014,
+            "3q_ops": 5725461,
+            "2q_ops": 66446727,
+            "register_contract": "PASS"
+          },
+          "status": "PASS"
+        },
+        "candidate": {
+          "candidate_sha256": "73ee615944a98dc2e1317dad8d87567d720d1ae2828f8ba6048ed2bcaae43ff5",
+          "candidate_bytes": 863183257,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49155,
+            "registers": 4165,
+            "ops": 86822982,
+            "3q_ops": 4484673,
+            "2q_ops": 71888143,
+            "register_contract": "PASS"
+          },
+          "quantum_correctness": "NOT_YET_VERIFIED",
+          "status": "PASS"
+        },
+        "comparison": {
+          "candidate_sha256": "655e83ab2ee40d65688e01c883a3804765080c1e47ee4e53f9d7b01bb6621177",
+          "candidate_bytes": 863184040,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49155,
+            "registers": 4165,
+            "ops": 86823035,
+            "3q_ops": 4484694,
+            "2q_ops": 71888163,
+            "register_contract": "PASS"
+          },
+          "quantum_correctness": "NOT_YET_VERIFIED",
+          "status": "PASS"
+        },
+        "status": "PASS"
+      },
+      "smoke": {
+        "stage": "smoke",
+        "submits_to_kaggle": false,
+        "platform_secret_salt": "unavailable",
+        "baseline": {
+          "archive_sha256": "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43",
+          "members": 13,
+          "angle_count": 10,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49154,
+            "registers": 4165,
+            "ops": 86051014,
+            "3q_ops": 5725461,
+            "2q_ops": 66446727,
+            "register_contract": "PASS"
+          },
+          "status": "PASS"
+        },
+        "candidate": {
+          "candidate_sha256": "73ee615944a98dc2e1317dad8d87567d720d1ae2828f8ba6048ed2bcaae43ff5",
+          "candidate_bytes": 863183257,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49155,
+            "registers": 4165,
+            "ops": 86822982,
+            "3q_ops": 4484673,
+            "2q_ops": 71888143,
+            "register_contract": "PASS"
+          },
+          "quantum_correctness": "NOT_YET_VERIFIED",
+          "status": "PASS"
+        },
+        "comparison": {
+          "candidate_sha256": "655e83ab2ee40d65688e01c883a3804765080c1e47ee4e53f9d7b01bb6621177",
+          "candidate_bytes": 863184040,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49155,
+            "registers": 4165,
+            "ops": 86823035,
+            "3q_ops": 4484694,
+            "2q_ops": 71888163,
+            "register_contract": "PASS"
+          },
+          "quantum_correctness": "NOT_YET_VERIFIED",
+          "status": "PASS"
+        },
+        "smoke_plan": {
+          "num_shots": 1536,
+          "zero_error_upper_bound": 0.0561256873183065,
+          "log2_delta": -128.0,
+          "error_limit": 0.0625,
+          "confidence_unmodified": true
+        },
+        "smoke": {
+          "status": "PASS",
+          "cost": 419839503292319.25,
+          "num_shots": 1536,
+          "value_errors": 0,
+          "phase_errors": 0,
+          "effective_error_rate": 0.0561256873183065,
+          "log2_delta": -128.0,
+          "seed": 20261025,
+          "max_workers": 1,
+          "toffoli_count": 4484572.59375,
+          "elapsed_seconds": 14.66,
+          "verifier_sha256": "f14274bc0943fb9769ddb01131be6063191a15009fe1caf1d4bdd9fd25194e65",
+          "candidate_sha256": "73ee615944a98dc2e1317dad8d87567d720d1ae2828f8ba6048ed2bcaae43ff5",
+          "source": "published verifier; non-secret local salt"
+        },
+        "status": "PASS"
+      },
+      "full-package": {
+        "stage": "full-package",
+        "submits_to_kaggle": false,
+        "platform_secret_salt": "unavailable",
+        "baseline": {
+          "archive_sha256": "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43",
+          "members": 13,
+          "angle_count": 10,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49154,
+            "registers": 4165,
+            "ops": 86051014,
+            "3q_ops": 5725461,
+            "2q_ops": 66446727,
+            "register_contract": "PASS"
+          },
+          "status": "PASS"
+        },
+        "candidate": {
+          "candidate_sha256": "73ee615944a98dc2e1317dad8d87567d720d1ae2828f8ba6048ed2bcaae43ff5",
+          "candidate_bytes": 863183257,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49155,
+            "registers": 4165,
+            "ops": 86822982,
+            "3q_ops": 4484673,
+            "2q_ops": 71888143,
+            "register_contract": "PASS"
+          },
+          "quantum_correctness": "NOT_YET_VERIFIED",
+          "status": "PASS"
+        },
+        "comparison": {
+          "candidate_sha256": "655e83ab2ee40d65688e01c883a3804765080c1e47ee4e53f9d7b01bb6621177",
+          "candidate_bytes": 863184040,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49155,
+            "registers": 4165,
+            "ops": 86823035,
+            "3q_ops": 4484694,
+            "2q_ops": 71888163,
+            "register_contract": "PASS"
+          },
+          "quantum_correctness": "NOT_YET_VERIFIED",
+          "status": "PASS"
+        },
+        "smoke_plan": {
+          "num_shots": 1536,
+          "zero_error_upper_bound": 0.0561256873183065,
+          "log2_delta": -128.0,
+          "error_limit": 0.0625,
+          "confidence_unmodified": true
+        },
+        "smoke": {
+          "status": "PASS",
+          "cost": 419839503292319.25,
+          "num_shots": 1536,
+          "value_errors": 0,
+          "phase_errors": 0,
+          "effective_error_rate": 0.0561256873183065,
+          "log2_delta": -128.0,
+          "seed": 20261025,
+          "max_workers": 1,
+          "toffoli_count": 4484572.59375,
+          "elapsed_seconds": 64.64,
+          "verifier_sha256": "f14274bc0943fb9769ddb01131be6063191a15009fe1caf1d4bdd9fd25194e65",
+          "candidate_sha256": "73ee615944a98dc2e1317dad8d87567d720d1ae2828f8ba6048ed2bcaae43ff5",
+          "source": "published verifier; non-secret local salt"
+        },
+        "full": {
+          "status": "PASS",
+          "cost": 19143832076916.19,
+          "num_shots": 102400,
+          "value_errors": 0,
+          "phase_errors": 0,
+          "effective_error_rate": 0.0008660587301657926,
+          "log2_delta": -128.0,
+          "seed": 20261025,
+          "max_workers": 1,
+          "toffoli_count": 4484571.157382812,
+          "elapsed_seconds": 561.6,
+          "verifier_sha256": "f14274bc0943fb9769ddb01131be6063191a15009fe1caf1d4bdd9fd25194e65",
+          "candidate_sha256": "73ee615944a98dc2e1317dad8d87567d720d1ae2828f8ba6048ed2bcaae43ff5",
+          "source": "published verifier; non-secret local salt"
+        },
+        "comparison_kind": "incremental versus explicitly supplied DQI; ZIP baseline remains v1.0",
+        "comparison_full": {
+          "status": "PASS",
+          "cost": 19143921722159.74,
+          "num_shots": 102400,
+          "value_errors": 0,
+          "phase_errors": 0,
+          "effective_error_rate": 0.0008660587301657926,
+          "log2_delta": -128.0,
+          "seed": 20261025,
+          "max_workers": 1,
+          "toffoli_count": 4484592.157382812,
+          "elapsed_seconds": 567.64,
+          "verifier_sha256": "f14274bc0943fb9769ddb01131be6063191a15009fe1caf1d4bdd9fd25194e65",
+          "candidate_sha256": "655e83ab2ee40d65688e01c883a3804765080c1e47ee4e53f9d7b01bb6621177",
+          "source": "REUSED_VERIFIED_REPORT; unchanged reference was not rerun in this job",
+          "measurement_actions_run": "https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40211102322",
+          "measurement_source_commit": "55869a29227b065f9e8c57a2ee103a9b694bbbac",
+          "checkpoint_sha256": "416c70ef2097a07d166b8f9276872a911177694e12fe44cbf4ac23277fa94cb1"
+        },
+        "local_improvement": true,
+        "packaging": {
+          "zip_sha256": "aa0913ac027cdafa2357195da0ec5b34b003d76ffe757cd03f617554f7fa9586",
+          "zip_bytes": 66863299
+        },
+        "candidate_status": "ready for USER-APPROVED Kaggle submission",
+        "status": "PASS"
+      }
+    },
+    "all_requested_gates_passed": true
+  },
+  "all_site_gates": {
+    "submits_to_kaggle": false,
+    "requested_stage": "full-package",
+    "gates": {
+      "candidate": {
+        "stage": "candidate",
+        "submits_to_kaggle": false,
+        "platform_secret_salt": "unavailable",
+        "baseline": {
+          "archive_sha256": "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43",
+          "members": 13,
+          "angle_count": 10,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49154,
+            "registers": 4165,
+            "ops": 86051014,
+            "3q_ops": 5725461,
+            "2q_ops": 66446727,
+            "register_contract": "PASS"
+          },
+          "status": "PASS"
+        },
+        "candidate": {
+          "candidate_sha256": "252b41714f6147723e44082e4a4f75d84b34b5aa4b23e8c47ce096667caa75e9",
+          "candidate_bytes": 837808576,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49155,
+            "registers": 4165,
+            "ops": 85105411,
+            "3q_ops": 3804126,
+            "2q_ops": 71240003,
+            "register_contract": "PASS"
+          },
+          "quantum_correctness": "NOT_YET_VERIFIED",
+          "status": "PASS"
+        },
+        "comparison": {
+          "candidate_sha256": "655e83ab2ee40d65688e01c883a3804765080c1e47ee4e53f9d7b01bb6621177",
+          "candidate_bytes": 863184040,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49155,
+            "registers": 4165,
+            "ops": 86823035,
+            "3q_ops": 4484694,
+            "2q_ops": 71888163,
+            "register_contract": "PASS"
+          },
+          "quantum_correctness": "NOT_YET_VERIFIED",
+          "status": "PASS"
+        },
+        "status": "PASS"
+      },
+      "smoke": {
+        "stage": "smoke",
+        "submits_to_kaggle": false,
+        "platform_secret_salt": "unavailable",
+        "baseline": {
+          "archive_sha256": "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43",
+          "members": 13,
+          "angle_count": 10,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49154,
+            "registers": 4165,
+            "ops": 86051014,
+            "3q_ops": 5725461,
+            "2q_ops": 66446727,
+            "register_contract": "PASS"
+          },
+          "status": "PASS"
+        },
+        "candidate": {
+          "candidate_sha256": "252b41714f6147723e44082e4a4f75d84b34b5aa4b23e8c47ce096667caa75e9",
+          "candidate_bytes": 837808576,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49155,
+            "registers": 4165,
+            "ops": 85105411,
+            "3q_ops": 3804126,
+            "2q_ops": 71240003,
+            "register_contract": "PASS"
+          },
+          "quantum_correctness": "NOT_YET_VERIFIED",
+          "status": "PASS"
+        },
+        "comparison": {
+          "candidate_sha256": "655e83ab2ee40d65688e01c883a3804765080c1e47ee4e53f9d7b01bb6621177",
+          "candidate_bytes": 863184040,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49155,
+            "registers": 4165,
+            "ops": 86823035,
+            "3q_ops": 4484694,
+            "2q_ops": 71888163,
+            "register_contract": "PASS"
+          },
+          "quantum_correctness": "NOT_YET_VERIFIED",
+          "status": "PASS"
+        },
+        "smoke_plan": {
+          "num_shots": 1536,
+          "zero_error_upper_bound": 0.0561256873183065,
+          "log2_delta": -128.0,
+          "error_limit": 0.0625,
+          "confidence_unmodified": true
+        },
+        "smoke": {
+          "status": "PASS",
+          "cost": 356127631430711.5,
+          "num_shots": 1536,
+          "value_errors": 0,
+          "phase_errors": 0,
+          "effective_error_rate": 0.0561256873183065,
+          "log2_delta": -128.0,
+          "seed": 20261025,
+          "max_workers": 1,
+          "toffoli_count": 3804025.59375,
+          "elapsed_seconds": 15.82,
+          "verifier_sha256": "f14274bc0943fb9769ddb01131be6063191a15009fe1caf1d4bdd9fd25194e65",
+          "candidate_sha256": "252b41714f6147723e44082e4a4f75d84b34b5aa4b23e8c47ce096667caa75e9",
+          "source": "published verifier; non-secret local salt"
+        },
+        "status": "PASS"
+      },
+      "full-package": {
+        "stage": "full-package",
+        "submits_to_kaggle": false,
+        "platform_secret_salt": "unavailable",
+        "baseline": {
+          "archive_sha256": "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43",
+          "members": 13,
+          "angle_count": 10,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49154,
+            "registers": 4165,
+            "ops": 86051014,
+            "3q_ops": 5725461,
+            "2q_ops": 66446727,
+            "register_contract": "PASS"
+          },
+          "status": "PASS"
+        },
+        "candidate": {
+          "candidate_sha256": "252b41714f6147723e44082e4a4f75d84b34b5aa4b23e8c47ce096667caa75e9",
+          "candidate_bytes": 837808576,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49155,
+            "registers": 4165,
+            "ops": 85105411,
+            "3q_ops": 3804126,
+            "2q_ops": 71240003,
+            "register_contract": "PASS"
+          },
+          "quantum_correctness": "NOT_YET_VERIFIED",
+          "status": "PASS"
+        },
+        "comparison": {
+          "candidate_sha256": "655e83ab2ee40d65688e01c883a3804765080c1e47ee4e53f9d7b01bb6621177",
+          "candidate_bytes": 863184040,
+          "dqi": {
+            "qubits": 1893,
+            "bits": 49155,
+            "registers": 4165,
+            "ops": 86823035,
+            "3q_ops": 4484694,
+            "2q_ops": 71888163,
+            "register_contract": "PASS"
+          },
+          "quantum_correctness": "NOT_YET_VERIFIED",
+          "status": "PASS"
+        },
+        "smoke_plan": {
+          "num_shots": 1536,
+          "zero_error_upper_bound": 0.0561256873183065,
+          "log2_delta": -128.0,
+          "error_limit": 0.0625,
+          "confidence_unmodified": true
+        },
+        "smoke": {
+          "status": "PASS",
+          "cost": 356127631430711.5,
+          "num_shots": 1536,
+          "value_errors": 0,
+          "phase_errors": 0,
+          "effective_error_rate": 0.0561256873183065,
+          "log2_delta": -128.0,
+          "seed": 20261025,
+          "max_workers": 1,
+          "toffoli_count": 3804025.59375,
+          "elapsed_seconds": 12.64,
+          "verifier_sha256": "f14274bc0943fb9769ddb01131be6063191a15009fe1caf1d4bdd9fd25194e65",
+          "candidate_sha256": "252b41714f6147723e44082e4a4f75d84b34b5aa4b23e8c47ce096667caa75e9",
+          "source": "published verifier; non-secret local salt"
+        },
+        "full": {
+          "status": "PASS",
+          "cost": 16238698669232.152,
+          "num_shots": 102400,
+          "value_errors": 0,
+          "phase_errors": 0,
+          "effective_error_rate": 0.0008660587301657926,
+          "log2_delta": -128.0,
+          "seed": 20261025,
+          "max_workers": 1,
+          "toffoli_count": 3804024.1573828124,
+          "elapsed_seconds": 571.56,
+          "verifier_sha256": "f14274bc0943fb9769ddb01131be6063191a15009fe1caf1d4bdd9fd25194e65",
+          "candidate_sha256": "252b41714f6147723e44082e4a4f75d84b34b5aa4b23e8c47ce096667caa75e9",
+          "source": "published verifier; non-secret local salt"
+        },
+        "comparison_kind": "incremental versus explicitly supplied DQI; ZIP baseline remains v1.0",
+        "comparison_full": {
+          "status": "PASS",
+          "cost": 19143921722159.74,
+          "num_shots": 102400,
+          "value_errors": 0,
+          "phase_errors": 0,
+          "effective_error_rate": 0.0008660587301657926,
+          "log2_delta": -128.0,
+          "seed": 20261025,
+          "max_workers": 1,
+          "toffoli_count": 4484592.157382812,
+          "elapsed_seconds": 567.64,
+          "verifier_sha256": "f14274bc0943fb9769ddb01131be6063191a15009fe1caf1d4bdd9fd25194e65",
+          "candidate_sha256": "655e83ab2ee40d65688e01c883a3804765080c1e47ee4e53f9d7b01bb6621177",
+          "source": "REUSED_VERIFIED_REPORT; unchanged reference was not rerun in this job",
+          "measurement_actions_run": "https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40211102322",
+          "measurement_source_commit": "55869a29227b065f9e8c57a2ee103a9b694bbbac",
+          "checkpoint_sha256": "416c70ef2097a07d166b8f9276872a911177694e12fe44cbf4ac23277fa94cb1"
+        },
+        "local_improvement": true,
+        "packaging": {
+          "zip_sha256": "455b70b1988146358b1045fbc38a2c0df464d060e21d67923350ffe198599fa3",
+          "zip_bytes": 71943523
+        },
+        "candidate_status": "ready for USER-APPROVED Kaggle submission",
+        "status": "PASS"
+      }
+    },
+    "all_requested_gates_passed": true
+  },
+  "one_site_generation_snapshot": {
+    "status": "PASS",
+    "scope": "complete DQI; Forney inverse66, EEA quotient and 42-Toffoli products",
+    "reference_dqi_sha256": "655e83ab2ee40d65688e01c883a3804765080c1e47ee4e53f9d7b01bb6621177",
+    "sites_replaced": 1,
+    "available_sites": 32408,
+    "sites_per_stage": {
+      "forward_eea": 1
+    },
+    "candidate_sha256": "73ee615944a98dc2e1317dad8d87567d720d1ae2828f8ba6048ed2bcaae43ff5",
+    "candidate_bytes": 863183257,
+    "qubits": 1893,
+    "bits": 49155,
+    "registers": 4165,
+    "ops": 86822982,
+    "reference_static_Toffoli_like": 4484694,
+    "candidate_static_Toffoli_like": 4484673,
+    "static_Toffoli_saved": 21,
+    "named_registers_unchanged": true,
+    "classical_target_and_condition_packets_byte_equal": true,
+    "outer_control_resets_and_measured_cleanup_unchanged": true,
+    "all_old_instructions_matched_under_injective_renaming": true,
+    "unchanged_packet_span_bytes_verified": 799342422,
+    "retained_metadata_byte_equal": true,
+    "nested_tags_removed": 12,
+    "local_kmx_sha256": "32b9341a5d2096efb2cf6deb69eb44c9828e19699ad2278a10afe93222105557",
+    "local_formal_proof": {
+      "status": "PASS",
+      "method": "exact Boolean ANF",
+      "input_variables": 36,
+      "independent_measurement_variables": 0,
+      "measurement_branches_represented": "2^0",
+      "arbitrary_xor_target": true,
+      "coherent_control": false,
+      "inputs_restored": true,
+      "quantum_workspace_clean": true,
+      "temporary_classical_bits_clean": true,
+      "residual_phase_monomials": 0
+    },
+    "old_local_formal_proof": {
+      "status": "PASS",
+      "method": "exact Boolean ANF",
+      "input_variables": 36,
+      "independent_measurement_variables": 0,
+      "measurement_branches_represented": "2^0",
+      "arbitrary_xor_target": true,
+      "coherent_control": false,
+      "inputs_restored": true,
+      "quantum_workspace_clean": true,
+      "temporary_classical_bits_clean": true,
+      "residual_phase_monomials": 0
+    },
+    "tensor_attribution": {
+      "attribution": "andigu/uncompute; Gu, Kemeny, Yelin and Lukin (2026)",
+      "license": "Apache-2.0",
+      "source_commit": "64b5a13aa249f1360846657392e6c66817b26d0f",
+      "source_url": "https://github.com/andigu/uncompute/blob/64b5a13aa249f1360846657392e6c66817b26d0f/tasks/dqi-reed-solomon/circuits/discovered/constants.json",
+      "source_polynomial": "0x10eb"
+    },
+    "constants_sha256": "21996d995b862619ecc6995b92da4e18aa43fa936d52ac90590f0ffcae9c1ca9",
+    "generator_sha256": "d1334bec7ccee6bfbd707ac9412de875bc842210c4e2d4d1d85c6f1937b9cc99",
+    "site_map_sha256": "5bd8992e0acc243ed6a2446076c726101bdd2929072c6424df2996223d2bf699",
+    "kickmix_full_parse": "PASS",
+    "official_DQI_verifier": "NOT_RUN",
+    "score_improvement": "UNCONFIRMED",
+    "submits_to_kaggle": false
+  },
+  "all_site_generation_snapshot": {
+    "status": "PASS",
+    "scope": "complete DQI; Forney inverse66, EEA quotient and 42-Toffoli products",
+    "reference_dqi_sha256": "655e83ab2ee40d65688e01c883a3804765080c1e47ee4e53f9d7b01bb6621177",
+    "sites_replaced": 32408,
+    "available_sites": 32408,
+    "sites_per_stage": {
+      "forward_eea": 16204,
+      "reverse_eea": 16204
+    },
+    "candidate_sha256": "252b41714f6147723e44082e4a4f75d84b34b5aa4b23e8c47ce096667caa75e9",
+    "candidate_bytes": 837808576,
+    "qubits": 1893,
+    "bits": 49155,
+    "registers": 4165,
+    "ops": 85105411,
+    "reference_static_Toffoli_like": 4484694,
+    "candidate_static_Toffoli_like": 3804126,
+    "static_Toffoli_saved": 680568,
+    "named_registers_unchanged": true,
+    "classical_target_and_condition_packets_byte_equal": true,
+    "outer_control_resets_and_measured_cleanup_unchanged": true,
+    "all_old_instructions_matched_under_injective_renaming": true,
+    "unchanged_packet_span_bytes_verified": 625997379,
+    "retained_metadata_byte_equal": true,
+    "nested_tags_removed": 388896,
+    "local_kmx_sha256": "32b9341a5d2096efb2cf6deb69eb44c9828e19699ad2278a10afe93222105557",
+    "local_formal_proof": {
+      "status": "PASS",
+      "method": "exact Boolean ANF",
+      "input_variables": 36,
+      "independent_measurement_variables": 0,
+      "measurement_branches_represented": "2^0",
+      "arbitrary_xor_target": true,
+      "coherent_control": false,
+      "inputs_restored": true,
+      "quantum_workspace_clean": true,
+      "temporary_classical_bits_clean": true,
+      "residual_phase_monomials": 0
+    },
+    "old_local_formal_proof": {
+      "status": "PASS",
+      "method": "exact Boolean ANF",
+      "input_variables": 36,
+      "independent_measurement_variables": 0,
+      "measurement_branches_represented": "2^0",
+      "arbitrary_xor_target": true,
+      "coherent_control": false,
+      "inputs_restored": true,
+      "quantum_workspace_clean": true,
+      "temporary_classical_bits_clean": true,
+      "residual_phase_monomials": 0
+    },
+    "tensor_attribution": {
+      "attribution": "andigu/uncompute; Gu, Kemeny, Yelin and Lukin (2026)",
+      "license": "Apache-2.0",
+      "source_commit": "64b5a13aa249f1360846657392e6c66817b26d0f",
+      "source_url": "https://github.com/andigu/uncompute/blob/64b5a13aa249f1360846657392e6c66817b26d0f/tasks/dqi-reed-solomon/circuits/discovered/constants.json",
+      "source_polynomial": "0x10eb"
+    },
+    "constants_sha256": "21996d995b862619ecc6995b92da4e18aa43fa936d52ac90590f0ffcae9c1ca9",
+    "generator_sha256": "d1334bec7ccee6bfbd707ac9412de875bc842210c4e2d4d1d85c6f1937b9cc99",
+    "site_map_sha256": "f08c317518b681f76d3cbfc163e84337294a426f6e2d1c7ed1b2b8c4b04a633b",
+    "kickmix_full_parse": "PASS",
+    "official_DQI_verifier": "NOT_RUN",
+    "score_improvement": "UNCONFIRMED",
+    "submits_to_kaggle": false
+  },
+  "snapshot_note": "Generation-only NOT_RUN fields predate verification; stage reports contain completed results.",
+  "comparison_measurement_reuse": {
+    "new_candidates_fresh_full_shots_each": 102400,
+    "reference_was_rerun_in_this_job": false,
+    "source_actions": "https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40211102322",
+    "source_checkpoint_sha256": "416c70ef2097a07d166b8f9276872a911177694e12fe44cbf4ac23277fa94cb1",
+    "validation": "Pinned evidence; actual reference SHA/bytes/header and verifier SHA/configuration match; error bound and cost recomputed."
+  },
+  "package_audit": {
+    "status": "PASS",
+    "baseline_zip_sha256": "04cf2fc7518e9cc2f9207f61b9421448a0b02368756c6b342fb4cea8c47b0f43",
+    "zip_sha256": "455b70b1988146358b1045fbc38a2c0df464d060e21d67923350ffe198599fa3",
+    "zip_bytes": 71943523,
+    "members": 13,
+    "non_DQI_members_byte_identical": 12,
+    "all_member_CRC_checked_by_complete_stream_reads": true,
+    "member_hashes": {
+      "dfthcsos/angle_k_0.kmb": {
+        "sha256": "7bfb3983accc6ff97d6ab41a88deae924f1d1c97cf30e60879d0bff5688a8e25",
+        "bytes": 1671932,
+        "unchanged_from_v1.0": true
+      },
+      "dfthcsos/angle_k_1.kmb": {
+        "sha256": "a04b6d0d57ce851b123af265066aaab2ab33353ea049d26acd534727466d72b6",
+        "bytes": 1662896,
+        "unchanged_from_v1.0": true
+      },
+      "dfthcsos/angle_k_2.kmb": {
+        "sha256": "5c1b8987bc3fa1a4b8607e470f8c8f1392c22e7a7dbcb228f0ce9ec986e18058",
+        "bytes": 1665821,
+        "unchanged_from_v1.0": true
+      },
+      "dfthcsos/angle_k_3.kmb": {
+        "sha256": "16ac67cdcaf3e2c6abdd98c4138ff1ae8a56cfc4ae15622bcdb3d3a3ba1e22cf",
+        "bytes": 1666802,
+        "unchanged_from_v1.0": true
+      },
+      "dfthcsos/angle_k_4.kmb": {
+        "sha256": "d21cdd4c7e94196654aab15ebcabfe10ce8d343151a5e8dc3672e76684b6628d",
+        "bytes": 1954082,
+        "unchanged_from_v1.0": true
+      },
+      "dfthcsos/angle_k_5.kmb": {
+        "sha256": "63b8d4cba36955e6098321f3b2ef3e34401dd276fa629b2e490d043b1743880b",
+        "bytes": 1948583,
+        "unchanged_from_v1.0": true
+      },
+      "dfthcsos/angle_k_6.kmb": {
+        "sha256": "5bf740428e661d035fda860142578f421969e35e0df2e4e024fbf01a7340b378",
+        "bytes": 1947980,
+        "unchanged_from_v1.0": true
+      },
+      "dfthcsos/angle_k_7.kmb": {
+        "sha256": "606009582111a22bd549b795c8d115ac8bbeb124bc8da24a80380eca6d34163d",
+        "bytes": 1968527,
+        "unchanged_from_v1.0": true
+      },
+      "dfthcsos/angle_k_8.kmb": {
+        "sha256": "57c7cc51f5922fff6e95d76e1f723d4c2d029a241da643b95684d6322157a8fe",
+        "bytes": 1957124,
+        "unchanged_from_v1.0": true
+      },
+      "dfthcsos/angle_k_9.kmb": {
+        "sha256": "22cbe2828988ff954fc07fd971a25e6bc04a02c302bf2cc642e4c3535daaad65",
+        "bytes": 1953830,
+        "unchanged_from_v1.0": true
+      },
+      "dfthcsos/submission.npz": {
+        "sha256": "88722115206ffebe5f79eda60781572e6a6cc182576084c9e1609f2f2587055a",
+        "bytes": 4553036,
+        "unchanged_from_v1.0": true
+      },
+      "invsqrt.kmb": {
+        "sha256": "e2bf8eb64350a4460a271fc7f1d591ef125b1e276377e9a0f64b96ab3ca321e1",
+        "bytes": 579721,
+        "unchanged_from_v1.0": true
+      },
+      "dqi.kmb": {
+        "sha256": "252b41714f6147723e44082e4a4f75d84b34b5aa4b23e8c47ce096667caa75e9",
+        "bytes": 837808576,
+        "matches_verified_candidate": true,
+        "register_contract": {
+          "qubits": 1893,
+          "bits": 49155,
+          "registers": 4165,
+          "ops": 85105411,
+          "3q_ops": 3804126,
+          "2q_ops": 71240003,
+          "register_contract": "PASS"
+        }
+      }
+    },
+    "submits_to_kaggle": false
+  },
+  "incremental_cost_reduction_fraction": 0.15175694380136817,
+  "cumulative_cost_reduction_fraction_vs_v1_0": 0.3355544613935718,
+  "v1_0_full_comparison_source": "checkpoints/inverse66-full-package-20261025.json",
+  "public_score_estimate": {
+    "status": "ESTIMATE_NOT_OFFICIAL",
+    "from_reported_previous_score": 1.1460360569297736,
+    "from_v1_0_offline_cost_ratio": 1.1459883520255436,
+    "anchor": {
+      "reported_date_jst": "2026-10-26",
+      "source": {
+        "kind": "user_report",
+        "message": "\u30b9\u30b3\u30a2\u306f1.06759\u3067\u3057\u305f",
+        "independently_read_from_kaggle": false,
+        "submission_id": null
+      },
+      "reported_public_score": 1.06759,
+      "reference_candidate": {
+        "kind": "inverse66 Forney all-sites candidate from the current conversation",
+        "zip_sha256": "a40089eebeef3aee605694e8443972839741c31f8e2a25ff6cb429d1f27c1457",
+        "dqi_sha256": "ea0d6717e7b37fb386a0d99730eebf150c0e78de1cc8547f0727c2f6845a99bc",
+        "actions_run": "https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40200104339",
+        "submission_asset_identity_independently_verified": false
+      },
+      "comparison": {
+        "offline_DQI_improvement_ratio": 1.216632059752389,
+        "predicted_overall_score": 1.0675455604918371,
+        "reported_overall_score": 1.06759,
+        "absolute_difference": 4.443950816290787e-05,
+        "relative_difference_percent": 0.004162773918747753,
+        "overall_score_increase_percent": 6.759000000000004,
+        "implied_DQI_improvement_ratio_if_other_tasks_equal_baseline": 1.216784003003479,
+        "implied_DQI_cost_reduction_percent_if_other_tasks_equal_baseline": 17.816145056836298,
+        "candidate_zip_sha256": "a40089eebeef3aee605694e8443972839741c31f8e2a25ff6cb429d1f27c1457",
+        "score_formula": "geometric mean of the three reference-cost / submitted-cost ratios",
+        "assumptions": [
+          "Other two task cost ratios equal 1 relative to the scoring baseline.",
+          "Reported score refers to the candidate discussed in this conversation."
+        ],
+        "interpretation": "Reported public score closely agrees with the offline prediction; the reason for the small difference has not been determined."
+      },
+      "scope": {
+        "public_score": "USER_REPORTED",
+        "private_final_score": "UNKNOWN",
+        "per_task_official_costs": "UNAVAILABLE",
+        "new_EEA_quotient_candidate_included": false
+      },
+      "actions": {
+        "kaggle_submission_by_assistant": "NOT_RUN",
+        "release_v1_0": "UNCHANGED"
+      }
+    },
+    "assumptions": [
+      "The user-reported 1.06759 refers to the prior Forney candidate.",
+      "The other two task cost ratios are unchanged.",
+      "The offline ratio approximates the hidden-salt official ratio."
+    ]
+  },
+  "read_only_target_preflight": {
+    "status": "PASS",
+    "mode": "read-only preflight; no wider candidate generated",
+    "sites": 32408,
+    "per_stage": {
+      "forward_eea": 16204,
+      "reverse_eea": 16204
+    },
+    "first_mappings": {
+      "forward_eea": {
+        "index": 0,
+        "stage": "forward_eea",
+        "start": 53913,
+        "stop": 54490,
+        "tag_start": 2378,
+        "tag_stop": 2390,
+        "a": [
+          1809,
+          1810,
+          1811,
+          1812,
+          1813,
+          1814,
+          1815,
+          1816,
+          1817,
+          1818,
+          1819,
+          1820
+        ],
+        "b": [
+          828,
+          829,
+          830,
+          831,
+          832,
+          833,
+          834,
+          835,
+          836,
+          837,
+          838,
+          839
+        ],
+        "target": [
+          1871,
+          1870,
+          1869,
+          1868,
+          1867,
+          1866,
+          1865,
+          1864,
+          1863,
+          1862,
+          1861,
+          1860
+        ]
+      },
+      "reverse_eea": {
+        "index": 16204,
+        "stage": "reverse_eea",
+        "start": 67555511,
+        "stop": 67556088,
+        "tag_start": 1734594,
+        "tag_stop": 1734606,
+        "a": [
+          1809,
+          1808,
+          1807,
+          1806,
+          1805,
+          1804,
+          1803,
+          1826,
+          1825,
+          1824,
+          1823,
+          1822
+        ],
+        "b": [
+          840,
+          841,
+          842,
+          843,
+          844,
+          845,
+          846,
+          847,
+          848,
+          849,
+          850,
+          851
+        ],
+        "target": [
+          1832,
+          1833,
+          1834,
+          1835,
+          1836,
+          1837,
+          1838,
+          1839,
+          1840,
+          1841,
+          1842,
+          1843
+        ]
+      }
+    },
+    "predicted_static_T": 3804126
+  },
+  "static_budget_model": {
+    "mode": "read-only static accounting; predicted values are not measured candidate costs",
+    "reference_sha256": "655e83ab2ee40d65688e01c883a3804765080c1e47ee4e53f9d7b01bb6621177",
+    "top_level": [
+      {
+        "stage": "gf_iadd",
+        "start": 4,
+        "stop": 9,
+        "old_static_T": 0,
+        "predicted_T_after_multiply42": 0
+      },
+      {
+        "stage": "gf_iadd",
+        "start": 9,
+        "stop": 15,
+        "old_static_T": 0,
+        "predicted_T_after_multiply42": 0
+      },
+      {
+        "stage": "initial_shift",
+        "start": 15,
+        "stop": 46282,
+        "old_static_T": 30912,
+        "predicted_T_after_multiply42": 30912
+      },
+      {
+        "stage": "forward_eea",
+        "start": 46282,
+        "stop": 19276270,
+        "old_static_T": 1998894,
+        "predicted_T_after_multiply42": 1658610
+      },
+      {
+        "stage": "chien_forney_mbuc",
+        "start": 19276270,
+        "stop": 67544011,
+        "old_static_T": 425082,
+        "predicted_T_after_multiply42": 425082
+      },
+      {
+        "stage": "reverse_eea",
+        "start": 67544011,
+        "stop": 86777995,
+        "old_static_T": 1998894,
+        "predicted_T_after_multiply42": 1658610
+      },
+      {
+        "stage": "uncompute_initial_shift",
+        "start": 86777995,
+        "stop": 86823020,
+        "old_static_T": 30912,
+        "predicted_T_after_multiply42": 30912
+      },
+      {
+        "stage": "gf_iadd",
+        "start": 86823020,
+        "stop": 86823026,
+        "old_static_T": 0,
+        "predicted_T_after_multiply42": 0
+      },
+      {
+        "stage": "gf_iadd",
+        "start": 86823026,
+        "stop": 86823031,
+        "old_static_T": 0,
+        "predicted_T_after_multiply42": 0
+      }
+    ],
+    "pure_mul_tags": [
+      {
+        "stage": "forward_eea",
+        "parent": "c_gf_mul",
+        "count": 16204
+      },
+      {
+        "stage": "reverse_eea",
+        "parent": "c_gf_mul",
+        "count": 16204
+      }
+    ]
+  },
+  "next_unproved_dependencies": {
+    "status": "UNPROVED_RESEARCH_HYPOTHESIS",
+    "included_in_candidate": false,
+    "official_reference_source_sha256": "2b8e1b80a806157c333a7e308eaf2499ee09de499efbc05875202c327959959e",
+    "source_function": "ProosAndZalkaDecoder._multiply_and_add_or_sub / sweep_positions",
+    "observations": [
+      "The mul control is toggled between positions by quantum CX gates.",
+      "q_i can be conditionally swapped with reg_a[i] at each position.",
+      "A shared precomputed mul*q_i cannot be hoisted over the sweep without proving its update and cleanup invariants."
+    ],
+    "possible_control_elimination_condition": "For every reachable state before each controlled product: (mul == 0) implies (q_i * reg_a[i] == 0).",
+    "necessary_additional_work": [
+      "Establish exact forward/reverse EEA state invariants from initialization through every quotient and swap.",
+      "Prove the condition for coherent reachable subspaces, not sampled basis inputs only.",
+      "Preserve arbitrary classical E masks, measurements, residual phase and workspace cleanup.",
+      "Generate a separate one-site full candidate only after the proof."
+    ],
+    "upper_bound_only": {
+      "controlled_XOR_Toffoli_in_32408_sites": 388896,
+      "verified_removable": false
+    },
+    "smaller_proved_local_next_step": {
+      "source": "research/eea_boolean/quotient120_probe.py",
+      "report": "research/eea_boolean/quotient120-local/report.json",
+      "local_status": "PASS",
+      "old_static_toffoli": 141,
+      "new_static_toffoli": 120,
+      "candidate_KMx_sha256": "331248213b410308e6691decf12c0dca21886e500e4895dab571a42c439b0876",
+      "potential_additional_static_savings": 18648,
+      "full_DQI_generation": "NOT_RUN",
+      "full_DQI_verifier": "NOT_RUN",
+      "included_in_current_candidate": false
+    }
+  },
+  "kaggle_submission": "NOT_RUN",
+  "kaggle_official_score": "UNCONFIRMED",
+  "release_v1_0": "UNCHANGED",
+  "previous_Forney_and_EEA_candidates": "PRESERVED"
+}

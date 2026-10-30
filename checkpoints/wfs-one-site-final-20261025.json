@@ -1,0 +1,40 @@
+{
+  "date_jst": "2026-10-25",
+  "source_commit": "b51e0ea314347dfa03dadcc23f7413d83880eedc",
+  "run_id": 40191539618,
+  "run_url": "https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40191539618",
+  "candidate_sha256": "6079f1aeca6cf87a4ffbfa22110104c6fd5e588198c5d0e86f62409d757162ca",
+  "candidate_gate": "PASS",
+  "smoke": {
+    "status": "PASS",
+    "shots": 1536,
+    "value_errors": 0,
+    "phase_errors": 0
+  },
+  "candidate_full": {
+    "status": "PASS",
+    "shots": 102400,
+    "value_errors": 0,
+    "phase_errors": 0,
+    "cost": 24439472802075.414
+  },
+  "baseline_full": {
+    "status": "PASS",
+    "shots": 102400,
+    "value_errors": 0,
+    "phase_errors": 0,
+    "cost": 24439472802075.414
+  },
+  "shared_seed": 20261025,
+  "log2_delta": -128,
+  "full_package": {
+    "status": "FAIL",
+    "reason": "No cost reduction versus baseline",
+    "local_improvement": false,
+    "submission_zip_generated": false
+  },
+  "official_platform_submission": "NOT_RUN",
+  "kaggle_submissions": 0,
+  "report_artifact_url": "https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40191539618/artifacts/12598901403",
+  "interpretation": "One-site WFS integration preserves tested behavior; full published-verifier cost equals baseline. No score improvement."
+}
