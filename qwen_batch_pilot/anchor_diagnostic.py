@@ -8,7 +8,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-REF = 'sumuji/notebook8b38de7399'
+REF = 'sumuji/qwen-explicit-batch-20261031'
 
 
 def quiet(fn, *args, **kwargs):
