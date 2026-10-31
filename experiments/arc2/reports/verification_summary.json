@@ -61,5 +61,151 @@
   "offline_notebook_smoke": "runs/notebook_smoke.json",
   "kaggle_submission_made": false,
   "former_dual_arc_v3_reproduced": false,
-  "public_evaluation_policy": "8 second first measurement, then declared 32 second budget sensitivity check; source unchanged; no test answers used for rule tuning"
+  "public_evaluation_policy": "8 second first measurement, then declared 32 second budget sensitivity check; source unchanged; no test answers used for rule tuning",
+  "measurements": {
+    "training100_frozen": {
+      "report": "reports/training100_frozen/report.json",
+      "seconds_per_task": 8.0,
+      "shards": 2,
+      "metrics": {
+        "correct_outputs": 40,
+        "total_outputs": 104,
+        "output_pass_at_2": 0.38461538461538464,
+        "correct_outputs_attempt_1": 37,
+        "solved_tasks": 38,
+        "total_tasks": 100,
+        "task_pass_at_2": 0.38
+      },
+      "components": {
+        "python_same_run": {
+          "correct_outputs": 16,
+          "total_outputs": 104,
+          "output_pass_at_2": 0.15384615384615385,
+          "correct_outputs_attempt_1": 15,
+          "solved_tasks": 16,
+          "total_tasks": 100,
+          "task_pass_at_2": 0.16
+        },
+        "cpp_same_run": {
+          "correct_outputs": 36,
+          "total_outputs": 104,
+          "output_pass_at_2": 0.34615384615384615,
+          "correct_outputs_attempt_1": 35,
+          "solved_tasks": 34,
+          "total_tasks": 100,
+          "task_pass_at_2": 0.34
+        }
+      },
+      "runner_status_counts": {
+        "ok": 100
+      },
+      "cpp_depth_status_counts": {
+        "depth_1_complete": 104,
+        "depth_2_complete": 104,
+        "depth_3_complete": 30,
+        "depth_3_timeout": 74
+      },
+      "source_unchanged": true
+    },
+    "public120_frozen": {
+      "report": "reports/public120_frozen/report.json",
+      "seconds_per_task": 8.0,
+      "shards": 4,
+      "metrics": {
+        "correct_outputs": 0,
+        "total_outputs": 167,
+        "output_pass_at_2": 0.0,
+        "correct_outputs_attempt_1": 0,
+        "solved_tasks": 0,
+        "total_tasks": 120,
+        "task_pass_at_2": 0.0
+      },
+      "components": {
+        "python_same_run": {
+          "correct_outputs": 0,
+          "total_outputs": 167,
+          "output_pass_at_2": 0.0,
+          "correct_outputs_attempt_1": 0,
+          "solved_tasks": 0,
+          "total_tasks": 120,
+          "task_pass_at_2": 0.0
+        },
+        "cpp_same_run": {
+          "correct_outputs": 0,
+          "total_outputs": 167,
+          "output_pass_at_2": 0.0,
+          "correct_outputs_attempt_1": 0,
+          "solved_tasks": 0,
+          "total_tasks": 120,
+          "task_pass_at_2": 0.0
+        }
+      },
+      "runner_status_counts": {
+        "ok": 120
+      },
+      "cpp_depth_status_counts": {
+        "depth_1_complete": 166,
+        "depth_1_timeout": 1,
+        "depth_2_complete": 160,
+        "depth_2_timeout": 7,
+        "depth_3_complete": 2,
+        "depth_3_timeout": 156
+      },
+      "source_unchanged": true
+    },
+    "public120_32s": {
+      "report": "reports/public120_32s/report.json",
+      "seconds_per_task": 32.0,
+      "shards": 8,
+      "metrics": {
+        "correct_outputs": 1,
+        "total_outputs": 167,
+        "output_pass_at_2": 0.005988023952095809,
+        "correct_outputs_attempt_1": 1,
+        "solved_tasks": 1,
+        "total_tasks": 120,
+        "task_pass_at_2": 0.008333333333333333
+      },
+      "components": {
+        "python_same_run": {
+          "correct_outputs": 0,
+          "total_outputs": 167,
+          "output_pass_at_2": 0.0,
+          "correct_outputs_attempt_1": 0,
+          "solved_tasks": 0,
+          "total_tasks": 120,
+          "task_pass_at_2": 0.0
+        },
+        "cpp_same_run": {
+          "correct_outputs": 1,
+          "total_outputs": 167,
+          "output_pass_at_2": 0.005988023952095809,
+          "correct_outputs_attempt_1": 1,
+          "solved_tasks": 1,
+          "total_tasks": 120,
+          "task_pass_at_2": 0.008333333333333333
+        }
+      },
+      "runner_status_counts": {
+        "ok": 120
+      },
+      "cpp_depth_status_counts": {
+        "depth_1_complete": 166,
+        "depth_1_timeout": 1,
+        "depth_2_complete": 164,
+        "depth_2_timeout": 3,
+        "depth_3_complete": 57,
+        "depth_3_timeout": 110
+      },
+      "source_unchanged": true
+    }
+  },
+  "github_ci": {
+    "evidence": "reports/github_ci.json",
+    "validated_commit": "40218766d2a434bc80c4b1bf95adde92bfa88057",
+    "conclusion": "success",
+    "same_inference_source": true
+  },
+  "notebook_default_seconds_per_task": 8,
+  "measured_alternative_seconds_per_task": 32
 }
