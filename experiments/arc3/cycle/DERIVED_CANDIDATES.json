@@ -1,0 +1,32 @@
+{
+  "cpu-c8b-probe64": {
+    "baseline": "cpu-c8b",
+    "baseline_code_sha256": "53d9b299caec5c841869891a2c752c5e42682ba40beaa274b1238241e46b0e03",
+    "candidate_code_sha256": "6829f32256ddfbe8173af314bc4d9c1819041a1807510a65708cdba57a8bd560",
+    "official_score": null,
+    "packaging_change": "Unique temporary module directory; algorithm otherwise retained",
+    "policy_change": {
+      "stagnation_threshold": {
+        "after": 64,
+        "before": 96
+      }
+    },
+    "status": "candidate, not an adopted improvement"
+  },
+  "gpu-baseline-connected": {
+    "baseline": "gpu-baseline",
+    "candidate_code_sha256": "622b51d40e2a86f54251ec0627f16067d9e99a6e42ed24940285b8d33a0c8cd4",
+    "competition_path_change": "Explicit fresh empty environment directory; no cwd demo scan",
+    "official_score": null,
+    "original_code_sha256": "200ae7aa600fd2dd536fd29cef6b996bba0f70c1928c253120dc101c0b4eadec",
+    "save_version_change": "Short connectivity run; competition solver policy and budgets unchanged"
+  },
+  "gpu-memory-connected": {
+    "baseline": "gpu-memory",
+    "candidate_code_sha256": "0687afbb9e0ce678b3bbf333bba491b7872d69c9e53bcd4452540cc8e9818bc7",
+    "competition_path_change": "Explicit fresh empty environment directory; no cwd demo scan",
+    "official_score": null,
+    "original_code_sha256": "98df9e499693d93f61874c5fc5c6b55f70b76cfb2e84d5d71207f97d81f25bb1",
+    "save_version_change": "Short connectivity run; competition solver policy and budgets unchanged"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "candidate_id": "56776af87cd2869835ba239af865383e8db6220106009b91c51d1c10ea19aa7d",
+  "kernel": "sumuji/arc3-cpu-c8b-probe64-probe64-v1-56776af87cd2",
+  "version": 1,
+  "status_code": 400,
+  "confirmed_http_rejection": true,
+  "observed_utc": "2026-10-28T20:02:41.9484966Z",
+  "source": "https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40759582035/job/123067819659",
+  "source_line": "requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/CreateCodeSubmission",
+  "scope": "Reviewed HTTP rejection only; its cause was not returned in this log. Before one additional attempt, scan the full submission history for the candidate marker, require no active official evaluation, and preserve both intents. A timeout or unknown response is ineligible."
+}

@@ -1,5 +1,9 @@
 # Quantum / WFS (mobile cloud workflow)
 
+2026-10-29: [ARC3 CPU / GPU の改善サイクル](experiments/arc3/cycle/README.md)を追加。
+既存のKaggle実行用Secretを使う専用workflowです。量子回路のコード・提出物・workflowとは別に、
+候補固定、公開ゲーム検証、Notebook開始、状態確認、競技提出、Public Score比較を追跡します。
+
 この非公開リポジトリは Google Quantum AI Kaggle Verifiable Quantum Circuit Compilation
 に向けた実装用です。
 

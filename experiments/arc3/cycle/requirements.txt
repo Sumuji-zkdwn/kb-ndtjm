@@ -1,0 +1,5 @@
+kaggle==2.2.5
+kagglesdk==0.1.38
+nbformat==5.10.4
+ipython==9.6.0
+PyYAML==6.0.3

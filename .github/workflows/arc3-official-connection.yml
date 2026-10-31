@@ -1,0 +1,67 @@
+name: ARC3 official bundle connection checks
+
+on:
+  push:
+    branches: ['codex/arc3-cycle-audit-*']
+    paths:
+      - '.github/workflows/arc3-official-connection.yml'
+      - 'experiments/arc3/cycle/connection_check.py'
+      - 'experiments/arc3/cycle/cpu_smoke.py'
+      - 'experiments/arc3/cycle/notebooks/**'
+      - 'experiments/arc3/cycle/profiles.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  connection:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        cpu_profile: [cpu-c8b, cpu-c8b-probe64]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r experiments/arc3/cycle/requirements.txt
+      - name: Obtain official runtime and the exact configured GPU source input
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from kaggle.api.kaggle_api_extended import KaggleApi
+          p=Path('build/connection-inputs')
+          p.mkdir(parents=True)
+          api=KaggleApi()
+          api.authenticate()
+          api.competition_download_files('arc-prize-2026-arc-agi-3', str(p), quiet=True)
+          api.dataset_download_files('dfranzen/taaf-kaggle-source-bundle-copy', str(p), quiet=True)
+          print('Downloaded official competition bundle and configured source bundle; no model weights or notebook session requested.')
+          PY
+      - name: Install the exact official competition runtime
+        run: |
+          python -m zipfile -e build/connection-inputs/arc-prize-2026-arc-agi-3.zip build/official-competition
+          python -m pip install --no-index --find-links build/official-competition/arc_agi_3_wheels arc-agi==0.9.8 arcengine==0.9.3
+      - name: Check CPU and GPU adapters, public demos and HTTP competition lifecycle
+        run: python experiments/arc3/cycle/connection_check.py --cpu-profile ${{ matrix.cpu_profile }} --competition-zip build/connection-inputs/arc-prize-2026-arc-agi-3.zip --source-zip build/connection-inputs/taaf-kaggle-source-bundle-copy.zip --out build/connection-report
+      - name: Run the exact CPU notebook policy at its unchanged full budget
+        run: |
+          python experiments/arc3/cycle/cycle.py prepare --profile ${{ matrix.cpu_profile }} --out build/cpu-candidate --label zip-contract --hypothesis 'Reproduce the fixed CPU policy with the official ZIP before live execution.'
+          python experiments/arc3/cycle/cpu_smoke.py --bundle build/cpu-candidate --environments build/official-competition/environment_files --official-zip build/connection-inputs/arc-prize-2026-arc-agi-3.zip
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: arc3-official-connection-${{ matrix.cpu_profile }}
+          path: |
+            build/connection-inputs/
+            build/connection-report/report.json
+            build/cpu-candidate/manifest.json
+            build/cpu-candidate/submission.ipynb
+            build/cpu-candidate/kernel-metadata.json
+            build/cpu-candidate/evidence/public-smoke.json
+          retention-days: 30

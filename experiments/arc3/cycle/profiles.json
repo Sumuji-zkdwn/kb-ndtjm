@@ -1,0 +1,32 @@
+{
+  "cpu-c8b": {
+    "line": "cpu",
+    "notebook": "notebooks/cpu-c8b.ipynb",
+    "session_timeout_seconds": 32400,
+    "dataset_sources": [],
+    "model_sources": []
+  },
+  "cpu-c8b-probe64": {
+    "line": "cpu",
+    "notebook": "notebooks/cpu-c8b-probe64.ipynb",
+    "session_timeout_seconds": 32400,
+    "dataset_sources": [],
+    "model_sources": []
+  },
+  "gpu-baseline": {
+    "line": "gpu",
+    "notebook": "notebooks/gpu-baseline-connected.ipynb",
+    "machine_shape": "NvidiaRtxPro6000",
+    "session_timeout_seconds": 32400,
+    "dataset_sources": ["dfranzen/pennyroyal-v253", "dfranzen/taaf-kaggle-source-bundle-copy"],
+    "model_sources": ["dfranzen/intel-qwen3.8-flash-next-w4a16-autoround/transformers/default/1", "dfranzen/albucino-qwen3-8-flash-next-drafter/transformers/default/1"]
+  },
+  "gpu-memory": {
+    "line": "gpu",
+    "notebook": "notebooks/gpu-memory-connected.ipynb",
+    "machine_shape": "NvidiaRtxPro6000",
+    "session_timeout_seconds": 32400,
+    "dataset_sources": ["dfranzen/pennyroyal-v253", "dfranzen/taaf-kaggle-source-bundle-copy"],
+    "model_sources": ["dfranzen/intel-qwen3.8-flash-next-w4a16-autoround/transformers/default/1", "dfranzen/albucino-qwen3-8-flash-next-drafter/transformers/default/1"]
+  }
+}
