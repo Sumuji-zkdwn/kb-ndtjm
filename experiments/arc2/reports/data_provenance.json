@@ -1,0 +1,7 @@
+{
+  "repository": "https://github.com/arcprize/ARC-AGI-2",
+  "commit": "f3283f727488ad98fe575ea6a5ac981e4a188e49",
+  "archive_sha256": "c3f9f6975d8432133419fd0e1677c42289666517af4e6f83d8a291690e14d49f",
+  "training_tasks": 1000,
+  "evaluation_tasks": 120
+}
