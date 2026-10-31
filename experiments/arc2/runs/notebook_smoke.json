@@ -1,0 +1,227 @@
+{
+  "status": "passed",
+  "tasks": 2,
+  "test_outputs": 4,
+  "embedded_files": 48,
+  "embedded_sha256_match": true,
+  "current_checkout_matches_embedded_sources": true,
+  "python_network_attempts": 0,
+  "inference_worker_statuses": {
+    "synthetic_mirror": "ok",
+    "synthetic_recolor": "ok"
+  },
+  "backend": {
+    "vendor_commit": "9407072659de1270358c2ba34c527785214dd68b",
+    "source_sha256": "a65779bccb6cfaf0dc589189219af985f3e2a8e2225e824e223a65e337370ea4",
+    "status": "ready",
+    "binary": "/tmp/arc2_cpp_cache/a65779bccb6cfaf0dc589189/run",
+    "cached": true,
+    "requested": "hybrid",
+    "effective": "hybrid"
+  },
+  "notebook_backend_preparation": {
+    "vendor_commit": "9407072659de1270358c2ba34c527785214dd68b",
+    "source_sha256": "a65779bccb6cfaf0dc589189219af985f3e2a8e2225e824e223a65e337370ea4",
+    "status": "ready",
+    "binary": "/tmp/arc2_cpp_cache/a65779bccb6cfaf0dc589189/run",
+    "cached": true,
+    "requested": "hybrid",
+    "effective": "hybrid"
+  },
+  "cpp_by_task": {
+    "synthetic_mirror": {
+      "status": "complete",
+      "completed_depths": 6,
+      "runs": [
+        {
+          "test_index": 0,
+          "depth": 1,
+          "budget_seconds": 1.5,
+          "status": "complete",
+          "returncode": 0,
+          "seconds": 0.035156882000592304
+        },
+        {
+          "test_index": 1,
+          "depth": 1,
+          "budget_seconds": 1.5,
+          "status": "complete",
+          "returncode": 0,
+          "seconds": 0.034347279000940034
+        },
+        {
+          "test_index": 0,
+          "depth": 2,
+          "budget_seconds": 3.460553194001477,
+          "status": "complete",
+          "returncode": 0,
+          "seconds": 0.06639926500065485
+        },
+        {
+          "test_index": 1,
+          "depth": 2,
+          "budget_seconds": 5.0,
+          "status": "complete",
+          "returncode": 0,
+          "seconds": 0.06689828900198336
+        },
+        {
+          "test_index": 0,
+          "depth": 3,
+          "budget_seconds": 3.393604746501296,
+          "status": "complete",
+          "returncode": 0,
+          "seconds": 0.21716225599811878
+        },
+        {
+          "test_index": 1,
+          "depth": 3,
+          "budget_seconds": 6.569720248000522,
+          "status": "complete",
+          "returncode": 0,
+          "seconds": 0.21796993899988593
+        }
+      ]
+    },
+    "synthetic_recolor": {
+      "status": "complete",
+      "completed_depths": 6,
+      "runs": [
+        {
+          "test_index": 0,
+          "depth": 1,
+          "budget_seconds": 1.5,
+          "status": "complete",
+          "returncode": 0,
+          "seconds": 0.03517487700082711
+        },
+        {
+          "test_index": 1,
+          "depth": 1,
+          "budget_seconds": 1.5,
+          "status": "complete",
+          "returncode": 0,
+          "seconds": 0.034262401997693814
+        },
+        {
+          "test_index": 0,
+          "depth": 2,
+          "budget_seconds": 3.537935694002954,
+          "status": "complete",
+          "returncode": 0,
+          "seconds": 0.03434137899967027
+        },
+        {
+          "test_index": 1,
+          "depth": 2,
+          "budget_seconds": 5.0,
+          "status": "complete",
+          "returncode": 0,
+          "seconds": 0.03402848400219227
+        },
+        {
+          "test_index": 0,
+          "depth": 3,
+          "budget_seconds": 3.5034925245017803,
+          "status": "complete",
+          "returncode": 0,
+          "seconds": 0.06602094600020791
+        },
+        {
+          "test_index": 1,
+          "depth": 3,
+          "budget_seconds": 6.940682999003911,
+          "status": "complete",
+          "returncode": 0,
+          "seconds": 0.06638456400105497
+        }
+      ]
+    }
+  },
+  "wall_seconds": 3.2947059830003127,
+  "max_rss_self_kib": 53680,
+  "max_rss_children_kib": 32024,
+  "execution_directory": "/tmp/arc2-hybrid-notebook-smoke-pum5dwrk",
+  "notebook_sha256": "88b1d18689011fe4b4779c381aa15d30720a5e44bdc929244fff04a42a9d597b",
+  "smoke_config": {
+    "time_limit": 8.0,
+    "max_states": 4000,
+    "beam_width": 32,
+    "max_depth": 3,
+    "use_cpp": true,
+    "cpp_fraction": 0.6,
+    "cpp_memory_mb": 768
+  },
+  "notebook_defaults": {
+    "time_limit": 8.0,
+    "max_states": 4000,
+    "beam_width": 32,
+    "max_depth": 3,
+    "cpp_fraction": 0.6,
+    "cpp_memory_mb": 768,
+    "backend": "hybrid",
+    "total_seconds": 39600
+  },
+  "source_sha256": {
+    "arc2/__init__.py": "22597eaa016ed1a727be6ccb8b542a797d21c8e08b9ff41cf0ac4ed4daaff74d",
+    "arc2/__main__.py": "3371e5aefb63db9d4dbf67dcf569ab0f9f9435e3611e63d907de91f7ba9ced77",
+    "arc2/cpp_backend.py": "cc726f5155060c9413028b60f62426355a52bce7794ca87ba638ebc67aba3588",
+    "arc2/grid.py": "7ac6f47b50a4300de9291022cd67b5a744accefd277b4c40c173d8cad432743a",
+    "arc2/objects.py": "879e2ce598bec1acef43c299dbae7c14a01152866a0c4dff4528d0be616a5924",
+    "arc2/operators.py": "2038c8789f4338861c7885653b28870831508a5660d2f68565147e48be8ba1bc",
+    "arc2/patterns.py": "bcfe4ed3ed66e67542dd348cd0d7c4b5d29f5ab0c5e15b9427b1bebf2f1adadd",
+    "arc2/portfolio.py": "c761a6aab3dbf4a4d2207db19571fd2568f78e46905e23cc9710026596c90870",
+    "arc2/relations.py": "e4f13479687b56622cd9b6f37cbe7689a09ae622ff0f1355e8f8a4d992e053ca",
+    "arc2/runner.py": "9138ea28aa32cd064fce5500b56260b26835129b0b1cb0675b01376d5b273cf0",
+    "arc2/solver.py": "b253aeeb5819790a8bc9b4447f96c81d9863090095afd69c14f5a89354f1eefd",
+    "arc2/types.py": "e952eb1e4ef126ac3b54535b35ccb11117488faf706e3a3f30f338cba04ceb18",
+    "LICENSE": "ceb77298623f8dc87d19796b2b9e260377ebc1df6665a62083e6fa0dda980f62",
+    "vendor/icecuber/LICENSE": "c1bce530447da29e46a0b9055dab7c1ac04692889144530efbd0edbcbfff36e0",
+    "vendor/icecuber/PROVENANCE.md": "5e01ac475b8c7ea6f9a27225b3f86e0ef99cc7e89522cde3c6fbfe275445870c",
+    "vendor/icecuber/SOURCE_MANIFEST.json": "e93f5e79fb5bfaf43e721c2ca03ab6b64a88f25c4aed90c201af26b8cff0c074",
+    "vendor/icecuber/headers/brute2.hpp": "ad0685484e4c7b79595b09ac3b8845155e2022621dcd84e1cec6dc954670987a",
+    "vendor/icecuber/headers/brute_size.hpp": "d0273cbe1e747307e3079d417de145f72de7bb36cc18c91da6c69504cab5001f",
+    "vendor/icecuber/headers/compose2.hpp": "c6cfb87d5a6ffdedb08f3b658a9bbf0225d8e38cf9ecfd3df3fbd489ac3aac13",
+    "vendor/icecuber/headers/core_functions.hpp": "063c3740f2f77663460dfc2e0378d154dc1c0845acb6fc214b9076a849894bed",
+    "vendor/icecuber/headers/deduce_op.hpp": "64de804365cfee0ae68373b56421ff76987f01538c0b6b5808e1c8f4fd0d6ec0",
+    "vendor/icecuber/headers/efficient.hpp": "7b616a16bebad98a028668ddce697ace7d69e72ae10c411c2940b311d6f628f7",
+    "vendor/icecuber/headers/image_functions.hpp": "34da8c28fd433855bdd9e67846068fa7f0af9b7afe7f8c6f0606d1021f50f75d",
+    "vendor/icecuber/headers/image_functions2.hpp": "5cf1215715a7bba3eec078e70b39fbdb3e5e9569cb25f8abad22169022010e98",
+    "vendor/icecuber/headers/normalize.hpp": "252a04d18be38a009361e4dc17e85899fb1ca914fbf800ada3bfd14204fa39ae",
+    "vendor/icecuber/headers/pieces.hpp": "795bb846b274c77c9738598f48445f64b60841241c5a398aedd8f15c449760da",
+    "vendor/icecuber/headers/precompiled_stl.hpp": "f18c6a0ba94ab95e534221209a45086c1caa612aa48e4da23d61066abd6694a5",
+    "vendor/icecuber/headers/read.hpp": "956b869f3484fcc192841d8436a6006e41e7f9331eed66f4ff2c87edf1983e42",
+    "vendor/icecuber/headers/runner.hpp": "a0bfc8f32e8521605b3ea844ad161fc5376a4bac515a122cde2343dc6ce3ad0b",
+    "vendor/icecuber/headers/spec.hpp": "8bfbe9109ac28f36c7b5792aa217975e6f09fed4803ec6fb8aff713be316d723",
+    "vendor/icecuber/headers/store.hpp": "7264a93dbcc6548f164291a53ea70211ccabecc862e4a4b132c804d82be12224",
+    "vendor/icecuber/headers/timer.hpp": "bdff9329afd807cbb729edb181fb872b3bd1075ff3771821fb10bc8add405305",
+    "vendor/icecuber/headers/utils.hpp": "0ea4c63cacaeff8d3c77e80b6a88e4a76ce5b4b6cfb9ecfb33c3a8e6c787128f",
+    "vendor/icecuber/headers/visu.hpp": "db797783e9745f44a07388a9363a4000d46936d9dfd9e68559613178853be991",
+    "vendor/icecuber/src/brute2.cpp": "6fa3bfa35e75e1863162d46514fdc8b4a97491f7ad8df599534c0b0873beca63",
+    "vendor/icecuber/src/brute_size.cpp": "3b851ba91c3c149728f03d3b1f427cda05502cb773d9e8875e8ae5d622adf27f",
+    "vendor/icecuber/src/compose2.cpp": "444630213f756932430e54b9bfc441d20bbc3a5bfcee336ce87b10f32f340885",
+    "vendor/icecuber/src/core_functions.cpp": "7e49137de5a631359659431c4f936428d4b1861dd09d66ca1ea3e93d3bc3f9d0",
+    "vendor/icecuber/src/deduce_op.cpp": "bff9c1ac75753f45ae0b27fdf32f7d7b2c0e84db2f0be8c5b4683ebf5acb833d",
+    "vendor/icecuber/src/efficient.cpp": "4e6578fb19c8e2f18a5387c8ca9a7e794ce1c0ec97459f9a9171e66a9c279ada",
+    "vendor/icecuber/src/image_functions.cpp": "af7987d0beeb9ecd68f021de2507a8578f06e743c5825446c201f202407ad006",
+    "vendor/icecuber/src/image_functions2.cpp": "992395d07723147f96760e5af62e0438dae77ce68758e7a874ba79bac170cc1f",
+    "vendor/icecuber/src/main.cpp": "7e4a9aa21784584dd5fb3a493d4d19caf2e6fd9a0e8f9fdf51d0fe5f338e7198",
+    "vendor/icecuber/src/normalize.cpp": "a3cb4c0ab562eef3e1007fa9017fee6decaf26bed705ea35d195c3d643264f5c",
+    "vendor/icecuber/src/pieces.cpp": "a158f8b270be4d23c2991968e0c90c808e0fcbe48a9af1208dc74d299998669f",
+    "vendor/icecuber/src/read.cpp": "f5441888597d50721d4845893b33f729eaf35f71d2e8b068872bfa4539b6e616",
+    "vendor/icecuber/src/runner.cpp": "31571e354b5e18ddd195def6ae9f6c973a29eb66ae57fa61cf953f64f796889a",
+    "vendor/icecuber/src/visu.cpp": "b1c97aa69dfce677563a5a4c0d302b68d21d9fadf5ba6ecb2bd1e8275c70ca77"
+  },
+  "synthetic_exact_outputs": 4,
+  "synthetic_pass_at_2_by_output": {
+    "synthetic_mirror": [
+      true,
+      true
+    ],
+    "synthetic_recolor": [
+      true,
+      true
+    ]
+  },
+  "scope": "Synthetic packaging smoke; not a public-evaluation performance estimate. Compilation cache was already prepared from identical embedded sources."
+}

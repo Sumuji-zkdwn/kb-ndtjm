@@ -1,0 +1,11 @@
+{
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "numpy": "2.3.5",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+  "machine": "x86_64",
+  "visible_cpu_count": 9,
+  "cpu_quota": "8 cores (cgroup 800000/100000)",
+  "memory_limit_bytes": 8589934592,
+  "execution": "native Linux for process isolation and limits",
+  "gpu_used": false
+}
