@@ -1,0 +1,339 @@
+{
+  "source_commit": "06ec316097d4bf22a44bfbd82dceb63f717680c4",
+  "source_tree": "8ead32a89909c27fe8015bf548d2cc73efe5b763",
+  "scope": "All 83 locally materialized text blobs; the two inherited figure blobs are not modified or reproduced.",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "git_blob_sha": "6db7acdfdf2847a7872e1bd9d20566b0fbe00612"
+    },
+    {
+      "path": ".github/workflows/arc3-autonomous-public.yml",
+      "git_blob_sha": "0fd9f399a603af842b9c532c608aab72edce4fd5"
+    },
+    {
+      "path": ".github/workflows/arc3-improvement-cycle.yml",
+      "git_blob_sha": "f5f9c15a4399a522a597623ad5e81626c973e0e4"
+    },
+    {
+      "path": ".github/workflows/arc3-official-connection.yml",
+      "git_blob_sha": "a3251c4fbd1e1a7df2afe882577be4a726a7d5ba"
+    },
+    {
+      "path": ".github/workflows/dqi-gated.yml",
+      "git_blob_sha": "82a550aed08c057e334291d75df4f0071b515a5d"
+    },
+    {
+      "path": ".github/workflows/wfs-local.yml",
+      "git_blob_sha": "4763d186a82cd8e84862a27ab43a2a6d1caa2622"
+    },
+    {
+      "path": ".gitignore",
+      "git_blob_sha": "457706771652ad6c7a6fb5c0d33d047f5b347d8d"
+    },
+    {
+      "path": "README.md",
+      "git_blob_sha": "d586a86cc1294677580e9bc4e111e5527f0bf42c"
+    },
+    {
+      "path": "experiments/arc3/autonomous/README.md",
+      "git_blob_sha": "6b1ad369ceaf2914d8393a880805a26d8e073a4e"
+    },
+    {
+      "path": "experiments/arc3/autonomous/config.json",
+      "git_blob_sha": "d7536ac4cc856310987563fa9fc4264bafd6bd23"
+    },
+    {
+      "path": "experiments/arc3/autonomous/evaluate.py",
+      "git_blob_sha": "62ee03e7eca2ed42281485f33f962549e75a22d3"
+    },
+    {
+      "path": "experiments/arc3/autonomous/loop.py",
+      "git_blob_sha": "8a202717649e19018f9945fd0de41a069b76b104"
+    },
+    {
+      "path": "experiments/arc3/autonomous/proposal.py",
+      "git_blob_sha": "f2484b96d46e7ea6dafb8d096e8018a713dcb519"
+    },
+    {
+      "path": "experiments/arc3/autonomous/requirements.txt",
+      "git_blob_sha": "3cff68f8c20461c8811b636bdd5d785c705df386"
+    },
+    {
+      "path": "experiments/arc3/autonomous/test_autonomous.py",
+      "git_blob_sha": "6402074eb77c1008d0daa6f0deb408285150690a"
+    },
+    {
+      "path": "experiments/arc3/autonomous/verification/autonomous-tests.txt",
+      "git_blob_sha": "6caa2449369a188a8389c8b6feb74bbddc91f090"
+    },
+    {
+      "path": "experiments/arc3/autonomous/verification/existing-cycle-tests.txt",
+      "git_blob_sha": "f8dd29ad21e87d1e32c2291794706747614a4de0"
+    },
+    {
+      "path": "experiments/arc3/autonomous/verification/public-check-config.json",
+      "git_blob_sha": "6b89a6bd9b9a79a90c6306e6d05c42f92bdb4d6d"
+    },
+    {
+      "path": "experiments/arc3/autonomous/verification/public-check.json",
+      "git_blob_sha": "0802da5b0e1bd1148c759b046d0705dcf0f6ea22"
+    },
+    {
+      "path": "experiments/arc3/cycle/CONNECTION_CHECKS.md",
+      "git_blob_sha": "3ae303837e821d3c7b848a6abff0ce0160b3bcc0"
+    },
+    {
+      "path": "experiments/arc3/cycle/DERIVED_CANDIDATES.json",
+      "git_blob_sha": "73ca63ba8ac1dfac0121abd2f6da9832803f1b5b"
+    },
+    {
+      "path": "experiments/arc3/cycle/NOTICE.md",
+      "git_blob_sha": "dc269dd211bc23f00faa07d3643beda3db58fc04"
+    },
+    {
+      "path": "experiments/arc3/cycle/README.md",
+      "git_blob_sha": "0657f1e9f3532da4d078f16e0046e66417f4711d"
+    },
+    {
+      "path": "experiments/arc3/cycle/SOURCES.json",
+      "git_blob_sha": "a6640d20016ba7c81c02de202828cfc8e2a2257c"
+    },
+    {
+      "path": "experiments/arc3/cycle/baseline-evidence/cpu-manifest.json",
+      "git_blob_sha": "4b7564ba2fa396ed2f3246ad1dd9fc68a4834793"
+    },
+    {
+      "path": "experiments/arc3/cycle/baseline-evidence/cpu-probe64-submit-http400.json",
+      "git_blob_sha": "db8734cfe63f118bb7f168e10232f3c1b8c46f31"
+    },
+    {
+      "path": "experiments/arc3/cycle/baseline-evidence/cpu-public-smoke.json",
+      "git_blob_sha": "25f6922d2331a2b847a179bd425fa8b5ff3eee6c"
+    },
+    {
+      "path": "experiments/arc3/cycle/connection_check.py",
+      "git_blob_sha": "90e86d2f40fd68b28ad322bc50e78362f09a42c1"
+    },
+    {
+      "path": "experiments/arc3/cycle/cpu_smoke.py",
+      "git_blob_sha": "e881c96dd02895ebab7c2f70c041c5e455fe2d7a"
+    },
+    {
+      "path": "experiments/arc3/cycle/cycle.py",
+      "git_blob_sha": "d06b3392923664ded706e0f9202a1749b955a189"
+    },
+    {
+      "path": "experiments/arc3/cycle/framework-sha256.json",
+      "git_blob_sha": "5da7f585f4f4327921665c4419db089d5a7580d3"
+    },
+    {
+      "path": "experiments/arc3/cycle/framework/agents/__init__.py",
+      "git_blob_sha": "e9cde30173dd76ca1ac85a8ce31f78195d4b9f63"
+    },
+    {
+      "path": "experiments/arc3/cycle/framework/agents/agent.py",
+      "git_blob_sha": "d3386f8bf32251642c4d49aba636527780c6469d"
+    },
+    {
+      "path": "experiments/arc3/cycle/framework/agents/recorder.py",
+      "git_blob_sha": "e349f2c61e516266f89ee994d1719f2bf426ba42"
+    },
+    {
+      "path": "experiments/arc3/cycle/framework/agents/tracing.py",
+      "git_blob_sha": "247f3a6988a711b816093527fc2d6bb4c7735127"
+    },
+    {
+      "path": "experiments/arc3/cycle/gpu_validation.py",
+      "git_blob_sha": "3f4e912c149aad3cf5209f435414e9cd2a1fcf7c"
+    },
+    {
+      "path": "experiments/arc3/cycle/import_sources.py",
+      "git_blob_sha": "1b93454dd5217c2276a5b4299a009e648548717a"
+    },
+    {
+      "path": "experiments/arc3/cycle/licenses/ARC-Prize-MIT.txt",
+      "git_blob_sha": "61dfe76773fe19080cc2e39f18d2344ca536bd4a"
+    },
+    {
+      "path": "experiments/arc3/cycle/licenses/Franzen-Apache-2.0.txt",
+      "git_blob_sha": "d645695673349e3947e8e5ae42332d0ac3164cd7"
+    },
+    {
+      "path": "experiments/arc3/cycle/make_cpu_probe64.py",
+      "git_blob_sha": "6e6324f9af1167fdfa55294cd14dbc48e1a02f11"
+    },
+    {
+      "path": "experiments/arc3/cycle/make_gpu_connected.py",
+      "git_blob_sha": "5dfa6027cd4fa515bcce9c29463331f20de5ab3f"
+    },
+    {
+      "path": "experiments/arc3/cycle/notebooks/cpu-c8b-probe64.ipynb",
+      "git_blob_sha": "fe02d0075d7eb29720bfa641785c9062a565afd4"
+    },
+    {
+      "path": "experiments/arc3/cycle/notebooks/cpu-c8b.ipynb",
+      "git_blob_sha": "3765daf4b7b4893069b04a0d621049f45b5f8a3d"
+    },
+    {
+      "path": "experiments/arc3/cycle/notebooks/gpu-baseline-connected.ipynb",
+      "git_blob_sha": "f524439535a48050281198729ebc212fc5819a86"
+    },
+    {
+      "path": "experiments/arc3/cycle/notebooks/gpu-baseline.ipynb",
+      "git_blob_sha": "281bb874dee98c8e2b4b3d3555fc952d70f02618"
+    },
+    {
+      "path": "experiments/arc3/cycle/notebooks/gpu-memory-connected.ipynb",
+      "git_blob_sha": "bc9e2ab1946e5576cd5cab1980ed46024ba675ce"
+    },
+    {
+      "path": "experiments/arc3/cycle/notebooks/gpu-memory.ipynb",
+      "git_blob_sha": "77991732894ae3298be1ef110ac06e95514eac14"
+    },
+    {
+      "path": "experiments/arc3/cycle/profiles.json",
+      "git_blob_sha": "99c27fc63b4990c1a5d249e3d7748c9a5aed4242"
+    },
+    {
+      "path": "experiments/arc3/cycle/request.json",
+      "git_blob_sha": "490a4cf3f741afe0f6bc90abd9a5ea30c4c01037"
+    },
+    {
+      "path": "experiments/arc3/cycle/requirements.txt",
+      "git_blob_sha": "2ab46681aaa562d7df5bb50b5f2351bd8d685d24"
+    },
+    {
+      "path": "experiments/arc3/cycle/runner.py",
+      "git_blob_sha": "b1178f1559535d5e82fa062b6c81b43b3cbbb91f"
+    },
+    {
+      "path": "experiments/arc3/cycle/test_cycle.py",
+      "git_blob_sha": "5a1bcea70107a177d6d9345f5fc120171f933454"
+    },
+    {
+      "path": "experiments/arc3/human_loop/README.md",
+      "git_blob_sha": "0e47c941e2923ae36803278711377b5fa2cdbe40"
+    },
+    {
+      "path": "experiments/arc3/human_loop/data.py",
+      "git_blob_sha": "458ac495b02c0319b556fbbb042c2b727f7fb944"
+    },
+    {
+      "path": "experiments/arc3/human_loop/engine.py",
+      "git_blob_sha": "82067468d5ef638124154d07c3355056275ef0ba"
+    },
+    {
+      "path": "experiments/arc3/human_loop/fetch_sources.py",
+      "git_blob_sha": "2830440dfa19521adc66fcf96d33b86cddc3e217"
+    },
+    {
+      "path": "experiments/arc3/human_loop/models.py",
+      "git_blob_sha": "53184ecf37d0e11f9efbf1bb355f2f9157f66339"
+    },
+    {
+      "path": "experiments/arc3/human_loop/official-reference.json",
+      "git_blob_sha": "ec0ec18f2548c710931769719433f90a14b4aa68"
+    },
+    {
+      "path": "experiments/arc3/human_loop/requirements.txt",
+      "git_blob_sha": "879e97a8fc2fc0dcfeb16c508b045f4b76d0da2c"
+    },
+    {
+      "path": "experiments/arc3/human_loop/research/.gitattributes",
+      "git_blob_sha": "6cbbd3b2e7380f6d375fe0450314304b1c8fadb0"
+    },
+    {
+      "path": "experiments/arc3/human_loop/research/README.md",
+      "git_blob_sha": "da1ab66ed5f772662d5b80368e152d0549556074"
+    },
+    {
+      "path": "experiments/arc3/human_loop/research/figures/checks.json",
+      "git_blob_sha": "ad026f74402f2e0ab937d800536e41451669c06a"
+    },
+    {
+      "path": "experiments/arc3/human_loop/research/provenance.json",
+      "git_blob_sha": "5e56069c81eb50c2e93043c20c17731e690a23c0"
+    },
+    {
+      "path": "experiments/arc3/human_loop/research/sources/flow/examples.py",
+      "git_blob_sha": "40d94fc33dc6eba9135509cfec05544f37484fed"
+    },
+    {
+      "path": "experiments/arc3/human_loop/research/sources/flow/finite.py",
+      "git_blob_sha": "2c76fabeb67eb81f393284f51ab10b6c6c0a22d2"
+    },
+    {
+      "path": "experiments/arc3/human_loop/research/sources/primitive/primitive.py",
+      "git_blob_sha": "5a85fd03678fef0eec8a3310ecd3d11093bf2758"
+    },
+    {
+      "path": "experiments/arc3/human_loop/research/verification/existing-relations.json",
+      "git_blob_sha": "46625bf35d61b257447c8d574aa799d798aafdce"
+    },
+    {
+      "path": "experiments/arc3/human_loop/research/verify_existing.py",
+      "git_blob_sha": "29943e412b04409707a2590410cc9fb4d3cd7962"
+    },
+    {
+      "path": "experiments/arc3/human_loop/source-notes.json",
+      "git_blob_sha": "7b2639c06b5a4c5b04be25ee91b3f992f3ff3eb2"
+    },
+    {
+      "path": "experiments/arc3/human_loop/test_human.py",
+      "git_blob_sha": "bb6365de3bf05287e252d86cba7088bedfc80449"
+    },
+    {
+      "path": "experiments/arc3/human_loop/tools/plot_forecasts.py",
+      "git_blob_sha": "56708c1fad0dfd9f5430cf2ee49255f34db2a0e7"
+    },
+    {
+      "path": "experiments/arc3/human_loop/verification/cycle-tests.txt",
+      "git_blob_sha": "738d19fe6f400910c32fee99310edb3e4fb70da1"
+    },
+    {
+      "path": "experiments/arc3/human_loop/verification/data-manifest.json",
+      "git_blob_sha": "e95eeaf4a9291ee2ce540af551ea810d8a6eea65"
+    },
+    {
+      "path": "experiments/arc3/human_loop/verification/forecast-example.json",
+      "git_blob_sha": "76f8528fe240d9998081d6b0e5a5fb898700c847"
+    },
+    {
+      "path": "experiments/arc3/human_loop/verification/human-tests.txt",
+      "git_blob_sha": "1d9a2057b93598856a5c7146cb3d7fd4ccb2b0eb"
+    },
+    {
+      "path": "experiments/arc3/human_loop/verification/public-loop-tests.txt",
+      "git_blob_sha": "3d7905c7821b0d6b934ed3e268a0124c7b1a8bad"
+    },
+    {
+      "path": "experiments/arc3/human_loop/verification/summary.json",
+      "git_blob_sha": "92f71dce9d4e714eb906b16dfa90893e7f148e22"
+    },
+    {
+      "path": "experiments/arc3/runtime/arc3/download.py",
+      "git_blob_sha": "fce94c547b255ab7fc3bab37cb075feffd9ebe75"
+    },
+    {
+      "path": "experiments/arc3/runtime/requirements.lock",
+      "git_blob_sha": "0ad0b81428938c9cc5a681c7e7a16ae2bc211cdf"
+    },
+    {
+      "path": "manifest.json",
+      "git_blob_sha": "0a311a972b80ad9fc79a59056a114507795d3b3e"
+    },
+    {
+      "path": "quantum/dqi_gate.py",
+      "git_blob_sha": "74cfa73002fc4ffc4b6658788ae10d7952284d95"
+    },
+    {
+      "path": "quantum/wfs_mobile_ci.py",
+      "git_blob_sha": "59188723b83cc6a591c5ffe23f2d7ac49f5ecd64"
+    },
+    {
+      "path": "restore.py",
+      "git_blob_sha": "a33f58ebe04779eab5ee68061b7d63d0f30ab6bc"
+    }
+  ]
+}
