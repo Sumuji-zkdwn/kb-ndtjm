@@ -1,0 +1,482 @@
+{
+  "schema": "arc3-saved-evidence-audit-v1",
+  "artifact": {
+    "id": 12885411756,
+    "run_id": 40846700062,
+    "published_sha256": "13614fe9725bae81c244e0d89b370ab6cb3fbce85f20fb8b305a3af07273b785",
+    "url": "https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40846700062/artifacts/12885411756",
+    "files": 144,
+    "input_verification": {
+      "input_kind": "zip",
+      "archive_hash_verified": true,
+      "sha256": "13614fe9725bae81c244e0d89b370ab6cb3fbce85f20fb8b305a3af07273b785",
+      "bytes": 2128084
+    }
+  },
+  "baseline_manifest": {
+    "candidate_id": "0ceeba93ecd722e3f27af8194a34d3c4c1f1522750854032db8eeaeaefbb076f",
+    "code_sources_preserved": true,
+    "comparison_scope": "same-line, exact runtime metadata; public score is not private performance",
+    "competition": "arc-prize-2026-arc-agi-3",
+    "created_utc": "2026-10-28T20:33:49.966459+00:00",
+    "files": {
+      "kernel-metadata.json": "bb17ef2d568be343706c8c9d347871c64fcb98e96fb0c1f262e3d56647465bb0",
+      "submission.ipynb": "f74e393d583dda6a3800dfd48f7b95e399074185b1e46a2bc7e5db464a05185a"
+    },
+    "identity": {
+      "code_sha256": "622b51d40e2a86f54251ec0627f16067d9e99a6e42ed24940285b8d33a0c8cd4",
+      "hypothesis": "Validate model and game inference before comparing evidence memory under the same full competition settings.",
+      "label": "ready-v2",
+      "line": "gpu",
+      "notebook_sha256": "f74e393d583dda6a3800dfd48f7b95e399074185b1e46a2bc7e5db464a05185a",
+      "profile": "gpu-baseline",
+      "runtime": {
+        "competition_sources": [
+          "arc-prize-2026-arc-agi-3"
+        ],
+        "dataset_sources": [
+          "dfranzen/pennyroyal-v253",
+          "dfranzen/taaf-kaggle-source-bundle-copy"
+        ],
+        "docker_image": "gcr.io/kaggle-private-byod/python@sha256:57e612b484cf3df5026ee4dcc3cb176974b22b2bc0937fb1e16132a8be4cb13c",
+        "docker_image_pinning_type": "original",
+        "enable_gpu": true,
+        "enable_internet": false,
+        "enable_tpu": false,
+        "is_private": true,
+        "kernel_sources": [],
+        "machine_shape": "NvidiaRtxPro6000",
+        "model_sources": [
+          "dfranzen/albucino-qwen3-8-flash-next-drafter/Transformers/default/1",
+          "dfranzen/intel-qwen3.8-flash-next-w4a16-autoround/Transformers/default/1"
+        ]
+      },
+      "session_timeout_seconds": 32400
+    },
+    "kernel": "sumuji/arc3-gpu-baseline-ready-v2-0ceeba93ecd7",
+    "launch_blockers": [],
+    "schema_version": 1,
+    "source_notebook_sha256": "f74e393d583dda6a3800dfd48f7b95e399074185b1e46a2bc7e5db464a05185a"
+  },
+  "frozen_notebook_sha256_verified": "f74e393d583dda6a3800dfd48f7b95e399074185b1e46a2bc7e5db464a05185a",
+  "official_score": {
+    "candidate_id": "0ceeba93ecd722e3f27af8194a34d3c4c1f1522750854032db8eeaeaefbb076f",
+    "competition": "arc-prize-2026-arc-agi-3",
+    "description": "ARC3-CYCLE-0ceeba93ecd722e3f27af8194a34d3c4c1f1522750854032db8eeaeaefbb076f",
+    "error_description": "",
+    "line": "gpu",
+    "observed_utc": "2026-10-29T09:04:33.476380+00:00",
+    "private_score": "",
+    "public_score": "26.20",
+    "ref": 57751913,
+    "status": "COMPLETE"
+  },
+  "baseline_normal_diagnostics": {
+    "backend_ready": true,
+    "probe_completion_tokens": 2,
+    "readiness_wait_seconds": 1.0939492120000978,
+    "scope": "Normal Save Version connectivity; not an official score",
+    "game_generated_tokens": 72322,
+    "non_reset_game_actions": 48,
+    "passed": true
+  },
+  "memory_normal_diagnostics": {
+    "backend_ready": true,
+    "probe_completion_tokens": 2,
+    "readiness_wait_seconds": 1.0948240150000856,
+    "scope": "Normal Save Version connectivity; not an official score",
+    "game_generated_tokens": 83231,
+    "non_reset_game_actions": 47,
+    "passed": true
+  },
+  "memory_snapshots": {
+    "files": 25,
+    "events": 48,
+    "max_events_per_game": 2,
+    "actions": {
+      "ACTION3": 7,
+      "ACTION2": 4,
+      "ACTION4": 11,
+      "ACTION1": 9,
+      "ACTION6": 15,
+      "ACTION7": 1,
+      "RESET": 1
+    },
+    "continuity": {
+      "GAP": 27,
+      "linked": 21
+    },
+    "events_with_animation_metadata": 0,
+    "endpoint_equal_events": 5,
+    "witness_pairs": 0,
+    "witness_interpretation": "No stored witness is not proof that no indistinguishable states exist.",
+    "timing": {
+      "engine_wall_seconds": {
+        "count": 48,
+        "min": 0.0001717700001790945,
+        "max": 0.004507690000082221
+      },
+      "executed_engine_calls_distinct": [
+        1
+      ],
+      "meaning": "Duration of the engine call, NOT the inter-action interval or animation frame spacing.",
+      "absolute_per_action_timestamps_recorded": false,
+      "absolute_action_timestamp_fields": [],
+      "raw_frame_durations_recorded": false,
+      "raw_frame_timing_fields": [],
+      "field_scope": "Metadata keys in all saved memory event records; no claim about other runtime logs.",
+      "event_metadata_paths": [
+        "action",
+        "action.data",
+        "action.data.x",
+        "action.data.y",
+        "action.name",
+        "after_fingerprint",
+        "after_grid",
+        "before_fingerprint",
+        "before_grid",
+        "boundaries",
+        "continuity",
+        "engine_step_after",
+        "engine_step_before",
+        "event_id",
+        "gap_reason",
+        "observed_cost",
+        "observed_cost.engine_wall_seconds",
+        "observed_cost.executed_engine_calls",
+        "observed_cost.generated_tokens_reported_to_engine",
+        "observed_cost.uncached_input_tokens_reported_to_engine",
+        "previous_event_id",
+        "public_result",
+        "public_result.automatic",
+        "public_result.batch_index",
+        "public_result.batch_size",
+        "public_result.board_changed",
+        "public_result.done",
+        "public_result.game_over",
+        "public_result.gameplay_changed",
+        "public_result.level_completed",
+        "public_result.no_op",
+        "public_result.reward",
+        "public_result.run_complete",
+        "public_result.score",
+        "public_result.state",
+        "public_result.valid_actions",
+        "qualified_event_id",
+        "record_interpretation_revision",
+        "scope_after",
+        "scope_after.attempt",
+        "scope_after.branch_epoch",
+        "scope_after.game_instance_id",
+        "scope_after.level",
+        "scope_after.run_id",
+        "scope_before",
+        "scope_before.attempt",
+        "scope_before.branch_epoch",
+        "scope_before.game_instance_id",
+        "scope_before.level",
+        "scope_before.run_id",
+        "sequence"
+      ]
+    },
+    "per_game": [
+      {
+        "game_id": "ar25-0c556536",
+        "events": 2,
+        "sha256": "7eaa72a10c15c03a044a149a37430b0d410f77ae872559ce8e71281b10c9cb6c",
+        "endpoint_equal_events": [],
+        "witness_pairs": 0
+      },
+      {
+        "game_id": "bp35-0a0ad940",
+        "events": 2,
+        "sha256": "8f4525455480ce946b5197f460db967322703a630afbe80318a2b30bc4cb5717",
+        "endpoint_equal_events": [],
+        "witness_pairs": 0
+      },
+      {
+        "game_id": "cd82-fb555c5d",
+        "events": 2,
+        "sha256": "eb83b9ebcabca252769a7594a94160edd42309ecab59d71f2c80938221fd19c7",
+        "endpoint_equal_events": [
+          2
+        ],
+        "witness_pairs": 0
+      },
+      {
+        "game_id": "cn04-2fe56bfb",
+        "events": 2,
+        "sha256": "a3112e91ee40eae5fa7ed9f171b4c4ad63850bff17642f1e9abb4870a5cfa61f",
+        "endpoint_equal_events": [],
+        "witness_pairs": 0
+      },
+      {
+        "game_id": "dc22-fdcac232",
+        "events": 2,
+        "sha256": "dd1761fbb9e602ec1c1915c339aad621ea3ebbbf79ac87b1f6daed494e9603e6",
+        "endpoint_equal_events": [],
+        "witness_pairs": 0
+      },
+      {
+        "game_id": "ft09-0d8bbf25",
+        "events": 2,
+        "sha256": "24339a296d04389ead6d1f32cd5204f4962f423d27a17e1965114c0c7c210ca3",
+        "endpoint_equal_events": [],
+        "witness_pairs": 0
+      },
+      {
+        "game_id": "g50t-5849a774",
+        "events": 1,
+        "sha256": "8c71a41cbb5ee3b5b251c8b2751be2e8d797af3a69b7ea75f3e58720456ed4e7",
+        "endpoint_equal_events": [],
+        "witness_pairs": 0
+      },
+      {
+        "game_id": "ka59-38d34dbb",
+        "events": 2,
+        "sha256": "9be4199d9dd7114ce7f94a4fdc0a4cda345a89e48fcd7e0c5615c9eae48c5c06",
+        "endpoint_equal_events": [],
+        "witness_pairs": 0
+      },
+      {
+        "game_id": "lf52-271a04aa",
+        "events": 2,
+        "sha256": "cfacff7d46a94c88508b8d4d3cf2da426987c797d767d20c6c294d7bee76b3ac",
+        "endpoint_equal_events": [],
+        "witness_pairs": 0
+      },
+      {
+        "game_id": "lp85-305b61c3",
+        "events": 2,
+        "sha256": "f354eed8ff90af7ca4ab300ed9f4133652b42006798a8fc257c71aa16056327f",
+        "endpoint_equal_events": [
+          1,
+          2
+        ],
+        "witness_pairs": 0
+      },
+      {
+        "game_id": "ls20-9607627b",
+        "events": 2,
+        "sha256": "b3fb3029828e39d86971c71479b54c06de7e463836449037a7874bca0bd30c52",
+        "endpoint_equal_events": [],
+        "witness_pairs": 0
+      },
+      {
+        "game_id": "m0r0-492f87ba",
+        "events": 2,
+        "sha256": "05c59bd83a68b76fb8fc272084353b3eb0c4f63c3ce0a8fab75fabcc6fab9ece",
+        "endpoint_equal_events": [],
+        "witness_pairs": 0
+      },
+      {
+        "game_id": "r11l-495a7899",
+        "events": 1,
+        "sha256": "8c3e14bb4866355eb28e19348bcc55aa1061d000da19e62a3d4a001913015f43",
+        "endpoint_equal_events": [],
+        "witness_pairs": 0
+      },
+      {
+        "game_id": "re86-8af5384d",
+        "events": 2,
+        "sha256": "31bc410bc267db36442c01af08d2c585abb4c9dc9ee4cf84616c02c1c0a2cdf6",
+        "endpoint_equal_events": [],
+        "witness_pairs": 0
+      },
+      {
+        "game_id": "s5i5-18d95033",
+        "events": 2,
+        "sha256": "1bd7de585350b185c5d424332fa5c7d35452caf1d653ece1551b67b411eeb41d",
+        "endpoint_equal_events": [],
+        "witness_pairs": 0
+      },
+      {
+        "game_id": "sb26-7fbdac44",
+        "events": 2,
+        "sha256": "fa8e2d4d9685635dcad0c2e1a2b85eb2807a0b9a91c614e804904218ab0367fe",
+        "endpoint_equal_events": [],
+        "witness_pairs": 0
+      },
+      {
+        "game_id": "sc25-635fd71a",
+        "events": 2,
+        "sha256": "0be27fc56132f394a943aff4b5448d11edb42024d4bad77ec8c025f8d3f5e46d",
+        "endpoint_equal_events": [
+          1
+        ],
+        "witness_pairs": 0
+      },
+      {
+        "game_id": "sk48-d8078629",
+        "events": 2,
+        "sha256": "d3d3dbedd81314c511f2a579a74978e3de235daa9a126ae6032cc662abf46112",
+        "endpoint_equal_events": [],
+        "witness_pairs": 0
+      },
+      {
+        "game_id": "sp80-589a99af",
+        "events": 2,
+        "sha256": "feb1b275dd87cdd52cd31d92f86f53bd6ef5f4c5d38a79de6c592efb770e5447",
+        "endpoint_equal_events": [],
+        "witness_pairs": 0
+      },
+      {
+        "game_id": "su15-1944f8ab",
+        "events": 2,
+        "sha256": "d5e38f9f584a3c7e2c8cd15626584dbd830801aabe51d8d81f4bdbe41407e924",
+        "endpoint_equal_events": [],
+        "witness_pairs": 0
+      },
+      {
+        "game_id": "tn36-ef4dde99",
+        "events": 2,
+        "sha256": "779466fa0ed1c9a21437fd17c454f98bebab9482a06e903706d6951a3a3e38b4",
+        "endpoint_equal_events": [
+          1
+        ],
+        "witness_pairs": 0
+      },
+      {
+        "game_id": "tr87-cd924810",
+        "events": 2,
+        "sha256": "85d9de396909ee3fcc9d5f19ce031b0404e179e618c8f31d2a1dff57a76b9181",
+        "endpoint_equal_events": [],
+        "witness_pairs": 0
+      },
+      {
+        "game_id": "tu93-0768757b",
+        "events": 2,
+        "sha256": "5ebe0dad5d18e5e7ed2c39b4e3f8c9ed27a1ff35166b0e22d0d1ebb0051f12f6",
+        "endpoint_equal_events": [],
+        "witness_pairs": 0
+      },
+      {
+        "game_id": "vc33-5430563c",
+        "events": 2,
+        "sha256": "784b802df3779b49ebeb17478a22a50f603fa972937900b590b860a22f73ec95",
+        "endpoint_equal_events": [],
+        "witness_pairs": 0
+      },
+      {
+        "game_id": "wa30-ee6fef47",
+        "events": 2,
+        "sha256": "5f18430420d0094e8677bef965850f6e1942c096d446be91dd101d759df16929",
+        "endpoint_equal_events": [],
+        "witness_pairs": 0
+      }
+    ]
+  },
+  "prompts": {
+    "gpu-baseline/ready-v2": {
+      "game_prompt_files": 25,
+      "game_prompt_bytes": 1557761,
+      "explicit_animation_annotation_games": 6,
+      "count_scope": "explicit annotations in saved latest prompts; not a total of all animations",
+      "annotations": {
+        "bp35-0a0ad940_p0.log": [
+          {
+            "action": "LEFT",
+            "frames_after_collapse": 3,
+            "transient_pixels": 21,
+            "endpoint_gameplay_unchanged": false
+          }
+        ],
+        "lf52-271a04aa_p0.log": [
+          {
+            "action": "MOUSE(row=19, col=19)",
+            "frames_after_collapse": 2,
+            "transient_pixels": 4,
+            "endpoint_gameplay_unchanged": false
+          }
+        ],
+        "sc25-635fd71a_p0.log": [
+          {
+            "action": "UP",
+            "frames_after_collapse": 5,
+            "transient_pixels": 36,
+            "endpoint_gameplay_unchanged": true
+          }
+        ],
+        "su15-1944f8ab_p0.log": [
+          {
+            "action": "MOUSE(row=32, col=32)",
+            "frames_after_collapse": 5,
+            "transient_pixels": 113,
+            "endpoint_gameplay_unchanged": true
+          }
+        ],
+        "tn36-ef4dde99_p0.log": [
+          {
+            "action": "MOUSE(row=55, col=37)",
+            "frames_after_collapse": 7,
+            "transient_pixels": 256,
+            "endpoint_gameplay_unchanged": true
+          }
+        ],
+        "tu93-0768757b_p0.log": [
+          {
+            "action": "RIGHT",
+            "frames_after_collapse": 6,
+            "transient_pixels": 12,
+            "endpoint_gameplay_unchanged": false
+          }
+        ]
+      }
+    },
+    "gpu-memory/ready-v2-memory": {
+      "game_prompt_files": 25,
+      "game_prompt_bytes": 1664364,
+      "explicit_animation_annotation_games": 5,
+      "count_scope": "explicit annotations in saved latest prompts; not a total of all animations",
+      "annotations": {
+        "bp35-0a0ad940_p0.log": [
+          {
+            "action": "RIGHT",
+            "frames_after_collapse": 4,
+            "transient_pixels": 29,
+            "endpoint_gameplay_unchanged": false
+          }
+        ],
+        "g50t-5849a774_p0.log": [
+          {
+            "action": "RIGHT",
+            "frames_after_collapse": 6,
+            "transient_pixels": 11,
+            "endpoint_gameplay_unchanged": false
+          }
+        ],
+        "sc25-635fd71a_p0.log": [
+          {
+            "action": "UP",
+            "frames_after_collapse": 5,
+            "transient_pixels": 36,
+            "endpoint_gameplay_unchanged": true
+          }
+        ],
+        "su15-1944f8ab_p0.log": [
+          {
+            "action": "MOUSE(row=53, col=10)",
+            "frames_after_collapse": 5,
+            "transient_pixels": 120,
+            "endpoint_gameplay_unchanged": false
+          }
+        ],
+        "tu93-0768757b_p0.log": [
+          {
+            "action": "RIGHT",
+            "frames_after_collapse": 6,
+            "transient_pixels": 12,
+            "endpoint_gameplay_unchanged": false
+          }
+        ]
+      }
+    }
+  },
+  "sc25_fixture_log_sha256": "7546033b08b703b16fa2bdc33911b24121831acfd424e96dcdb5ce8cccd9debb",
+  "evidence_limits": [
+    "The 26.20 official receipt and normal Save Version traces describe different executions.",
+    "Prompt snapshots are not complete raw episode recordings.",
+    "Memory snapshots contain endpoint grids, at most two events per game, and no raw animation stack.",
+    "Neither WFS state correspondence nor gameplay improvement is established."
+  ]
+}

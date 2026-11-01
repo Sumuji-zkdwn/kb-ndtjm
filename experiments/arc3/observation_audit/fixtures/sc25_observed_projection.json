@@ -1,0 +1,122 @@
+{
+  "schema": "arc3-observed-projection-v1",
+  "scope": "historical normal Save Version connectivity; not an official evaluation episode",
+  "game_id": "sc25-635fd71a",
+  "action": "UP",
+  "action_num": 1,
+  "source": {
+    "repository": "Sumuji-zkdwn/kb-ndtjm",
+    "run_id": 40846700062,
+    "artifact_id": 12885411756,
+    "artifact_sha256": "13614fe9725bae81c244e0d89b370ab6cb3fbce85f20fb8b305a3af07273b785",
+    "artifact_url": "https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40846700062/artifacts/12885411756",
+    "log_path": "gpu-baseline/ready-v2/evidence/notebook-output/prompts/sc25-635fd71a_p0.log",
+    "log_sha256": "7546033b08b703b16fa2bdc33911b24121831acfd424e96dcdb5ce8cccd9debb",
+    "timeline_start_line": 312,
+    "timeline_excerpt": "UP 5\n1 rows 49-51, cols 29-31 ['W>N @ (49,29) (49,30) (49,31) (50,29) (50,30) (50,31) (51,29) (51,30) (51,31)']\n2 rows 54-56, cols 24-26 ['W>N @ (54,24) (54,25) (54,26) (55,24) (55,25) (55,26) (56,24) (56,25) (56,26)']\n3 rows 54-56, cols 34-36 ['W>N @ (54,34) (54,35) (54,36) (55,34) (55,35) (55,36) (56,34) (56,35) (56,36)']\n4 rows 59-61, cols 29-31 ['W>N @ (59,29) (59,30) (59,31) (60,29) (60,30) (60,31) (61,29) (61,30) (61,31)']\n5 rows 49-61, cols 24-36 {'N>W': 36}\n"
+  },
+  "projection": {
+    "meaning": "1: all cells of the block are N (light green); 0: W (white). Derived from logged coordinates, not full-frame replay.",
+    "ordered_regions": [
+      {
+        "name": "top",
+        "bbox": [
+          49,
+          29,
+          51,
+          31
+        ],
+        "cells": 9
+      },
+      {
+        "name": "left",
+        "bbox": [
+          54,
+          24,
+          56,
+          26
+        ],
+        "cells": 9
+      },
+      {
+        "name": "right",
+        "bbox": [
+          54,
+          34,
+          56,
+          36
+        ],
+        "cells": 9
+      },
+      {
+        "name": "bottom",
+        "bbox": [
+          59,
+          29,
+          61,
+          31
+        ],
+        "cells": 9
+      }
+    ]
+  },
+  "before": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "returned_frames_after_consecutive_duplicate_collapse": [
+    [
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      1,
+      1,
+      0,
+      0
+    ],
+    [
+      1,
+      1,
+      1,
+      0
+    ],
+    [
+      1,
+      1,
+      1,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "observed_endpoint_metrics": {
+    "board_changed": false,
+    "gameplay_changed": false,
+    "no_op": true
+  },
+  "observed_animation_summary": {
+    "frames": 5,
+    "transient_pixels": 36,
+    "transient_bbox": [
+      49,
+      24,
+      61,
+      36
+    ]
+  },
+  "limitations": [
+    "Raw engine frame dwell counts were already collapsed and cannot be recovered from this log.",
+    "One action returned five distinct animation frames; this is not an observed four-action periodic orbit.",
+    "The projection contains four regions, not the full numeric game frame.",
+    "Endpoint information loss does not establish a WFS state map or improved gameplay."
+  ]
+}

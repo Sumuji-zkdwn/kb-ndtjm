@@ -1,0 +1,216 @@
+{
+  "schema": "arc3-observation-audit-v1",
+  "date_jst": "2026-11-01",
+  "python": "3.12.14",
+  "command": "python -B experiments/arc3/observation_audit/run_audit.py --out NEW_DIRECTORY [--evidence LOCAL_ARTIFACT]",
+  "scope": "Local offline exact finite models, pinned pure production functions, saved-log projection, and stub hook contracts",
+  "tests": {
+    "run": 37,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": true
+  },
+  "network_connections": "blocked in audit process",
+  "protected_sources": {
+    "source_commit": "06ec316097d4bf22a44bfbd82dceb63f717680c4",
+    "files_verified_unchanged": 83
+  },
+  "pinned_sources": {
+    "repository": "Sumuji-zkdwn/kb-ndtjm",
+    "source_commit": "06ec316097d4bf22a44bfbd82dceb63f717680c4",
+    "notebooks": {
+      "cpu": {
+        "path": "experiments/arc3/cycle/notebooks/cpu-c8b.ipynb",
+        "sha256": "03788c46195a6e48c8d865d67788f0d542472f0a29c4dffb67a9eabaf6874b8c"
+      },
+      "gpu": {
+        "path": "experiments/arc3/cycle/notebooks/gpu-baseline-connected.ipynb",
+        "sha256": "f74e393d583dda6a3800dfd48f7b95e399074185b1e46a2bc7e5db464a05185a"
+      }
+    },
+    "extracted_source_sha256": {
+      "cpu_agent_py": "0cd7f2e94a5757c8aad3245915f0c7bb29403589fae991df45684955829711db",
+      "gpu_animation_py": "b835584ead6d449c3bfb72f1c1df03186907ae882e4325cfc97dd584684c3824",
+      "gpu_animation_chain": "2e19973a154d99084f2f4f40842cf8a3d96bec25bc020b0b5be7a4286600c3a1"
+    },
+    "tested_production_code": [
+      "CPU agent.Observation.from_frame",
+      "CPU agent.Observation.key",
+      "GPU normalize_frames",
+      "GPU collapse_frames",
+      "GPU _transient_cells",
+      "GPU summarize_animation",
+      "GPU _animation_chain"
+    ],
+    "execution_scope": "Only named AST-extracted pure observation code; no notebook cells executed",
+    "full_gpu_runtime_test": "NOT_RUN",
+    "official_submission": "NOT_RUN",
+    "game_performance_improvement": "NOT_MEASURED"
+  },
+  "finite_model": {
+    "scope": "exact_synthetic_finite_model_only",
+    "real_game_correspondence_established": false,
+    "game_performance_improvement_established": false,
+    "proof_commit": "6bd74237f7b1910942988e6f542987857e9dec91",
+    "proof_url": "https://github.com/Sumuji-zkdwn/primitive-lean/blob/6bd74237f7b1910942988e6f542987857e9dec91/linear_input/lean_check/WFSMobiusFourier.inc",
+    "state_space": "{-1,0,1}^2",
+    "update": "H(x,u)=(-u,x)",
+    "observation": "K(x,u)=x",
+    "state_count": 9,
+    "signature_counts": {
+      "ordered_four_observations": 9,
+      "even_observations": 3,
+      "last_observation_only": 3
+    },
+    "dft_convention": {
+      "exponent": "-2*pi*i*j/4",
+      "normalization": "1/4",
+      "exact_coefficient": "(x/2,u/2) as (real,imaginary)",
+      "checked_states": 9
+    },
+    "even_sampling_witness": [
+      {
+        "state": [
+          "0",
+          "0"
+        ],
+        "trace": [
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "even": [
+          "0",
+          "0"
+        ]
+      },
+      {
+        "state": [
+          "0",
+          "1"
+        ],
+        "trace": [
+          "0",
+          "-1",
+          "0",
+          "1"
+        ],
+        "even": [
+          "0",
+          "0"
+        ]
+      }
+    ],
+    "last_packet_witness": [
+      {
+        "state": [
+          "1",
+          "0"
+        ],
+        "packet": [
+          "1",
+          "0",
+          "-1",
+          "0"
+        ],
+        "next_observation": "1"
+      },
+      {
+        "state": [
+          "-1",
+          "0"
+        ],
+        "packet": [
+          "-1",
+          "0",
+          "1",
+          "0"
+        ],
+        "next_observation": "-1"
+      }
+    ],
+    "power_only_negative_control": {
+      "distinct_complex_modes": 4,
+      "distinct_powers": 1,
+      "power": "1/4"
+    },
+    "positive_rational_intensity_cases": 7,
+    "mobius_domain": "z > -1/2; boundary and lower branch rejected",
+    "checks": {
+      "closed_state_space": true,
+      "four_steps_identity": true,
+      "trace_formula": true,
+      "normalized_negative_exponent_dft": true,
+      "adjacent_reconstruction": true,
+      "even_collision_distinguished_by_full_trace": true,
+      "last_frame_collision_different_next_observation": true,
+      "power_only_negative_control": true,
+      "mobius_domain_preserved": true,
+      "mobius_reciprocal_intensity": true,
+      "mobius_involution": true
+    },
+    "all_checks_passed": true,
+    "limits": [
+      "No ARC3 state variables, controlled transition, or four-cycle are identified.",
+      "Packet indices are not asserted to be physical time steps.",
+      "Two adjacent readings suffice only for this explicitly defined toy update.",
+      "Preserving observations does not establish a gameplay or score improvement."
+    ]
+  },
+  "saved_evidence": {
+    "artifact": {
+      "id": 12885411756,
+      "run_id": 40846700062,
+      "published_sha256": "13614fe9725bae81c244e0d89b370ab6cb3fbce85f20fb8b305a3af07273b785",
+      "url": "https://github.com/Sumuji-zkdwn/kb-ndtjm/actions/runs/40846700062/artifacts/12885411756",
+      "files": 144,
+      "input_verification": {
+        "input_kind": "zip",
+        "archive_hash_verified": true,
+        "sha256": "13614fe9725bae81c244e0d89b370ab6cb3fbce85f20fb8b305a3af07273b785",
+        "bytes": 2128084
+      }
+    },
+    "reparsed_from_artifact_this_run": true,
+    "official_score": {
+      "candidate_id": "0ceeba93ecd722e3f27af8194a34d3c4c1f1522750854032db8eeaeaefbb076f",
+      "competition": "arc-prize-2026-arc-agi-3",
+      "description": "ARC3-CYCLE-0ceeba93ecd722e3f27af8194a34d3c4c1f1522750854032db8eeaeaefbb076f",
+      "error_description": "",
+      "line": "gpu",
+      "observed_utc": "2026-10-29T09:04:33.476380+00:00",
+      "private_score": "",
+      "public_score": "26.20",
+      "ref": 57751913,
+      "status": "COMPLETE"
+    },
+    "scope": "Stored official receipt, not a new score; frame logs are normal Save Version only"
+  },
+  "verdicts": {
+    "synthetic_stride_two_aliasing": "VERIFIED",
+    "cpu_endpoint_projection_collision": "VERIFIED_ON_PINNED_PRODUCTION_CLASS",
+    "gpu_compact_summary_order_collision": "VERIFIED_ON_PINNED_PRODUCTION_FUNCTIONS",
+    "gpu_duplicate_frame_multiplicity_loss": "VERIFIED_ON_PINNED_PRODUCTION_FUNCTIONS",
+    "real_sc25_nonconstant_path_with_equal_endpoints": "VERIFIED_FROM_SAVED_TIMELINE_PROJECTION",
+    "real_game_wfs_H_state_correspondence": "NOT_ESTABLISHED",
+    "observer_packet_retention": "VERIFIED_OFFLINE_WITH_BOUNDS_AND_EVICTION_ACCOUNTING",
+    "observer_policy_integration": "NOT_INSTALLED",
+    "full_gpu_harness_execution": "NOT_RUN",
+    "new_real_game_runs": 0,
+    "new_kaggle_submissions": 0,
+    "paused_cycle_resumed": false,
+    "gameplay_performance_improvement": "NOT_MEASURED"
+  },
+  "audit_code_sha256": {
+    "finite_model.py": "09c8f5d51b90a53f0d4428e184a734ad5a3c33e19a89abd5767d54117ecc030b",
+    "inspect_saved_evidence.py": "e880f564f057f43e54537814fa9d0608857f62200f6ec29f09a394fff6e262c6",
+    "observer.py": "8cf340907e6598cf890a3015abf5d4eb311a26aa745a2a82888e7a431f8b6077",
+    "pinned_sources.py": "bf13daaadc8a74026ca463414b8886d88b12294e8d081e4715a13af47e35886a",
+    "run_audit.py": "b958b2bdbe5ba8cf2d88380c9daa71e205c71312478d97a92cc4572e8038908e",
+    "test_finite_model.py": "8dbe3b32ea379d262fe9f679cea6092323c15af34390ec519a5a2dbf17f1261a",
+    "test_observer.py": "c1dea951786a9646e9482ccd682084569fc28f7bed72b72f87c7e810fdd859a2",
+    "test_pinned_sources.py": "31805b28c7cedb64bb15b50f72230a7ca4d4aec80f0152d0203bb1fe23c7bd43"
+  }
+}
