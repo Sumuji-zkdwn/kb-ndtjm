@@ -1,0 +1,90 @@
+name: Verified WFS operator-loop reentry (private)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'loopcore/**'
+      - 'tests/test_loopcore.py'
+      - '.github/workflows/operator-loop-growth.yml'
+  schedule:
+    # Tuesday and Friday at 09:23 JST; at most three unique models overall.
+    - cron: '23 0 * * 2,5'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: private-wfs-operator-loop-growth
+  cancel-in-progress: false
+
+jobs:
+  grow:
+    name: Re-enter one validated WFS kernel in persistent private branch
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out reviewed controller from main
+        uses: actions/checkout@v5
+        with:
+          ref: main
+          path: control
+          persist-credentials: false
+
+      - name: Check out isolated private verified ledger
+        uses: actions/checkout@v5
+        with:
+          ref: autonomy/verified-wfs-operator-loop
+          path: working
+          persist-credentials: true
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Verify bounded loop and 3 known local WFS cases
+        run: python -m unittest discover -s control/tests -p test_loopcore.py -v
+        env:
+          PYTHONPATH: ${{ github.workspace }}/control
+
+      - name: Recheck all prior sealed WFS cycles before generation
+        run: python -m loopcore audit --domain wfs --root working/operator-loop-wfs --recheck
+        env:
+          PYTHONPATH: ${{ github.workspace }}/control
+
+      - name: Generate exactly one new bounded WFS candidate
+        run: python -m loopcore run --domain wfs --root working/operator-loop-wfs
+        env:
+          PYTHONPATH: ${{ github.workspace }}/control
+
+      - name: Recheck every sealed WFS cycle before any write-back
+        run: python -m loopcore audit --domain wfs --root working/operator-loop-wfs --recheck
+        env:
+          PYTHONPATH: ${{ github.workspace }}/control
+
+      - name: Commit only verified ledger artifacts to isolated private branch
+        working-directory: working
+        run: |
+          if [ ! -e operator-loop-wfs/ledger.json ]; then
+            echo 'No candidate generated; no Git changes'
+            exit 0
+          fi
+          git add -- operator-loop-wfs/ledger.json operator-loop-wfs/cycles/
+          if git diff --cached --quiet; then
+            echo 'Catalogue exhausted; no write-back'
+            exit 0
+          fi
+          git config user.name 'private-wfs-operator-loop[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'autonomy(wfs): append one locally verified kernel'
+          git push origin HEAD:refs/heads/autonomy/verified-wfs-operator-loop
+
+      - name: Retain verifier evidence, including failures
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: verified-wfs-operator-loop-${{ github.run_id }}-${{ github.run_attempt }}
+          path: working/operator-loop-wfs/
+          if-no-files-found: warn
+          retention-days: 30
