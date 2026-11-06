@@ -5,6 +5,9 @@ on:
   push:
     paths:
       - 'quantum/**'
+      - 'loopcore/**'
+      - 'tests/test_loopcore.py'
+      - 'tools/verify_wfs_loop_local.py'
       - '.github/workflows/wfs-local.yml'
 
 permissions:
@@ -13,13 +16,25 @@ permissions:
 jobs:
   local-proof:
     name: Build and prove local kernel
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
+      - name: Run extracted WFS verification loop
+        run: |
+          python -m unittest discover -s tests -p test_loopcore.py -v
+          python -m loopcore run --domain wfs --root build/operator-loop-wfs
+          python -m loopcore run --domain wfs --root build/operator-loop-wfs
+          python -m loopcore run --domain wfs --root build/operator-loop-wfs
+          python -m loopcore audit --domain wfs --root build/operator-loop-wfs --recheck
+
+      - name: Independently compare private original compiler and verified reentry
+        run: |
+          python tools/verify_wfs_loop_local.py --output build/wfs-loop-offline-report.json
+
       - name: Generate KMx and verify exact phase + restoration
         run: python quantum/wfs_mobile_ci.py --output build/wfs
       - name: Compare baseline archive against original manifest
@@ -48,10 +63,28 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
+      - name: Retain portable WFS cycle and SHA-256 evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: wfs-operator-loop-ledger
+          path: build/operator-loop-wfs/
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Retain original-source parity report (local scope only)
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: wfs-original-loop-source-parity
+          path: build/wfs-loop-offline-report.json
+          if-no-files-found: warn
+          retention-days: 30
+
   kickmix-parse:
     name: Parse KMx with Kickmix
     needs: local-proof
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v5
