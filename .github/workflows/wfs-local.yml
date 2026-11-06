@@ -5,6 +5,8 @@ on:
   push:
     paths:
       - 'quantum/**'
+      - 'loopcore/**'
+      - 'tests/test_loopcore.py'
       - '.github/workflows/wfs-local.yml'
 
 permissions:
@@ -20,6 +22,14 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
+      - name: Run extracted WFS verification loop
+        run: |
+          python -m unittest discover -s tests -p test_loopcore.py -v
+          python -m loopcore run --domain wfs --root build/operator-loop-wfs
+          python -m loopcore run --domain wfs --root build/operator-loop-wfs
+          python -m loopcore run --domain wfs --root build/operator-loop-wfs
+          python -m loopcore audit --domain wfs --root build/operator-loop-wfs --recheck
+
       - name: Generate KMx and verify exact phase + restoration
         run: python quantum/wfs_mobile_ci.py --output build/wfs
       - name: Compare baseline archive against original manifest
@@ -46,6 +56,15 @@ jobs:
           name: wfs-local-kmx-and-report
           path: build/wfs/
           if-no-files-found: error
+          retention-days: 14
+
+      - name: Retain portable WFS cycle and SHA-256 evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: wfs-operator-loop-ledger
+          path: build/operator-loop-wfs/
+          if-no-files-found: warn
           retention-days: 14
 
   kickmix-parse:
