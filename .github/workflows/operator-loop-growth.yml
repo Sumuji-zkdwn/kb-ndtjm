@@ -22,7 +22,7 @@ concurrency:
 jobs:
   grow:
     name: Re-enter one validated WFS kernel in persistent private branch
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
       - name: Check out reviewed controller from main
