@@ -6,6 +6,8 @@ on:
     paths:
       - 'loopcore/**'
       - 'tests/test_loopcore.py'
+      - 'tools/verify_wfs_loop_local.py'
+      - 'quantum/wfs_mobile_ci.py'
       - '.github/workflows/operator-loop-growth.yml'
   schedule:
     # Tuesday and Friday at 09:23 JST; at most three unique models overall.
@@ -45,6 +47,11 @@ jobs:
 
       - name: Verify bounded loop and 3 known local WFS cases
         run: python -m unittest discover -s control/tests -p test_loopcore.py -v
+        env:
+          PYTHONPATH: ${{ github.workspace }}/control
+
+      - name: Verify original private quantum compiler against extracted loop
+        run: python control/tools/verify_wfs_loop_local.py --output working/operator-loop-wfs/original-source-parity.json
         env:
           PYTHONPATH: ${{ github.workspace }}/control
 
