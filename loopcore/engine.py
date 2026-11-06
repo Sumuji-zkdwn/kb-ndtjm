@@ -54,8 +54,8 @@ def safe_filename(name) -> bool:
 
 
 def audit(root: Path, domain: str, rerun_checks: bool = False):
-    adapter = load_adapter(domain)
     ledger = read_ledger(root, domain)
+    adapter = load_adapter(domain)
     previous, models = None, set()
     for index, record in enumerate(ledger["cycles"], 1):
         if record.get("cycle") != index or record.get("previous_sha256") != previous:
