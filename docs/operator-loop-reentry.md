@@ -30,3 +30,21 @@ The hash chain is an integrity warning, not an authenticity signature.
 The independent local WFS validator cannot certify the full contest
 solution. Do not infer general intelligence or new theorem discovery
 from bounded enumerated operator growth.
+
+## Durable GitHub re-entry
+
+`.github/workflows/operator-loop-growth.yml` uses the reviewed generator
+from `main` and checks out a separate **private** branch
+`autonomy/verified-wfs-operator-loop` for the hash-linked ledger. Each run:
+
+1. Replays and verifies every previous finite WFS certificate.
+2. Generates exactly one candidate (until the 3-variant catalogue is empty).
+3. Re-verifies the chain, then commits only `operator-loop-wfs/` to the
+   isolated branch, never to `main`.
+
+It runs on relevant main-branch changes, manual dispatch, and on Tuesday and
+Friday at 09:23 JST. This costs private Actions minutes; scheduling is bounded
+in candidate count (three), but the empty check continues on scheduled runs.
+The workflow is activated only after a reviewed PR is merged to `main`.
+Any inability to allocate a GitHub Actions runner is a separate deployment
+blocker and is not evidence that mathematical validation has passed or failed.
