@@ -46,10 +46,10 @@ def audit():
             for q in wires:
                 if q in live:
                     raise AssertionError(("double allocation", i, q))
-                if q < next_id:
-                    raise AssertionError(("fresh allocation reused old index", i, q))
+                # Builder.qubits() can take a recycled slot, not only a
+                # freshly minted ID; only simultaneous aliasing is forbidden.
                 live[q] = None
-                next_id = q + 1
+                next_id = max(next_id, q + 1)
         elif action == "reclaim":
             for q in wires:
                 if q in live or q >= next_id:
