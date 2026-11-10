@@ -1,9 +1,9 @@
 name: Scalar5 Forney workspace experimental audit (no submissions)
 
 on:
-  push:
+  pull_request:
     branches:
-      - experiment/forney-scalar5-compact-20261111
+      - wfs/dqi-bm-blindcoop-20261027
     paths:
       - 'experiments/audit_forney_allocation_trace.py'
       - 'experiments/test_forney_scalar5_compaction.py'
