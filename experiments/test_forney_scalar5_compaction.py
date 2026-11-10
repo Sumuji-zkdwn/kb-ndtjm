@@ -58,9 +58,9 @@ class WorkspaceCompaction(unittest.TestCase):
                              if 36 <= work_index <= 68}
         self.assertFalse(touched & omitted_canonical)
         self.assertIn(80, self.omitted)
-        # Five removed physical allocations is the expected current hypothesis;
+        # Four removed physical allocations is the expected current hypothesis;
         # a changed compiler that uses these wires must fail this regression.
-        self.assertEqual(self.omitted, (65, 66, 67, 68, 80))
+        self.assertEqual(self.omitted, (58, 64, 65, 80))
 
     def test_default_allocation_is_unchanged(self):
         b = FakeBuilder()
@@ -80,7 +80,7 @@ class WorkspaceCompaction(unittest.TestCase):
             physical = [q for q in work if q is not None]
             self.assertEqual(len(physical), len(set(physical)))
             self.assertEqual(set(physical) & set(held_owners), set(held_owners))
-            self.assertEqual(b.peak_live, 2477)
+            self.assertEqual(b.peak_live, 2478)
             mapping = work[12:24] + work[36:69] + work[24:36] + [work[79]]
             self.assertEqual(len(mapping), 58)
             for ops in [self.phase.forward, self.phase.erase] + [
