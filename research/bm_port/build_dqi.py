@@ -77,24 +77,36 @@ def emit_local(b,ops,mapping,mask=None):
         b.raw(opcodes[gate],qs,bit=bit,cond=cond)
 
 @contextmanager
-def forney_workspace(b,clean_scratch=()):
-    """Borrow only Em's three clean pivots; keep their held ownership.
+def forney_workspace(b, clean_scratch=(), omit_positions=()):
+    """Provide the 81 *logical* Forney slots, omitting proven-unused physical slots.
 
-    Em.pivot_pair unbuilds sA/sB and Em.fan_pair HMR-erases sT with
-    phase repayment. No Em operation runs inside Forney. Its matched
-    inverse erase, root-tree erase and WFS cleanup return all 81 wires
-    to zero before the held pivots are used again. Never reset a wire.
+    Default behavior is bit-for-bit identical to the validated PR #8 allocation.
+    In the opt-in scalar5 experiment, unused logical slots are None and are
+    prohibited from appearing in emitted gates. Reuse only Em's three clean
+    held pivots; these must be restored before the BM reverse pass.
     """
-    borrowed=list(clean_scratch)
-    if len(borrowed) not in (0,3) or len(set(borrowed))!=len(borrowed):
+    omitted = tuple(omit_positions)
+    if len(set(omitted)) != len(omitted) or any(
+        type(i) is not int or i < 0 or i >= 81 for i in omitted
+    ):
+        raise ValueError('invalid unused Forney work positions')
+    borrowed = list(clean_scratch)
+    if len(borrowed) not in (0, 3) or len(set(borrowed)) != len(borrowed):
         raise ValueError('expected zero or three distinct clean Em pivots')
-    if any(q not in b.live or b.owners.get(q)!='held' for q in borrowed):
+    if any(q not in b.live or b.owners.get(q) != 'held' for q in borrowed):
         raise ValueError('borrowed Em pivots must remain live and held')
-    owned=b.qubits(81-len(borrowed));b.claim('forney',owned)
+    active = [i for i in range(81) if i not in set(omitted)]
+    if len(active) < len(borrowed):
+        raise ValueError('not enough active Forney work positions')
+    owned = b.qubits(len(active) - len(borrowed))
+    b.claim('forney', owned)
+    wires = iter(owned + borrowed)
+    work = [None if i in omitted else next(wires) for i in range(81)]
+    assert len({q for q in work if q is not None}) == len(active)
     try:
-        yield owned+borrowed
+        yield work
     finally:
-        b.release_recycle('forney',owned)
+        b.release_recycle('forney', owned)
 
 def forney(b,v,sigma,omega,google,formal,clean_scratch=()):
     forward=parse((formal/'inverse66-forward.kmx').read_text())
@@ -141,8 +153,9 @@ def _forney_sweep(b,sigma,omega,google,work,forward,erase,kernel,sqrt_ops,square
             for reg,ops in steps:
                 for op,qs in ops:b.raw(op,[reg[q] for q in qs])
 
-def build(out,decode_only=False,reuse_forney_scratch=True,trace_allocations=False,trace_phase=False,trace_phase3=False,trace_phase5=False):
+def build(out,decode_only=False,reuse_forney_scratch=True,trace_allocations=False,trace_phase=False,trace_phase3=False,trace_phase5=False,compact_scalar5_workspace=False):
     if sum((trace_phase,trace_phase3,trace_phase5))>1:raise ValueError('select exactly one trace phase')
+    if compact_scalar5_workspace and not trace_phase5:raise ValueError('compact workspace requires --trace-phase5')
     check_provenance()
     out.mkdir(parents=True,exist_ok=True)
     formal=out/'formal';formal.mkdir(exist_ok=True)
@@ -167,7 +180,7 @@ def build(out,decode_only=False,reuse_forney_scratch=True,trace_allocations=Fals
             for reg in sigma[1:]+syn[:35]:linear_in_place(b,reg,to_google)
         if trace_phase or trace_phase3 or trace_phase5:
             from trace_phase import forney_trace
-            forney_trace(b,v,sigma,syn[:35],google,formal,held[20:23] if reuse_forney_scratch else (),nested=trace_phase3,scalar=trace_phase5)
+            forney_trace(b,v,sigma,syn[:35],google,formal,held[20:23] if reuse_forney_scratch else (),nested=trace_phase3,scalar=trace_phase5,compact_workspace=compact_scalar5_workspace)
         else:
             forney(b,v,sigma,syn[:35],google,formal,held[20:23] if reuse_forney_scratch else ())
         with b.phase('coefficients_to_public'):
@@ -190,6 +203,8 @@ def build(out,decode_only=False,reuse_forney_scratch=True,trace_allocations=Fals
         'source_commit':'64b5a13aa249f1360846657392e6c66817b26d0f',
         'attribution':'andigu/uncompute BM, inverse66 and field tensors (Apache-2.0); adapted to Kaggle variable E masks',
         'stages':b.stages,'full_verifier':'NOT_RUN','kaggle_submission':'NOT_RUN'}
+    if compact_scalar5_workspace:
+        report['forney_workspace_compaction'] = 'experimental_scalar5_omit_provably_unreferenced_slots'
     (out/'generation.json').write_text(json.dumps(report,indent=2)+'\n')
     if trace_allocations:
         (out/'allocations.json').write_text(json.dumps(b.allocation_events,indent=2)+'\n')
@@ -217,7 +232,8 @@ if __name__=='__main__':
     phase.add_argument('--trace-phase',action='store_true',help='Use the exactly checked 72-Toffoli inverse phase')
     phase.add_argument('--trace-phase3',action='store_true',help='Use the exactly checked nested 69-Toffoli inverse phase')
     phase.add_argument('--trace-phase5',action='store_true',help='Use the exactly checked 68-Toffoli scalar trace phase')
+    p.add_argument('--compact-scalar5-workspace',action='store_true',help='EXPERIMENTAL: remove unreferenced Forney slots in scalar5; no official verifier result')
     p.add_argument('--parse',action='store_true',help='Parse an existing complete candidate without rebuilding')
     args=p.parse_args()
     if args.parse:parse_complete(args.out)
-    else:build(args.out,args.decode_only,not args.no_reuse_forney_scratch,args.trace_allocations,args.trace_phase,args.trace_phase3,args.trace_phase5)
+    else:build(args.out,args.decode_only,not args.no_reuse_forney_scratch,args.trace_allocations,args.trace_phase,args.trace_phase3,args.trace_phase5,args.compact_scalar5_workspace)

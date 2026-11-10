@@ -139,9 +139,28 @@ class TracePhase:
         emit(self.erase)
 
 
-def forney_trace(b,v,sigma,omega,google,formal,clean_scratch=(),nested=False,scalar=False):
+
+def scalar5_unused_work_positions(p):
+    """Enumerate work slots not referenced by the exact scalar5 gate programs.
+
+    Logical work slots 36..68 correspond to canonical emitter wires 12..44.
+    The dynamically constructed emitter's forward, middle, and erase ops are
+    all checked, including measurements and classically conditioned gates.
+    Work slot 80 is the old inverse66 WFS scratch, unused by trace-phase
+    scalar5; it is never touched by forney_trace's surrounding root test.
+    The 12 num slots and 11 root-test tree slots are intentionally retained.
+    """
+    blocks = [p.forward, p.erase]
+    blocks.extend(part for part in p.middle_steps() if part is not None)
+    touched = {q for ops in blocks for _, qs, _ in ops for q in qs}
+    omitted = tuple(36 + j - 12 for j in range(12, 45) if j not in touched) + (80,)
+    assert all(36 <= i <= 68 or i == 80 for i in omitted)
+    return omitted
+
+def forney_trace(b,v,sigma,omega,google,formal,clean_scratch=(),nested=False,scalar=False,compact_workspace=False):
     from build_dqi import forney_workspace,linear_schedule,rows_of
     if nested and scalar:raise ValueError('select one trace implementation')
+    if compact_workspace and not scalar:raise ValueError('compaction is only defined for scalar5')
     if scalar:
         from trace_phase5 import TracePhase5 as Phase
         from trace_phase5_probe import verify
@@ -157,7 +176,8 @@ def forney_trace(b,v,sigma,omega,google,formal,clean_scratch=(),nested=False,sca
     for k,reg in list(enumerate(sigma[1:],1))+list(enumerate(omega,1)):
         factor=google.pow(google.gen,(-k)%4095)
         steps.append((reg,linear_schedule(rows_of(lambda x,f=factor:google.mul(x,f)))))
-    with forney_workspace(b,clean_scratch) as work:
+    unused = scalar5_unused_work_positions(p) if compact_workspace else ()
+    with forney_workspace(b,clean_scratch,omit_positions=unused) as work:
         sig,den,num=work[:12],work[12:24],work[24:36]
         inv,tree=work[36:69],work[69:80]
         mapping=den+inv+num+[tree[-1]]
