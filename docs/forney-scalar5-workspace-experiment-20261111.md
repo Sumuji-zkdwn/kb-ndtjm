@@ -25,11 +25,11 @@ This **does not** prove that other live wires are clean or borrowable. The three
 
 The scalar5 emitter does not use all the physical slots inherited from the old inverse66 workspace. Enumerate the *actual scalar5 emitted* forward/middle/erase operands and remove only canonical emitter wires 12..44 that are never read or written. In the physical 81-slot work array these correspond to `work[36 + canonical_index - 12]`. The old `work[80]` scratch is also not used in scalar5 (the surrounding root test uses `work[69:80]`).
 
-Current expected unused positions: **65, 66, 67, 68, 80**. The lightweight regression asserts those positions exactly; if the emitter changes, it fails closed.
+Current expected unused positions: **58, 64, 65, 80**. The lightweight regression asserts those positions exactly; if the emitter changes, it fails closed.
 
 The opt-in compiler flags are `--trace-phase5 --compact-scalar5-workspace`. The default remains unchanged. A logical 81-slot array is preserved, but unused entries become `None`. Remaining physical wires are allocated injectively; the **same three** proven-clean held Em pivots are borrowed. Only gates whose original operands are present in the emitted program are allowed to reference the new mapping.
 
-Predicted peak (assuming no new peak elsewhere): **2,477 qubits**, five fewer than the measured reference. At unchanged error bound and Toffoli count, the Q² factor implies `1 - (2477/2482)² ≈ 0.4025%` lower DQI cost. This is a *projection*, not a verified performance improvement.
+Predicted peak (assuming no new peak elsewhere): **2,478 qubits**, four fewer than the measured reference. At unchanged error bound and Toffoli count, the Q² factor implies `1 - (2478/2482)² ≈ 0.3221%` lower DQI cost. This is a *projection*, not a verified performance improvement.
 
 ## Minimum independent checks
 
