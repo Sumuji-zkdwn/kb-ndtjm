@@ -1,0 +1,117 @@
+name: Scalar5 compact complete DQI verification (no Kaggle submission)
+
+on:
+  pull_request:
+    branches:
+      - wfs/dqi-bm-blindcoop-20261027
+    paths:
+      - '.github/workflows/forney-scalar5-full.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  full-candidate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    env:
+      GH_TOKEN: ${{ github.token }}
+      NPY_NUM_BUILD_JOBS: 2
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Verify offline source and emitter conditions
+        run: |
+          python -m pip install --disable-pip-version-check numpy
+          python experiments/audit_forney_allocation_trace.py
+          python -m unittest discover -s experiments -p 'test_forney_scalar5_compaction.py' -v
+          python research/bm_port/check_provenance.py
+      - name: Download pinned baseline and previously verified PR7
+        run: |
+          mkdir -p build/input build/report
+          gh release download v1.0 --repo "$GITHUB_REPOSITORY" --pattern submission.zip --dir build/input
+          gh run download 40414437653 --repo "$GITHUB_REPOSITORY" --name dqi-bm-conservative-unscored --dir build/input/bm-verified
+      - name: Install the previously pinned Kickmix verifier
+        run: |
+          git clone --filter=blob:none https://github.com/quantumlib/Qualtran.git qualtran-src
+          git -C qualtran-src checkout 638777fac4379bc62e2a1e4a52cf1a1753895d48
+          python quantum/patch_kickmix_memory.py qualtran-src/kickmix
+          python -m pip install ./qualtran-src/kickmix
+      - name: Build full opt-in compact DQI and native parse
+        id: built
+        run: |
+          python research/bm_port/trace_phase5_probe.py --out build/bm-compact/formal/scalar-local
+          python research/bm_port/build_dqi.py --out build/bm-compact --trace-allocations --trace-phase5 --compact-scalar5-workspace
+          python research/bm_port/build_dqi.py --out build/bm-compact --parse
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          g=json.loads(Path('build/bm-compact/generation.json').read_text())
+          p=json.loads(Path('build/bm-compact/parse.json').read_text())
+          assert g['qubits']==g['peak_live']==p['qubits']==2478, g
+          assert g['static_Toffoli']==715786, g
+          assert g['ops']==90908310, g
+          assert g['forney_workspace_compaction']=='experimental_scalar5_omit_provably_unreferenced_slots'
+          assert p['status']=='PASS'
+          print('COMPLETE_CANDIDATE_STATICS_PASS', g['candidate_sha256'])
+          PY
+          echo 'ready=true' >> "$GITHUB_OUTPUT"
+      - name: Published DQI candidate, smoke and full-package gates
+        if: steps.built.outputs.ready == 'true'
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          python quantum/run_wfs_gates.py --stage full-package --baseline build/input/submission.zip --candidate build/bm-compact/dqi.kmb --comparison build/input/bm-verified/dqi.kmb --comparison-checkpoint checkpoints/bm-tracephase3-20261027.json --full-batch-size 1024 --out build/report --fetch-official
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          stages=json.loads(Path('build/report/stages.json').read_text())
+          assert stages['all_requested_gates_passed'], stages
+          assert all(stages['gates'][k]['status']=='PASS' for k in ('candidate','smoke','full-package'))
+          current=json.loads(Path('build/report/full-package/report.json').read_text())
+          previous=json.loads(Path('checkpoints/bm-blindcoop-20261027.json').read_text())['gates']['full-package']
+          full,old=current['full'],previous['full']
+          assert full['status']=='PASS' and full['candidate_sha256'] != old['candidate_sha256']
+          assert full['verifier_sha256']==old['verifier_sha256']
+          assert full['num_shots']==old['num_shots']==102400
+          assert full['toffoli_count']==old['toffoli_count']==715786
+          assert full['value_errors']==full['phase_errors']==0, full
+          assert full['cost']<old['cost'], (full['cost'],old['cost'])
+          delta=1-full['cost']/old['cost']
+          print('FULL_PUBLISHED_VERIFIER_IMPROVEMENT_PASS', json.dumps({
+              'previous_PR8_cost':old['cost'],'compact_cost':full['cost'],
+              'fraction_improvement':delta,'same_verifier_sha256':full['verifier_sha256'],
+              'new_candidate_sha256':full['candidate_sha256'],
+              'official_Kaggle_submission':'NOT_RUN'},indent=2))
+          PY
+      - name: Inspect deep BM history and the final candidate ZIP
+        if: steps.built.outputs.ready == 'true'
+        run: |
+          python quantum/bm_edge_verify.py --candidate build/bm-compact/dqi.kmb --data-root build/kaggle --out build/report/edge.json
+          candidate_sha=$(python -c 'import json; print(json.load(open("build/bm-compact/generation.json"))["candidate_sha256"])')
+          python quantum/audit_dqi_package.py --baseline build/input/submission.zip --package build/report/full-package/submission-candidate.zip --expected-dqi-sha256 "$candidate_sha" --out build/report/package-audit.json
+      - name: Always preserve small reproducibility records
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: scalar5-compact-full-verification-records
+          path: |
+            build/report/**/*.json
+            build/report/stages.json
+            build/bm-compact/generation.json
+            build/bm-compact/parse.json
+            build/bm-compact/formal/*.json
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Preserve candidate archive only after full success
+        if: success()
+        uses: actions/upload-artifact@v6
+        with:
+          name: scalar5-compact-verified-candidate-zip
+          path: build/report/full-package/submission-candidate.zip
+          if-no-files-found: error
+          retention-days: 30
